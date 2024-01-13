@@ -65,22 +65,23 @@ public class PracticaRepository {
 	
 	
 
-	public void insertarPractica(String descPractica, Integer idEquipo) {
+	public String insertarPractica(Integer idPractica, String descPractica, Integer idEquipo) {
 		
+		String respuestaOperacion;
 			
 		try
 		{
-			stmt= FactoryConnection.getInstancia().getConn().prepareStatement("insert into practica (descripcion,id_equipo) values (?,?)");
-			stmt.setString(1, descPractica);
-			stmt.setInt(2, idEquipo);
+			stmt= FactoryConnection.getInstancia().getConn().prepareStatement("insert into practica (id_practica, descripcion,id_equipo) values (?,?,?)");
+			stmt.setInt(1,idPractica);
+			stmt.setString(2, descPractica);
+			stmt.setInt(3, idEquipo);
 			stmt.executeUpdate();
+			respuestaOperacion = "OK";
 		}
 		
 		catch (SQLException e) {
-			// TODO Auto-generated catch block
-//			e.printStackTrace();
-			
-			System.out.println("Se ha producido un error al insertar la practica");
+						
+			respuestaOperacion = e.toString();
 		}
 		
 		finally {
@@ -95,6 +96,9 @@ public class PracticaRepository {
 
 	        FactoryConnection.getInstancia().releaseConn(); //es correcta esta forma de cerrar la conexion?
 	    }
+		
+		
+		return respuestaOperacion;
 		
 	}
 

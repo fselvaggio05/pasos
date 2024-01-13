@@ -19,8 +19,10 @@ public class PracticaService {
 		return prRep.getAll();
 	}
 
-	public void insertarPractica(String descPractica, Integer idEquipo) {
-		prRep.insertarPractica(descPractica,idEquipo);
+	public String insertarPractica(Integer idPractica, String descPractica, Integer idEquipo) {
+		
+		String respuestaOperacion = prRep.insertarPractica(idPractica,descPractica,idEquipo);
+		return respuestaOperacion;
 		
 		
 	}

@@ -1,3 +1,4 @@
+<%@page import="entity.Equipo"%>
 <%@ page import="java.util.List" %>
 <%@ page import="entity.Practica" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
@@ -75,6 +76,14 @@
                         data-bs-target="#altaPractica" data-bs-whatever="@mdo">Agregar practica</button>
                 <button type="button" class="btn btn-success col-2 m-1">Cancelar</button>
             </div>
+            
+            
+            
+            <div class="bg-info fs-4 text-center">
+           		 <c:out value="${mensaje}"></c:out>
+            </div>
+            
+            
 
             <div class="modal fade" id="altaPractica" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -88,6 +97,11 @@
                             <div class="modal-body">
 
                                 <input type="hidden" name="altaPractica">
+
+								<div class="mb-3">
+                                    <label class="col-6">ID Practica:</label>
+                                    <input type="text" class="form-control col-6" name="idPractica" >
+                                </div>
                                 
                                 <div class="mb-3">
                                     <label class="col-6">Descripcion practica:</label>
@@ -95,12 +109,15 @@
                                 </div>
 
 
-<!-- 								10/1/24 Este campo, debe traerlo de la db y mostrarlo en un list desplegable -->
-
                                 <div class="mb-3">
                                     <label class="col-6">ID Equipo:</label>
-                                    <input type="text" class="form-control col-6" name="idEquipo" >
-                                   
+                                    <select class="form-select col-6" name="idEquipo"> 
+                                    	<option value="1">Seleccione un equipo</option>
+                                    	<jsp:useBean id="equipos" type="java.util.List<entity.Equipo>" scope="request"></jsp:useBean>
+                                    		<c:forEach var="equip" items="${equipos}" >
+                                    			<option value="<c:out value="${equip.id_equipo}"></c:out>"><c:out value="${equip.descripcion}"></c:out></option>
+                                    		</c:forEach>
+                                    </select>                               
                                 </div>
 
                                 <div class="modal-footer">
@@ -110,39 +127,47 @@
                             </div>
                         </form>
                     </div>
+                 </div>
+              </div>
                     
                     
-<!--                     VENTANA MODAL "AGREGAR PRACTICA" -->
+<!--                     VENTANA MODAL "EDITAR PRACTICA" -->
                     
                     
-               <div class="modal fade" id="delPractica" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal fade" id="updPractica" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Nueva practica</h1>
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Editar practica</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
 
-                        <form action="formulario que realiza la toma y el guardado de los datos" method="post">
+                        <form action="practicas" method="post">
                             <div class="modal-body">
 
-                                <div class="mb-3">
-                                    <label class="col-6">ID Practica:</label>
-                                    <!-- este campo va a estar deshabilitado y solo sumara uno al ultimo de la bd -->
-                                    <input type="text" class="form-control col-6" name="idPractica" >
-                                </div>
+                                <input type="hidden" name="updPractica">
+<%--                                 <jsp:useBean id="practicas_2"  type="java.util.List<entity.Practica>" scope="request"/> --%>
 
+								<div class="mb-3">
+                                    <label class="col-6">ID Practica:</label>
+                                    <input type="text" class="form-control col-6" name="idPractica" ><c:out value="${pract.id_practica}"></c:out>
+                                </div>
+                                
                                 <div class="mb-3">
                                     <label class="col-6">Descripcion practica:</label>
-                                    <input type="text" class="form-control col-6" name="descPractica" >
+                                    <input type="text" class="form-control col-6" name="descPractica" ><c:out value="${pract.descripcion }"></c:out>
                                 </div>
 
+
                                 <div class="mb-3">
-                                    <label class="col-6">Estado:</label>
-                                    <select class="col-3 form-select" id="genero" onchange="">
-                                        <option value="1">Activa</option>
-                                        <option value="2">CRI CRI CRI</option>
-                                    </select>
+                                    <label class="col-6">ID Equipo:</label>
+                                    <select class="form-select col-6" name="idEquipo"> 
+                                    	<option value="1">Seleccione un equipo</option>
+<%--                                     	<jsp:useBean id="equipos" type="java.util.List<entity.Equipo>" scope="request"></jsp:useBean> --%>
+<%--                                     		<c:forEach var="equip" items="${equipos}" > --%>
+<%--                                     			<option value="<c:out value="${equip.id_equipo}"></c:out>"><c:out value="${equip.descripcion}"></c:out></option> --%>
+<%--                                     		</c:forEach> --%>
+                                    </select>                               
                                 </div>
 
                                 <div class="modal-footer">
@@ -152,21 +177,10 @@
                             </div>
                         </form>
                     </div>
-
-
-                    </div>
-
-                </div>
-            </div>
-
-            <div>
-    </div>
-
-
-
-    
-</div>
-</div>
+                 </div>
+              </div>
+            
+                    
 
 
 

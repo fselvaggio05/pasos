@@ -5,12 +5,17 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import service.EquipoService;
 import service.PracticaService;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.tags.shaded.org.apache.xml.utils.SystemIDResolver;
+
+import entity.Equipo;
 import entity.Practica;
 
 /**
@@ -21,6 +26,7 @@ import entity.Practica;
 public class PracticaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected PracticaService prServ;
+	protected EquipoService eqServ;
 	
        
     /**
@@ -28,6 +34,8 @@ public class PracticaServlet extends HttpServlet {
      */
     public PracticaServlet() {
     	this.prServ= new PracticaService();
+    	this.eqServ = new EquipoService();
+    	
     }
 
     	
@@ -36,17 +44,17 @@ public class PracticaServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/*
-		 * // TODO Auto-generated method stub List<String> nombres = new ArrayList<>();
-		 * nombres.add("Juan"); nombres.add("María"); nombres.add("Pedro");
-		 * 
-		 * request.setAttribute("listaNombres", nombres);
-		 * request.getRequestDispatcher("index.jsp").forward(request,response);
-		 */
+
+			HttpSession session = request.getSession();
 		
 		    List<Practica> practicas = prServ.getAll();
+		    List<Equipo> equipos = eqServ.getAll();
 	        request.setAttribute("practicas", practicas);
+	        request.setAttribute("equipos", equipos);
+	             
 	        request.getRequestDispatcher("altaPractica.jsp").forward(request,response);
+	        
+			
 	}
 
 	/**
@@ -54,14 +62,41 @@ public class PracticaServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		Integer idPractica;
 		String descPractica;
 		Integer idEquipo;
-		
+		String mensaje;
+
+		idPractica = Integer.parseInt(request.getParameter("idPractica"));
 		descPractica = request.getParameter("descPractica");
 		idEquipo = Integer.parseInt(request.getParameter("idEquipo"));
+		String respuestaOperacion = prServ.insertarPractica(idPractica,descPractica, idEquipo);
 		
-		prServ.insertarPractica(descPractica, idEquipo);
+		if (respuestaOperacion == "OK")
+		{
+		
+			mensaje = "La practica se ha ingresado correctamente";
+			request.setAttribute("mensaje", mensaje);
+			this.doGet(request, response);
+			
+		}
+		
+		else 
+		{
+			mensaje = respuestaOperacion;
+			request.setAttribute("mensaje", mensaje);
+			this.doGet(request, response);
+			
+			
+		}
+		
+//		response.sendRedirect(request.getContextPath() + "/altaPractica.jsp");
+		
 		
 	}
 
+	
+	
+	
+	
 }
