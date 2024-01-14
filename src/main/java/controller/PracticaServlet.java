@@ -88,15 +88,39 @@ public class PracticaServlet extends HttpServlet {
 			this.doGet(request, response);
 			
 			
-		}
-		
-//		response.sendRedirect(request.getContextPath() + "/altaPractica.jsp");
-		
-		
-	}
+		}	
+	}	
 
-	
-	
+
+
+
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			
+			Integer idPractica;
+			String mensaje;
+			idPractica = Integer.parseInt(request.getParameter("idPractica"));
+			String respuestaOperacion = prServ.eliminarPractica(idPractica);
+			
+			if (respuestaOperacion == "OK")
+			{
+			
+				mensaje = "La practica se ha ingresado correctamente";
+				request.setAttribute("mensaje", mensaje);
+				this.doGet(request, response);
+				
+			}
+			
+			else 
+			{
+				mensaje = respuestaOperacion;
+				request.setAttribute("mensaje", mensaje);
+				this.doGet(request, response);
+				
+				
+			}	
+			
+			
+	}
 	
 	
 }

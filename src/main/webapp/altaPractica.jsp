@@ -60,7 +60,7 @@
                             <td><c:out value="${pract.id_equipo}"></c:out></td>
                              
 	                        <td><a href='#' data-bs-toggle='modal' data-bs-target='#delPractica'  ><i class='bi bi-trash-fill m-1'></i></a>
-	                            <a href='#' data-bs-toggle='modal' data-bs-target='#updPractica' ><i class="bi bi-pencil-fill"></i></a>
+	                            <a href='#' data-bs-toggle='modal' data-bs-target='#actualizarPractica' ><i class="bi bi-pencil-fill"></i></a>
 	                        </td>
                           <tr>
                         </c:forEach>
@@ -110,7 +110,7 @@
 
 
                                 <div class="mb-3">
-                                    <label class="col-6">ID Equipo:</label>
+                                    <label class="col-6">Equipo:</label>
                                     <select class="form-select col-6" name="idEquipo"> 
                                     	<option value="1">Seleccione un equipo</option>
                                     	<jsp:useBean id="equipos" type="java.util.List<entity.Equipo>" scope="request"></jsp:useBean>
@@ -134,7 +134,7 @@
 <!--                     VENTANA MODAL "EDITAR PRACTICA" -->
                     
                     
-			<div class="modal fade" id="updPractica" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal fade" id="actualizarPractica" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -146,7 +146,7 @@
                             <div class="modal-body">
 
                                 <input type="hidden" name="updPractica">
-<%--                                 <jsp:useBean id="practicas_2"  type="java.util.List<entity.Practica>" scope="request"/> --%>
+
 
 								<div class="mb-3">
                                     <label class="col-6">ID Practica:</label>
@@ -155,19 +155,18 @@
                                 
                                 <div class="mb-3">
                                     <label class="col-6">Descripcion practica:</label>
-                                    <input type="text" class="form-control col-6" name="descPractica" ><c:out value="${pract.descripcion }"></c:out>
+                                    <input type="text" class="form-control col-6" name="descPractica" >
                                 </div>
 
 
                                 <div class="mb-3">
-                                    <label class="col-6">ID Equipo:</label>
-                                    <select class="form-select col-6" name="idEquipo"> 
+                                    <label class="col-6">Equipo:</label>
+                                   <select class="form-select col-6" name="idEquipo"> 
                                     	<option value="1">Seleccione un equipo</option>
-<%--                                     	<jsp:useBean id="equipos" type="java.util.List<entity.Equipo>" scope="request"></jsp:useBean> --%>
-<%--                                     		<c:forEach var="equip" items="${equipos}" > --%>
-<%--                                     			<option value="<c:out value="${equip.id_equipo}"></c:out>"><c:out value="${equip.descripcion}"></c:out></option> --%>
-<%--                                     		</c:forEach> --%>
-                                    </select>                               
+                                    	
+                                    </select>      
+                                   
+                                                                                             
                                 </div>
 
                                 <div class="modal-footer">
