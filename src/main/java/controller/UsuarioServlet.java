@@ -17,7 +17,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@WebServlet("/login")
+@WebServlet("/usuarios")
 
 public class UsuarioServlet extends HttpServlet {
 

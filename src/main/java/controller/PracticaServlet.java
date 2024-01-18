@@ -23,6 +23,7 @@ import entity.Practica;
  */
 
 @WebServlet("/practicas")
+
 public class PracticaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected PracticaService prServ;
@@ -48,8 +49,10 @@ public class PracticaServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 		
 		    List<Practica> practicas = prServ.getAll();
+		    
 		    List<Equipo> equipos = eqServ.getAll();
 	        request.setAttribute("practicas", practicas);
+	        
 	        request.setAttribute("equipos", equipos);
 	             
 	        request.getRequestDispatcher("altaPractica.jsp").forward(request,response);
@@ -62,20 +65,57 @@ public class PracticaServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
 		Integer idPractica;
 		String descPractica;
 		Integer idEquipo;
+		Integer estado;
 		String mensaje;
+		String respuestaOperacion=null;
+		
+		String opcion = request.getParameter("operacion");
 
-		idPractica = Integer.parseInt(request.getParameter("idPractica"));
-		descPractica = request.getParameter("descPractica");
-		idEquipo = Integer.parseInt(request.getParameter("idEquipo"));
-		String respuestaOperacion = prServ.insertarPractica(idPractica,descPractica, idEquipo);
+		
+		switch(opcion)
+		{		
+			case "alta":
+			{
+
+				idPractica = Integer.parseInt(request.getParameter("idPractica"));
+				descPractica = request.getParameter("descPractica");
+				idEquipo = Integer.parseInt(request.getParameter("idEquipo"));
+				respuestaOperacion = prServ.insertarPractica(idPractica,descPractica, idEquipo);
+				break;
+			}
+			
+			case "actualizar":
+			{
+
+				idPractica = Integer.parseInt(request.getParameter("idPractica"));
+				descPractica = request.getParameter("descPractica");
+				idEquipo = Integer.parseInt(request.getParameter("idEquipo"));
+				estado = Integer.parseInt(request.getParameter("estado"));
+				respuestaOperacion = prServ.actualizarPractica(idPractica, descPractica, idEquipo, estado);
+				break;
+			}
+			
+			case "eliminar":
+			{
+				idPractica = Integer.parseInt(request.getParameter("idPractica"));
+				estado = Integer.parseInt(request.getParameter("estado"));
+			    respuestaOperacion = prServ.eliminarPractica(idPractica, estado);
+			    break;
+			}
+
+		}
+		
+		
+
 		
 		if (respuestaOperacion == "OK")
 		{
 		
-			mensaje = "La practica se ha ingresado correctamente";
+			mensaje = "La operacion se ha realizado correctamente";
 			request.setAttribute("mensaje", mensaje);
 			this.doGet(request, response);
 			
@@ -88,39 +128,14 @@ public class PracticaServlet extends HttpServlet {
 			this.doGet(request, response);
 			
 			
-		}	
-	}	
+		}
+		
+		
+}	
 
 
 
-
-	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			
-			Integer idPractica;
-			String mensaje;
-			idPractica = Integer.parseInt(request.getParameter("idPractica"));
-			String respuestaOperacion = prServ.eliminarPractica(idPractica);
-			
-			if (respuestaOperacion == "OK")
-			{
-			
-				mensaje = "La practica se ha ingresado correctamente";
-				request.setAttribute("mensaje", mensaje);
-				this.doGet(request, response);
-				
-			}
-			
-			else 
-			{
-				mensaje = respuestaOperacion;
-				request.setAttribute("mensaje", mensaje);
-				this.doGet(request, response);
-				
-				
-			}	
-			
-			
-	}
+	
 	
 	
 }

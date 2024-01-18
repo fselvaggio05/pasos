@@ -57,11 +57,11 @@
       </button>
       <div class="collapse" id="admin-collapse">
         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-          <li><a href="altaPractica.jsp" class="link-dark rounded">Gesti贸n Practicas profesionales</a></li>
-          <li><a href="altaEquipo.html" class="link-dark rounded">Gesti贸n Equipos</a></li>
-          <li><a href="altaConsultorio.html" class="link-dark rounded">Gesti贸n Consultorios</a></li>
-          <li><a href="altaUsuario_admin.jsp" class="link-dark rounded">Gesti贸n Usuarios</a></li>
-          <li><a href="altaHorario.html" class="link-dark rounded">Gesti贸n Horarios</a></li>
+          <li><a href="altaPractica.jsp" class="link-dark rounded">Gesti髇 Practicas profesionales</a></li>
+          <li><a href="altaEquipo.html" class="link-dark rounded">Gesti髇 Equipos</a></li>
+          <li><a href="altaConsultorio.html" class="link-dark rounded">Gesti髇 Consultorios</a></li>
+          <li><a href="altaUsuario_admin.jsp" class="link-dark rounded">Gesti髇 Usuarios</a></li>
+          <li><a href="altaHorario.html" class="link-dark rounded">Gesti髇 Horarios</a></li>
         </ul>
       </div>
     </li>

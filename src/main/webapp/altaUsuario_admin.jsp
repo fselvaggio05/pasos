@@ -26,7 +26,7 @@
 
         <div class="col-9">
 
-            <form class="container" action="AltaUsuarioServlet">
+            <form  action="usuarios" class="container" method="post">
 
                 <div class="row mt-5">
                     <div class="col-3 mb-3">

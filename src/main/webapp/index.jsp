@@ -1,4 +1,6 @@
-
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +21,7 @@
 
               <h3 class="mb-5">Bienvenido</h3>
 
-              <form action="login" method="POST">
+              <form action="login" method="post">
               <div class="form-outline mb-3">
                 <input type="email" name="mail" class="form-control form-control-lg" placeholder="Usuario@mail.com" />
 
