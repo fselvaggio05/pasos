@@ -29,56 +29,47 @@ public class UsuarioServlet extends HttpServlet {
 
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         UsuarioService usServ = new UsuarioService();
-        Integer opcUs = Integer.parseInt(req.getParameter("tipoUsuario"));
+        Integer opcUs = Integer.parseInt(request.getParameter("tipoUsuario"));
 
         //TODO AGREGAR ENVIO DE MAIL LUEGO DE LA CREACION DEL PACIENTE Y PROFESIONAL
 
         switch(opcUs) {
             case 1: {
-                try {
-                    Usuario us = new Usuario(Integer.parseInt(req.getParameter("dni")), req.getParameter("nombre"), req.getParameter("apellido"), req.getParameter("email"), req.getParameter("fechaNac"), req.getParameter("telefono"), req.getParameter("clave"), req.getParameter("genero"));
+               
+            	
+            		Integer dni = Integer.parseInt(request.getParameter("dni"));
+                    Usuario us = new Usuario(dni, request.getParameter("nombre"), request.getParameter("apellido"), request.getParameter("email"), request.getParameter("fechaNac"), request.getParameter("telefono"), request.getParameter("clave"), request.getParameter("genero"));
                     usServ.insertarUsuario(us);
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
-                break;
+                	                
+              
             }
 
             case 2: { //TODO REVISAR MATRICULA QUE LLEGA EN NULL
-                try {
-                    String matricula = req.getParameter("matricula");
-                    Profesional prof = new Profesional(Integer.parseInt(req.getParameter("dni")), req.getParameter("nombre"), req.getParameter("apellido"), req.getParameter("email"), req.getParameter("fechaNac"), req.getParameter("telefono"), req.getParameter("clave"), req.getParameter("genero") ,req.getParameter("matricula"));
+               
+                    String matricula = request.getParameter("matricula");
+                    Profesional prof = new Profesional(Integer.parseInt(request.getParameter("dni")), request.getParameter("nombre"), request.getParameter("apellido"), request.getParameter("email"), request.getParameter("fechaNac"), request.getParameter("telefono"), request.getParameter("clave"), request.getParameter("genero") ,request.getParameter("matricula"));
                     ProfesionalService profServ = new ProfesionalService();
                     profServ.insertarProfesional(prof);
 
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
-                break;
+               
             }
 
             case 3:{
-                try {
-                    Integer obraSocial = Integer.parseInt(req.getParameter("obraSocial"));
-                    Paciente pac = new Paciente(Integer.parseInt(req.getParameter("dni")), req.getParameter("nombre"), req.getParameter("apellido"), req.getParameter("email"), req.getParameter("fechaNac"), req.getParameter("telefono"), req.getParameter("clave"), req.getParameter("genero"), obraSocial , req.getParameter("nroAfiliado"));
+               
+                    Integer obraSocial = Integer.parseInt(request.getParameter("obraSocial"));
+                    Paciente pac = new Paciente(Integer.parseInt(request.getParameter("dni")), request.getParameter("nombre"), request.getParameter("apellido"), request.getParameter("email"), request.getParameter("fechaNac"), request.getParameter("telefono"), request.getParameter("clave"), request.getParameter("genero"), obraSocial , request.getParameter("nroAfiliado"));
                     PacienteService pacServ = new PacienteService();
                     pacServ.insertarPaciente(pac);
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
+               
             }
 
         }
-
-
-
+    
+      
+        request.getRequestDispatcher("usuarios").forward(request,response);
     }
-
-
-
-
 
 }

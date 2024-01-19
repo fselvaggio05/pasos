@@ -35,56 +35,89 @@
 
 
 
-        <div class="col-9">
-            <div class="container ">
-                <h4 class="text-center my-5 text-decoration-underline fw-bold ">Listado de practicas profesionales</h4>
-                <table class="table table-striped my-2">
-                    <thead>
-                    <tr>
-                        <th scope="col">ID Practica</th>
-                        <th scope="col">Descripcion</th>
-                        <th scope="col">ID Equipo</th>
-                        <th scope="col">Estado</th>
-                        <th scope="col">Fecha Baja</th>
-                        <th scope="col">Operaciones</th>
+			<div class="col-9">
 
-                    </tr>
+				<div class="container">
+					<h4 class="text-center my-5 text-decoration-underline fw-bold ">Listado
+						de practicas profesionales</h4>
 
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <jsp:useBean id="practicas"  type="java.util.List<entity.Practica>" scope="request"/>
-                        <c:forEach var="pract" items="${practicas}">
-                          
-                          <tr>
-                            <td><c:out value="${pract.id_practica}"></c:out></td>
-                            <td><c:out value="${pract.descripcion}"></c:out></td>
-                            <td><c:out value="${pract.id_equipo}"></c:out></td>
-                            <td><c:out value="${pract.estado}"></c:out></td>
-                            <td><c:out value="${pract.fecha_baja}"></c:out></td>
-                            
-                           
-                             
-	                        <td><a href='#' data-bs-toggle='modal' data-bs-target='#eliminarPractica' idPractica="${pract.id_practica}" descPractica="${pract.descripcion}" ><i class='bi bi-trash-fill m-1'></i></a>
-	                            <a href='#' data-bs-toggle='modal' data-bs-target='#actualizarPractica' idPractica="${pract.id_practica}" descPractica="${pract.descripcion}" equipo="${pract.id_equipo}"><i class="bi bi-pencil-fill"></i></a>
-	                        </td>
-                          <tr>
-                        </c:forEach>
 
-                    </tr>                   
 
-                    </tbody>
-                </table>
-            </div>
+					<div class="row justify-content-center mt-3">
 
-            <div class="row ">
-                <button type="button" class="btn btn-success col-2 m-1" data-bs-toggle="modal"
-                        data-bs-target="#altaPractica" data-bs-whatever="@mdo">Agregar practica</button>
-                <button type="button" class="btn btn-success col-2 m-1">Cancelar</button>
-            </div>
+						
+							<div class="card text-center border-info">
+								<div class="card-header">
+
+									<ul class="nav nav-pills card-header-pills">
+										<li class="nav-item"><a href="practicas" class="nav-link active">Activas</a>
+										</li>
+										<li class="nav-item "><a href="practicasIn" class="nav-link ">Inactivas</a>
+										</li>
+									</ul>
+
+								</div>
+
+								<div class="card-body">
+									<h4 class="card-title"></h4>
+									<!-- aqui va el listado de practicas  -->
+									<table class="table table-striped my-2">
+										<thead>
+											<tr>
+												<th scope="col">ID Practica</th>
+												<th scope="col">Descripcion</th>
+												<th scope="col">Equipo</th>
+												<th scope="col">Operaciones</th>
+
+											</tr>
+
+										</thead>
+										<tbody>
+											<tr>
+												
+												<c:forEach var="pract" items="${practicasA}">
+
+													<tr>
+														<td><c:out value="${pract.id_practica}"></c:out></td>
+														<td><c:out value="${pract.descripcion}"></c:out></td>
+														<td><c:out value="${pract.desc_equipo}"></c:out></td>
+														
+
+
+
+														<td><a href='#' data-bs-toggle='modal'data-bs-target='#eliminarPractica'
+															idPractica="${pract.id_practica}"
+															descPractica="${pract.descripcion}"><i
+																class='bi bi-trash-fill m-1'></i></a> <a href='#'
+															data-bs-toggle='modal'
+															data-bs-target='#actualizarPractica'
+															idPractica="${pract.id_practica}"
+															descPractica="${pract.descripcion}"
+															equipo="${pract.id_equipo}"><i
+																class="bi bi-pencil-fill"></i></a></td>
+													<tr>
+												</c:forEach>
+											</tr>
+										</tbody>
+									</table>
+									
+															
+									<div class="row ">
+						                <button type="button" class="btn btn-success col-2 m-1" data-bs-toggle="modal"
+						                        data-bs-target="#altaPractica" data-bs-whatever="@mdo">Agregar practica</button>
+						                <button type="button" class="btn btn-success col-2 m-1">Cancelar</button>
+						            </div>
             
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
             
-            
+<!--             MENSAJE DE OPERACION  -->
             <div class="bg-info fs-4 text-center">
            		 <c:out value="${mensaje}"></c:out>
             </div>
@@ -158,7 +191,7 @@
 
 								<div class="mb-3">
                                     <label class="col-6">ID Practica:</label>
-                                    <input type="text" class="form-control col-6" id="idPractica" name="idPractica" ><c:out value="${pract.id_practica}"></c:out>
+                                    <input type="text" class="form-control col-6" id="idPractica" name="idPractica" readOnly><c:out value="${pract.id_practica}"></c:out>
                                 </div>
                                 
                                 <div class="mb-3">
@@ -222,7 +255,7 @@
 								<div class="mb-3">
                                     <label class="col-6">Desea eliminar la practica?</label>
                                     <input type="hidden"  id="idPractica" name="idPractica">
-                                     <input type="hidden" name="estado" value="2">
+                                     <input type="hidden" name="estado" value="0">
                                     
                                     <div  class="fs-4 text-danger" id="descPractica" name="descPractica" >
                                 </div>

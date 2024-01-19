@@ -23,16 +23,13 @@ public class EquipoRepository {
 		try {
 			
 			
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from equipo");
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select id_equipo, desc_equipo from equipo where estado=1");
 			rs = stmt.executeQuery();
 			while (rs!=null && rs.next())
 			{
 				Equipo eq = new Equipo();
 				eq.setId_equipo(rs.getInt("id_equipo"));
-				eq.setTipo_equipo(rs.getString("tipo_equipo"));
-				eq.setDescripcion(rs.getString("descripcion"));
-				eq.setEstado(rs.getString("estado"));
-				eq.setFecha_baja(rs.getDate("fecha_baja"));
+				eq.setDescripcion(rs.getString("desc_equipo"));				
 				equipos.add(eq);
 			}
 			

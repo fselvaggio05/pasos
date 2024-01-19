@@ -22,9 +22,9 @@ import entity.Practica;
  * Servlet implementation class Practicas
  */
 
-@WebServlet("/practicas")
+@WebServlet("/practicasIn")
 
-public class PracticaServlet extends HttpServlet {
+public class PracticaServletInactivas extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected PracticaService prServ;
 	protected EquipoService eqServ;
@@ -33,7 +33,7 @@ public class PracticaServlet extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PracticaServlet() {
+    public PracticaServletInactivas() {
     	this.prServ= new PracticaService();
     	this.eqServ = new EquipoService();
     	
@@ -48,14 +48,14 @@ public class PracticaServlet extends HttpServlet {
 
 			
 		
-		    List<Practica> practicasActivas = prServ.getAllActivas();
+		   
 		    List<Practica> practicasInactivas = prServ.getAllInactivas();
 		    
 		    List<Equipo> equipos = eqServ.getAll();
-	        request.setAttribute("practicasA", practicasActivas);
+	       
 	        request.setAttribute("practicasI", practicasInactivas);
 	        request.setAttribute("equipos", equipos);
-	        request.getRequestDispatcher("altaPractica_activa.jsp").forward(request,response);
+	        request.getRequestDispatcher("altaPractica_inactiva.jsp").forward(request,response);
 	        
 			
 	}
@@ -78,32 +78,11 @@ public class PracticaServlet extends HttpServlet {
 		
 		switch(opcion)
 		{		
-			case "alta":
-			{
-
-				idPractica = Integer.parseInt(request.getParameter("idPractica"));
-				descPractica = request.getParameter("descPractica");
-				idEquipo = Integer.parseInt(request.getParameter("idEquipo"));
-				respuestaOperacion = prServ.insertarPractica(idPractica,descPractica, idEquipo);
-				break;
-			}
-			
-			case "actualizar":
-			{
-
-				idPractica = Integer.parseInt(request.getParameter("idPractica"));
-				descPractica = request.getParameter("descPractica");
-				idEquipo = Integer.parseInt(request.getParameter("idEquipo"));
-				
-				respuestaOperacion = prServ.actualizarPractica(idPractica, descPractica, idEquipo);
-				break;
-			}
 			
 			case "eliminar":
 			{
 				idPractica = Integer.parseInt(request.getParameter("idPractica"));
-				estado = Integer.parseInt(request.getParameter("estado"));
-			    respuestaOperacion = prServ.eliminarPractica(idPractica, estado);
+			    respuestaOperacion = prServ.habilitarPractica(idPractica);
 			    break;
 			}
 

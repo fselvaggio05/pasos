@@ -9,6 +9,7 @@ public class Practica {
 	private Integer id_equipo;
 	protected Integer estado;
 	protected Date fecha_baja;
+	protected String desc_equipo;
 	
 	public Practica () {
 	}
@@ -62,6 +63,18 @@ public class Practica {
 		this.fecha_baja = fecha_baja;
 	}
 
+
+	public String getDesc_equipo() {
+		return desc_equipo;
+	}
+
+
+	public void setDesc_equipo(String desc_equipo) {
+		this.desc_equipo = desc_equipo;
+	}
+
+	
+	
 
 	
 

@@ -57,7 +57,7 @@
       </button>
       <div class="collapse" id="admin-collapse">
         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-          <li><a href="altaPractica.jsp" class="link-dark rounded">Gestión Practicas profesionales</a></li>
+          <li><a href="practicas" class="link-dark rounded">Gestión Practicas profesionales</a></li>
           <li><a href="altaEquipo.html" class="link-dark rounded">Gestión Equipos</a></li>
           <li><a href="altaConsultorio.html" class="link-dark rounded">Gestión Consultorios</a></li>
           <li><a href="altaUsuario_admin.jsp" class="link-dark rounded">Gestión Usuarios</a></li>

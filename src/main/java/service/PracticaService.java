@@ -15,9 +15,9 @@ public class PracticaService {
 		this.prRep = new PracticaRepository();
 	}
 	
-	public List<Practica> getAll()
+	public List<Practica> getAllActivas()
 	{
-		return prRep.getAll();
+		return prRep.getAllActivas();
 	}
 
 	public String insertarPractica(Integer idPractica, String descPractica, Integer idEquipo) {
@@ -28,10 +28,10 @@ public class PracticaService {
 		
 	}
 	
-	public String actualizarPractica(Integer idPractica, String descPractica, Integer idEquipo, Integer estado) {
+	public String actualizarPractica(Integer idPractica, String descPractica, Integer idEquipo) {
 		// TODO Auto-generated method stub
 		
-		return respuestaOperacion = prRep.actualizarPractica(idPractica, descPractica, idEquipo, estado);
+		return respuestaOperacion = prRep.actualizarPractica(idPractica, descPractica, idEquipo);
 		
 	}
 
@@ -42,8 +42,19 @@ public class PracticaService {
 		
 	}
 
-	
+	public List<Practica> getAllInactivas() {
+			
+		return prRep.getAllInactivas();
+	}
 
+	public String habilitarPractica(Integer idPractica) {
+		
+		
+		// TODO Auto-generated method stub
+		return respuestaOperacion = prRep.habilitarPractica(idPractica);
+	}
+
+	
 	
 	
 

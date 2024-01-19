@@ -18,7 +18,7 @@
     </div>
 
     <div class="row">
-        <div class="col-3 bg-success">
+        <div class="col-3">
 
             <jsp:include page="menu_final.jsp"/>
 
@@ -221,9 +221,7 @@
 
 
 
-    <div class="row bg-danger">
-        PIE
-    </div>
+    
 </div>
 
 
