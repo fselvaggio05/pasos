@@ -50,6 +50,7 @@ public void doPost(HttpServletRequest request, HttpServletResponse response) thr
 	Integer matricula = Integer.parseInt(request.getParameter("matricula"));
 	List<Horario> horariosProf = horServ.getHorariosProfesional(matricula);
 	request.setAttribute("horariosProf", horariosProf);
+	request.getRequestDispatcher("horariosProf.jsp").forward(request, response);
 
 
 }
