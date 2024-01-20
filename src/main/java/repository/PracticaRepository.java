@@ -167,7 +167,7 @@ public class PracticaRepository {
 		try
 		{
 						
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update practica set descripcion=?, id_equipo=? where id_practica=?");
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update practica set desc_practica=?, id_equipo=? where id_practica=?");
 			stmt.setString(1, descPractica);
 			stmt.setInt(2, idEquipo);
 			stmt.setInt(3, idPractica);	

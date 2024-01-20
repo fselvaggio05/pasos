@@ -89,8 +89,6 @@ public class PracticaServletInactivas extends HttpServlet {
 		}
 		
 		
-
-		
 		if (respuestaOperacion == "OK")
 		{
 		

@@ -46,7 +46,7 @@
 					<div class="row justify-content-center mt-3">
 
 						
-							<div class="card text-center border-info">
+							<div class="card text-center">
 								<div class="card-header">
 
 									<ul class="nav nav-pills card-header-pills">

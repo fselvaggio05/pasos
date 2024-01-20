@@ -41,8 +41,15 @@ public class UsuarioServlet extends HttpServlet {
                
             	
             		Integer dni = Integer.parseInt(request.getParameter("dni"));
-                    Usuario us = new Usuario(dni, request.getParameter("nombre"), request.getParameter("apellido"), request.getParameter("email"), request.getParameter("fechaNac"), request.getParameter("telefono"), request.getParameter("clave"), request.getParameter("genero"));
-                    usServ.insertarUsuario(us);
+                    Usuario us;
+					try {
+						us = new Usuario(dni, request.getParameter("nombre"), request.getParameter("apellido"), request.getParameter("email"), request.getParameter("fechaNac"), request.getParameter("telefono"), request.getParameter("clave"), request.getParameter("genero"));
+					    usServ.insertarUsuario(us);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+                 
                 	                
               
             }
@@ -50,19 +57,37 @@ public class UsuarioServlet extends HttpServlet {
             case 2: { //TODO REVISAR MATRICULA QUE LLEGA EN NULL
                
                     String matricula = request.getParameter("matricula");
-                    Profesional prof = new Profesional(Integer.parseInt(request.getParameter("dni")), request.getParameter("nombre"), request.getParameter("apellido"), request.getParameter("email"), request.getParameter("fechaNac"), request.getParameter("telefono"), request.getParameter("clave"), request.getParameter("genero") ,request.getParameter("matricula"));
-                    ProfesionalService profServ = new ProfesionalService();
-                    profServ.insertarProfesional(prof);
+                    Profesional prof;
+					try {
+						prof = new Profesional(Integer.parseInt(request.getParameter("dni")), request.getParameter("nombre"), request.getParameter("apellido"), request.getParameter("email"), request.getParameter("fechaNac"), request.getParameter("telefono"), request.getParameter("clave"), request.getParameter("genero") ,request.getParameter("matricula"));
+						ProfesionalService profServ = new ProfesionalService();
+		                profServ.insertarProfesional(prof);
 
+					} catch (NumberFormatException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+                 
                
             }
 
             case 3:{
                
                     Integer obraSocial = Integer.parseInt(request.getParameter("obraSocial"));
-                    Paciente pac = new Paciente(Integer.parseInt(request.getParameter("dni")), request.getParameter("nombre"), request.getParameter("apellido"), request.getParameter("email"), request.getParameter("fechaNac"), request.getParameter("telefono"), request.getParameter("clave"), request.getParameter("genero"), obraSocial , request.getParameter("nroAfiliado"));
-                    PacienteService pacServ = new PacienteService();
-                    pacServ.insertarPaciente(pac);
+                    Paciente pac;
+					try {
+						pac = new Paciente(Integer.parseInt(request.getParameter("dni")), request.getParameter("nombre"), request.getParameter("apellido"), request.getParameter("email"), request.getParameter("fechaNac"), request.getParameter("telefono"), request.getParameter("clave"), request.getParameter("genero"), obraSocial , request.getParameter("nroAfiliado"));
+				        PacienteService pacServ = new PacienteService();
+	                    pacServ.insertarPaciente(pac);
+	                    
+					} catch (NumberFormatException | ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+            
                
             }
 

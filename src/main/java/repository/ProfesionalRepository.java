@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProfesionalRepository {
 
@@ -41,6 +43,49 @@ public class ProfesionalRepository {
 
     }
 
+
+	public List<Profesional> getAll() {
+		
+		List<Profesional> profesionales = new ArrayList<Profesional>();
+		
+		try{
+            stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select apellido, nombre, matricula from profesional p inner join usuario u on p.dni=u.dni order by apellido asc");
+            rs=stmt.executeQuery();
+            while(rs.next() && rs !=null)
+            {
+            	Profesional pr = new Profesional();
+            	pr.setApellido(rs.getString("apellido"));
+            	pr.setNombre(rs.getString("nombre"));
+            	pr.setMatricula(rs.getInt("matricula"));
+            	profesionales.add(pr);
+            }
+            
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            try {
+                //se cierran conexiones abiertas en el orden inverso en que fueron abiertas
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            FactoryConnection.getInstancia().releaseConn(); //reveer esto, no me convene
+
+        }
+		
+		
+		return profesionales;
+		
+		
+	}
+	
+	
 
 
 }

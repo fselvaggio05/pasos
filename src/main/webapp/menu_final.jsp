@@ -61,7 +61,7 @@
           <li><a href="altaEquipo.html" class="link-dark rounded">Gestión Equipos</a></li>
           <li><a href="altaConsultorio.html" class="link-dark rounded">Gestión Consultorios</a></li>
           <li><a href="altaUsuario_admin.jsp" class="link-dark rounded">Gestión Usuarios</a></li>
-          <li><a href="altaHorario.html" class="link-dark rounded">Gestión Horarios</a></li>
+          <li><a href="horarios" class="link-dark rounded">Gestión Horarios</a></li>
         </ul>
       </div>
     </li>

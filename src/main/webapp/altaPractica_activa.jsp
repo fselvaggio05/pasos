@@ -41,12 +41,12 @@
 					<h4 class="text-center my-5 text-decoration-underline fw-bold ">Listado
 						de practicas profesionales</h4>
 
-
+		
 
 					<div class="row justify-content-center mt-3">
 
 						
-							<div class="card text-center border-info">
+							<div class="card text-center">
 								<div class="card-header">
 
 									<ul class="nav nav-pills card-header-pills">
@@ -102,7 +102,7 @@
 									</table>
 									
 															
-									<div class="row ">
+									<div class="row justify-content-end">
 						                <button type="button" class="btn btn-success col-2 m-1" data-bs-toggle="modal"
 						                        data-bs-target="#altaPractica" data-bs-whatever="@mdo">Agregar practica</button>
 						                <button type="button" class="btn btn-success col-2 m-1">Cancelar</button>
@@ -116,8 +116,10 @@
 			</div>
 
 
-            
-<!--             MENSAJE DE OPERACION  -->
+          	
+<!--             MENSAJE DE OPERACION, cambiarlo por un modal con javascript -->
+
+
             <div class="bg-info fs-4 text-center">
            		 <c:out value="${mensaje}"></c:out>
             </div>
@@ -212,14 +214,7 @@
 		                           </select>  
 		                           
 		                           
-<!-- 		                            <div class="mb-3"> -->
-<!--                                     <label class="col-6">Estado:</label> -->
-<!--                                     <select class="form-select col-6" name="estado"> -->
-<!--                                     	<option value="1">Activa</option> -->
-<!--                                     	<option value="2">Inactiva</option> -->
-<!--                                     </select> -->
-<!--                                 </div>  -->
-                                   
+                                  
                                                                                              
                                 </div>
 

@@ -26,7 +26,12 @@ public class Profesional extends Usuario {
     }
 
 
-    public Integer getMatricula() {
+    public Profesional() {
+		// TODO Auto-generated constructor stub
+	}
+
+
+	public Integer getMatricula() {
         return matricula;
     }
 
