@@ -42,18 +42,22 @@
 					<div class="row justify-content-center">
 
 						<div class="input-group mb-5 col-1">
-
-							<!-- AGREGAR LIST CON LOS PROFESIONALES  -->
-							<select class="form-select col-2 m-1">
-								<option value="1">Seleccione un profesional</option>
-								<c:forEach var="prof" items="${profesionales}" >
-										<option value="<c:out value="${prof.matricula}"></c:out>"><c:out value="${prof.apellido}, ${prof.nombre}"></c:out></option>
-								</c:forEach>
-							</select>
+						
+							<form action="horarios" method="post">	
+								<input type="hidden" name="operacion" value="buscarProfesional">
+								<select class="form-select col-2 m-1" name="matricula" >
+									<option value="1">Seleccione un profesional</option>
+									<c:forEach var="prof" items="${profesionales}" >
+											<option value="<c:out value="${prof.matricula}"></c:out>"><c:out value="${prof.apellido}, ${prof.nombre}"></c:out></option>
+									</c:forEach>
+								</select>
+								
+								<div class="input-group-append">
+									<button class="btn btn-outline-success" type="submit">Buscar</button>
+								</div>
 							
-							<div class="input-group-append">
-								<button class="btn btn-outline-success" type="button">Buscar</button>
-							</div>
+							</form>
+							
 						</div>
 
 					</div>
@@ -221,20 +225,6 @@
 
 </html>
 
-
-
-
-
-</div>
-
-
-
-
-
-</div>
-
-
-
 <div class="row "></div>
 </div>
 
@@ -249,6 +239,10 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
 	integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
 	crossorigin="anonymous"></script>
+	
+	<script src="js/buscarProfesionalPorMatricula.js">
+
+</script>
 </body>
 
 </html>

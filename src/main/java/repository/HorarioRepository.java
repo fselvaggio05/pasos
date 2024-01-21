@@ -73,7 +73,7 @@ public class HorarioRepository {
 		List<Horario> horariosProf = new ArrayList<Horario>();
 		
 		try{
-            stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from horario where matricula=?");
+            stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from horario h inner join profesional p on h.matricula=p.matricula inner join usuario u on u.dni=p.dni where fecha_baja is null and h.matricula=?");
             stmt.setInt(1, matricula);
             rs=stmt.executeQuery();
             while(rs.next() && rs != null)

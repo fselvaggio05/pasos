@@ -47,13 +47,26 @@ public class HorarioServlet extends HttpServlet{
 
 public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-	Integer matricula = Integer.parseInt(request.getParameter("matricula"));
-	List<Horario> horariosProf = horServ.getHorariosProfesional(matricula);
-	request.setAttribute("horariosProf", horariosProf);
-	request.getRequestDispatcher("horariosProf.jsp").forward(request, response);
+	
+	String operacion = request.getParameter("operacion");
+	
+	switch(operacion)
+	{
+	case "buscarProfesional":
+	{
+		Integer matricula = Integer.parseInt(request.getParameter("matricula"));
+		List<Horario> horarios = horServ.getHorariosProfesional(matricula);
+		List<Profesional> profesionales = profServ.getAll();
+		request.setAttribute("profesionales", profesionales);
+		request.setAttribute("horarios", horarios);
+		request.getRequestDispatcher("altaHorario.jsp").forward(request, response);
 
+	}
+		
+	}
+	
 
-}
+	}
 
 }
 

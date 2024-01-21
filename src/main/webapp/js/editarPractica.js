@@ -24,7 +24,7 @@ if (actualizarPractica) {
 	//traigo los campos en donde voy a mostrar los datos 
     const inputIdPractica = actualizarPractica.querySelector('.modal-body #idPractica');
     const inputDescripcion = actualizarPractica.querySelector('.modal-body #descPractica');
-    //const selectEquipo = 
+    const selectEquipo = actualizarPractica.querySelector('.modal-body #equipo');
     
     
 

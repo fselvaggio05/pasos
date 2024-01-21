@@ -88,7 +88,9 @@
 														<td><a href='#' data-bs-toggle='modal'data-bs-target='#eliminarPractica'
 															idPractica="${pract.id_practica}"
 															descPractica="${pract.descripcion}"><i
-																class='bi bi-trash-fill m-1'></i></a> <a href='#'
+																class='bi bi-trash-fill m-1'></i></a> 
+															
+															<a href='#'
 															data-bs-toggle='modal'
 															data-bs-target='#actualizarPractica'
 															idPractica="${pract.id_practica}"
@@ -204,7 +206,7 @@
 
                                 <div class="mb-3">
                                     <label class="col-6">Equipo:</label>
-                                   <select class="form-select col-6" name="idEquipo">
+                                   <select class="form-select col-6" id="equipo" name="idEquipo">
                                    	<option value="1">Seleccione un equipo</option>
 
                                     		<c:forEach var="equip" items="${equipos}" >
