@@ -24,7 +24,7 @@ import entity.Practica;
 
 @WebServlet("/practicasIn")
 
-public class PracticaServletInactivas extends HttpServlet {
+public class PracticaInacServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected PracticaService prServ;
 	protected EquipoService eqServ;
@@ -33,7 +33,7 @@ public class PracticaServletInactivas extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PracticaServletInactivas() {
+    public PracticaInacServlet() {
     	this.prServ= new PracticaService();
     	this.eqServ = new EquipoService();
     	

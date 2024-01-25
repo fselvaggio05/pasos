@@ -11,9 +11,13 @@ public class Horario {
 	private Date fecha_alta;
 	private String dia_semana; //TODO: crear enum para dias de la semana
 	private String apellido_profesional;
+	protected Integer id_practica;
 	
 	
 	
+
+
+
 	public Horario(Integer matricula, Date hora_desde, Date hora_hasta, Date fecha_baja, Date fecha_alta,
 			String dia_semana) {
 		
@@ -31,6 +35,16 @@ public class Horario {
 	public Horario() {
 	
 	}
+
+
+
+//	public Horario(Integer matricula2, String dia_semana2, Date hora_desde2, Date hora_hasta2) {
+//	
+//		this.matricula = matricula2;
+//		this.dia_semana = dia_semana2;
+//		this.hora_desde = hora_desde2;
+//		this.hora_hasta = hora_hasta2;
+//	}
 
 
 
@@ -76,8 +90,21 @@ public class Horario {
 	}
 
 	public void setApellido_profesional(String apellido_profesional) {
+
 		this.apellido_profesional = apellido_profesional;
 	}
+
+
+	public Integer getId_practica() {
+		return id_practica;
+	}
+
+
+	public void setId_practica(Integer id_practica) {
+		this.id_practica = id_practica;
+	}
+
+	
 	
 	
 	

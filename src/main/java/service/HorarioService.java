@@ -1,5 +1,6 @@
 package service;
 
+import java.util.Date;
 import java.util.List;
 
 import entity.Horario;
@@ -22,11 +23,42 @@ public class HorarioService {
 		return horarios;
 	}
 	
+	public List<Horario> getAllInactivos() {
+		List<Horario> horarios = horRep.getAllInactivos();		
+		return horarios;
+	}
+
 	
-	public List<Horario> getHorariosProfesional(Integer matricula)
+	
+	public List<Horario> getHorariosActivosProfesional(Integer matricula)
 	{
-		List<Horario> horariosProf = horRep.getHorariosProfesional(matricula);		
+		List<Horario> horariosProf = horRep.getHorariosActivosProfesional(matricula);		
+		return horariosProf;
+	}
+	
+	
+	public List<Horario> getHorariosInactivosProfesional(Integer matricula)
+	{
+		List<Horario> horariosProf = horRep.getHorariosInactivosProfesional(matricula);		
 		return horariosProf;
 	}
 
+
+
+	public Integer insertarHorario(Horario hr) {
+		
+		return horRep.insertarHorario(hr);
+		
+	}
+
+
+
+
+
+
+	
+
+
+
+	
 }

@@ -156,7 +156,7 @@
                                     <label class="col-6">Equipo:</label>
                                     <select class="form-select col-6" name="idEquipo"> 
                                     	<option value="1">Seleccione un equipo</option>
-                                    	<jsp:useBean id="equipos" type="java.util.List<entity.Equipo>" scope="request"></jsp:useBean>
+                                    	
                                     		<c:forEach var="equip" items="${equipos}" >
                                     			<option value="<c:out value="${equip.id_equipo}"></c:out>"><c:out value="${equip.descripcion}"></c:out></option>
                                     		</c:forEach>
