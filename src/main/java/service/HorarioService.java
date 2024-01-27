@@ -3,6 +3,7 @@ package service;
 import java.util.Date;
 import java.util.List;
 
+import conexionDB.FactoryConnection;
 import entity.Horario;
 import repository.HorarioRepository;
 
@@ -48,6 +49,14 @@ public class HorarioService {
 	public Integer insertarHorario(Horario hr) {
 		
 		return horRep.insertarHorario(hr);
+		
+	}
+
+
+
+	public void activarHorario(Integer idHorario) {
+		
+		horRep.activarHorario(idHorario);
 		
 	}
 

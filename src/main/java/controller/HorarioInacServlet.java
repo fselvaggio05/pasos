@@ -36,11 +36,41 @@ public class HorarioInacServlet extends HttpServlet{
 			List<Profesional> profesionales = profServ.getAll();
 			request.setAttribute("horarios", horarios);
 			request.setAttribute("profesionales", profesionales);		
-			request.getRequestDispatcher("altaHorario_inactivo.jsp").forward(request,response);;
+			request.getRequestDispatcher("altaHorario_inactivo.jsp").forward(request,response);
+			
+	}	
+	
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		
+		String operacion = request.getParameter("operacion");
+		Integer idHorario;
+		
+		switch(operacion)
+		{
+		case "buscarProfesional":
+			{
+			Integer matricula = Integer.parseInt(request.getParameter("matricula"));
+			List<Horario> horarios = horServ.getHorariosInactivosProfesional(matricula);
+			List<Profesional> profesionales = profServ.getAll();
+			request.setAttribute("profesionales", profesionales);
+			request.setAttribute("horarios", horarios);
+			request.getRequestDispatcher("altaHorario_inactivo.jsp").forward(request, response);
+
+			break;
+			}
+			
+		case "activarHorario":
+		{
+			idHorario = Integer.parseInt(request.getParameter("idEnviado"));
+			horServ.activarHorario(idHorario);
+			request.getRequestDispatcher("altaHorario_inactivo.jsp").forward(request, response);
+		}
+		
+		}
 		
 	}
+
 	
 
 }

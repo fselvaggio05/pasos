@@ -25,13 +25,16 @@ public class HorarioRepository {
 		List<Horario> horarios = new ArrayList<Horario>();		
 		try
 		{		
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from horario h inner join profesional p on h.matricula=p.matricula inner join usuario u on p.dni=u.dni where fecha_baja is null order by u.apellido asc" );
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from horario h inner join profesional p on h.matricula=p.matricula inner join usuario u on p.dni=u.dni inner join practica pr on pr.id_practica=h.id_practica where h.fecha_baja is null order by u.apellido asc" );
 			rs= stmt.executeQuery();			
 			while(rs.next() && rs != null)
 			{
 				Horario hr = new Horario();
+				hr.setId_horario(rs.getInt("idHorario"));
 				hr.setFecha_alta(rs.getDate("fecha_alta"));
 				hr.setDia_semana(rs.getString("dia_semana"));
+				hr.setDesc_practica(rs.getString("descripcion"));
+				hr.setId_practica(rs.getInt("id_practica"));
 				hr.setHora_desde(rs.getTime("hora_desde"));
 				hr.setHora_hasta(rs.getTime("hora_hasta"));
 				hr.setMatricula(rs.getInt("matricula"));
@@ -66,13 +69,14 @@ public class HorarioRepository {
 		List<Horario> horarios = new ArrayList<Horario>();		
 		try
 		{		
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from horario h inner join profesional p on h.matricula=p.matricula inner join usuario u on p.dni=u.dni where fecha_baja is not null order by u.apellido asc" );
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from horario h inner join profesional p on h.matricula=p.matricula inner join usuario u on p.dni=u.dni inner join practica pr on pr.id_practica=h.id_practica where h.fecha_baja is not null order by u.apellido asc" );
 			rs= stmt.executeQuery();			
 			while(rs.next() && rs != null)
 			{
 				Horario hr = new Horario();
-				hr.setFecha_alta(rs.getDate("fecha_alta"));
+				hr.setId_horario(rs.getInt("idHorario"));
 				hr.setDia_semana(rs.getString("dia_semana"));
+				hr.setDesc_practica(rs.getString("pr.descripcion"));
 				hr.setHora_desde(rs.getTime("hora_desde"));
 				hr.setHora_hasta(rs.getTime("hora_hasta"));
 				hr.setMatricula(rs.getInt("matricula"));
@@ -110,14 +114,18 @@ public class HorarioRepository {
 		List<Horario> horariosProf = new ArrayList<Horario>();
 		
 		try{
-            stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from horario h inner join profesional p on h.matricula=p.matricula inner join usuario u on u.dni=p.dni where fecha_baja is null and h.matricula=?");
+            stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from horario h inner join profesional p on h.matricula=p.matricula inner join usuario u on u.dni=p.dni inner join practica pr on h.id_practica=pr.id_practica where h.fecha_baja is null and h.matricula=?");
             stmt.setInt(1, matricula);
             rs=stmt.executeQuery();
             while(rs.next() && rs != null)
 			{
 				Horario hr = new Horario();
+				hr.setId_horario(rs.getInt("idHorario"));
+				hr.setId_horario(rs.getInt("idHorario"));
 				hr.setFecha_alta(rs.getDate("fecha_alta"));
 				hr.setDia_semana(rs.getString("dia_semana"));
+				hr.setId_practica(rs.getInt("pr.id_practica"));
+				hr.setDesc_practica(rs.getString("pr.descripcion"));
 				hr.setHora_desde(rs.getTime("hora_desde"));
 				hr.setHora_hasta(rs.getTime("hora_hasta"));
 				hr.setMatricula(rs.getInt("matricula"));
@@ -157,18 +165,21 @@ public class HorarioRepository {
 		List<Horario> horariosProf = new ArrayList<Horario>();
 		
 		try{
-            stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from horario h inner join profesional p on h.matricula=p.matricula inner join usuario u on u.dni=p.dni where fecha_baja is not null and h.matricula=?");
+            stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from horario h inner join profesional p on h.matricula=p.matricula inner join usuario u on u.dni=p.dni inner join practica pr on pr.id_practica=h.id_practica where h.fecha_baja is not null and h.matricula=?");
             stmt.setInt(1, matricula);
             rs=stmt.executeQuery();
             while(rs.next() && rs != null)
 			{
+
 				Horario hr = new Horario();
-				hr.setFecha_alta(rs.getDate("fecha_alta"));
+				hr.setId_horario(rs.getInt("idHorario"));
 				hr.setDia_semana(rs.getString("dia_semana"));
+				hr.setDesc_practica(rs.getString("pr.descripcion"));
 				hr.setHora_desde(rs.getTime("hora_desde"));
 				hr.setHora_hasta(rs.getTime("hora_hasta"));
 				hr.setMatricula(rs.getInt("matricula"));
 				hr.setApellido_profesional(rs.getString("apellido"));	
+				hr.setFecha_baja(rs.getDate("fecha_baja"));
 				horariosProf.add(hr);
 			
 			}
@@ -220,7 +231,7 @@ public class HorarioRepository {
 			stmt.setInt(2, hr.getMatricula());
 			stmt.setString(3, hr.getDia_semana());
 			stmt.setTime(4, new java.sql.Time(hr.getHora_desde().getTime()));
-			stmt.setTime(5, new java.sql.Time(hr.getHora_desde().getTime()));
+			stmt.setTime(5, new java.sql.Time(hr.getHora_hasta().getTime()));
 			stmt.setInt(6, hr.getId_practica());
 			
 			respuesta = stmt.executeUpdate();			
@@ -254,6 +265,43 @@ public class HorarioRepository {
 		}		
 		
 		return respuesta;
+	}
+
+
+	public void activarHorario(Integer idHorario) {
+		
+		try
+		{
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update horario h set fecha_baja = null where idHorario=?");
+			stmt.setInt(1, idHorario);
+			stmt.executeUpdate();
+			
+			
+		}
+		
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		
+		finally
+		{
+			 try {
+	              
+	                if (rs != null) rs.close();
+	                if (stmt != null) stmt.close();
+
+
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	            }
+
+	            FactoryConnection.getInstancia().releaseConn();
+			
+			
+			
+		}
+		
 	}
 
 

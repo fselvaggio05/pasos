@@ -32,16 +32,14 @@ public class PracticaRepository {
 		//colocar try
 			
 			try {
-				stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT * FROM practica INNER JOIN equipo ON practica.id_equipo = equipo.id_equipo where practica.estado=1;");
+				stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT * FROM practica p INNER JOIN equipo e ON p.id_equipo = e.id_equipo where p.estado=1");
 				rs = stmt.executeQuery();
 				while (rs!=null && rs.next())
 				{
 					Practica pr = new Practica ();
 					pr.setId_practica(rs.getInt("id_practica"));
-					pr.setDescripcion(rs.getString("desc_practica"));
-					pr.setDesc_equipo(rs.getString("desc_equipo"));
-//					pr.setEstado(rs.getInt("estado"));
-//					pr.setFecha_baja(rs.getDate("fecha_baja"));
+					pr.setDescripcion(rs.getString("descripcion"));
+					pr.setDesc_equipo(rs.getString("e.descripcion"));
 					practicas.add(pr);
 					
 					
@@ -78,13 +76,13 @@ public class PracticaRepository {
 			List<Practica> practicas = new ArrayList<>();
 			
 			try {
-				stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT * FROM practica INNER JOIN equipo ON practica.id_equipo = equipo.id_equipo where practica.estado=0");
+				stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT * FROM practica p INNER JOIN equipo e ON p.id_equipo = e.id_equipo where p.estado=0");
 				rs = stmt.executeQuery();
 				while (rs!=null && rs.next())
 				{
 					Practica pr = new Practica ();
 					pr.setId_practica(rs.getInt("id_practica"));
-					pr.setDescripcion(rs.getString("desc_practica"));
+					pr.setDescripcion(rs.getString("p.descripcion"));
 //					pr.setDesc_equipo(rs.getString("desc_equipo"));
 //					pr.setEstado(rs.getInt("estado"));
 					pr.setFecha_baja(rs.getDate("fecha_baja"));

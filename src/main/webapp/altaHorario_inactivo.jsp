@@ -43,7 +43,7 @@
 
 						<div class="input-group mb-3 col-1">
 
-							<form action="horarios" method="post">
+							<form action="horariosIn" method="post">
 
 								<div class="row mt-1">
 
@@ -97,7 +97,6 @@
 											<th scope="col">Matricula</th>
 											<th scope="col">Apellido</th>
 											<th scope="col">Practica</th>
-<!-- 											 este campo esta en la tabla profesional_practicas -->
 											<th scope="col">Dia de la semana</th>
 											<th scope="col">Hora desde</th>
 											<th scope="col">Hora hasta</th>
@@ -112,16 +111,14 @@
 											<c:forEach var="hor" items="${horarios}">
 												<td><c:out value="${hor.matricula}"></c:out></td>
 												<td><c:out value="${hor.apellido_profesional}"></c:out></td>
-												<td></td>		
+												<td><c:out value="${hor.desc_practica}"></c:out></td>		
 												<td><c:out value="${hor.dia_semana}"></c:out></td>
 												<td><c:out value="${hor.hora_desde}"></c:out></td>
 												<td><c:out value="${hor.hora_hasta}"></c:out></td>
 												<td><c:out value="${hor.fecha_baja}"></c:out></td>
-												<td><a href='#' data-bs-toggle='modal'
-													data-bs-target='#delHorario' idHorario='"++"'><i
-														class='bi bi-trash-fill m-1'></i></a> <a href='#'
-													data-bs-toggle='modal' data-bs-target='#updPractica'
-													idHOrario='"++"'><i class="bi bi-pencil-fill"></i></a></td>
+												<td><a href='#'
+													data-bs-toggle='modal' data-bs-target='#activar'
+													id='"${hor.id_horario}"'><i class="bi bi-pencil-fill"></i></a></td>
 										    </tr>
 											</c:forEach>
 											
@@ -130,16 +127,47 @@
 										</tbody>
 									</table>
 								</div>
+								
+								
+								
+			<div class="modal fade" id="activar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Advertencia</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <form action="horariosIn" method="post">
+                            <div class="modal-body">
+
+								<input type="hidden" value="activarHorario" name="operacion">
+                               
+
+								<div class="mb-3">
+                                    <label class="col-6">Desea habilitar el horario seleccionado?</label>
+                                    
+<!--                                     en este campo voy a guardar el valor del idHorario para enviarlo al servlet -->
+                                    <input type="hidden"  id="idEnviado" name="idEnviado"> 
+                                    
+                                    <div  class="fs-4 text-danger" id="idMostrar" name="idMostrar" >
+                                </div>
+                                
+                                
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                 </div>
+              </div>        
+                    
 
 </body>
 
 </html>
-
-<div class="row "></div>
-</div>
-
-
-
 
 <script
 	src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
@@ -150,9 +178,7 @@
 	integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
 	crossorigin="anonymous"></script>
 	
-	<script src="js/buscarProfesionalPorMatricula.js">
-
-</script>
+	<script src="js/activar.js"></script>
 </body>
 
 </html>

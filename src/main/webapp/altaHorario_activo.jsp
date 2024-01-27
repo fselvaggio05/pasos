@@ -96,7 +96,6 @@
 											<th scope="col">Matricula</th>
 											<th scope="col">Apellido</th>
 											<th scope="col">Practica</th>
-											<!-- 											 este campo esta en la tabla profesional_practicas -->
 											<th scope="col">Dia de la semana</th>
 											<th scope="col">Hora desde</th>
 											<th scope="col">Hora hasta</th>
@@ -110,15 +109,16 @@
 											<c:forEach var="hor" items="${horarios}">
 												<td><c:out value="${hor.matricula}"></c:out></td>
 												<td><c:out value="${hor.apellido_profesional}"></c:out></td>
-												<td><c:out value="${hor.id_practica}"></c:out></td>
+												<td><c:out value="${hor.desc_practica}"></c:out></td>
 												<td><c:out value="${hor.dia_semana}"></c:out></td>
 												<td><c:out value="${hor.hora_desde}"></c:out></td>
 												<td><c:out value="${hor.hora_hasta}"></c:out></td>
 												<td><a href='#' data-bs-toggle='modal'
-													data-bs-target='#delHorario' idHorario='"++"'><i
-														class='bi bi-trash-fill m-1'></i></a> <a href='#'
+													data-bs-target='#delHorario' id="${hor.id_horario}"><i
+														class='bi bi-trash-fill m-1'></i></a> 
+													<a href='#'
 													data-bs-toggle='modal' data-bs-target='#updPractica'
-													idHOrario='"++"'><i class="bi bi-pencil-fill"></i></a></td>
+													id="${hor.id_horario}"><i class="bi bi-pencil-fill"></i></a></td>
 										</tr>
 										</c:forEach>
 

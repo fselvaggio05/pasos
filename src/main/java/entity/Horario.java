@@ -4,6 +4,8 @@ import java.util.Date;
 
 public class Horario {
 	
+	
+	private Integer id_horario;
 	private Integer matricula;
 	private Date hora_desde;
 	private Date hora_hasta;
@@ -11,7 +13,9 @@ public class Horario {
 	private Date fecha_alta;
 	private String dia_semana; //TODO: crear enum para dias de la semana
 	private String apellido_profesional;
-	protected Integer id_practica;
+	private Integer id_practica;
+	private String desc_practica;
+	
 	
 	
 	
@@ -104,6 +108,31 @@ public class Horario {
 		this.id_practica = id_practica;
 	}
 
+
+
+	public String getDesc_practica() {
+		return desc_practica;
+	}
+
+
+
+	public void setDesc_practica(String desc_practica) {
+		this.desc_practica = desc_practica;
+	}
+
+
+
+	public Integer getId_horario() {
+		return id_horario;
+	}
+
+
+
+	public void setId_horario(Integer id_horario) {
+		this.id_horario = id_horario;
+	}
+
+	
 	
 	
 	
