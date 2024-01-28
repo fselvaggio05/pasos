@@ -19,6 +19,7 @@ public class HorarioRepository {
 	
 	ResultSet rs = null;
 	PreparedStatement stmt= null;
+	String respuesta = null;
 
 	public List<Horario> getAllActivos() {
 		
@@ -212,9 +213,9 @@ public class HorarioRepository {
 	}
 
 
-	public Integer insertarHorario(Horario hr) {
+	public String insertarHorario(Horario hr) {
 		
-		Integer respuesta = null;
+	
 		Date fecha_alta;	
 		Date desde = null;
 		Date hasta = null ;
@@ -233,15 +234,15 @@ public class HorarioRepository {
 			stmt.setTime(4, new java.sql.Time(hr.getHora_desde().getTime()));
 			stmt.setTime(5, new java.sql.Time(hr.getHora_hasta().getTime()));
 			stmt.setInt(6, hr.getId_practica());
-			
-			respuesta = stmt.executeUpdate();			
+			stmt.executeUpdate();
+			respuesta = "OK";
 			
 			
 		}
 		
 		catch(SQLException e)
 		{
-			e.printStackTrace();
+			respuesta = e.toString();
 			
 		}
 		
@@ -267,21 +268,25 @@ public class HorarioRepository {
 		return respuesta;
 	}
 
+	
+	
+	
 
-	public void activarHorario(Integer idHorario) {
+	public String activarHorario(Integer idHorario) {
 		
 		try
 		{
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update horario h set fecha_baja = null where idHorario=?");
 			stmt.setInt(1, idHorario);
 			stmt.executeUpdate();
+			respuesta = "OK";
 			
 			
 		}
 		
 		catch (SQLException e)
 		{
-			e.printStackTrace();
+			respuesta = e.toString();
 		}
 		
 		finally
@@ -302,6 +307,97 @@ public class HorarioRepository {
 			
 		}
 		
+		return respuesta;
+		
+	}
+
+
+	
+	
+	public String inactivarHorario(Integer idHorario) {
+		
+		try 
+		{
+			
+			Date fecha_baja;
+			Calendar calendar = new GregorianCalendar();
+			fecha_baja = new Date(calendar.getTimeInMillis());
+				
+			
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update horario h set fecha_baja=? where idHorario=?");
+			stmt.setDate(1, new java.sql.Date(fecha_baja.getTime()));
+			stmt.setInt(2, idHorario);	
+			stmt.executeUpdate();
+			respuesta= "OK";
+		}
+		
+		
+		catch (SQLException e) {
+			
+			respuesta = e.toString();
+		}
+		
+		
+						
+		finally {
+
+	        try {
+	            if (rs != null) rs.close();
+	            if (stmt != null) stmt.close();
+	        	} 
+	        catch (Exception e) {
+	            e.printStackTrace();
+	        }
+
+	        FactoryConnection.getInstancia().releaseConn(); //es correcta esta forma de cerrar la conexion?
+	    }
+		
+		
+		
+		return respuesta;
+	}
+
+
+	public String actualizarHorario(Horario hr) {
+		
+		
+
+		try
+		{
+						
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update horario set dia_semana=?, id_practica=?, hora_desde=?, hora_hasta=? where idHorario=?");
+		
+			stmt.setString(1, hr.getDia_semana());
+			stmt.setInt(2, hr.getId_practica());	
+			stmt.setTime(3, new java.sql.Time(hr.getHora_desde().getTime()));
+			stmt.setTime(4, new java.sql.Time(hr.getHora_hasta().getTime()));
+			stmt.setInt(5, hr.getId_horario());
+			stmt.executeUpdate();
+			respuesta= "OK";
+						
+		}
+		
+		catch (SQLException e) {
+			
+			respuesta = e.toString();
+		}
+		
+		finally {
+
+	        try {
+	            if (rs != null) rs.close();
+	            if (stmt != null) stmt.close();
+	        	} 
+	        catch (Exception e) {
+	            e.printStackTrace();
+	        }
+
+	        FactoryConnection.getInstancia().releaseConn(); 
+	    }
+
+		
+		
+		return respuesta;
 	}
 
 

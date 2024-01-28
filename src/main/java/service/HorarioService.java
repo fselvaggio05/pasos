@@ -46,7 +46,7 @@ public class HorarioService {
 
 
 
-	public Integer insertarHorario(Horario hr) {
+	public String insertarHorario(Horario hr) {
 		
 		return horRep.insertarHorario(hr);
 		
@@ -54,11 +54,32 @@ public class HorarioService {
 
 
 
-	public void activarHorario(Integer idHorario) {
+	public String activarHorario(Integer idHorario) {
 		
-		horRep.activarHorario(idHorario);
+		return horRep.activarHorario(idHorario);
 		
 	}
+
+
+
+	public String inactivarHorario(Integer idHorario) {
+		
+		return horRep.inactivarHorario(idHorario);
+		
+		
+	}
+
+
+
+	public String actualizarHorario(Horario hr) {
+		
+		return horRep.actualizarHorario(hr);
+	}
+
+
+
+	
+
 
 
 

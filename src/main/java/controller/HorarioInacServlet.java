@@ -45,6 +45,8 @@ public class HorarioInacServlet extends HttpServlet{
 		
 		String operacion = request.getParameter("operacion");
 		Integer idHorario;
+		String respuestaOperacion =null;
+		String mensaje;
 		
 		switch(operacion)
 		{
@@ -60,14 +62,33 @@ public class HorarioInacServlet extends HttpServlet{
 			break;
 			}
 			
-		case "activarHorario":
-		{
+		case "activar":
+			{
 			idHorario = Integer.parseInt(request.getParameter("idEnviado"));
-			horServ.activarHorario(idHorario);
-			request.getRequestDispatcher("altaHorario_inactivo.jsp").forward(request, response);
-		}
+			respuestaOperacion = horServ.activarHorario(idHorario);
+			break;
+			}
 		
 		}
+		
+
+		if (respuestaOperacion == "OK")
+		{
+		
+			mensaje = "La operacion se ha realizado correctamente";
+			request.setAttribute("mensaje", mensaje);			
+			
+		}
+		
+		else 
+		{
+			mensaje = respuestaOperacion;
+			request.setAttribute("mensaje", mensaje);			
+			
+			
+		}
+		
+		this.doGet(request, response);
 		
 	}
 

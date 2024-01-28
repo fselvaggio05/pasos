@@ -49,9 +49,9 @@ public class PracticaServlet extends HttpServlet {
 			
 		
 		    List<Practica> practicasActivas = prServ.getAllActivas();
-		    List<Practica> practicasInactivas = prServ.getAllInactivas();
-		    
+		    List<Practica> practicasInactivas = prServ.getAllInactivas();		    
 		    List<Equipo> equipos = eqServ.getAll();
+		    
 	        request.setAttribute("practicasA", practicasActivas);
 	        request.setAttribute("practicasI", practicasInactivas);
 	        request.setAttribute("equipos", equipos);
@@ -101,7 +101,7 @@ public class PracticaServlet extends HttpServlet {
 			
 			case "eliminar":
 			{
-				idPractica = Integer.parseInt(request.getParameter("idPractica"));
+				idPractica = Integer.parseInt(request.getParameter("idEnviado"));
 				estado = Integer.parseInt(request.getParameter("estado"));
 			    respuestaOperacion = prServ.eliminarPractica(idPractica, estado);
 			    break;
