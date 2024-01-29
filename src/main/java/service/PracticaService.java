@@ -1,6 +1,8 @@
 package service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import entity.Practica;
 import repository.PracticaRepository;
@@ -54,6 +56,14 @@ public class PracticaService {
 		return respuestaOperacion = prRep.habilitarPractica(idPractica);
 	}
 
+	public Integer getDuracionPractica(Integer id_practica) {
+			
+		return 	prRep.getDuracionPractica(id_practica);
+	}
+
+	
+
+	
 	
 	
 	

@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import entity.Horario;
 import entity.Practica;
@@ -51,8 +52,9 @@ public class HorarioServlet extends HttpServlet {
 
 		String operacion = request.getParameter("operacion");
 		String respuestaOperacion = null;
-		String mensaje;
+		String mensaje1,mensaje2;
 		Integer idHorario;
+		Boolean calculoHorario;
 
 		switch (operacion) {
 		
@@ -76,9 +78,12 @@ public class HorarioServlet extends HttpServlet {
 			
 			Date desde = null;
 			Date hasta = null;
+			Integer id_practica = null;
 			
-			hr.setMatricula(Integer.parseInt(request.getParameter("matriculaProf")));
-			hr.setDia_semana(request.getParameter("dia_semana"));
+			
+			id_practica = Integer.parseInt(request.getParameter("id_practica"));	
+			
+			
 			try {
 				desde = new SimpleDateFormat("HH:mm").parse(request.getParameter("hora_desde"));
 				hasta = new SimpleDateFormat("HH:mm").parse(request.getParameter("hora_hasta"));
@@ -86,14 +91,29 @@ public class HorarioServlet extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			hr.setId_practica(Integer.parseInt(request.getParameter("id_practica")));
-			hr.setHora_desde(desde);
-			hr.setHora_hasta(hasta);
-			respuestaOperacion = horServ.insertarHorario(hr);
+			
+			calculoHorario = horServ.calculaHorario(id_practica, desde, hasta);		
+			
+			if(calculoHorario == true)
+			{
+				hr.setMatricula(Integer.parseInt(request.getParameter("matriculaProf")));
+				hr.setDia_semana(request.getParameter("dia_semana"));
+				hr.setId_practica(id_practica);
+				hr.setHora_desde(desde);
+				hr.setHora_hasta(hasta);				
+				
+				respuestaOperacion = horServ.insertarHorario(hr);
+				
+				
+			}
+			
+			else {				
+				mensaje2 = "La duracion de la practica no corresponde con el horario ingresado";
+				request.setAttribute("mensaje",mensaje2);
+				
+			}		
 
 			// agregar mensaje por javascript de mensaje hecho ok.
-
-			this.doGet(request, response);
 			break;
 		}
 
@@ -136,13 +156,13 @@ public class HorarioServlet extends HttpServlet {
 
 		if (respuestaOperacion == "OK") {
 
-			mensaje = "La operacion se ha realizado correctamente";
-			request.setAttribute("mensaje", mensaje);		
+			mensaje1 = "La operacion se ha realizado correctamente";
+			request.setAttribute("mensaje", mensaje1);		
 		}
 
 		else {
-			mensaje = respuestaOperacion;
-			request.setAttribute("mensaje", mensaje);
+			mensaje1 = respuestaOperacion;
+			request.setAttribute("mensaje", mensaje1);
 		}
 		
 		

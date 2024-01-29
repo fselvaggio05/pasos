@@ -209,6 +209,8 @@
 													<label class="col-6">Hora hasta</label> <input type="time"
 														class="form-control col-6" name="hora_hasta" id="hora_hasta">
 												</div>
+												
+											
 
 												<div class="modal-footer">
 													<button type="button" class="btn btn-secondary"
@@ -223,8 +225,16 @@
 
 								</div>
 							</div>
-							
-							
+
+
+
+<!-- 					MENSAJE DE RESPUESTA  -->
+
+							<div class="bg-info fs-4 text-center">
+								<c:out value="${mensaje2}"></c:out>
+							</div>
+
+
 <!--                     VENTANA MODAL "EDITAR" -->
                     
                     

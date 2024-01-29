@@ -259,6 +259,7 @@ public class PracticaRepository {
 
 
 	public String habilitarPractica(Integer id_practica)
+
 	{
 		
 		String respuestaOperacion;
@@ -294,6 +295,51 @@ public class PracticaRepository {
 		
 		
 		return respuestaOperacion;
+		
+	}
+
+
+
+
+
+	public Integer getDuracionPractica(Integer id_practica) {
+		
+		Integer duracionPractica = null;
+		
+		
+		try 
+		{
+			stmt= FactoryConnection.getInstancia().getConn().prepareStatement("select duracion from practica where id_practica=?");
+			stmt.setInt(1, id_practica);
+			rs = stmt.executeQuery();
+			
+			if(rs.next() && rs!=null )
+			{
+			duracionPractica = rs.getInt("duracion");
+			respuestaOperacion = "OK";
+			}
+			
+		}
+		
+		catch (SQLException e)
+		{
+			respuestaOperacion = e.toString();
+		}
+		
+		finally 
+		{			
+			   try {
+		            if (rs != null) rs.close();
+		            if (stmt != null) stmt.close();
+		        	} 
+		        catch (Exception e) {
+		            e.printStackTrace();
+		        }
+
+		        FactoryConnection.getInstancia().releaseConn();			
+		}
+		
+		return duracionPractica;
 		
 	}
 
