@@ -38,6 +38,8 @@ public class HorarioServlet extends HttpServlet {
 
 		List<Horario> horarios = horServ.getAllActivos();
 		List<Profesional> profesionales = profServ.getAll();
+		
+		//TODO: TRAER EL CONTENIDO DE LA TABLA PRACTICAS-PROFESIONAL. ACA ESTOY TRAYENDO TODAS
 		List<Practica> practicas = prServ.getAllActivas();
 		request.setAttribute("horarios", horarios);
 		request.setAttribute("profesionales", profesionales);

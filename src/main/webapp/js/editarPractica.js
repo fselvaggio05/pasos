@@ -13,17 +13,20 @@ if (actualizarPractica) {
     
     //trae los atributos del link con los valores que se le enviaron 
     const idPractica = a.getAttribute('idPractica')
-    //console.log(idPractica);
     const descripcion=a.getAttribute('descPractica');
-    const equipo=a.getAttribute('equipo');
+    const duracion = a.getAttribute('duracion');
+    const equipo = a.getAttribute('equipo');
     
-	console.log(descripcion);
+    console.log(idPractica);
+	console.log(duracion);
+	console.log(equipo);
     
    
     
 	//traigo los campos en donde voy a mostrar los datos 
     const inputIdPractica = actualizarPractica.querySelector('.modal-body #idPractica');
     const inputDescripcion = actualizarPractica.querySelector('.modal-body #descPractica');
+    const inputDuracion = actualizarPractica.querySelector('.modal-body #duracion');
     const selectEquipo = actualizarPractica.querySelector('.modal-body #equipo');
     
     
@@ -31,7 +34,8 @@ if (actualizarPractica) {
 	//asigno los valores capturados para mostrarlos
     inputIdPractica.value = idPractica;
     inputDescripcion.value = descripcion;
-    selectEquipo = equipo;
+    inputDuracion.value = duracion;
+    selectEquipo.value = equipo;
     
     
   })

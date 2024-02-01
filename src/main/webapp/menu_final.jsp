@@ -27,7 +27,7 @@
           <li><a href="09 - registroTurno.jsp" class="link-dark rounded">Registrar turno</a></li>
           <li><a href="#" class="link-dark rounded">Consulta turnos</a></li>
           <li><a href="#" class="link-dark rounded">Registrar asistencia</a></li>
-          <li><a href="#" class="link-dark rounded">Generar agenda</a></li>
+          <li><a href="generarAgenda" class="link-dark rounded">Generar agenda</a></li>
         </ul>
       </div>
     </li>
@@ -62,6 +62,7 @@
           <li><a href="altaConsultorio.html" class="link-dark rounded">Gestión Consultorios</a></li>
           <li><a href="altaUsuario_admin.jsp" class="link-dark rounded">Gestión Usuarios</a></li>
           <li><a href="horarios" class="link-dark rounded">Gestión Horarios</a></li>
+           <li><a href="" class="link-dark rounded">Gestión Practicas por profesional</a></li>
         </ul>
       </div>
     </li>

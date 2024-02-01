@@ -25,7 +25,7 @@ public class PacienteRepository {
         stmt.executeUpdate();
 
     } catch (SQLException e) {
-        throw new RuntimeException(e);
+        e.toString();
     }
 
     finally {

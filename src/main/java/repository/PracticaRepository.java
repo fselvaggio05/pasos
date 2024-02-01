@@ -39,6 +39,8 @@ public class PracticaRepository {
 					Practica pr = new Practica ();
 					pr.setId_practica(rs.getInt("id_practica"));
 					pr.setDescripcion(rs.getString("descripcion"));
+					pr.setDuracion(rs.getInt("duracion"));
+					pr.setId_equipo(rs.getInt("id_equipo"));
 					pr.setDesc_equipo(rs.getString("e.descripcion"));
 					practicas.add(pr);
 					
@@ -83,6 +85,7 @@ public class PracticaRepository {
 					Practica pr = new Practica ();
 					pr.setId_practica(rs.getInt("id_practica"));
 					pr.setDescripcion(rs.getString("p.descripcion"));
+					pr.setDuracion(rs.getInt("duracion"));
 //					pr.setDesc_equipo(rs.getString("desc_equipo"));
 //					pr.setEstado(rs.getInt("estado"));
 					pr.setFecha_baja(rs.getDate("fecha_baja"));
@@ -117,16 +120,17 @@ public class PracticaRepository {
 	
 	
 
-	public String insertarPractica(Integer idPractica, String descPractica, Integer idEquipo) {
+	public String insertarPractica(Integer idPractica, String descPractica, Integer duracion, Integer idEquipo) {
 		
 					
 		try
 		{
-			stmt= FactoryConnection.getInstancia().getConn().prepareStatement("insert into practica (id_practica, desc_practica, id_equipo,estado) values (?,?,?,?)");
+			stmt= FactoryConnection.getInstancia().getConn().prepareStatement("insert into practica (id_practica, descripcion, duracion, id_equipo, estado) values (?,?,?,?,?)");
 			stmt.setInt(1,idPractica);
 			stmt.setString(2, descPractica);
-			stmt.setInt(3, idEquipo);
-			stmt.setInt(4, 1);
+			stmt.setInt(3, duracion);
+			stmt.setInt(4, idEquipo);
+			stmt.setInt(5, 1);
 			stmt.executeUpdate();
 			respuestaOperacion = "OK";
 		}
@@ -157,7 +161,7 @@ public class PracticaRepository {
 
 
 
-	public String actualizarPractica(Integer idPractica, String descPractica, Integer idEquipo) {
+	public String actualizarPractica(Integer idPractica, String descPractica, Integer duracion, Integer idEquipo) {
 		// TODO Auto-generated method stub
 		
 	
@@ -165,10 +169,11 @@ public class PracticaRepository {
 		try
 		{
 						
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update practica set desc_practica=?, id_equipo=? where id_practica=?");
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update practica set descripcion=?, id_equipo=?, duracion=? where id_practica=?");
 			stmt.setString(1, descPractica);
 			stmt.setInt(2, idEquipo);
-			stmt.setInt(3, idPractica);	
+			stmt.setInt(3, duracion);
+			stmt.setInt(4, idPractica);
 			stmt.executeUpdate();
 			respuestaOperacion= "OK";
 						
@@ -340,6 +345,54 @@ public class PracticaRepository {
 		}
 		
 		return duracionPractica;
+		
+	}
+
+
+
+
+
+	public List<Practica> getPracticasPorProf(Integer matricula) {
+		
+
+		List<Practica> practicasProfesional = new ArrayList<>();
+		
+		try {
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from profesionalespracticas pp inner join profesionales pr on pr.matricula=pp.matricula inner join practica p on p.id_practica=pp.id_practica where pp.matricula=?");
+			stmt.setInt(1, matricula);
+			
+			rs = stmt.executeQuery();
+			while (rs!=null && rs.next())
+			{
+				Practica pr = new Practica ();
+				pr.setId_practica(rs.getInt("p.id_practica"));
+				pr.setDescripcion(rs.getString("p.descripcion"));
+				practicasProfesional.add(pr);			
+				
+			}
+		} 
+		
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+
+	        try {
+	            if (rs != null) rs.close();
+	            if (stmt != null) stmt.close();
+	        	} 
+	        catch (Exception e) {
+	            e.printStackTrace();
+	        }
+
+	        FactoryConnection.getInstancia().releaseConn(); 
+	    }
+		
+		return practicasProfesional;	
+
+		
+		
 		
 	}
 

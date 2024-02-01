@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import conexionDB.FactoryConnection;
 import entity.Horario;
 import repository.HorarioRepository;
+import repository.PracticaRepository;
 
 public class HorarioService {
 	
@@ -16,6 +17,7 @@ public class HorarioService {
 	public HorarioService()
 	{
 		this.horRep = new HorarioRepository();
+		this.prServ = new PracticaService();
 	}
 	
 	

@@ -22,18 +22,18 @@ public class PracticaService {
 		return prRep.getAllActivas();
 	}
 
-	public String insertarPractica(Integer idPractica, String descPractica, Integer idEquipo) {
+	public String insertarPractica(Integer idPractica, String descPractica, Integer duracion, Integer idEquipo) {
 		
-		return respuestaOperacion = prRep.insertarPractica(idPractica,descPractica,idEquipo);
+		return respuestaOperacion = prRep.insertarPractica(idPractica,descPractica,duracion,idEquipo);
 		
 		
 		
 	}
 	
-	public String actualizarPractica(Integer idPractica, String descPractica, Integer idEquipo) {
+	public String actualizarPractica(Integer idPractica, String descPractica, Integer duracion, Integer idEquipo) {
 		// TODO Auto-generated method stub
 		
-		return respuestaOperacion = prRep.actualizarPractica(idPractica, descPractica, idEquipo);
+		return respuestaOperacion = prRep.actualizarPractica(idPractica, descPractica, duracion, idEquipo);
 		
 	}
 
@@ -59,6 +59,12 @@ public class PracticaService {
 	public Integer getDuracionPractica(Integer id_practica) {
 			
 		return 	prRep.getDuracionPractica(id_practica);
+	}
+
+	public List<Practica> getPracticasPorProf(Integer matricula) {
+		
+		List<Practica> practicasProfesional = prRep.getPracticasPorProf(matricula);
+		return practicasProfesional;
 	}
 
 	
