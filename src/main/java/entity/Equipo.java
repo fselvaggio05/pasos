@@ -7,7 +7,7 @@ public class Equipo {
 	protected Integer id_equipo;
 	protected String tipo_equipo; //esto deberia ser un enum
 	protected String descripcion;
-	protected String estado;
+	protected Boolean estado;
 	protected Date fecha_baja;
 	
 	public Equipo()
@@ -17,7 +17,7 @@ public class Equipo {
 	
 	
 	
-	public Equipo(Integer id_equipo, String tipo_equipo, String descripcion, String estado, Date fecha_baja) {
+	public Equipo(Integer id_equipo, String tipo_equipo, String descripcion, Boolean estado, Date fecha_baja) {
 		
 		this.id_equipo = id_equipo;
 		this.tipo_equipo = tipo_equipo;
@@ -46,10 +46,10 @@ public class Equipo {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	public String getEstado() {
+	public Boolean getEstado() {
 		return estado;
 	}
-	public void setEstado(String estado) {
+	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
 	public Date getFecha_baja() {
@@ -58,8 +58,5 @@ public class Equipo {
 	public void setFecha_baja(Date fecha_baja) {
 		this.fecha_baja = fecha_baja;
 	}
-	
-	
-	
 
 }
