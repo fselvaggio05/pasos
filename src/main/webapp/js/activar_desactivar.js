@@ -1,5 +1,5 @@
 /**
- * 
+ script para activar o desactivar 
  */
 
 //trae el modal mediante su id 
@@ -15,14 +15,13 @@ if (activar) {
     
     //trae los atributos del link con los valores que se le enviaron 
     const id = a.getAttribute('id')
+	const descripcion = a.getAttribute('descripcion')
     
-    
-    console.log("llegue a traer el id del horario");
 	console.log(id);
+	console.log(descripcion);
        
 	//traigo los campos en donde voy a mostrar los datos 
     const inputId = activar.querySelector('.modal-body #idEnviado');
-    console.log (inputId);
     const divId = activar.querySelector('.modal-body #idMostrar');
        
         

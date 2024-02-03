@@ -17,7 +17,7 @@ public class PacienteService {
     public void insertarPaciente(Paciente pac) {
 
         usRep.insertarUsuario(pac);
-//        pacRep.insertarPaciente(pac);
+        pacRep.insertarPaciente(pac);
     }
 }
 

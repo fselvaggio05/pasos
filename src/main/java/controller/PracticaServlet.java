@@ -44,9 +44,9 @@ public class PracticaServlet extends HttpServlet {
 			
 		
 		    List<Practica> practicasActivas = prServ.getAllActivas();
-		    List<Practica> practicasInactivas = prServ.getAllInactivas();
-		    
+		    List<Practica> practicasInactivas = prServ.getAllInactivas();		    
 		    List<Equipo> equipos = eqServ.getAll();
+		    
 	        request.setAttribute("practicasA", practicasActivas);
 	        request.setAttribute("practicasI", practicasInactivas);
 	        request.setAttribute("equipos", equipos);
@@ -63,6 +63,7 @@ public class PracticaServlet extends HttpServlet {
 		
 		Integer idPractica;
 		String descPractica;
+		Integer duracion;
 		Integer idEquipo;
 		Integer estado;
 		String mensaje;
@@ -78,8 +79,9 @@ public class PracticaServlet extends HttpServlet {
 
 				idPractica = Integer.parseInt(request.getParameter("idPractica"));
 				descPractica = request.getParameter("descPractica");
+				duracion = Integer.parseInt(request.getParameter("duracion"));
 				idEquipo = Integer.parseInt(request.getParameter("idEquipo"));
-				respuestaOperacion = prServ.insertarPractica(idPractica,descPractica, idEquipo);
+				respuestaOperacion = prServ.insertarPractica(idPractica,descPractica,duracion, idEquipo);
 				break;
 			}
 			
@@ -88,15 +90,16 @@ public class PracticaServlet extends HttpServlet {
 
 				idPractica = Integer.parseInt(request.getParameter("idPractica"));
 				descPractica = request.getParameter("descPractica");
+				duracion = Integer.parseInt(request.getParameter("duracion"));
 				idEquipo = Integer.parseInt(request.getParameter("idEquipo"));
 				
-				respuestaOperacion = prServ.actualizarPractica(idPractica, descPractica, idEquipo);
+				respuestaOperacion = prServ.actualizarPractica(idPractica, descPractica, duracion, idEquipo);
 				break;
 			}
 			
 			case "eliminar":
 			{
-				idPractica = Integer.parseInt(request.getParameter("idPractica"));
+				idPractica = Integer.parseInt(request.getParameter("idEnviado"));
 				estado = Integer.parseInt(request.getParameter("estado"));
 			    respuestaOperacion = prServ.eliminarPractica(idPractica, estado);
 			    break;
@@ -109,7 +112,12 @@ public class PracticaServlet extends HttpServlet {
 		
 		if (respuestaOperacion == "OK")
 		{
-		
+			try {
+				Thread.sleep(60);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			mensaje = "La operacion se ha realizado correctamente";
 			request.setAttribute("mensaje", mensaje);
 			this.doGet(request, response);
@@ -118,6 +126,12 @@ public class PracticaServlet extends HttpServlet {
 		
 		else 
 		{
+			try {
+				Thread.sleep(60);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			mensaje = respuestaOperacion;
 			request.setAttribute("mensaje", mensaje);
 			this.doGet(request, response);

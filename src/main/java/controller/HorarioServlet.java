@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import entity.Horario;
 import entity.Practica;
@@ -19,98 +20,156 @@ import service.HorarioService;
 import service.PracticaService;
 import service.ProfesionalService;
 
+@WebServlet("/horarios")
 
+public class HorarioServlet extends HttpServlet {
 
-
-@WebServlet ("/horarios")
-
-
-public class HorarioServlet extends HttpServlet{
-	
 	protected HorarioService horServ;
 	protected ProfesionalService profServ;
 	protected PracticaService prServ; // vinculo con las practicas para cargarlas en el alta del horario
-	
-	
-	public HorarioServlet()
-	{
+
+	public HorarioServlet() {
 		this.horServ = new HorarioService();
 		this.profServ = new ProfesionalService();
-		this.prServ= new PracticaService();
+		this.prServ = new PracticaService();
 	}
-	
+
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		
 		List<Horario> horarios = horServ.getAllActivos();
 		List<Profesional> profesionales = profServ.getAll();
+		
+		//TODO: TRAER EL CONTENIDO DE LA TABLA PRACTICAS-PROFESIONAL. ACA ESTOY TRAYENDO TODAS
 		List<Practica> practicas = prServ.getAllActivas();
 		request.setAttribute("horarios", horarios);
 		request.setAttribute("profesionales", profesionales);
 		request.setAttribute("practicas", practicas);
-		
-		request.getRequestDispatcher("altaHorario_activo.jsp").forward(request,response);;
-		
-	}
-	
 
-
-
-public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
-	
-	String operacion = request.getParameter("operacion");
-	
-	switch(operacion)
-	{
-	case "buscarProfesional":
-	{
-		Integer matricula = Integer.parseInt(request.getParameter("matricula"));
-		List<Horario> horarios = horServ.getHorariosActivosProfesional(matricula);
-		List<Profesional> profesionales = profServ.getAll();
-		request.setAttribute("profesionales", profesionales);
-		request.setAttribute("horarios", horarios);
 		request.getRequestDispatcher("altaHorario_activo.jsp").forward(request, response);
-
-		break;
-
 		
+
 	}
-	
-	case "altaHorario":
-	{
+
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		String operacion = request.getParameter("operacion");
+		String respuestaOperacion = null;
+		String mensaje1,mensaje2;
+		Integer idHorario;
+		Boolean calculoHorario;
+
+		switch (operacion) {
 		
-		Date desde = null;
-		Date hasta = null;
-		Horario hr = new Horario();
-		hr.setMatricula(Integer.parseInt(request.getParameter("matriculaProf")));
-		hr.setDia_semana(request.getParameter("dia_semana"));
-		try {
-			desde = new SimpleDateFormat("HH:mm").parse(request.getParameter("hora_desde"));
-			hasta = new SimpleDateFormat("HH:mm").parse(request.getParameter("hora_hasta"));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		case "buscarProfesional": 
+		{
+			Integer matricula = Integer.parseInt(request.getParameter("matricula"));
+			List<Horario> horarios = horServ.getHorariosActivosProfesional(matricula);
+			List<Profesional> profesionales = profServ.getAll();
+			request.setAttribute("profesionales", profesionales);
+			request.setAttribute("horarios", horarios);
+			request.getRequestDispatcher("altaHorario_activo.jsp").forward(request, response);
+
+			break;
+
 		}
-		hr.setId_practica(Integer.parseInt(request.getParameter("id_practica")));
-		hr.setHora_desde(desde);
-		hr.setHora_hasta(hasta);
-		horServ.insertarHorario(hr);
-		
+
+		case "altaHorario": {
+
+			Horario hr = new Horario();
 			
+			
+			Date desde = null;
+			Date hasta = null;
+			Integer id_practica = null;
+			
+			
+			id_practica = Integer.parseInt(request.getParameter("id_practica"));	
+			
+			
+			try {
+				desde = new SimpleDateFormat("HH:mm").parse(request.getParameter("hora_desde"));
+				hasta = new SimpleDateFormat("HH:mm").parse(request.getParameter("hora_hasta"));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			calculoHorario = horServ.calculaHorario(id_practica, desde, hasta);		
+			
+			if(calculoHorario == true)
+			{
+				hr.setMatricula(Integer.parseInt(request.getParameter("matriculaProf")));
+				hr.setDia_semana(request.getParameter("dia_semana"));
+				hr.setId_practica(id_practica);
+				hr.setHora_desde(desde);
+				hr.setHora_hasta(hasta);				
+				
+				respuestaOperacion = horServ.insertarHorario(hr);
+				
+				
+			}
+			
+			else {				
+				mensaje2 = "La duracion de la practica no corresponde con el horario ingresado";
+				request.setAttribute("mensaje",mensaje2);
+				
+			}		
+
+			// agregar mensaje por javascript de mensaje hecho ok.
+			break;
+		}
+
+		case "activar": {
+			idHorario = Integer.parseInt(request.getParameter("idEnviado"));
+			respuestaOperacion = horServ.inactivarHorario(idHorario);
+			
+
+			break;
+		}
+
+		case "editar": {
+			
+			Horario hr = new Horario();
+			Date desde= null;
+			Date hasta = null;
+			
+			try {
+				desde = new SimpleDateFormat("HH:mm").parse(request.getParameter("hora_desde"));
+				hasta = new SimpleDateFormat("HH:mm").parse(request.getParameter("hora_hasta"));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			hr.setId_horario(Integer.parseInt(request.getParameter("id_horario")));
+			hr.setDia_semana(request.getParameter("dia_semana"));
+			hr.setId_practica(Integer.parseInt(request.getParameter("id_practica")));
+			hr.setHora_desde(desde);
+			hr.setHora_hasta(hasta);			
 		
-		//agregar mensaje por javascript de mensaje hecho ok.
+			respuestaOperacion = horServ.actualizarHorario(hr);
+			
+			break;
+			
+
+		}
+
+		}
+
+		if (respuestaOperacion == "OK") {
+
+			mensaje1 = "La operacion se ha realizado correctamente";
+			request.setAttribute("mensaje", mensaje1);		
+		}
+
+		else {
+			mensaje1 = respuestaOperacion;
+			request.setAttribute("mensaje", mensaje1);
+		}
+		
 		
 		this.doGet(request, response);
-		break;
-	}
-		
-	}
-	
 
 	}
 
 }
-
-
-

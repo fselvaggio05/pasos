@@ -83,9 +83,9 @@
 														<td><c:out value="${pract.fecha_baja}"></c:out></td>
 
 
-														<td><a href='#' data-bs-toggle='modal'data-bs-target='#eliminarPractica'
-															idPractica="${pract.id_practica}"
-															descPractica="${pract.descripcion}"><i
+														<td><a href='#' data-bs-toggle='modal'data-bs-target='#activar'
+															id="${pract.id_practica}"
+															descripcion="${pract.descripcion}"><i
 																class='bi bi-pencil-fill m-1'></i></a> 
 
 														</td>
@@ -103,7 +103,7 @@
               <!--                     VENTANA MODAL "ELIMINAR PRACTICA" -->
                     
                     
-			<div class="modal fade" id="eliminarPractica" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal fade" id="activar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -119,10 +119,10 @@
 
 								<div class="mb-3">
                                     <label class="col-6">Desea habilitar la practica?</label>
-                                    <input type="hidden"  id="idPractica" name="idPractica">
+                                    <input type="hidden"  id="idEnviado" name="idEnviado">
                                      <input type="hidden" name="estado" value="1">
                                     
-                                    <div  class="fs-4 text-danger" id="descPractica" name="descPractica" >
+                                    <div  class="fs-4 text-danger" id="idMostrar" name="descPractica" >
                                 </div>
                                 
                                 
@@ -148,7 +148,7 @@
         integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
         crossorigin="anonymous"></script>
 <script src="js/editarPractica.js"></script>      
-<script src="js/eliminarPractica.js"></script>          
+<script src="js/activar_desactivar.js"></script>          
        
 </body>
 

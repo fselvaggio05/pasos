@@ -114,11 +114,12 @@
 												<td><c:out value="${hor.hora_desde}"></c:out></td>
 												<td><c:out value="${hor.hora_hasta}"></c:out></td>
 												<td><a href='#' data-bs-toggle='modal'
-													data-bs-target='#delHorario' id="${hor.id_horario}"><i
+													data-bs-target='#activar' id="${hor.id_horario}"><i
 														class='bi bi-trash-fill m-1'></i></a> 
 													<a href='#'
-													data-bs-toggle='modal' data-bs-target='#updPractica'
-													id="${hor.id_horario}"><i class="bi bi-pencil-fill"></i></a></td>
+													data-bs-toggle='modal' data-bs-target='#editar'
+													id="${hor.id_horario}" practica="${hor.desc_practica}" dia_semana="${hor.dia_semana}" hora_desde="${hor.hora_desde}" hora_hasta="${hor.hora_hasta}"><i class="bi bi-pencil-fill"></i></a></td>
+													
 										</tr>
 										</c:forEach>
 
@@ -139,7 +140,7 @@
 
 
 
-
+<!-- 						VENTANA MODAL "AGREGAR" -->
 
 							<div class="modal fade" id="altaHorario" tabindex="-1"
 								aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -208,6 +209,8 @@
 													<label class="col-6">Hora hasta</label> <input type="time"
 														class="form-control col-6" name="hora_hasta" id="hora_hasta">
 												</div>
+												
+											
 
 												<div class="modal-footer">
 													<button type="button" class="btn btn-secondary"
@@ -222,6 +225,119 @@
 
 								</div>
 							</div>
+
+
+
+<!-- 					MENSAJE DE RESPUESTA  -->
+
+							<div class="bg-info fs-4 text-center">
+								<c:out value="${mensaje2}"></c:out>
+							</div>
+
+
+<!--                     VENTANA MODAL "EDITAR" -->
+                    
+                    
+			<div class="modal fade" id="editar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Editar horario</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <form action="horarios" method="post">
+                            <div class="modal-body text-start">
+
+                                <input type="hidden" value="editar" name="operacion">                                
+                                
+                           																
+									<div class="mb-3">
+									
+										<input type="hidden" name="id_horario" id="id_horario" readOnly>
+										
+										<select class="col-3 form-select" name="id_practica" id="id_practica">
+											<option value="1">Seleccione una practica</option>
+											<c:forEach var="pract" items="${practicas}">															
+												<option value="${pract.id_practica}"><c:out value="${pract.descripcion}"></c:out></option>
+											</c:forEach>	
+										</select>
+									</div>
+	
+									<div class="mb-3">
+										<label class="col-6">Dia de la semana</label>
+										 <select class="col-3 form-select" id="dia_semana" name="dia_semana">
+											<option value="Lu">Lunes</option>
+											<option value="Ma">Martes</option>
+											<option value="Mi">Miercoles</option>
+											<option value="Ju">Jueves</option>
+											<option value="Vi">Viernes</option>
+											<option value="Sa">Sabado</option>
+	
+										</select>
+									</div>
+	
+									<div class="mb-3">
+										<label class="col-6">Hora desde</label> <input type="time"
+											class="form-control col-6" name="hora_desde" id="hora_desde">
+									</div>
+	
+									<div class="mb-3">
+										<label class="col-6">Hora hasta</label> <input type="time"
+											class="form-control col-6" name="hora_hasta" id="hora_hasta">
+									</div>
+	
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Cancelar</button>
+										<button type="submit" class="btn btn-primary">Guardar</button>
+									</div>
+									 
+
+                            </div>
+                        </form>
+                    </div>
+                 </div>
+              </div>
+              
+							
+							
+							  
+              <!--                     VENTANA MODAL "ELIMINAR" -->
+                    
+                    
+			<div class="modal fade" id="activar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Advertencia</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <form action="horarios" method="post">
+                            <div class="modal-body">
+
+								<input type="hidden" value="activar" name="operacion">
+                               
+
+								<div class="mb-3">
+                                    <label class="col-6">Desea inactivar el horario?</label>
+                                    <input type="hidden"  id="idEnviado" name="idEnviado">
+                                                                        
+                           
+                                </div>
+                                
+                                
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                 </div>
+              </div>
+            
 
 
 
@@ -240,9 +356,9 @@
 	integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
 	crossorigin="anonymous"></script>
 	
-	<script src="js/buscarProfesionalPorMatricula.js">
-
-</script>
+	<script src="js/activar_desactivar.js"></script>
+	<script src="js/editarHorario.js"></script>
+	
 </body>
 
 </html>

@@ -66,6 +66,7 @@
 											<tr>
 												<th scope="col">ID Practica</th>
 												<th scope="col">Descripcion</th>
+												<th scope="col">Duracion</th>
 												<th scope="col">Equipo</th>
 												<th scope="col">Operaciones</th>
 
@@ -80,14 +81,15 @@
 													<tr>
 														<td><c:out value="${pract.id_practica}"></c:out></td>
 														<td><c:out value="${pract.descripcion}"></c:out></td>
+														<td><c:out value="${pract.duracion}"></c:out></td>
 														<td><c:out value="${pract.desc_equipo}"></c:out></td>
 														
 
 
 
-														<td><a href='#' data-bs-toggle='modal'data-bs-target='#eliminarPractica'
-															idPractica="${pract.id_practica}"
-															descPractica="${pract.descripcion}"><i
+														<td><a href='#' data-bs-toggle='modal'data-bs-target='#activar'
+															id="${pract.id_practica}"
+															descripcion="${pract.descripcion}"><i
 																class='bi bi-trash-fill m-1'></i></a> 
 															
 															<a href='#'
@@ -95,8 +97,9 @@
 															data-bs-target='#actualizarPractica'
 															idPractica="${pract.id_practica}"
 															descPractica="${pract.descripcion}"
-															equipo="${pract.id_equipo}"><i
-																class="bi bi-pencil-fill"></i></a></td>
+															equipo="${pract.id_equipo}"
+															duracion = "${pract.duracion}"><i
+																class="bi bi-pencil-fill" onclick=""></i></a></td>
 													<tr>
 												</c:forEach>
 											</tr>
@@ -106,7 +109,7 @@
 															
 									<div class="row justify-content-end">
 						                <button type="button" class="btn btn-success col-2 m-1" data-bs-toggle="modal"
-						                        data-bs-target="#altaPractica" data-bs-whatever="@mdo">Agregar practica</button>
+						                        data-bs-target="#altaPractica" data-bs-whatever="@mdo" onclick="mensaje()">Agregar practica</button>
 						                <button type="button" class="btn btn-success col-2 m-1">Cancelar</button>
 						            </div>
             
@@ -121,10 +124,14 @@
           	
 <!--             MENSAJE DE OPERACION, cambiarlo por un modal con javascript -->
 
-
+			<c:if test="${mensaje}!=null">			
+				<script> alert("${mensaje}""))</script>
+			</c:if>
+			
             <div class="bg-info fs-4 text-center">
-           		 <c:out value="${mensaje}"></c:out>
+           		<c:out value="${mensaje}"></c:out> 
             </div>
+            
             
             
 
@@ -136,7 +143,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
 
-                        <form action="practicas" method="post">
+                        <form action="practicas" method="post" onsubmit="mensaje()">
                             <div class="modal-body">
 
                                 <input type="hidden" value="alta" name="operacion">
@@ -151,6 +158,11 @@
                                     <input type="text" class="form-control col-6" name="descPractica" >
                                 </div>
 
+								<div class="mb-3">
+                                    <label class="col-6">Duracion:</label>
+                                    <input type="text" class="form-control col-6" name="duracion" >
+                                </div>
+								
 
                                 <div class="mb-3">
                                     <label class="col-6">Equipo:</label>
@@ -195,7 +207,7 @@
 
 								<div class="mb-3">
                                     <label class="col-6">ID Practica:</label>
-                                    <input type="text" class="form-control col-6" id="idPractica" name="idPractica" readOnly><c:out value="${pract.id_practica}"></c:out>
+                                    <input type="text" class="form-control col-6" id="idPractica" name="idPractica" readOnly>
                                 </div>
                                 
                                 <div class="mb-3">
@@ -203,12 +215,15 @@
                                     <input type="text" class="form-control col-6" id="descPractica" name="descPractica" >
                                 </div>
 
+								<div class="mb-3">
+                                    <label class="col-6">Duracion:</label>
+                                    <input type="text" class="form-control col-6" id="duracion" name="duracion" >
+                                </div>
 
                                 <div class="mb-3">
                                     <label class="col-6">Equipo:</label>
                                    <select class="form-select col-6" id="equipo" name="idEquipo">
-                                   	<option value="1">Seleccione un equipo</option>
-
+                                   	<option value="">Seleccione un equipo</option>
                                     		<c:forEach var="equip" items="${equipos}" >
                                     			<option value="<c:out value="${equip.id_equipo}"></c:out>"><c:out value="${equip.descripcion}"></c:out></option>
                                     		</c:forEach>
@@ -235,7 +250,7 @@
               <!--                     VENTANA MODAL "ELIMINAR PRACTICA" -->
                     
                     
-			<div class="modal fade" id="eliminarPractica" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal fade" id="activar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -251,10 +266,10 @@
 
 								<div class="mb-3">
                                     <label class="col-6">Desea eliminar la practica?</label>
-                                    <input type="hidden"  id="idPractica" name="idPractica">
+                                    <input type="hidden"  id="idEnviado" name="idEnviado">
                                      <input type="hidden" name="estado" value="0">
                                     
-                                    <div  class="fs-4 text-danger" id="descPractica" name="descPractica" >
+                                    <div  class="fs-4 text-danger" id="idMostrar" name="descPractica" >
                                 </div>
                                 
                                 
@@ -280,7 +295,8 @@
         integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
         crossorigin="anonymous"></script>
 <script src="js/editarPractica.js"></script>      
-<script src="js/eliminarPractica.js"></script>          
+<script src="js/activar_desactivar.js"></script>
+<script src="js/mostrarMensaje.js"></script>           
        
 </body>
 

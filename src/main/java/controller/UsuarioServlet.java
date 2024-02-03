@@ -27,7 +27,14 @@ public class UsuarioServlet extends HttpServlet {
 
     public ProfesionalService profServ;
 
+    
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	
+    		request.getRequestDispatcher("usuarios").forward(request,response);
+    }
 
+    
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -56,10 +63,10 @@ public class UsuarioServlet extends HttpServlet {
 
             case 2: { //TODO REVISAR MATRICULA QUE LLEGA EN NULL
                
-                    String matricula = request.getParameter("matricula");
+                    Integer matricula = Integer.parseInt(request.getParameter("matricula"));
                     Profesional prof;
 					try {
-						prof = new Profesional(Integer.parseInt(request.getParameter("dni")), request.getParameter("nombre"), request.getParameter("apellido"), request.getParameter("email"), request.getParameter("fechaNac"), request.getParameter("telefono"), request.getParameter("clave"), request.getParameter("genero") ,request.getParameter("matricula"));
+						prof = new Profesional(Integer.parseInt(request.getParameter("dni")), request.getParameter("nombre"), request.getParameter("apellido"), request.getParameter("email"), request.getParameter("fechaNac"), request.getParameter("telefono"), request.getParameter("clave"), request.getParameter("genero") , matricula);
 						ProfesionalService profServ = new ProfesionalService();
 		                profServ.insertarProfesional(prof);
 
@@ -90,11 +97,17 @@ public class UsuarioServlet extends HttpServlet {
             
                
             }
+            
 
         }
+        
+        
+        request.getRequestDispatcher("altaUsuario_admin.jsp").forward(request,response);
+        
+       
     
       
-        request.getRequestDispatcher("usuarios").forward(request,response);
+        
     }
 
 }

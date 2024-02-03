@@ -8,7 +8,7 @@ public class Profesional extends Usuario {
 
     private Integer matricula;
 
-    public Profesional(Integer dni, String nombre, String apellido, String email, String fechaNac, String telefono, String clave, String genero, String matricula) throws ParseException {
+    public Profesional(Integer dni, String nombre, String apellido, String email, String fechaNac, String telefono, String clave, String genero, Integer matricula) throws ParseException {
 
         this.setDni(dni);
         this.setNombre(nombre);
@@ -20,8 +20,7 @@ public class Profesional extends Usuario {
         this.setTelefono(telefono);
         this.setClave(clave);
         this.setGenero(genero);
-        this.matricula=Integer.parseInt(matricula);
-
+        this.setMatricula(matricula);
 
     }
 

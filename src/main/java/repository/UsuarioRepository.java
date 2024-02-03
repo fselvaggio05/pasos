@@ -6,6 +6,7 @@ import entity.Usuario;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 
@@ -79,8 +80,8 @@ public class UsuarioRepository {
             stmt.executeUpdate();
         }
 
-        catch (Exception e) {
-            throw new RuntimeException(e);
+        catch (SQLException e) {
+           e.toString();
         }
 
         finally {

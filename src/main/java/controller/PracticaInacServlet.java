@@ -81,7 +81,7 @@ public class PracticaInacServlet extends HttpServlet {
 			
 			case "eliminar":
 			{
-				idPractica = Integer.parseInt(request.getParameter("idPractica"));
+				idPractica = Integer.parseInt(request.getParameter("idEnviado"));
 			    respuestaOperacion = prServ.habilitarPractica(idPractica);
 			    break;
 			}

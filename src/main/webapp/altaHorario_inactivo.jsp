@@ -118,7 +118,7 @@
 												<td><c:out value="${hor.fecha_baja}"></c:out></td>
 												<td><a href='#'
 													data-bs-toggle='modal' data-bs-target='#activar'
-													id='"${hor.id_horario}"'><i class="bi bi-pencil-fill"></i></a></td>
+													id="${hor.id_horario}"><i class="bi bi-pencil-fill"></i></a></td>
 										    </tr>
 											</c:forEach>
 											
@@ -128,6 +128,9 @@
 									</table>
 								</div>
 								
+								
+								
+<!-- 								VENTANA MODAL "ACTIVAR" -->
 								
 								
 			<div class="modal fade" id="activar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -141,7 +144,7 @@
                         <form action="horariosIn" method="post">
                             <div class="modal-body">
 
-								<input type="hidden" value="activarHorario" name="operacion">
+								<input type="hidden" value="activar" name="operacion">
                                
 
 								<div class="mb-3">
@@ -150,7 +153,7 @@
 <!--                                     en este campo voy a guardar el valor del idHorario para enviarlo al servlet -->
                                     <input type="hidden"  id="idEnviado" name="idEnviado"> 
                                     
-                                    <div  class="fs-4 text-danger" id="idMostrar" name="idMostrar" >
+<!--                                     <div  class="fs-4 text-danger" id="idMostrar" name="idMostrar" > -->
                                 </div>
                                 
                                 
@@ -178,7 +181,7 @@
 	integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
 	crossorigin="anonymous"></script>
 	
-	<script src="js/activar.js"></script>
+	<script src="js/activar_desactivar.js"></script>
 </body>
 
 </html>

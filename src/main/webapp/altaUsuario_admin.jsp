@@ -93,10 +93,10 @@
                         <input type="text" name="telefono" class="form-control">
                     </div>
 
-                    <div class="col-3">Contraseña</div>
+                    <div class="col-3">Contrase�a</div>
                     <div class="col-3 mb-3">
 
-                        <input type="text" name="telefono" class="form-control">
+                        <input type="text" name="clave" class="form-control">
 
                     </div>
 
@@ -104,10 +104,10 @@
 
 
                 <div class="row">
-                    <div class="col-1">Género</div>
+                    <div class="col-1">Genero</div>
 
                     <div class="col-4">
-                        <select class="col-3 form-select" name="genero" onchange="">
+                        <select class="col-3 form-select" name="genero" >
                             <option value="1">Femenino</option>
                             <option value="2">Masculino</option>
                             <option value="3">No binario</option>
@@ -116,7 +116,7 @@
 
                     <div class="col-3">Tipo de usuario</div>
                     <div class="col-3 mb-3">
-                        <select class="col-3 form-select" name="tipoUsuario" onchange="">
+                        <select class="col-3 form-select" name="tipoUsuario" >
                             <option value="1">Administrador</option>
                             <option value="2">Profesional</option>
                             <option value="3">Paciente</option>
@@ -130,10 +130,10 @@
                 <div class="row">
                     <div class="d-flex justify-content-end col-7">
                         <button type="button" class="btn btn-outline-success btn-sm m-2" data-bs-toggle="modal" data-bs-target="#exampleModalPac" data-bs-whatever="@mdo">Datos Paciente</button>
+						
 
 
-
-                        <div class="modal fade" id="exampleModalPac" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        <div class="modal fade" id="exampleModalPac" tabindex="-1" aria-labelledby="exampleModalLabelPac"
                              aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -159,7 +159,7 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="nroAfiliado" class="col-form-label">Numero de afiliado:</label>
-                                                <input type="number" class="form-control" name="nroAfiliado"></textarea>
+                                                <input type="number" class="form-control" name="nroAfiliado">
                                             </div>
                                         </form>
                                     </div>
@@ -177,7 +177,7 @@
 
                         <button type="button" class="btn btn-outline-success btn-sm m-2" data-bs-toggle="modal" data-bs-target="#exampleModalProf" data-bs-whatever="@mdo">Datos Profesional </button>
 
-                        <div class="modal fade" id="exampleModalProf" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        <div class="modal fade" id="exampleModalProf" tabindex="-1" aria-labelledby="exampleModalLabelProf"
                              aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -190,7 +190,8 @@
                                         <form>
                                             <div class="mb-3">
                                                 <label for="matricula" class="col-form-label">Numero de matricula:</label>
-                                                <input type="number" class="form-control" name="matricula">
+                                                <input type="text" class="form-control" name="matricula">
+                                                
                                             </div>
                                         </form>
                                     </div>
