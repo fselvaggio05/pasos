@@ -105,8 +105,9 @@
 									</thead>
 									<tbody>
 
-										<tr>
+										
 											<c:forEach var="hor" items="${horarios}">
+											<tr>
 												<td><c:out value="${hor.matricula}"></c:out></td>
 												<td><c:out value="${hor.apellido_profesional}"></c:out></td>
 												<td><c:out value="${hor.desc_practica}"></c:out></td>
@@ -119,9 +120,11 @@
 													<a href='#'
 													data-bs-toggle='modal' data-bs-target='#editar'
 													id="${hor.id_horario}" practica="${hor.desc_practica}" dia_semana="${hor.dia_semana}" hora_desde="${hor.hora_desde}" hora_hasta="${hor.hora_hasta}"><i class="bi bi-pencil-fill"></i></a></td>
+											</tr>
+											</c:forEach>
 													
-										</tr>
-										</c:forEach>
+										
+										
 
 
 
@@ -165,16 +168,7 @@
 																value="${prof.apellido}, ${prof.nombre}"></c:out></option>
 													</c:forEach>
 												</select>
-												<!-- 												<div class="mb-3"> -->
-<!-- 													<label class="col-3">Matricula</label> <input type="text" -->
-<!-- 														class="form-control col-6" name="matricula" id="matricula"> -->
-
-<!-- 												</div> -->
-
-<!-- 												<div class="mb-3"> -->
-<!-- 													<label class="col-3">Apellido</label> <input type="text" -->
-<!-- 														class="form-control col-6" name="apellido" id="apellido"> -->
-<!-- 												</div> -->
+												
 
 												<div class="mb-3">
 													<label class="col-6">Practica</label>
@@ -341,7 +335,7 @@
 
 
 
-						</div>
+		</div>
 
 
 

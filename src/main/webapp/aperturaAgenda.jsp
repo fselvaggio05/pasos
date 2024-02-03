@@ -35,7 +35,7 @@
                         <h5 class="text-center mb-5 fw-bold ">Horarios profesionales</h4>
                 
                        
-                
+                		
                             <table class="table table-striped my-2">
                                 <thead>
                                     <tr>
@@ -51,33 +51,133 @@
                 
                                 </thead>
                                 <tbody>
-                                                  
+                                   
+                                   
+                                 <c:forEach var="hor" items="${horarios}">
                                     <tr>
                                         <td> 
                                             <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
                                         </td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        
+                                       		    <td><c:out value="${hor.matricula}"></c:out></td>
+												<td><c:out value="${hor.apellido_profesional}"></c:out></td>
+												<td><c:out value="${hor.desc_practica}"></c:out></td>
+												<td><c:out value="${hor.dia_semana}"></c:out></td>
+												<td><c:out value="${hor.hora_desde}"></c:out></td>
+												<td><c:out value="${hor.hora_hasta}"></c:out></td>
+                                        
                                      
                                     </tr>
+                                  </c:forEach>               
                                     
                                    
                                 </tbody>
                             </table>
                     </div>
-                    <div class="container text-end">
-                        <button type="reset" class="btn btn-success col-3 justify-content-end" >Eliminar seleccionados</button>
-                        <button type="button" class="btn btn-success col-2 justify-content-end">Generar</button>
-                            <!-- este boton va a mostrar un mensaje de confirmacion con los horarios a generar -->
-                            <button type="button" class="btn btn-success col-2 justify-content-end">Cancelar</button>
+                  
+                    <div class="container text-end mb-3">
+								<button type="button"
+									class="btn btn-success col-2 justify-content-end"
+									data-bs-toggle="modal" data-bs-target="#eliminarSeleccion"
+									>Eliminar seleccionados
+								</button>
+								
+								<button type="button"
+									class="btn btn-success col-2 justify-content-end"
+									data-bs-toggle="modal" data-bs-target="#generarAgenda"
+									>Generar agenda
+								</button>
+								
+								<button type="button"
+									class="btn btn-success col-2 justify-content-end">Cancelar
+								</button>
+					</div>
+					
+					
+					
+					
+					
+<!-- 					VENTANA MODAL - ELIMINAR SELECCION -->
+
+			<div class="modal fade" id="eliminarSeleccion" tabindex="-1" aria-labelledby="eliminarSeleccion" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="eliminarSeleccion">Advertencia</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <form action="generarAgendas" method="post">
+                            <div class="modal-body">
+								<input type="hidden" value="eliminar" name="operacion">
+                               
+
+								<div class="mb-3">
+                                    <label class="fw-bold fs-5">Desea eliminar los horarios seleccionados?</label>
+                                    
+<!--                                     	TODO: mostrar los horarios que se van a eliminar? -->
+
+                                    <input type="hidden"  id="idEnviado" name="idEnviado">                                        
+                           
+                                </div>
+                                
+                                
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
+                 </div>
+              </div>
+              
+              
+              
+<!--               VENTANA GENERAR AGENDA -->
+
+				<div class="modal fade" id="generarAgenda" tabindex="-1"
+					aria-labelledby="eliminarSeleccion" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h1 class="modal-title fs-5" id="eliminarSeleccion">Advertencia</h1>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
+
+							<form action="generarAgendas" method="post">
+								<div class="modal-body">
+									<input type="hidden" value="generar" name="operacion">
 
 
-                </div>            
+									<div class="mb-3">
+										<label class="fw-bold fs-5">Confirmar generacion agenda de los profesionales: ...</label>
+
+										<!--                                     	TODO: mostrar los horarios que se van a eliminar? -->
+
+										<input type="hidden" id="idEnviado" name="idEnviado">
+
+									</div>
+
+
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Cancelar</button>
+										<button type="submit" class="btn btn-primary">Guardar</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+
+
+
+
+
+			</div>            
             </div>
             
 
