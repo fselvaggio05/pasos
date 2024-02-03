@@ -227,4 +227,5 @@
 		<script src="js/eliminarEquipo.js"></script>
 		<script src="js/toggle.js"></script>
 	</body>
+	
 </html>
