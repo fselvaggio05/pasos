@@ -1,4 +1,4 @@
-<%@page import="entity.Equipo"%>
+<%@page import="entity.Consultorio"%>
 <%@ page import="java.util.List"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 
@@ -20,7 +20,7 @@
 				<div class="col-9">
 					<div class="container">
 						<div>
-							<h4 class="text-center my-5 text-decoration-underline fw-bold ">Listado	de Equipos</h4>
+							<h4 class="text-center my-5 text-decoration-underline fw-bold ">Listado	de Consultorios</h4>
 							<div class="row justify-content-center mt-3">
 								<div class="card text-center">
 									<div class="toggle-switch">
@@ -32,27 +32,25 @@
                                 		</label>
                             		</div>
                             		<div class="card-body">
-                            			<!-- Tabla de equipos activos -->
+                            			<!-- Tabla de Consultorios activos -->
 		                                <table id="tablaActivos" class="table table-striped my-2">
 		                                    <thead>
 		                                        <tr>
-		                                            <th scope="col">Codigo de Equipo</th>
-		                                            <th scope="col">Tipo de Equipo</th>
+		                                            <th scope="col">Codigo de Consultorio</th>
 		                                            <th scope="col">Descripcion</th>
 		                                            <th scope="col">Operaciones</th>
 		                                        </tr>
 		                                    </thead>
 		                                    <tbody>
-		                                        <c:forEach var="unEquipo" items="${tablaEquiposActivos}">
+		                                        <c:forEach var="unConsultorio" items="${tablaConsultoriosActivos}">
 		                                            <tr>
-		                                                <td><c:out value="${unEquipo.id_equipo}"/></td>
-		                                                <td><c:out value="${unEquipo.tipo_equipo}"/></td>
-		                                                <td><c:out value="${unEquipo.descripcion}"/></td>
+		                                                <td><c:out value="${unConsultorio.id_consultorio}"/></td>
+		                                                <td><c:out value="${unConsultorio.descripcion}"/></td>
 		                                                <td>
-		                                                	<a href='#' data-bs-toggle='modal' data-bs-target='#eliminarEquipo' idEquipo="${unEquipo.id_equipo}" descEquipo="${unEquipo.descripcion}">
+		                                                	<a href='#' data-bs-toggle='modal' data-bs-target='#eliminarConsultorio' idConsultorio="${unConsultorio.id_consultorio}" descConsultorio="${unConsultorio.descripcion}">
     															<i class='bi bi-trash-fill m-1'></i>
 															</a> 
-															<a href='#' data-bs-toggle='modal' data-bs-target='#actualizarEquipo' idEquipo="${unEquipo.id_equipo}" tipoEquipo="${unEquipo.tipo_equipo}" descEquipo="${unEquipo.descripcion}">
+															<a href='#' data-bs-toggle='modal' data-bs-target='#actualizarConsultorio' idConsultorio="${unConsultorio.id_consultorio}" descConsultorio="${unConsultorio.descripcion}">
 																<i class="bi bi-pencil-fill"></i>
 															</a>
 		                                                </td>
@@ -60,24 +58,22 @@
 		                                        </c:forEach>
 		                                    </tbody>
 		                                </table>
-		                                <!-- Tabla de equipos inactivos -->
+		                                <!-- Tabla de consultorios inactivos -->
 		                                <table id="tablaInactivos" class="table table-striped my-2" style="display: none;">
 		                                    <thead>
 		                                        <tr>
-		                                            <th scope="col">Codigo de Equipo</th>
-		                                            <th scope="col">Tipo de Equipo</th>
+		                                            <th scope="col">Codigo de Consultorio</th>
 		                                            <th scope="col">Descripcion</th>
 		                                            <th scope="col">Operaciones</th>
 		                                        </tr>
 		                                    </thead>
 		                                    <tbody>
-		                                        <c:forEach var="unEquipo" items="${tablaEquiposInactivos}">
+		                                        <c:forEach var="unConsultorio" items="${tablaConsultoriosInactivos}">
 		                                            <tr>
-		                                                <td><c:out value="${unEquipo.id_equipo}"/></td>
-		                                                <td><c:out value="${unEquipo.tipo_equipo}"/></td>
-		                                                <td><c:out value="${unEquipo.descripcion}"/></td>
+		                                                <td><c:out value="${unConsultorio.id_consultorio}"/></td>
+		                                                <td><c:out value="${unConsultorio.descripcion}"/></td>
 		                                                <td>
-		                                                	<a href='#' data-bs-toggle='modal'data-bs-target='#revivirEquipo' idEquipo="${unEquipo.id_equipo}" descEquipo="${unEquipo.descripcion}">
+		                                                	<a href='#' data-bs-toggle='modal'data-bs-target='#revivirConsultorio' idConsultorio="${unConsultorio.id_consultorio}" descConsultorio="${unConsultorio.descripcion}">
 		                                                		<i class='bi bi-heart-fill m-1'></i>
 		                                                	</a> 
 		                                                </td>
@@ -86,7 +82,7 @@
 		                                    </tbody>
 		                                </table>
 		                                <div class="row justify-content-end">
-		                                	<button type="button" class="btn btn-success col-2 m-1" data-bs-toggle="modal" data-bs-target="#altaEquipo" data-bs-whatever="@mdo">Agregar Equipo</button>
+		                                	<button type="button" class="btn btn-success col-2 m-1" data-bs-toggle="modal" data-bs-target="#altaConsultorio" data-bs-whatever="@mdo">Agregar Consultorio</button>
 		                                	<button type="button" class="btn btn-success col-2 m-1">Cancelar</button>
 		                                </div>
                             		</div>
@@ -101,29 +97,19 @@
 		<div class="bg-info fs-4 text-center">
 			<c:out value="${mensaje}"></c:out>
         </div>
-		<div class="modal fade" id="altaEquipo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal fade" id="altaConsultorio" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="exampleModalLabel">
-							Nuevo Equipo
-						</h1>
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Nuevo Consultorio</h1>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
-					<form action="equipos" method="post">
+					<form action="consultorios" method="post">
 						<div class="modal-body">
 							<input type="hidden" value="alta" name="operacion">
 							<div class="mb-3">
-								<label class="col-6">Codigo Equipo:</label>
-                                <input type="text"  class="form-control col-6" name="idEquipo">
-                            </div>
-							<div class="mb-3">
-								<label class="col-6">Tipo Equipo:</label>
-	                            <input type="text" class="form-control col-6" name="tipoEquipo">
-							</div>
-							<div class="mb-3">
-								<label class="col-6">Descripcion equipo:</label>
-	                            <input type="text" class="form-control col-6" name="descEquipo">
+								<label class="col-6">Descripcion consultorio:</label>
+	                            <input type="text" class="form-control col-6" name="descConsultorio">
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -134,31 +120,26 @@
 				</div>
 			</div>
 		</div>
-		<!--                     VENTANA MODAL "EDITAR EQUIPO" -->
-		<div class="modal fade" id="actualizarEquipo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<!--                     VENTANA MODAL "EDITAR CONSULTORIO" -->
+		<div class="modal fade" id="actualizarConsultorio" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="exampleModalLabel">Editar Equipo</h1>
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Editar Consultorio</h1>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
-					<form action="equipos" method="post">
+					<form action="consultorios" method="post">
 						<div class="modal-body">
 							<input type="hidden" value="actualizar" name="operacion">
 							<div class="mb-3">
-								<label class="col-6">Codigo Equipo:</label>
-                                <input type="text" class="form-control col-6" id="idEquipo" name="idEquipo" readOnly>
-                                <c:out value="${unEquipo.id_equipo}"></c:out>								
+								<label class="col-6">Codigo Consultorio:</label>
+                                <input type="text" class="form-control col-6" id="idConsultorio" name="idConsultorio" readOnly>
+                                <c:out value="${unConsultorio.id_consultorio}"></c:out>								
 							</div>
 							<div class="mb-3">
-								<label class="col-6">Tipo Equipo:</label>
-                                <input type="text" class="form-control col-6" id="tipoEquipo" name="tipoEquipo">
-                                <c:out value="${unEquipo.tipo_equipo}"></c:out>
-							</div>
-							<div class="mb-3">
-								<label class="col-6">Descripcion Equipo:</label>
-                                <input type="text" class="form-control col-6" id="descEquipo" name="descEquipo">
-                                <c:out value="${unEquipo.descripcion}"></c:out>
+								<label class="col-6">Descripcion Consultorio:</label>
+                                <input type="text" class="form-control col-6" id="descConsultorio" name="descConsultorio">
+                                <c:out value="${unConsultorio.descripcion}"></c:out>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -169,22 +150,22 @@
 				</div>
 			</div>
 		</div>
-		<!--                     VENTANA MODAL "ELIMINAR EQUIPO" -->
-		<div class="modal fade" id="eliminarEquipo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<!--                     VENTANA MODAL "ELIMINAR CONSULTORIO" -->
+		<div class="modal fade" id="eliminarConsultorio" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h1 class="modal-title fs-5" id="exampleModalLabel">Advertencia</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
-					<form action="equipos" method="post">
+					<form action="consultorios" method="post">
 					    <div class="modal-body">
 					        <input type="hidden" value="eliminar" name="operacion">
-					        <input type="hidden" id="idEquipo" name="idEquipo">
+					        <input type="hidden" id="idConsultorio" name="idConsultorio">
 					        <div class="mb-3">
-					            <label class="col-6">¿Desea eliminar el equipo?</label>
-					            <input type="hidden"  id="idEquipo" name="idEquipo">
-								<div  class="fs-4 text-danger" id="descEquipo" name="descEquipo"></div>
+					            <label class="col-6">¿Desea anular el consultorio?</label>
+					            <input type="hidden"  id="idConsultorio" name="idConsultorio">
+								<div  class="fs-4 text-danger" id="descConsultorio" name="descConsultorio"></div>
 					            <div class="modal-footer">
 					                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
 					                <button type="submit" class="btn btn-primary">Guardar</button>
@@ -195,22 +176,22 @@
 				</div>
 			</div>
 		</div>
-		<!--                     VENTANA MODAL "REVIVIR EQUIPO" -->
-		<div class="modal fade" id="revivirEquipo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<!--                     VENTANA MODAL "REVIVIR CONSULTORIO" -->
+		<div class="modal fade" id="revivirConsultorio" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h1 class="modal-title fs-5" id="exampleModalLabel">Advertencia</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
-					<form action="equipos" method="post">
+					<form action="consultorios" method="post">
 					    <div class="modal-body">
 					        <input type="hidden" value="revivir" name="operacion">
-					        <input type="hidden" id="idEquipo" name="idEquipo">
+					        <input type="hidden" id="idConsultorio" name="idConsultorio">
 					        <div class="mb-3">
-					            <label class="col-6">¿Desea reactivar el equipo?</label>
-					            <input type="hidden"  id="idEquipo" name="idEquipo">
-								<div  class="fs-4 text-danger" id="descEquipo" name="descEquipo"></div>
+					            <label class="col-6">¿Desea restablecer el consultorio?</label>
+					            <input type="hidden"  id="idConsultorio" name="idConsultorio">
+								<div  class="fs-4 text-danger" id="descConsultorio" name="descConsultorio"></div>
 					            <div class="modal-footer">
 					                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
 					                <button type="submit" class="btn btn-primary">Guardar</button>

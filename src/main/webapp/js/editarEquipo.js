@@ -2,6 +2,7 @@
 
 //trae el modal mediante su id 
 const actualizarEquipo = document.getElementById('actualizarEquipo')
+const actualizarConsultorio = document.getElementById('actualizarConsultorio');
 
 // verifica que exista el modal, si existe ingresa al if
 if (actualizarEquipo) {
@@ -31,4 +32,28 @@ if (actualizarEquipo) {
     
     
   })
+}
+
+if (actualizarConsultorio) {
+    // Agrega un evento onload al modal, cuando el modal se levante ejecuta la siguiente función
+    actualizarConsultorio.addEventListener('show.bs.modal', event => {
+        
+        // Trae el link que levantó el modal
+        const a = event.relatedTarget
+        
+        // Trae los atributos del link con los valores que se le enviaron 
+        const idConsultorio = a.getAttribute('idConsultorio');
+        const descripcion = a.getAttribute('descConsultorio');
+        
+        // Traigo el formulario dentro del modal
+        const form = actualizarConsultorio.querySelector('form');
+        
+        // Busco los campos en donde voy a mostrar los datos dentro del formulario
+        const inputIdConsultorio = form.querySelector('#idConsultorio');
+        const inputDescripcion = form.querySelector('#descConsultorio');    
+
+        // Asigno los valores capturados para mostrarlos
+        inputIdConsultorio.value = idConsultorio;
+        inputDescripcion.value = descripcion;
+    });
 }
