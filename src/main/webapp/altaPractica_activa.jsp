@@ -122,18 +122,31 @@
 
 
           	
-<!--             MENSAJE DE OPERACION, cambiarlo por un modal con javascript -->
+<!--             MENSAJE DE OPERACION -->
 
-			<c:if test="${mensaje}!=null">			
-				<script> alert("${mensaje}""))</script>
-			</c:if>
+			<c:if test="${mensaje !=null }">
+			    <div class="modal fade" id="mensajeOK" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			        <div class="modal-dialog">
+			            <div class="modal-content">
+			                <div class="modal-header">
+			                    <h1 class="modal-title fs-5" id="exampleModalLabel">Mensaje OK!</h1>
+			                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			                </div>
 			
-            <div class="bg-info fs-4 text-center">
-           		<c:out value="${mensaje}"></c:out> 
-            </div>
-            
-            
-            
+			                <div class="modal-body">
+			                    <p>${mensaje}.</p>
+			                </div>
+			                <div class="modal-footer">
+			                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			                </div>
+			                <div></div>
+			            </div>
+			        </div>
+			    </div>
+			    <script>
+			        new bootstrap.Modal(document.getElementById('mensajeOK')).show();
+			    </script>
+			</c:if>            
 
             <div class="modal fade" id="altaPractica" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
