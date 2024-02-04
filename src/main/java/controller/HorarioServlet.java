@@ -54,7 +54,7 @@ public class HorarioServlet extends HttpServlet {
 
 		String operacion = request.getParameter("operacion");
 		String respuestaOperacion = null;
-		String mensaje1,mensaje2;
+		String mensaje, mensaje2;
 		Integer idHorario;
 		Boolean calculoHorario;
 
@@ -110,12 +110,10 @@ public class HorarioServlet extends HttpServlet {
 			}
 			
 			else {				
-				mensaje2 = "La duracion de la practica no corresponde con el horario ingresado";
-				request.setAttribute("mensaje",mensaje2);
-				
+				respuestaOperacion = "El horario ingresado debe ajustarse a la duracion de la practica  ";
+	
 			}		
 
-			// agregar mensaje por javascript de mensaje hecho ok.
 			break;
 		}
 
@@ -158,13 +156,13 @@ public class HorarioServlet extends HttpServlet {
 
 		if (respuestaOperacion == "OK") {
 
-			mensaje1 = "La operacion se ha realizado correctamente";
-			request.setAttribute("mensaje", mensaje1);		
+			mensaje = "Operacion realizada correctamente   ";
+			request.setAttribute("mensaje", mensaje);		
 		}
 
 		else {
-			mensaje1 = respuestaOperacion;
-			request.setAttribute("mensaje", mensaje1);
+			mensaje = respuestaOperacion;
+			request.setAttribute("mensaje", mensaje);
 		}
 		
 		

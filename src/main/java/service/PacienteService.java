@@ -14,10 +14,14 @@ public class PacienteService {
         this.pacRep = new PacienteRepository();
     }
 
-    public void insertarPaciente(Paciente pac) {
+    public String insertarPaciente(Paciente pac) {
+    	
+    	String respuestaOperacion;
 
-        usRep.insertarUsuario(pac);
-        pacRep.insertarPaciente(pac);
+        respuestaOperacion = usRep.insertarUsuario(pac);
+        respuestaOperacion = pacRep.insertarPaciente(pac);
+        
+        return respuestaOperacion;
     }
 }
 

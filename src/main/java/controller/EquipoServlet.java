@@ -65,7 +65,7 @@ public class EquipoServlet extends HttpServlet {
 		}
 
 		if (respuestaOperacion == "OK") {
-			mensaje = "La operacion se ha realizado correctamente";
+			mensaje = "Operacion realizada correctamente";
 			request.setAttribute("mensaje", mensaje);
 			this.doGet(request, response);
 		} else {

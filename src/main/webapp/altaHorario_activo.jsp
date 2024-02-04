@@ -17,6 +17,7 @@
 	crossorigin="anonymous">
 <link rel="stylesheet" href="/Vistas Proyecto ING/sidebars.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
@@ -222,11 +223,32 @@
 
 
 
-<!-- 					MENSAJE DE RESPUESTA  -->
+<!-- 					MENSAJE DE OPERACION  -->
 
-							<div class="bg-info fs-4 text-center">
-								<c:out value="${mensaje2}"></c:out>
-							</div>
+			<c:if test="${mensaje !=null  }">
+			    <div class="modal fade" id="mensajeOK" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			        <div class="modal-dialog">
+			            <div class="modal-content">
+			                <div class="modal-header">
+			                    <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
+			                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			                </div>
+			
+			                <div class="modal-body">
+			                    <p class="fs-5 fw-bold">${mensaje}<i class="fa-solid fa-circle-info fa-2xl" style="color: #FFD43B;"></i></p>
+			                </div>
+			                <div class="modal-footer">
+			                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			                </div>
+			                <div></div>
+			            </div>
+			        </div>
+			    </div>
+ 			    <script> 
+ 			        new bootstrap.Modal(document.getElementById('mensajeOK')).show(); 
+ 			    </script> 
+			</c:if>            
+
 
 
 <!--                     VENTANA MODAL "EDITAR" -->
@@ -293,6 +315,7 @@
                     </div>
                  </div>
               </div>
+              
               
 							
 							
