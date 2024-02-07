@@ -1,15 +1,16 @@
 package entity;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 public class Turno {
 	
 	private Integer id_turno;
-	private Date fecha_t;
-	private Date hora_t;	
-	private LocalDate fecha_alta_t;
-	private Date fecha_baja_t; //null en la generacion de agenda
+	private LocalDate fecha_t;
+	private LocalTime hora_t;	
+	private LocalDate fecha_generacion;
+	private LocalDate fecha_baja_t; //null en la generacion de agenda
 	private String observacion; //null en la generacion de agenda
 	private String estado_t;
 	private Integer id_horario;
@@ -21,28 +22,28 @@ public class Turno {
 	public void setId_turno(Integer id_turno) {
 		this.id_turno = id_turno;
 	}
-	public Date getFecha_t() {
+	public LocalDate getFecha_t() {
 		return fecha_t;
 	}
-	public void setFecha_t(Date fecha_t) {
+	public void setFecha_t(LocalDate fecha_t) {
 		this.fecha_t = fecha_t;
 	}
-	public Date getHora_t() {
+	public LocalTime getHora_t() {
 		return hora_t;
 	}
-	public void setHora_t(Date hora_t) {
-		this.hora_t = hora_t;
+	public void setHora_t(LocalTime hora_desde) {
+		this.hora_t = hora_desde;
 	}
-	public LocalDate getFecha_alta_t() {
-		return fecha_alta_t;
+	public LocalDate getFecha_generacion() {
+		return fecha_generacion;
 	}
-	public void setFecha_alta_t(LocalDate localDate) {
-		this.fecha_alta_t = localDate;
+	public void setFecha_generacion(LocalDate localDate) {
+		this.fecha_generacion = localDate;
 	}
-	public Date getFecha_baja_t() {
+	public LocalDate getFecha_baja_t() {
 		return fecha_baja_t;
 	}
-	public void setFecha_baja_t(Date fecha_baja_t) {
+	public void setFecha_baja_t(LocalDate fecha_baja_t) {
 		this.fecha_baja_t = fecha_baja_t;
 	}
 	public String getObservacion() {

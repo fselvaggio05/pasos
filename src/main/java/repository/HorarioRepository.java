@@ -3,6 +3,7 @@ package repository;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,12 +33,12 @@ public class HorarioRepository {
 			{
 				Horario hr = new Horario();
 				hr.setId_horario(rs.getInt("idHorario"));
-				hr.setFecha_alta(rs.getDate("fecha_alta"));
+				hr.setFecha_alta(rs.getDate("fecha_alta").toLocalDate());
 				hr.setDia_semana(rs.getString("dia_semana"));
 				hr.setDesc_practica(rs.getString("descripcion"));
 				hr.setId_practica(rs.getInt("id_practica"));
-				hr.setHora_desde(rs.getTime("hora_desde"));
-				hr.setHora_hasta(rs.getTime("hora_hasta"));
+				hr.setHora_desde(rs.getTime("hora_desde").toLocalTime());
+				hr.setHora_hasta(rs.getTime("hora_hasta").toLocalTime());
 				hr.setMatricula(rs.getInt("matricula"));
 				hr.setApellido_profesional(rs.getString("apellido"));	
 				horarios.add(hr);
@@ -78,11 +79,11 @@ public class HorarioRepository {
 				hr.setId_horario(rs.getInt("idHorario"));
 				hr.setDia_semana(rs.getString("dia_semana"));
 				hr.setDesc_practica(rs.getString("pr.descripcion"));
-				hr.setHora_desde(rs.getTime("hora_desde"));
-				hr.setHora_hasta(rs.getTime("hora_hasta"));
+				hr.setHora_desde(rs.getTime("hora_desde").toLocalTime());
+				hr.setHora_hasta(rs.getTime("hora_hasta").toLocalTime());
 				hr.setMatricula(rs.getInt("matricula"));
 				hr.setApellido_profesional(rs.getString("apellido"));	
-				hr.setFecha_baja(rs.getDate("fecha_baja"));
+				hr.setFecha_baja(rs.getDate("fecha_baja").toLocalDate());
 				horarios.add(hr);
 			
 			}			
@@ -123,12 +124,12 @@ public class HorarioRepository {
 				Horario hr = new Horario();
 				hr.setId_horario(rs.getInt("idHorario"));
 				hr.setId_horario(rs.getInt("idHorario"));
-				hr.setFecha_alta(rs.getDate("fecha_alta"));
+				hr.setFecha_alta(rs.getDate("fecha_alta").toLocalDate());
 				hr.setDia_semana(rs.getString("dia_semana"));
 				hr.setId_practica(rs.getInt("pr.id_practica"));
 				hr.setDesc_practica(rs.getString("pr.descripcion"));
-				hr.setHora_desde(rs.getTime("hora_desde"));
-				hr.setHora_hasta(rs.getTime("hora_hasta"));
+				hr.setHora_desde(rs.getTime("hora_desde").toLocalTime());
+				hr.setHora_hasta(rs.getTime("hora_hasta").toLocalTime());
 				hr.setMatricula(rs.getInt("matricula"));
 				hr.setApellido_profesional(rs.getString("apellido"));	
 				horariosProf.add(hr);
@@ -176,11 +177,11 @@ public class HorarioRepository {
 				hr.setId_horario(rs.getInt("idHorario"));
 				hr.setDia_semana(rs.getString("dia_semana"));
 				hr.setDesc_practica(rs.getString("pr.descripcion"));
-				hr.setHora_desde(rs.getTime("hora_desde"));
-				hr.setHora_hasta(rs.getTime("hora_hasta"));
+				hr.setHora_desde(rs.getTime("hora_desde").toLocalTime());
+				hr.setHora_hasta(rs.getTime("hora_hasta").toLocalTime());
 				hr.setMatricula(rs.getInt("matricula"));
 				hr.setApellido_profesional(rs.getString("apellido"));	
-				hr.setFecha_baja(rs.getDate("fecha_baja"));
+				hr.setFecha_baja(rs.getDate("fecha_baja").toLocalDate());
 				horariosProf.add(hr);
 			
 			}
@@ -217,8 +218,10 @@ public class HorarioRepository {
 		
 	
 		Date fecha_alta;	
-		Date desde = null;
-		Date hasta = null ;
+		Time desde = null;
+		Time hasta = null ;
+		desde = Time.valueOf(hr.getHora_desde());
+		hasta = Time.valueOf(hr.getHora_hasta());
 	
 	
 		
@@ -231,8 +234,8 @@ public class HorarioRepository {
 			stmt.setDate(1, new java.sql.Date (fecha_alta.getTime()));
 			stmt.setInt(2, hr.getMatricula());
 			stmt.setString(3, hr.getDia_semana());
-			stmt.setTime(4, new java.sql.Time(hr.getHora_desde().getTime()));
-			stmt.setTime(5, new java.sql.Time(hr.getHora_hasta().getTime()));
+			stmt.setTime(4, desde);
+			stmt.setTime(5, hasta);
 			stmt.setInt(6, hr.getId_practica());
 			stmt.executeUpdate();
 			respuesta = "OK";
@@ -360,6 +363,11 @@ public class HorarioRepository {
 
 	public String actualizarHorario(Horario hr) {
 		
+		Time desde = null;
+		Time hasta = null;
+		desde = Time.valueOf(hr.getHora_desde());
+		hasta = Time.valueOf(hr.getHora_hasta());
+		
 		
 
 		try
@@ -369,8 +377,8 @@ public class HorarioRepository {
 		
 			stmt.setString(1, hr.getDia_semana());
 			stmt.setInt(2, hr.getId_practica());	
-			stmt.setTime(3, new java.sql.Time(hr.getHora_desde().getTime()));
-			stmt.setTime(4, new java.sql.Time(hr.getHora_hasta().getTime()));
+			stmt.setTime(3, desde);
+			stmt.setTime(4, hasta);
 			stmt.setInt(5, hr.getId_horario());
 			stmt.executeUpdate();
 			respuesta= "OK";

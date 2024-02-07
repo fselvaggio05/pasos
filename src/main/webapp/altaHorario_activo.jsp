@@ -185,12 +185,12 @@
 												<div class="mb-3">
 													<label class="col-6">Dia de la semana</label>
 													 <select class="col-3 form-select" id="dia_semana" name="dia_semana">
-														<option value="Lu">Lunes</option>
-														<option value="Ma">Martes</option>
-														<option value="Mi">Miercoles</option>
-														<option value="Ju">Jueves</option>
-														<option value="Vi">Viernes</option>
-														<option value="Sa">Sabado</option>
+														<option value="lunes">Lunes</option>
+														<option value="martes">Martes</option>
+														<option value="miércoles">Miercoles</option>
+														<option value="jueves">Jueves</option>
+														<option value="viernes">Viernes</option>
+														<option value="sábado">Sabado</option>
 
 													</select>
 												</div>

@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -78,22 +81,22 @@ public class HorarioServlet extends HttpServlet {
 			Horario hr = new Horario();
 			
 			
-			Date desde = null;
-			Date hasta = null;
+			LocalTime desde = null;
+			LocalTime hasta = null;
 			Integer id_practica = null;
 			
 			
 			id_practica = Integer.parseInt(request.getParameter("id_practica"));	
 			
 			
-			try {
-				desde = new SimpleDateFormat("HH:mm").parse(request.getParameter("hora_desde"));
-				hasta = new SimpleDateFormat("HH:mm").parse(request.getParameter("hora_hasta"));
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			//DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MMM-dd");
+			desde = LocalTime.parse(request.getParameter("hora_desde"));
+			hasta = LocalTime.parse(request.getParameter("hora_hasta"));
+			//desde = new SimpleDateFormat("HH:mm").parse(request.getParameter("hora_desde"));
+			//hasta = new SimpleDateFormat("HH:mm").parse(request.getParameter("hora_hasta"));
 			
+			
+			//TODO: ARREGLAR LOS DESPELOTES POR LOS CAMBIOS DE TIPO
 			calculoHorario = horServ.calculaHorario(id_practica, desde, hasta);		
 			
 			if(calculoHorario == true)
@@ -101,6 +104,7 @@ public class HorarioServlet extends HttpServlet {
 				hr.setMatricula(Integer.parseInt(request.getParameter("matriculaProf")));
 				hr.setDia_semana(request.getParameter("dia_semana"));
 				hr.setId_practica(id_practica);
+				
 				hr.setHora_desde(desde);
 				hr.setHora_hasta(hasta);				
 				
@@ -128,16 +132,11 @@ public class HorarioServlet extends HttpServlet {
 		case "editar": {
 			
 			Horario hr = new Horario();
-			Date desde= null;
-			Date hasta = null;
+			LocalTime desde= null;
+			LocalTime hasta = null;
 			
-			try {
-				desde = new SimpleDateFormat("HH:mm").parse(request.getParameter("hora_desde"));
-				hasta = new SimpleDateFormat("HH:mm").parse(request.getParameter("hora_hasta"));
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			desde = LocalTime.parse(request.getParameter("hora_desde"));
+			hasta = LocalTime.parse(request.getParameter("hora_hasta"));
 			
 			hr.setId_horario(Integer.parseInt(request.getParameter("id_horario")));
 			hr.setDia_semana(request.getParameter("dia_semana"));

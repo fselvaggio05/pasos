@@ -1,5 +1,8 @@
 package service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.temporal.TemporalAmount;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -82,24 +85,28 @@ public class HorarioService {
 
 
 
-	public Boolean calculaHorario(Integer id_practica, Date desde, Date hasta) {
+	public Boolean calculaHorario(Integer id_practica, LocalTime desde, LocalTime hasta) {
 	
 			Integer duracionPractica;
 			
 			duracionPractica = prServ.getDuracionPractica(id_practica);
-						
-			Long diferenciaHora = hasta.getTime()- desde.getTime();
-			Long minutosDiferencia = TimeUnit.MILLISECONDS.toMinutes(diferenciaHora); 
-			
-			if(minutosDiferencia%duracionPractica == 0)
-			{
-				return true;
-			}
-			
-			else
-			{
-				return false;
-			}
+//			
+			//TODO: REVEER ESTE METODO. CUANDO MODIFIQUE LOS TIPOS, SE ME DESCAJETO
+//			long dsd = desde.getHour();
+//			hasta.minusHours(dsd);
+//			Long diferenciaHora = hasta.getTime()- desde.getTime();
+//			Long minutosDiferencia = TimeUnit.MILLISECONDS.toMinutes(diferenciaHora); 
+////			
+//			if(minutosDiferencia%duracionPractica == 0)
+//			{
+//				return true;
+//			}
+//			
+//			else
+//			{
+//				return false;
+//			}
+			return null;
 			
 			
 
@@ -107,10 +114,6 @@ public class HorarioService {
 	}
 
 
-
-
-
-	
 
 
 

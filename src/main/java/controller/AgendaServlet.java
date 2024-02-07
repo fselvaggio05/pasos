@@ -36,6 +36,7 @@ public class AgendaServlet extends HttpServlet {
 		this.horServ = new HorarioService();
 		this.profServ = new ProfesionalService();
 		this.prServ = new PracticaService();
+		this.turServ = new TurnoService();
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -70,11 +71,9 @@ public class AgendaServlet extends HttpServlet {
 		}
 
 		case "generar": {
-			
-			System.out.println("esto es generar agenda");
-						
+									
 			turServ.abrirAgenda(horarios);
-				
+			
 			
 			
 			break;

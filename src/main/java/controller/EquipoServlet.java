@@ -1,7 +1,10 @@
 package controller;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+
 import entity.Equipo;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -60,6 +63,7 @@ public class EquipoServlet extends HttpServlet {
 		case "revivir": {
 			idEquipo = Integer.parseInt(request.getParameter("idEquipo"));
 			respuestaOperacion = eqServ.revivirEquipo(idEquipo);
+			System.out.println(LocalDate.now().plusDays(15));
 			break;
 		}
 		}
