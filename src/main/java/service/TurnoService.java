@@ -3,13 +3,13 @@ package service;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
+
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 import java.util.Locale;
 
-import com.google.protobuf.Duration;
+
 
 import entity.Horario;
 import entity.Turno;
@@ -20,6 +20,7 @@ public class TurnoService {
 	private TurnoRepository turRep;
 	private PracticaService prServ;
 	private LocalDate fecha_turno;
+	private String respuesta;
 	
 	public TurnoService()
 	{
@@ -60,9 +61,8 @@ public String abrirAgenda(List<Horario> horarios) {
 					while(hora_desde.compareTo(h.getHora_hasta())<0)
 					{
 						Turno tur = new Turno();
-						tur.setFecha_generacion(LocalDate.now());
-						
-						ultima_fecha_generacion = this.getUltimaFechaGeneracion();
+						tur.setFecha_generacion(LocalDate.now());						
+//						ultima_fecha_generacion = this.getUltimaFechaGeneracion();
 						
 						tur.setFecha_t(fecha_turno_desde); 
 						tur.setHora_t(hora_desde);
@@ -82,9 +82,9 @@ public String abrirAgenda(List<Horario> horarios) {
 			
 		}
 		
-		turRep.abrirAgenda(turnos);
+		respuesta = turRep.abrirAgenda(turnos);
 		
-		return "mensaje";
+		return respuesta;
 		
 		
 		
