@@ -14,7 +14,7 @@ import com.mysql.cj.protocol.a.LocalDateTimeValueEncoder;
 import com.mysql.cj.xdevapi.PreparableStatement.PreparableStatementFinalizer;
 
 import conexionDB.FactoryConnection;
-import entity.Feriado;
+
 import entity.Horario;
 import entity.Turno;
 
