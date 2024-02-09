@@ -120,7 +120,7 @@ public List<LocalDate> obtenerDiasGeneracionAgenda()
 	
 	for(LocalDate diaHabil : diasGeneracionAgenda)
 	{
-		if(!feriadosMes.contains(diaHabil))
+		if(!feriadosMes.contains(diaHabil)) //quitar los domingos 
 		{
 			diasHabiles.add(diaHabil);
 		}
