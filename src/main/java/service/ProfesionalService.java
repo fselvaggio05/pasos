@@ -30,6 +30,8 @@ public class ProfesionalService {
         return respuestaOperacion;
     }
     
+    
+    
     public List<Profesional> getAll()
     {
     	return profRep.getAll();

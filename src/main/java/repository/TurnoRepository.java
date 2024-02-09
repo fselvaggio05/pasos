@@ -7,11 +7,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.mysql.cj.protocol.a.LocalDateTimeValueEncoder;
 import com.mysql.cj.xdevapi.PreparableStatement.PreparableStatementFinalizer;
 
 import conexionDB.FactoryConnection;
+import entity.Feriado;
 import entity.Horario;
 import entity.Turno;
 
@@ -105,6 +108,38 @@ public LocalDate getUltimaFechaGeneracion() {
 		
 	}
 
+public List<LocalDate> getFeriados() {
 	
+	List<LocalDate> feriados = new ArrayList<LocalDate>();
+	
+	
+	try
+	{
+		
+		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from feriados_argentina");
+		rs= stmt.executeQuery();
+		
+		while(rs!=null && rs.next())
+		{
+			LocalDate dia;			
+			dia = rs.getDate("fecha_feriado").toLocalDate();
+			feriados.add(dia);
+			
+		}
+		
+	}
+	catch (SQLException e)
+	{
+		respuestaOperacion = e.toString();
+	}
+	
+	finally
+	{
+		FactoryConnection.cerrarConexion(rs, stmt);
+	}
+	
+	
+	return feriados;
+}
 	
 }

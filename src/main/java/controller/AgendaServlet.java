@@ -51,6 +51,7 @@ public class AgendaServlet extends HttpServlet {
 
 		String operacion = request.getParameter("operacion");
 		String respuestaOperacion = null;
+		String mensaje = null;
 		
 		
 
@@ -72,7 +73,19 @@ public class AgendaServlet extends HttpServlet {
 
 	}
 		
-		request.setAttribute("mensaje", respuestaOperacion);
+		if (respuestaOperacion == "OK") {
+
+			mensaje = "Agenda generada exitosamente    ";
+			request.setAttribute("mensaje", mensaje);		
+		}
+
+		else {
+			
+			mensaje = respuestaOperacion;
+			request.setAttribute("mensaje", mensaje);
+		}
+		
+		
 		this.doGet(request, response);
 
 }
