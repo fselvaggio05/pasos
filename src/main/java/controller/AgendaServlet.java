@@ -81,8 +81,19 @@ public class AgendaServlet extends HttpServlet {
 
 		else {
 			
-			mensaje = respuestaOperacion;
-			request.setAttribute("mensaje", mensaje);
+			if(respuestaOperacion == null)
+			{
+				mensaje = "No existen horarios para la/s fecha/s de generacion de agenda    ";
+				request.setAttribute("mensaje", mensaje);
+			}
+			
+			else
+			{
+				mensaje = respuestaOperacion;
+				request.setAttribute("mensaje", mensaje);
+				
+			}
+			
 		}
 		
 		
