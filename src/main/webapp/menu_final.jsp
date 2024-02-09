@@ -26,7 +26,7 @@
         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
           <li><a href="09 - registroTurno.jsp" class="link-dark rounded">Registrar turno</a></li>
           <li><a href="#" class="link-dark rounded">Consulta turnos</a></li>
-          <li><a href="#" class="link-dark rounded">Registrar asistencia</a></li>
+          <li><a href="registrarAsistencia.jsp" class="link-dark rounded">Registrar asistencia</a></li>
           <li><a href="generarAgendas" class="link-dark rounded">Generar agenda</a></li>
         </ul>
       </div>
