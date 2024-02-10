@@ -23,7 +23,7 @@ public class UsuarioService {
     }
 
 
-    public void insertarUsuario(Usuario us) {
-        usRep.insertarUsuario(us);
+    public String insertarUsuario(Usuario us) {
+        return usRep.insertarUsuario(us);
     }
 }

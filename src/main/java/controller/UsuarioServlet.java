@@ -40,6 +40,8 @@ public class UsuarioServlet extends HttpServlet {
 
         UsuarioService usServ = new UsuarioService();
         Integer opcUs = Integer.parseInt(request.getParameter("tipoUsuario"));
+        String respuestaOperacion = null;
+        String mensaje = null;
 
         //TODO AGREGAR ENVIO DE MAIL LUEGO DE LA CREACION DEL PACIENTE Y PROFESIONAL
 
@@ -51,13 +53,13 @@ public class UsuarioServlet extends HttpServlet {
                     Usuario us;
 					try {
 						us = new Usuario(dni, request.getParameter("nombre"), request.getParameter("apellido"), request.getParameter("email"), request.getParameter("fechaNac"), request.getParameter("telefono"), request.getParameter("clave"), request.getParameter("genero"));
-					    usServ.insertarUsuario(us);
+					    respuestaOperacion = usServ.insertarUsuario(us);
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
                  
-                	                
+                break;	                
               
             }
 
@@ -68,7 +70,7 @@ public class UsuarioServlet extends HttpServlet {
 					try {
 						prof = new Profesional(Integer.parseInt(request.getParameter("dni")), request.getParameter("nombre"), request.getParameter("apellido"), request.getParameter("email"), request.getParameter("fechaNac"), request.getParameter("telefono"), request.getParameter("clave"), request.getParameter("genero") , matricula);
 						ProfesionalService profServ = new ProfesionalService();
-		                profServ.insertarProfesional(prof);
+		                respuestaOperacion = profServ.insertarProfesional(prof);
 
 					} catch (NumberFormatException e) {
 						// TODO Auto-generated catch block
@@ -77,6 +79,8 @@ public class UsuarioServlet extends HttpServlet {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					
+					break;	     
                  
                
             }
@@ -88,24 +92,40 @@ public class UsuarioServlet extends HttpServlet {
 					try {
 						pac = new Paciente(Integer.parseInt(request.getParameter("dni")), request.getParameter("nombre"), request.getParameter("apellido"), request.getParameter("email"), request.getParameter("fechaNac"), request.getParameter("telefono"), request.getParameter("clave"), request.getParameter("genero"), obraSocial , request.getParameter("nroAfiliado"));
 				        PacienteService pacServ = new PacienteService();
-	                    pacServ.insertarPaciente(pac);
+	                    respuestaOperacion = pacServ.insertarPaciente(pac);
 	                    
 					} catch (NumberFormatException | ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
             
+					break;	     
                
             }
             
 
         }
         
+        if (respuestaOperacion == "OK")
+        {
+        	mensaje = "Operacion realizada correctamente";
+        	request.setAttribute("mensaje", mensaje);
+        	
+        }
+        
+        else 
+        {
+        	mensaje = respuestaOperacion;
+        	request.setAttribute("mensaje", mensaje);
+        }
+        
+        
+        // esta linea muestra error cuado se quiere redireccionar la pagina desde alli 
+       //this.doGet(request, response);
         
         request.getRequestDispatcher("altaUsuario_admin.jsp").forward(request,response);
         
-       
-    
+         
       
         
     }

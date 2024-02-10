@@ -16,15 +16,19 @@ public class ProfesionalRepository {
     PreparedStatement stmt = null;
 
 
-    public void insertarProfesional(Profesional prof) {
+    public String insertarProfesional(Profesional prof) {
+    	
+    	String respuestaOperacion;
 
         try{
             stmt = FactoryConnection.getInstancia().getConn().prepareStatement("insert into profesional (dni,matricula) values (?,?)");
             stmt.setInt(1,prof.getDni());
             stmt.setInt(2,prof.getMatricula());
+            respuestaOperacion = "OK";
+            
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            respuestaOperacion = e.toString();
         }
         finally {
             try {
@@ -40,6 +44,8 @@ public class ProfesionalRepository {
             FactoryConnection.getInstancia().releaseConn(); //reveer esto, no me convene
 
         }
+        
+        return respuestaOperacion;
 
     }
 
@@ -51,6 +57,7 @@ public class ProfesionalRepository {
 		try{
             stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select apellido, nombre, matricula from profesional p inner join usuario u on p.dni=u.dni order by apellido asc");
             rs=stmt.executeQuery();
+            
             while(rs.next() && rs !=null)
             {
             	Profesional pr = new Profesional();

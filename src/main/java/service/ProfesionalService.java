@@ -20,10 +20,17 @@ public class ProfesionalService {
         this.profRep= new ProfesionalRepository();
     }
 
-    public void insertarProfesional(Profesional prof) {
-        usRep.insertarUsuario(prof);
-        profRep.insertarProfesional(prof);
+    public String insertarProfesional(Profesional prof) {
+       
+    	String respuestaOperacion;
+    	
+    	respuestaOperacion = usRep.insertarUsuario(prof);
+        respuestaOperacion = profRep.insertarProfesional(prof);
+        
+        return respuestaOperacion;
     }
+    
+    
     
     public List<Profesional> getAll()
     {

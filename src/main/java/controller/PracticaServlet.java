@@ -112,13 +112,8 @@ public class PracticaServlet extends HttpServlet {
 		
 		if (respuestaOperacion == "OK")
 		{
-			try {
-				Thread.sleep(60);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			mensaje = "La operacion se ha realizado correctamente";
+			
+			mensaje = "Operacion realizada correctamente   ";
 			request.setAttribute("mensaje", mensaje);
 			this.doGet(request, response);
 			
@@ -126,12 +121,7 @@ public class PracticaServlet extends HttpServlet {
 		
 		else 
 		{
-			try {
-				Thread.sleep(60);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			
 			mensaje = respuestaOperacion;
 			request.setAttribute("mensaje", mensaje);
 			this.doGet(request, response);

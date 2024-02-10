@@ -1,5 +1,7 @@
 package entity;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 public class Horario {
@@ -7,22 +9,19 @@ public class Horario {
 	
 	private Integer id_horario;
 	private Integer matricula;
-	private Date hora_desde;
-	private Date hora_hasta;
-	private Date fecha_baja;
-	private Date fecha_alta;
+	private LocalTime hora_desde;
+	private LocalTime hora_hasta;
+	private LocalDate fecha_baja;
+	private LocalDate fecha_alta;
 	private String dia_semana; //TODO: crear enum para dias de la semana
 	private String apellido_profesional;
 	private Integer id_practica;
 	private String desc_practica;
 	
-	
-	
-	
 
 
 
-	public Horario(Integer matricula, Date hora_desde, Date hora_hasta, Date fecha_baja, Date fecha_alta,
+	public Horario(Integer matricula, LocalTime hora_desde, LocalTime hora_hasta, LocalDate fecha_baja, LocalDate fecha_alta,
 			String dia_semana) {
 		
 		
@@ -58,28 +57,29 @@ public class Horario {
 	public void setMatricula(Integer matricula) {
 		this.matricula = matricula;
 	}
-	public Date getHora_desde() {
+	public LocalTime getHora_desde() {		
+		
 		return hora_desde;
 	}
-	public void setHora_desde(Date hora_desde) {
+	public void setHora_desde(LocalTime hora_desde) {
 		this.hora_desde = hora_desde;
 	}
-	public Date getHora_hasta() {
+	public LocalTime getHora_hasta() {
 		return hora_hasta;
 	}
-	public void setHora_hasta(Date hora_hasta) {
+	public void setHora_hasta(LocalTime hora_hasta) {
 		this.hora_hasta = hora_hasta;
 	}
-	public Date getFecha_baja() {
+	public LocalDate getFecha_baja() {
 		return fecha_baja;
 	}
-	public void setFecha_baja(Date fecha_baja) {
+	public void setFecha_baja(LocalDate fecha_baja) {
 		this.fecha_baja = fecha_baja;
 	}
-	public Date getFecha_alta() {
+	public LocalDate getFecha_alta() {
 		return fecha_alta;
 	}
-	public void setFecha_alta(Date fecha_alta) {
+	public void setFecha_alta(LocalDate fecha_alta) {
 		this.fecha_alta = fecha_alta;
 	}
 	public String getDia_semana() {

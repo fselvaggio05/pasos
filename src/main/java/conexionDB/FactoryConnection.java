@@ -2,7 +2,9 @@ package conexionDB;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class FactoryConnection {
 
@@ -44,6 +46,23 @@ public class FactoryConnection {
         return instancia;
     }
 
+    public static void cerrarConexion(ResultSet rs, Statement stmt)
+    {
+		try {
+
+			if (rs != null)
+				rs.close();
+			if (stmt != null)
+				stmt.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		FactoryConnection.getInstancia().releaseConn();
+
+    }
+
 
     //metodo para realizar la conexion a la bd. con la instancia creada en el constructor
     //realiza la conexion propiamente dicha
@@ -74,6 +93,7 @@ public class FactoryConnection {
         }
     }
 
-
+    
+   
 
 }

@@ -64,7 +64,9 @@ public class UsuarioRepository {
 
 
 
-    public void insertarUsuario(Usuario us) {
+    public String insertarUsuario(Usuario us) {
+    	
+    	String respuestaOperacion;
 
         try
         {
@@ -78,10 +80,11 @@ public class UsuarioRepository {
             stmt.setString(7, us.getGenero());
             stmt.setString(8, us.getEmail());
             stmt.executeUpdate();
+            respuestaOperacion = "OK";
         }
 
         catch (SQLException e) {
-           e.toString();
+           respuestaOperacion= e.toString();
         }
 
         finally {
@@ -98,5 +101,8 @@ public class UsuarioRepository {
             FactoryConnection.getInstancia().releaseConn(); 
 
         }
+        
+        
+        return respuestaOperacion;
     }
 }

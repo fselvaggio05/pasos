@@ -10,6 +10,7 @@
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 		<link rel="stylesheet" href="css/styles.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	</head>
 	<body>
 		<div class="container-fluid">
@@ -97,10 +98,43 @@
 				</div>
 			</div>
 		</div>
-		<!--             MENSAJE DE OPERACION, cambiarlo por un modal con javascript -->
-		<div class="bg-info fs-4 text-center">
-			<c:out value="${mensaje}"></c:out>
-        </div>
+		
+		
+		
+		
+		
+<!-- 			MENSAJE OPERACION 		 -->
+			<c:if test="${mensaje !=null }">
+			    <div class="modal fade" id="mensajeOK" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			        <div class="modal-dialog">
+			            <div class="modal-content">
+			                <div class="modal-header">
+			                    <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
+			                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			                </div>
+			
+			                <div class="modal-body">
+			                    <p class="fs-5 fw-bold">${mensaje}<i class="fa-solid fa-circle-info fa-2xl" style="color: #FFD43B;"></i></p>
+			                </div>
+			                <div class="modal-footer">
+			                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			                </div>
+			                <div></div>
+			            </div>
+			        </div>
+			    </div>
+ 			    <script> 
+ 			        new bootstrap.Modal(document.getElementById('mensajeOK')).show(); 
+ 			    </script> 
+			</c:if>            
+		
+		
+		
+		
+		
+		
+		
+<!-- 		VENTANA MODAL "AGREGAR EQUIPO" -->
 		<div class="modal fade" id="altaEquipo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
