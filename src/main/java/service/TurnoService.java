@@ -35,37 +35,49 @@ public String abrirAgenda(List<Horario> horarios) {
 		
 		List<LocalDate> diasGeneracion = this.obtenerDiasGeneracionAgenda();
 		
-		
-		for (int i=0; i<diasGeneracion.size();i++)
+		if(diasGeneracion.size()!=0)
 		{
-						
-			for(Horario h : horarios)
+			for (int i=0; i<diasGeneracion.size();i++)
 			{
-				String nombreDia = diasGeneracion.get(i).format(DateTimeFormatter.ofPattern("EEEE",Locale.getDefault())); //EEEE, dd MMMM, yyyy formato completo fecha
-				
-				if(nombreDia.equals(h.getDia_semana()))
+							
+				for(Horario h : horarios)
 				{
-					duracionPractica = prServ.getDuracionPractica(h.getId_practica());
-					hora_desde = h.getHora_desde();
+					String nombreDia = diasGeneracion.get(i).format(DateTimeFormatter.ofPattern("EEEE",Locale.getDefault())); //EEEE, dd MMMM, yyyy formato completo fecha
 					
-					while(hora_desde.compareTo(h.getHora_hasta())<0)
-						{
-							Turno tur = new Turno();
-							tur.setFecha_generacion(LocalDate.now());					
-							tur.setFecha_t(diasGeneracion.get(i)); 
-							tur.setHora_t(hora_desde);
-							tur.setEstado_t("Libre");
-							tur.setId_horario(h.getId_horario());
-							turnos.add(tur);				
-							hora_desde= hora_desde.plusMinutes(duracionPractica);							
-						}
+					if(nombreDia.equals(h.getDia_semana()))
+					{
+						duracionPractica = prServ.getDuracionPractica(h.getId_practica());
+						hora_desde = h.getHora_desde();
+						
+						while(hora_desde.compareTo(h.getHora_hasta())<0)
+							{
+								Turno tur = new Turno();
+								tur.setFecha_generacion(LocalDate.now());					
+								tur.setFecha_t(diasGeneracion.get(i)); 
+								tur.setHora_t(hora_desde);
+								tur.setEstado_t("Libre");
+								tur.setId_horario(h.getId_horario());
+								turnos.add(tur);				
+								hora_desde= hora_desde.plusMinutes(duracionPractica);							
+							}
+					}
 				}
+				
+				
 			}
+			
+			respuesta = turRep.abrirAgenda(turnos);
 			
 			
 		}
 		
-		respuesta = turRep.abrirAgenda(turnos);
+		else
+		{
+			respuesta= null;
+		}
+		
+		
+		
 		
 		return respuesta;
 		
@@ -103,11 +115,24 @@ public List<LocalDate> obtenerDiasGeneracionAgenda()
 			feriadosMes.add(f);
 		}
 	}
-		
-	ultima_fecha_generacion = this.getUltimaFechaGeneracion();
-	fecha_turno_desde = ultima_fecha_generacion.plusDays(15);
-	fecha_turno_hasta = LocalDate.now().plusDays(14);
 	
+	
+	ultima_fecha_generacion = this.getUltimaFechaGeneracion();
+	
+	if(ultima_fecha_generacion==null)
+	{
+		fecha_turno_desde = LocalDate.now();
+				
+	}
+	
+	else
+	{
+		fecha_turno_desde = ultima_fecha_generacion.plusDays(15);
+		
+	}
+	
+	
+	fecha_turno_hasta = LocalDate.now().plusDays(14);
 
 	
 
@@ -120,7 +145,10 @@ public List<LocalDate> obtenerDiasGeneracionAgenda()
 	
 	for(LocalDate diaHabil : diasGeneracionAgenda)
 	{
-		if(!feriadosMes.contains(diaHabil)) //quitar los domingos 
+		String nombreDia = diaHabil.format(DateTimeFormatter.ofPattern("EEEE",Locale.getDefault())); 
+		System.out.println(nombreDia);
+				
+		if((!feriadosMes.contains(diaHabil)) && (!nombreDia.equals("domingo"))) 
 		{
 			diasHabiles.add(diaHabil);
 		}
@@ -128,6 +156,41 @@ public List<LocalDate> obtenerDiasGeneracionAgenda()
 	
 	return diasHabiles;
 	
+}
+
+public List<Turno> buscarTurnosPendientes(Integer dni) {
+	
+	List<Turno> turnos = new ArrayList<Turno>();
+	turnos = turRep.buscarTurnosPendientes(dni);
+	
+	return turnos;
+	
+	
+}
+
+public List<Horario> obtenerSeleccionados(String[] seleccionados, List<Horario> horarios) {
+	
+	List<Horario> horariosSeleccionados = new ArrayList<Horario>();
+	Integer idHorario = null;
+	
+	for(int i=0; i<seleccionados.length ;i++)
+	{
+		idHorario = Integer.parseInt(seleccionados[i]);
+		
+		for(Horario h : horarios)
+		{
+			if(idHorario == h.getId_horario())
+			{
+				horariosSeleccionados.add(h);
+				break;
+			}
+			
+		}
+		
+	}
+	
+	
+	return horariosSeleccionados;
 }
 
 

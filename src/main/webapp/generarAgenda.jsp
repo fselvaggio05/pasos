@@ -33,14 +33,14 @@
                 <div class="container ">
                    
                         <h4 class="text-center my-4 text-decoration-underline fw-bold ">Generar agenda</h4>
-                        <h5 class="text-center mb-5 fw-bold ">Horarios profesionales</h4>
+                        <h5 class="text-center mb-5 fw-bold ">Horarios profesionales</h5>
                 
                        
                 		
                             <table class="table table-striped my-2">
                                 <thead>
                                     <tr>
-                                        <th></th>
+                                        
                                         <th scope="col">Matricula </th>
                                         <th scope="col">Apellido</th>
                                         <th scope="col">Practica</th>
@@ -51,21 +51,26 @@
                                         </tr>
                 
                                 </thead>
-                                <tbody>
-                                   
-                                   
+                                <tbody>                           
+                                
+                                
+                                
+                              <form action="generarAgendas" method="post">
+                              
+                              	<input type="hidden" value="generar" name="operacion">
+                              
                                  <c:forEach var="hor" items="${horarios}">
                                     <tr>
                                         <td> 
-                                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                            <input class="form-check-input m-1" type="checkbox" id="cb1" name="seleccionados" value="${hor.id_horario}" >
+                                            <c:out value="${hor.matricula}"></c:out>
                                         </td>
-                                        
-                                       		    <td><c:out value="${hor.matricula}"></c:out></td>
-												<td><c:out value="${hor.apellido_profesional}"></c:out></td>
-												<td><c:out value="${hor.desc_practica}"></c:out></td>
-												<td><c:out value="${hor.dia_semana}"></c:out></td>
-												<td><c:out value="${hor.hora_desde}"></c:out></td>
-												<td><c:out value="${hor.hora_hasta}"></c:out></td>
+                                                                           		  
+											<td><c:out value="${hor.apellido_profesional}"></c:out></td>
+											<td><c:out value="${hor.desc_practica}"></c:out></td>
+											<td><c:out value="${hor.dia_semana}"></c:out></td>
+											<td><c:out value="${hor.hora_desde}"></c:out></td>
+											<td><c:out value="${hor.hora_hasta}"></c:out></td>
                                         
                                      
                                     </tr>
@@ -73,27 +78,27 @@
                                     
                                    
                                 </tbody>
+                               
                             </table>
                     </div>
                   
                     <div class="container text-end mb-3">
-								<button type="button"
-									class="btn btn-success col-2 justify-content-end"
-									data-bs-toggle="modal" data-bs-target="#eliminarSeleccion"
-									>Eliminar seleccionados
-								</button>
 								
-								<button type="button"
-									class="btn btn-success col-2 justify-content-end"
-									data-bs-toggle="modal" data-bs-target="#generarAgenda"
-									>Generar agenda
+<!-- 								<button type="button" -->
+<!-- 									class="btn btn-success col-2 justify-content-end" -->
+<!-- 									data-bs-toggle="modal" data-bs-target="#generarAgenda" onclick="capturarSeleccion()">Generar agenda -->
+<!-- 								</button> -->
+								
+								<button type="submit"
+									class="btn btn-success col-2 justify-content-end">Generar agenda
 								</button>
 								
 								<button type="button"
 									class="btn btn-success col-2 justify-content-end">Cancelar
 								</button>
 					</div>
-					
+				</form>
+					 
 					
 <!-- 					MENSAJE DE OPERACION -->
 			<c:if test="${mensaje !=null }">
@@ -179,9 +184,11 @@
 
 									<div class="mb-3">
 										<label class="fw-bold fs-5">Confirmar generacion agenda de los profesionales: ...</label>
-
-										<!--                                     	TODO: mostrar los horarios que se van a eliminar? -->
-
+										
+										<input type="text" name="seleccionados" id="seleccionados">
+										
+										
+										
 										<input type="hidden" id="idEnviado" name="idEnviado">
 
 									</div>
@@ -214,6 +221,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
     integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
     crossorigin="anonymous"></script>
+    
+<script src="js/mostrarSeleccion.js"></script>
 </body>
 
 </html>

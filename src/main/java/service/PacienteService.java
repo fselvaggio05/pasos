@@ -23,6 +23,16 @@ public class PacienteService {
         
         return respuestaOperacion;
     }
+
+	public Paciente buscarPaciente(Integer dni) {
+		
+		Paciente pac = new Paciente();
+		pac = pacRep.buscarPaciente(dni);		
+		return pac;
+		
+	}
+    
+    
 }
 
 

@@ -70,7 +70,7 @@ public class HorarioServlet extends HttpServlet {
 			List<Profesional> profesionales = profServ.getAll();
 			request.setAttribute("profesionales", profesionales);
 			request.setAttribute("horarios", horarios);
-			request.getRequestDispatcher("altaHorario_activo.jsp").forward(request, response);
+			request.getRequestDispatcher("horarios.jsp").forward(request, response);
 
 			break;
 

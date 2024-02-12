@@ -34,6 +34,9 @@
                 <div class="container ">
 
 
+
+				<form action="registroAsistencia" method="post">
+					<input type="hidden" value="buscarPaciente" name="operacion">
                     <div class="row mt-5 justify-content-center">
 
                         <div class="col-2">
@@ -42,13 +45,17 @@
                         </div>
             
                         <div class="col-6">
-                            <input type="number" class="col-6 form-control ">
+                            <input type="number" class="col-6 form-control" name="dniPaciente">
                         </div>
                         
                         <div class="col-2 mb-4">
-                            <button type="button" class="col-6  btn btn-success">Buscar</button>
+                            <button type="submit" class="col-6  btn btn-success">Buscar</button>
                         </div>
                     </div>
+                 </form>
+                    
+                    
+                    
                   
             
                     <hr class="border border-success border-1 opacity-50">
@@ -63,64 +70,82 @@
                         <table class="table table-striped my-2">
                             <thead>
                                 <tr>
-                                    <th scope="col">Profesional</th>
+                                  
+                                    <th scope="col">Apellido</th>
+                                    <th scope="col">Nombre</th>
                                     <th scope="col">Práctica</th>
-                                    <th scope="col">Turno asignado</th>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Hora</th>
             
                                 </tr>
             
                             </thead>
             
                             <tbody>
+                            
+                            
+                            
+                            <c:forEach var="tur" items="${turnos}">
+											<tr>
+												<td><input class="form-check-input" type="radio" name="radio" value="<c:out value="${tur.apellido_profesional}"></c:out>"></td>
+												<td><c:out value="${tur.nombre_profesional}"></c:out></td>
+												<td><c:out value="${tur.desc_practica}"></c:out></td>
+												<td><c:out value="${tur.fecha_t}"></c:out></td>
+												<td><c:out value="${tur.hora_t}"></c:out></td>
+												
+<!-- 												agregar el radiobutton												 -->
+											</tr>
+										
+							</c:forEach>
             
-                                <tr>
-                                    <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                                id="flexRadioDefault1">
-                                            <label class="form-check-label" for="flexRadioDefault1">
-                                                GODOY. Santiago
-                                            </label>
-                                        </div>
+<!--                                 <tr> -->
+<!--                                     <td> -->
+<!--                                         <div class="form-check"> -->
+<!--                                             <input class="form-check-input" type="radio" name="flexRadioDefault" -->
+<!--                                                 id="flexRadioDefault1"> -->
+<!--                                             <label class="form-check-label" for="flexRadioDefault1"> -->
+<!--                                                 GODOY. Santiago -->
+<!--                                             </label> -->
+<!--                                         </div> -->
             
-                                    </td>
+<!--                                     </td> -->
             
-                                    <td>Magnetoterapia</td>
-                                    <td>15/11/2023 14:00 hs</td>
-                                    <td></td>
-                                </tr>
+<!--                                     <td>Magnetoterapia</td> -->
+<!--                                     <td>15/11/2023 14:00 hs</td> -->
+<!--                                     <td></td> -->
+<!--                                 </tr> -->
             
-                                <tr>
-                                    <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                                id="flexRadioDefault2" checked>
-                                            <label class="form-check-label" for="flexRadioDefault2">
-                                                SILVA, Alejandra
-                                            </label>
-                                        </div>
-                                    </td>
+<!--                                 <tr> -->
+<!--                                     <td> -->
+<!--                                         <div class="form-check"> -->
+<!--                                             <input class="form-check-input" type="radio" name="flexRadioDefault" -->
+<!--                                                 id="flexRadioDefault2" checked> -->
+<!--                                             <label class="form-check-label" for="flexRadioDefault2"> -->
+<!--                                                 SILVA, Alejandra -->
+<!--                                             </label> -->
+<!--                                         </div> -->
+<!--                                     </td> -->
             
-                                    <td>Ondas rusas</td>
-                                    <td>15/11/2023 15:00 hs</td>
-                                    <td></td>
+<!--                                     <td>Ondas rusas</td> -->
+<!--                                     <td>15/11/2023 15:00 hs</td> -->
+<!--                                     <td></td> -->
             
-                                </tr>
+<!--                                 </tr> -->
             
-                                <tr>
-                                    <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                                id="flexRadioDefault1">
-                                            <label class="form-check-label" for="flexRadioDefault1">
-                                                GARBIN, Andrea
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td>Fisioterapia</td>
-                                    <td>15/11/2023 16:00 hs</td>
-                                    <td></td>
-                                </tr>
+<!--                                 <tr> -->
+<!--                                     <td> -->
+<!--                                         <div class="form-check"> -->
+<!--                                             <input class="form-check-input" type="radio" name="flexRadioDefault" -->
+<!--                                                 id="flexRadioDefault1"> -->
+<!--                                             <label class="form-check-label" for="flexRadioDefault1"> -->
+<!--                                                 GARBIN, Andrea -->
+<!--                                             </label> -->
+<!--                                         </div> -->
+<!--                                     </td> -->
+<!--                                     <td>Fisioterapia</td> -->
+<!--                                     <td>15/11/2023 16:00 hs</td> -->
+<!--                                     <td></td> -->
+<!--                                 </tr> -->
                             </tbody>
                         </table>
                     </div>

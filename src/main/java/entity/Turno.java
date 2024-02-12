@@ -16,6 +16,37 @@ public class Turno {
 	private Integer id_horario;
 	private Integer id_consultorio; //null en la generacion de agenda
 	private Integer dni; //null en la generacion de agenda
+	private String desc_practica;
+	private String nombre_profesional;
+	private String apellido_profesional;
+	
+	
+	
+	
+	public String getApellido_profesional() {
+		return apellido_profesional;
+	}
+
+	public void setApellido_profesional(String apellido_profesional) {
+		this.apellido_profesional = apellido_profesional;
+	}
+
+	public String getNombre_profesional() {
+		return nombre_profesional;
+	}
+
+	public void setNombre_profesional(String nombre_profesional) {
+		this.nombre_profesional = nombre_profesional;
+	}
+
+	public String getDesc_practica() {
+		return desc_practica;
+	}
+	
+	public void setDesc_practica(String desc_practica) {
+		this.desc_practica = desc_practica;
+	}
+	
 	public Integer getId_turno() {
 		return id_turno;
 	}

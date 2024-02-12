@@ -10,41 +10,40 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import entity.Horario;
+import entity.Paciente;
 import entity.Practica;
 import entity.Profesional;
+import entity.Turno;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import service.HorarioService;
+import service.PacienteService;
 import service.PracticaService;
 import service.ProfesionalService;
 import service.TurnoService;
 
-@WebServlet("/generarAgendas")
+@WebServlet("/registroAsistencia")
 
-public class AgendaServlet extends HttpServlet {
-
-	private HorarioService horServ;
-	private ProfesionalService profServ;
-	private PracticaService prServ;
+public class AsistenciaServlet extends HttpServlet {
+	
 	private TurnoService turServ;
-	private List<Horario> horarios; 
+	private PacienteService pacServ;
+	
 	
 
-	public AgendaServlet() {
-		this.horServ = new HorarioService();
-		this.profServ = new ProfesionalService();
-		this.prServ = new PracticaService();
+	public AsistenciaServlet() {
+		
 		this.turServ = new TurnoService();
+		this.pacServ = new PacienteService();
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		horarios = horServ.getAllActivos();
-		request.setAttribute("horarios", horarios);
-		request.getRequestDispatcher("generarAgenda.jsp").forward(request, response);		
+		
+		request.getRequestDispatcher("registrarAsistencia.jsp").forward(request, response);		
 
 	}
 
@@ -53,30 +52,33 @@ public class AgendaServlet extends HttpServlet {
 		String operacion = request.getParameter("operacion");
 		String respuestaOperacion = null;
 		String mensaje = null;
-		Integer cantSeleccionados = null;
-		Integer cantTotalHorarios = null;
 		
+		
+
 		switch (operacion) {
 		
-		case "generar": {
-			
-			//List<String> horariosSeleccionados = new ArrayList<String>(); 
-			String[] seleccionados = request.getParameterValues("seleccionados");			
-			List<Horario> horariosSeleccionados = new ArrayList<Horario>();
-			horariosSeleccionados = turServ.obtenerSeleccionados(seleccionados, horarios);
-			
-			cantSeleccionados = horariosSeleccionados.size();
-			cantTotalHorarios = horarios.size();
-			
-			respuestaOperacion = turServ.abrirAgenda(horariosSeleccionados);			
+		case "buscarPaciente": 
+		{
+			Integer dni = Integer.parseInt(request.getParameter("dniPaciente"));
+			Paciente pac = pacServ.buscarPaciente(dni); //busco el paciente para mostrar los datos tambine junto con los turnos registrados
+			List<Turno> turnos = new ArrayList<Turno>();			
+			turnos = turServ.buscarTurnosPendientes(pac.getDni());
+			request.setAttribute("turnos", turnos);	
 			break;
+			
+			
+		}
+
+		case "generar": {
+									
+			
 		}
 
 	}
 		
 		if (respuestaOperacion == "OK") {
 
-			mensaje = "Agenda generada exitosamente para "+cantSeleccionados+ " horarios seleccionados de " +cantTotalHorarios+" horarios";
+			mensaje = "Agenda generada exitosamente    ";
 			request.setAttribute("mensaje", mensaje);		
 		}
 
@@ -84,7 +86,7 @@ public class AgendaServlet extends HttpServlet {
 			
 			if(respuestaOperacion == null)
 			{
-				mensaje = "La generacion de agenda ya fue realizada el dia de hoy   ";
+				mensaje = "No existen horarios para la/s fecha/s de generacion de agenda    ";
 				request.setAttribute("mensaje", mensaje);
 			}
 			

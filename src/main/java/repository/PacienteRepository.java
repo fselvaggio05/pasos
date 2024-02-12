@@ -3,6 +3,7 @@ package repository;
 import conexionDB.FactoryConnection;
 import entity.Paciente;
 
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,13 +12,13 @@ public class PacienteRepository {
 
     ResultSet rs = null;
     PreparedStatement stmt = null;
-
+    String respuestaOperacion;
+    
     Paciente pac = new Paciente();
 
     public String insertarPaciente(Paciente pac)
     {   	
-    	
-    	String respuestaOperacion;
+    	   	
 	
 	    try
 	    {
@@ -53,6 +54,41 @@ public class PacienteRepository {
 	    return respuestaOperacion;
 	
 	    }
+
+	public Paciente buscarPaciente(Integer dni) {
+		
+		Paciente pac = new Paciente();
+		
+		try
+		{
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from paciente p inner join usuario u on u.dni=p.dni inner join obra_social os on os.id_obra_social=p.id_obra_social where p.dni=?");
+			stmt.setInt(1, dni);
+			rs = stmt.executeQuery();
+			
+			if(rs!=null && rs.next())
+			{
+				
+				pac.setApellido(rs.getString("u.apellido"));
+				pac.setNombre(rs.getString("nombre"));
+				pac.setDni(rs.getInt("dni"));
+				pac.setId_obra_social(rs.getInt("id_obra_social"));
+				respuestaOperacion = "OK";
+				
+			}
+			
+		}
+		
+		catch (SQLException e)
+		{
+			respuestaOperacion = e.toString();
+		}
+		
+		finally {
+			FactoryConnection.cerrarConexion(rs, stmt);
+		}
+		
+		return pac;
+	}
 
 	
 
