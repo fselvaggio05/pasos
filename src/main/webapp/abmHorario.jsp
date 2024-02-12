@@ -1,3 +1,4 @@
+<%@page import="entity.Horario"%>
 <%@ page import="java.util.List"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 
@@ -9,6 +10,7 @@
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 		<link rel="stylesheet" href="css/styles.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	</head>
 	<body>
 		<div class="container-fluid">
@@ -20,27 +22,6 @@
 					<div class="container">
 						<div>
 							<h4 class="text-center my-5 text-decoration-underline fw-bold ">Listado	de Horarios</h4>
-							<div class="row justify-content-center">
-								<div class="input-group mb-3 col-1">
-									<form action="horarios" method="post">
-										<div class="row mt-1">
-											<div class="col-9">
-												<input type="hidden" name="operacion" value="buscarProfesional"> 
-													<select class="form-select m-1" name="matricula">
-													<option value="1">Seleccione un profesional</option>
-													<c:forEach var="prof" items="${profesionales}">
-														<option value="<c:out value="${prof.matricula}"></c:out>"><c:out
-																value="${prof.apellido}, ${prof.nombre}"></c:out></option>
-													</c:forEach>
-												</select>
-											</div>
-											<div class="col-2">
-												<button class="btn btn-outline-success" type="submit">Buscar</button>
-											</div>
-										</div>
-									</form>
-								</div>
-							</div>
 							<div class="row justify-content-center mt-3">
 								<div class="card text-center">
 									<div class="toggle-switch">
@@ -52,18 +33,18 @@
                                 		</label>
                             		</div>
                             		<div class="card-body">
-                            			<!-- Tabla de Horarios activos -->
+                            			<!-- Tabla de horarios activos -->
 		                                <table id="tablaActivos" class="table table-striped my-2">
 		                                    <thead>
 		                                        <tr>
-													<th scope="col">Matricula</th>
+		                                            <th scope="col">Matricula</th>
 													<th scope="col">Apellido</th>
 													<th scope="col">Practica</th>
 													<th scope="col">Dia de la semana</th>
 													<th scope="col">Hora desde</th>
 													<th scope="col">Hora hasta</th>
 													<th scope="col">Operaciones</th>
-												</tr>
+		                                        </tr>
 		                                    </thead>
 		                                    <tbody>
 		                                        <c:forEach var="hor" items="${tablaHorariosActivos}">
@@ -82,23 +63,23 @@
 		                                        </c:forEach>
 		                                    </tbody>
 		                                </table>
-		                                <!-- Tabla de horarios inactivos -->
+		                                <!-- Tabla de equipos inactivos -->
 		                                <table id="tablaInactivos" class="table table-striped my-2" style="display: none;">
 		                                    <thead>
 		                                        <tr>
-													<th scope="col">Matricula</th>
+		                                            <th scope="col">Matricula</th>
 													<th scope="col">Apellido</th>
 													<th scope="col">Practica</th>
 													<th scope="col">Dia de la semana</th>
 													<th scope="col">Hora desde</th>
 													<th scope="col">Hora hasta</th>
 													<th scope="col">Operaciones</th>
-												</tr>
+		                                        </tr>
 		                                    </thead>
 		                                    <tbody>
 		                                        <c:forEach var="hor" items="${tablaHorariosInactivos}">
-       												<tr>
-														<td><c:out value="${hor.matricula}"></c:out></td>
+		                                            <tr>
+		                                                <td><c:out value="${hor.matricula}"></c:out></td>
 														<td><c:out value="${hor.apellido_profesional}"></c:out></td>
 														<td><c:out value="${hor.desc_practica}"></c:out></td>
 														<td><c:out value="${hor.dia_semana}"></c:out></td>
@@ -108,12 +89,12 @@
 																<i class='bi bi-heart-fill m-1'></i>
 															</a> 
 														</td>
-													</tr>
+		                                            </tr>
 		                                        </c:forEach>
 		                                    </tbody>
 		                                </table>
 		                                <div class="row justify-content-end">
-		                                	<button type="button" class="btn btn-success col-2 m-1" data-bs-toggle="modal" data-bs-target="#altaHorario" data-bs-whatever="@mdo">Agregar Horario</button>
+		                                	<button type="button" class="btn btn-success col-2 m-1" data-bs-toggle="modal" data-bs-target="#altaHorario" data-bs-whatever="@mdo">Nuevo Horario</button>
 		                                	<button type="button" class="btn btn-success col-2 m-1">Cancelar</button>
 		                                </div>
                             		</div>
@@ -123,20 +104,39 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<!--MENSAJE DE OPERACION-->
-		<div class="bg-info fs-4 text-center">
-			<c:out value="${mensaje}"></c:out>
-        </div>
+		</div>		
+<!-- 			MENSAJE OPERACION 		 -->
+			<c:if test="${mensaje !=null }">
+			    <div class="modal fade" id="mensajeOK" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			        <div class="modal-dialog">
+			            <div class="modal-content">
+			                <div class="modal-header">
+			                    <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
+			                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			                </div>
+			                <div class="modal-body">
+			                    <p class="fs-5 fw-bold">${mensaje}<i class="fa-solid fa-circle-info fa-2xl" style="color: #FFD43B;"></i></p>
+			                </div>
+			                <div class="modal-footer">
+			                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			                </div>
+			            </div>
+			        </div>
+			    </div>
+ 			    <script> 
+ 			        new bootstrap.Modal(document.getElementById('mensajeOK')).show(); 
+ 			    </script> 
+			</c:if>   
+		<!--VENTANA MODAL "AGREGAR HORARIO" -->
 		<div class="modal fade" id="altaHorario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="exampleModalLabel">Nuevo Horario</h1>
+						<h1 class="modal-title fs-5" id="exampleModalLabel"> Nuevo Horario</h1>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
-					<form action="horarios"	method="post">
-						<input type="hidden" name="operacion" value="altaHorario">
+					<form action="horarios" method="post">
+						<input type="hidden" value="alta" name="operacion">
 						<div class="modal-body text-start">
 							<select class="form-select m-1" name="matriculaProf">
 								<option value="1">Seleccione un profesional</option>
@@ -153,7 +153,7 @@
 									</c:forEach>
 								</select>
 							</div>
-							<div class="mb-3">
+														<div class="mb-3">
 								<label class="col-6">Dia de la semana</label>
 								 <select class="col-3 form-select" id="dia_semana" name="dia_semana">
 									<option value="lunes">Lunes</option>
@@ -174,7 +174,7 @@
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-								<button type="submit" class="btn btn-primary">Guardar</button>
+	                            <button type="submit" class="btn btn-primary">Guardar</button>							
 							</div>
 						</div>
 					</form>
@@ -190,22 +190,23 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<form action="horarios" method="post">
-                       <div class="modal-body">
-							<input type="hidden" value="eliminar" name="operacion">
-							<div class="mb-3">
-                            	<label class="col-6">¿Desea inactivar el horario?</label>
-                               	<input type="hidden"  id="idHorario" name="idHorario">                           
-                           </div>                                
-                           <div class="modal-footer">
-                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                               <button type="submit" class="btn btn-primary">Guardar</button>
-                           </div>
-                       </div>
-                   </form>
+					    <div class="modal-body">
+					        <input type="hidden" value="eliminar" name="operacion">
+					        <input type="hidden" id="idHorario" name="idHorario">
+					        <div class="mb-3">
+					            <label class="col-6">¿Desea eliminar el horario?</label>
+					            <input type="hidden"  id="idHorario" name="idHorario">
+					            <div class="modal-footer">
+					                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+					                <button type="submit" class="btn btn-primary">Guardar</button>
+					            </div>
+					        </div>
+					    </div>
+					</form>
 				</div>
 			</div>
 		</div>
-		<!--                     VENTANA MODAL "REVIVIR HORARIO" -->
+		<!--VENTANA MODAL "REVIVIR HORARIO" -->
 		<div class="modal fade" id="revivirHorario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -214,27 +215,26 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<form action="horarios" method="post">
-                         <div class="modal-body">
-							<input type="hidden" value="revivir" name="operacion">
-							<div class="mb-3">
-                               <label class="col-6">Desea habilitar el horario seleccionado?</label>                                    
-								<!--en este campo voy a guardar el valor del idHorario para enviarlo al servlet -->
-					            <input type="hidden"  id="idHorario" name="idHorario">                                    
-					        </div>                               
-					        <div class="modal-footer">
-					        	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-					            <button type="submit" class="btn btn-primary">Guardar</button>
+					    <div class="modal-body">
+					        <input type="hidden" value="revivir" name="operacion">
+					        <input type="hidden" id="idHorario" name="idHorario">
+					        <div class="mb-3">
+					            <label class="col-6">¿Desea reactivar el horario?</label>
+					            <input type="hidden"  id="idHorario" name="idHorario">
+					            <div class="modal-footer">
+					                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+					                <button type="submit" class="btn btn-primary">Guardar</button>
+					            </div>
 					        </div>
-					     </div>
+					    </div>
 					</form>
 				</div>
 			</div>
 		</div>
 		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
-		<script src="js/editarHorario.js"></script>      
+		<script src="js/editarEquipo.js"></script>      
 		<script src="js/eliminarEquipo.js"></script>
 		<script src="js/toggle.js"></script>
 	</body>
-	
 </html>
