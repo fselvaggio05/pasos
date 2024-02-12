@@ -97,12 +97,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		
-		
-		
-		
-		
+		</div>		
 <!-- 			MENSAJE OPERACION 		 -->
 			<c:if test="${mensaje !=null }">
 			    <div class="modal fade" id="mensajeOK" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -126,14 +121,7 @@
  			    <script> 
  			        new bootstrap.Modal(document.getElementById('mensajeOK')).show(); 
  			    </script> 
-			</c:if>            
-		
-		
-		
-		
-		
-		
-		
+			</c:if>   
 <!-- 		VENTANA MODAL "AGREGAR EQUIPO" -->
 		<div class="modal fade" id="altaEquipo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
@@ -147,10 +135,6 @@
 					<form action="equipos" method="post">
 						<div class="modal-body">
 							<input type="hidden" value="alta" name="operacion">
-							<div class="mb-3">
-								<label class="col-6">Codigo Equipo:</label>
-                                <input type="text"  class="form-control col-6" name="idEquipo">
-                            </div>
 							<div class="mb-3">
 								<label class="col-6">Tipo Equipo:</label>
 	                            <input type="text" class="form-control col-6" name="tipoEquipo">

@@ -27,9 +27,6 @@ if (activar) {
         
 	//asigno los valores capturados para mostrarlos
     inputId.value = id;
-    divId.innerHTML = id;
-   
-    
-    
+    divId.innerHTML = id;    
   })
 }
