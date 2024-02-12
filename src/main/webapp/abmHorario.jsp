@@ -1,4 +1,4 @@
-<%@page import="entity.Consultorio"%>
+<%@page import="entity.Horario"%>
 <%@ page import="java.util.List"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 
@@ -20,7 +20,7 @@
 				<div class="col-9">
 					<div class="container">
 						<div>
-							<h4 class="text-center my-5 text-decoration-underline fw-bold ">Listado	de Consultorios</h4>
+							<h4 class="text-center my-5 text-decoration-underline fw-bold ">Listado	de Horarios</h4>
 							<div class="row justify-content-center mt-3">
 								<div class="card text-center">
 									<div class="toggle-switch">
@@ -32,48 +32,61 @@
                                 		</label>
                             		</div>
                             		<div class="card-body">
-                            			<!-- Tabla de Consultorios activos -->
+                            			<!-- Tabla de Horarios Activos -->
 		                                <table id="tablaActivos" class="table table-striped my-2">
 		                                    <thead>
 		                                        <tr>
-		                                            <th scope="col">Codigo de Consultorio</th>
-		                                            <th scope="col">Descripcion</th>
+		                                            <th scope="col">Matricula</th>
+		                                            <th scope="col">Apellido</th>
+		                                            <th scope="col">Practica</th>
+		                                            <th scope="col">Dia de la Semana</th>
+		                                            <th scope="col">Hora Desde</th>
+		                                            <th scope="col">Hora Hasta</th>
 		                                            <th scope="col">Operaciones</th>
 		                                        </tr>
 		                                    </thead>
 		                                    <tbody>
-		                                        <c:forEach var="unConsultorio" items="${tablaConsultoriosActivos}">
+		                                        <c:forEach var="unHorario" items="${tablaHorariosActivos}">
 		                                            <tr>
-		                                                <td><c:out value="${unConsultorio.id_consultorio}"/></td>
-		                                                <td><c:out value="${unConsultorio.descripcion}"/></td>
-		                                                <td>
-		                                                	<a href='#' data-bs-toggle='modal' data-bs-target='#eliminarConsultorio' idConsultorio="${unConsultorio.id_consultorio}" descConsultorio="${unConsultorio.descripcion}">
+		                                                <td><c:out value="${unHorario.matricula}"></c:out></td>
+		                                                <td><c:out value="${unHorario.apellido_profesional}"></c:out></td>
+		                                                <td><c:out value="${unHorario.desc_practica}"></c:out></td>
+		                                                <td><c:out value="${unHorario.dia_semana}"></c:out></td>
+		                                                <td><c:out value="${unHorario.hora_desde}"></c:out></td>
+		                                                <td><c:out value="${unHorario.hora_hasta}"></c:out></td>
+		                                            	<td>
+		                                                	<a href='#' data-bs-toggle='modal' data-bs-target='#eliminarHorario' idHorario="${unHorario.id_horario}">
     															<i class='bi bi-trash-fill m-1'></i>
 															</a> 
-															<a href='#' data-bs-toggle='modal' data-bs-target='#actualizarConsultorio' idConsultorio="${unConsultorio.id_consultorio}" descConsultorio="${unConsultorio.descripcion}">
-																<i class="bi bi-pencil-fill"></i>
-															</a>
 		                                                </td>
 		                                            </tr>
 		                                        </c:forEach>
 		                                    </tbody>
 		                                </table>
-		                                <!-- Tabla de consultorios inactivos -->
+		                                <!-- Tabla de Horarios inactivos -->
 		                                <table id="tablaInactivos" class="table table-striped my-2" style="display: none;">
 		                                    <thead>
 		                                        <tr>
-		                                            <th scope="col">Codigo de Consultorio</th>
-		                                            <th scope="col">Descripcion</th>
+		                                            <th scope="col">Matricula</th>
+		                                            <th scope="col">Apellido</th>
+		                                            <th scope="col">Practica</th>
+		                                            <th scope="col">Dia de la Semana</th>
+		                                            <th scope="col">Hora Desde</th>
+		                                            <th scope="col">Hora Hasta</th>
 		                                            <th scope="col">Operaciones</th>
 		                                        </tr>
 		                                    </thead>
 		                                    <tbody>
-		                                        <c:forEach var="unConsultorio" items="${tablaConsultoriosInactivos}">
+		                                        <c:forEach var="unHorario" items="${tablaHorariosInactivos}">
 		                                            <tr>
-		                                                <td><c:out value="${unConsultorio.id_consultorio}"/></td>
-		                                                <td><c:out value="${unConsultorio.descripcion}"/></td>
+		                                                <td><c:out value="${unHorario.matricula}"></c:out></td>
+		                                                <td><c:out value="${unHorario.apellido_profesional}"></c:out></td>
+		                                                <td><c:out value="${unHorario.desc_practica}"></c:out></td>
+		                                                <td><c:out value="${unHorario.dia_semana}"></c:out></td>
+		                                                <td><c:out value="${unHorario.hora_desde}"></c:out></td>
+		                                                <td><c:out value="${unHorario.hora_hasta}"></c:out></td>
 		                                                <td>
-		                                                	<a href='#' data-bs-toggle='modal'data-bs-target='#revivirConsultorio' idConsultorio="${unConsultorio.id_consultorio}" descConsultorio="${unConsultorio.descripcion}">
+		                                                	<a href='#' data-bs-toggle='modal'data-bs-target='#revivirHorario' idHorario="${unHorario.id_horario}">
 		                                                		<i class='bi bi-heart-fill m-1'></i>
 		                                                	</a> 
 		                                                </td>
@@ -82,7 +95,7 @@
 		                                    </tbody>
 		                                </table>
 		                                <div class="row justify-content-end">
-		                                	<button type="button" class="btn btn-success col-2 m-1" data-bs-toggle="modal" data-bs-target="#altaConsultorio" data-bs-whatever="@mdo">Agregar Consultorio</button>
+		                                	<button type="button" class="btn btn-success col-2 m-1" data-bs-toggle="modal" data-bs-target="#altaHorario" data-bs-whatever="@mdo">Agregar Horario</button>
 		                                	<button type="button" class="btn btn-success col-2 m-1">Cancelar</button>
 		                                </div>
                             		</div>
@@ -94,20 +107,52 @@
 			</div>
 		</div>
  
-<!-- 		VENTANA MODAL "AGREGAR CONSULTORIO" -->
-		<div class="modal fade" id="altaConsultorio" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- 		VENTANA MODAL "AGREGAR HORARIO" -->
+		<div class="modal fade" id="altaHorario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="exampleModalLabel">Nuevo Consultorio</h1>
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Nuevo Horario</h1>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
-					<form action="consultorios" method="post">
+					<form action="horarios" method="post">
 						<div class="modal-body">
 							<input type="hidden" value="alta" name="operacion">
 							<div class="mb-3">
-								<label class="col-6">Descripcion consultorio:</label>
-	                            <input type="text" class="form-control col-6" name="descConsultorio">
+								<select class="form-select m-1" name="matriculaProf">
+									<option value="1">Seleccione un Profesional</option>
+									<c:forEach var="unProfesional" items="${profesionales}">
+										<option value="<c:out value="${unProfesional.matricula}"></c:out>"><c:out value="${unProfesional.apellido}, ${unProfesional.nombre}"></c:out></option>
+									</c:forEach>
+								</select>
+							</div>
+							<div class="mb-3">
+								<label class="col-6">Practica</label>
+								<select class="col-3 form-select" name="id_practica" id="id_practica">
+									<option value="1">Seleccione una Practica</option>
+									<c:forEach var="unaPractica" items="${practicas}">
+										<option value="${unaPractica.id_practica}"><c:out value="${unaPractica.descripcion}"></c:out></option>
+									</c:forEach>
+								</select>
+							</div>
+							<div class="mb-3">
+								<label class="col-6">Dia de la Semana</label>
+								<select class="col-3 form-select" name="dia_semana" id="dia_semana">
+									<option value="lunes">Lunes</option>
+									<option value="martes">Martes</option>
+									<option value="miercoles">Miercoles</option>
+									<option value="jueves">Jueves</option>
+									<option value="viernes">Viernes</option>
+									<option value="sabado">Sabado</option>
+								</select>
+							</div>
+							<div class="mb-3">
+								<label class="col-6">Hora Desde</label>
+								<input type="time" class="form-control col-6" name="hora_desde" id="hora_desde">
+							</div>
+							<div class="mb-3">
+								<label class="col-6">Hora Hasta</label>
+								<input type="time" class="form-control col-6" name="hora_hasta" id="hora_hasta">
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -118,52 +163,21 @@
 				</div>
 			</div>
 		</div>
-		<!--                     VENTANA MODAL "EDITAR CONSULTORIO" -->
-		<div class="modal fade" id="actualizarConsultorio" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="exampleModalLabel">Editar Consultorio</h1>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<form action="consultorios" method="post">
-						<div class="modal-body">
-							<input type="hidden" value="actualizar" name="operacion">
-							<div class="mb-3">
-								<label class="col-6">Codigo Consultorio:</label>
-                                <input type="text" class="form-control col-6" id="idConsultorio" name="idConsultorio" readOnly>
-                                <c:out value="${unConsultorio.id_consultorio}"></c:out>								
-							</div>
-							<div class="mb-3">
-								<label class="col-6">Descripcion Consultorio:</label>
-                                <input type="text" class="form-control col-6" id="descConsultorio" name="descConsultorio">
-                                <c:out value="${unConsultorio.descripcion}"></c:out>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                <button type="submit" class="btn btn-primary">Guardar</button>
-							</div>
-						</div>						
-					</form>
-				</div>
-			</div>
-		</div>
-		<!--                     VENTANA MODAL "ELIMINAR CONSULTORIO" -->
-		<div class="modal fade" id="eliminarConsultorio" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<!--                     VENTANA MODAL "ELIMINAR HORARIO" -->
+		<div class="modal fade" id="eliminarHorario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h1 class="modal-title fs-5" id="exampleModalLabel">Advertencia</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
-					<form action="consultorios" method="post">
+					<form action="horarios" method="post">
 					    <div class="modal-body">
 					        <input type="hidden" value="eliminar" name="operacion">
-					        <input type="hidden" id="idConsultorio" name="idConsultorio">
+					        <input type="hidden" id="idHorario" name="idHorario">
 					        <div class="mb-3">
-					            <label class="col-6">¿Desea anular el consultorio?</label>
-					            <input type="hidden"  id="idConsultorio" name="idConsultorio">
-								<div  class="fs-4 text-danger" id="descConsultorio" name="descConsultorio"></div>
+					            <label class="col-6">Desea anular el horario?</label>
+					            <input type="hidden"  id="idHorario" name="idHorario">
 					            <div class="modal-footer">
 					                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
 					                <button type="submit" class="btn btn-primary">Guardar</button>
@@ -174,22 +188,21 @@
 				</div>
 			</div>
 		</div>
-		<!--                     VENTANA MODAL "REVIVIR CONSULTORIO" -->
-		<div class="modal fade" id="revivirConsultorio" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<!--                     VENTANA MODAL "REVIVIR HORARIO" -->
+		<div class="modal fade" id="revivirHorario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h1 class="modal-title fs-5" id="exampleModalLabel">Advertencia</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
-					<form action="consultorios" method="post">
+					<form action="horarios" method="post">
 					    <div class="modal-body">
 					        <input type="hidden" value="revivir" name="operacion">
-					        <input type="hidden" id="idConsultorio" name="idConsultorio">
+					        <input type="hidden" id="idHorario" name="idHorario">
 					        <div class="mb-3">
-					            <label class="col-6">¿Desea restablecer el consultorio?</label>
-					            <input type="hidden"  id="idConsultorio" name="idConsultorio">
-								<div  class="fs-4 text-danger" id="descConsultorio" name="descConsultorio"></div>
+					            <label class="col-6">Desea restablecer el horario?</label>
+					            <input type="hidden"  id="idHorario" name="idHorario">
 					            <div class="modal-footer">
 					                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
 					                <button type="submit" class="btn btn-primary">Guardar</button>
@@ -230,5 +243,4 @@
 		<script src="js/eliminarEquipo.js"></script>
 		<script src="js/toggle.js"></script>
 	</body>
-	
 </html>

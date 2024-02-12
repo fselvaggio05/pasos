@@ -33,47 +33,47 @@ public class EquipoServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Integer idEquipo;
-		String tipoEquipo;
-		String descEquipo;
-		String mensaje;
-		String respuestaOperacion = null;
-		String opcion = request.getParameter("operacion");
+													Integer idEquipo;
+													String tipoEquipo;
+													String descEquipo;
+													String mensaje;
+													String respuestaOperacion = null;
+													String opcion = request.getParameter("operacion");
 
-		switch (opcion) {
-		case "alta": {
-			tipoEquipo = request.getParameter("tipoEquipo");
-			descEquipo = request.getParameter("descEquipo");
-			respuestaOperacion = eqServ.insertarEquipo(tipoEquipo, descEquipo);
-			break;
-		}
-		case "actualizar": {
-			idEquipo = Integer.parseInt(request.getParameter("idEquipo"));
-			tipoEquipo = request.getParameter("tipoEquipo");
-			descEquipo = request.getParameter("descEquipo");
-			respuestaOperacion = eqServ.actualizarEquipo(idEquipo, tipoEquipo, descEquipo);
-			break;
-		}
-		case "eliminar": {
-			idEquipo = Integer.parseInt(request.getParameter("idEquipo"));
-			respuestaOperacion = eqServ.eliminarEquipo(idEquipo);
-			break;
-		}
-		case "revivir": {
-			idEquipo = Integer.parseInt(request.getParameter("idEquipo"));
-			respuestaOperacion = eqServ.revivirEquipo(idEquipo);
-			break;
-		}
-		}
-
-		if (respuestaOperacion == "OK") {
-			mensaje = "Operacion realizada correctamente";
-			request.setAttribute("mensaje", mensaje);
-			this.doGet(request, response);
-		} else {
-			mensaje = respuestaOperacion;
-			request.setAttribute("mensaje", mensaje);
-			this.doGet(request, response);
+													switch (opcion) {
+													case "alta": {
+														tipoEquipo = request.getParameter("tipoEquipo");
+														descEquipo = request.getParameter("descEquipo");
+														respuestaOperacion = eqServ.insertarEquipo(tipoEquipo, descEquipo);
+														break;
+													}
+													case "actualizar": {
+														idEquipo = Integer.parseInt(request.getParameter("idEquipo"));
+														tipoEquipo = request.getParameter("tipoEquipo");
+														descEquipo = request.getParameter("descEquipo");
+														respuestaOperacion = eqServ.actualizarEquipo(idEquipo, tipoEquipo, descEquipo);
+														break;
+													}
+													case "eliminar": {
+														idEquipo = Integer.parseInt(request.getParameter("idEquipo"));
+														respuestaOperacion = eqServ.eliminarEquipo(idEquipo);
+														break;
+													}
+													case "revivir": {
+														idEquipo = Integer.parseInt(request.getParameter("idEquipo"));
+														respuestaOperacion = eqServ.revivirEquipo(idEquipo);
+														break;
+													}
+													}
+											
+													if (respuestaOperacion == "OK") {
+														mensaje = "Operacion realizada correctamente";
+														request.setAttribute("mensaje", mensaje);
+														this.doGet(request, response);
+													} else {
+														mensaje = respuestaOperacion;
+														request.setAttribute("mensaje", mensaje);
+														this.doGet(request, response);
 		}
 	}
 }

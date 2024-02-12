@@ -38,31 +38,31 @@ public class ConsultorioServlet extends HttpServlet {
 		String opcion = request.getParameter("operacion");
 
 		switch (opcion) {
-		case "alta": {
-			descConsultorio = request.getParameter("descConsultorio");
-			respuestaOperacion = consServ.insertarConsultorio(descConsultorio);
-			break;
-		}
-		case "actualizar": {
-			idConsultorio = Integer.parseInt(request.getParameter("idConsultorio"));
-			descConsultorio = request.getParameter("descConsultorio");
-			respuestaOperacion = consServ.actualizarConsultorio(idConsultorio, descConsultorio);
-			break;
-		}
-		case "eliminar": {
-			idConsultorio = Integer.parseInt(request.getParameter("idConsultorio"));
-			respuestaOperacion = consServ.eliminarConsultorio(idConsultorio);
-			break;
-		}
-		case "revivir": {
-			idConsultorio = Integer.parseInt(request.getParameter("idConsultorio"));
-			respuestaOperacion = consServ.revivirConsultorio(idConsultorio);
-			break;
-		}
-	}
+							case "alta": {
+								descConsultorio = request.getParameter("descConsultorio");
+								respuestaOperacion = consServ.insertarConsultorio(descConsultorio);
+								break;
+							}
+							case "actualizar": {
+								idConsultorio = Integer.parseInt(request.getParameter("idConsultorio"));
+								descConsultorio = request.getParameter("descConsultorio");
+								respuestaOperacion = consServ.actualizarConsultorio(idConsultorio, descConsultorio);
+								break;
+							}
+							case "eliminar": {
+								idConsultorio = Integer.parseInt(request.getParameter("idConsultorio"));
+								respuestaOperacion = consServ.eliminarConsultorio(idConsultorio);
+								break;
+							}
+							case "revivir": {
+								idConsultorio = Integer.parseInt(request.getParameter("idConsultorio"));
+								respuestaOperacion = consServ.revivirConsultorio(idConsultorio);
+								break;
+							}
+						}
 
 		if (respuestaOperacion == "OK") {
-			mensaje = "La operacion se ha realizado correctamente";
+			mensaje = "Operacion realizada correctamente";
 			request.setAttribute("mensaje", mensaje);
 			this.doGet(request, response);
 		} else {

@@ -50,6 +50,25 @@ if (eliminarConsultorio) {
     })
 }
 
+const eliminarHorario = document.getElementById('eliminarHorario');
+if (eliminarHorario) {
+    // Agrega un evento onload al modal, cuando el modal se levante ejecuta la siguiente función
+    eliminarHorario.addEventListener('show.bs.modal', event => {
+        
+        // Trae el link que levantó el modal
+        const a = event.relatedTarget
+        
+        // Trae los atributos del link con los valores que se le enviaron 
+        const idHorario = a.getAttribute('idHorario');
+        
+        // Traigo los campos en donde voy a mostrar los datos 
+        const inputIdHorario = eliminarHorario.querySelector('.modal-body #idHorario');
+
+        // Asigno los valores capturados para mostrarlos
+        inputIdHorario.value = idHorario;   
+    })
+}
+
 const revivirEquipo = document.getElementById('revivirEquipo')
 if(revivirEquipo){
 	revivirEquipo.addEventListener('show.bs.modal', event => {
@@ -97,3 +116,14 @@ if(revivirConsultorio){
     inputDescripcion.innerHTML = descripcion;   
   })
 }
+
+const revivirHorario = document.getElementById('revivirHorario');
+if (revivirHorario) {
+    revivirHorario.addEventListener('show.bs.modal', event => {
+        const a = event.relatedTarget;
+        const idHorario = a.getAttribute('idHorario');
+        const inputIdHorario = revivirHorario.querySelector('.modal-body #idHorario');
+        inputIdHorario.value = idHorario;   
+    });
+}
+
