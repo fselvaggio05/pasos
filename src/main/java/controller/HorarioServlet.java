@@ -61,7 +61,7 @@ public class HorarioServlet extends HttpServlet {
 														request.getRequestDispatcher("abmHorario.jsp").forward(request, response);											
 														break;
 													  }					
-							case "altaHorario": {
+							case "alta": {
 													Horario hr = new Horario();													
 													LocalTime desde = null;
 													LocalTime hasta = null;
@@ -81,7 +81,7 @@ public class HorarioServlet extends HttpServlet {
 																				hr.setHora_hasta(hasta);														
 																				respuestaOperacion = horServ.insertarHorario(hr);													
 																				}
-													else {respuestaOperacion = "El horario ingresado debe ajustarse a la duracion de la practica  ";}
+													else {respuestaOperacion = "El horario ingresado debe ajustarse a la duracion de la practica.";}
 													break;
 												}
 							case "eliminar": {
@@ -104,7 +104,6 @@ public class HorarioServlet extends HttpServlet {
 			mensaje = respuestaOperacion;
 			request.setAttribute("mensaje", mensaje);
 			this.doGet(request, response);
-		}		
-		this.doGet(request, response);
+		}	
 	}
 }

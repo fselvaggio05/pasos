@@ -93,10 +93,8 @@
 				</div>
 			</div>
 		</div>
-		<!--             MENSAJE DE OPERACION, cambiarlo por un modal con javascript -->
-		<div class="bg-info fs-4 text-center">
-			<c:out value="${mensaje}"></c:out>
-        </div>
+ 
+<!-- 		VENTANA MODAL "AGREGAR CONSULTORIO" -->
 		<div class="modal fade" id="altaConsultorio" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -202,6 +200,30 @@
 				</div>
 			</div>
 		</div>
+		<!-- 			MENSAJE OPERACION 		 -->
+			<c:if test="${mensaje !=null }">
+			    <div class="modal fade" id="mensajeOK" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			        <div class="modal-dialog">
+			            <div class="modal-content">
+			                <div class="modal-header">
+			                    <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
+			                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			                </div>
+			
+			                <div class="modal-body">
+			                    <p class="fs-5 fw-bold">${mensaje}<i class="fa-solid fa-circle-info fa-2xl" style="color: #FFD43B;"></i></p>
+			                </div>
+			                <div class="modal-footer">
+			                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+			                </div>
+			                <div></div>
+			            </div>
+			        </div>
+			    </div>
+ 			    <script> 
+ 			        new bootstrap.Modal(document.getElementById('mensajeOK')).show(); 
+ 			    </script> 
+			</c:if>  
 		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
 		<script src="js/editarEquipo.js"></script>      
