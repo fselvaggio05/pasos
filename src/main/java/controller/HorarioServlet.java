@@ -103,10 +103,11 @@ public class HorarioServlet extends HttpServlet {
 			{
 				hr.setMatricula(Integer.parseInt(request.getParameter("matriculaProf")));
 				hr.setDia_semana(request.getParameter("dia_semana"));
-				hr.setId_practica(id_practica);
-				
+				hr.setId_practica(id_practica);				
 				hr.setHora_desde(desde);
-				hr.setHora_hasta(hasta);				
+				hr.setHora_hasta(hasta);
+				
+				horServ.validaConsulorio(hr);
 				
 				respuestaOperacion = horServ.insertarHorario(hr);
 				

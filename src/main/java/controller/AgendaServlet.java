@@ -60,8 +60,9 @@ public class AgendaServlet extends HttpServlet {
 		
 		case "generar": {
 			
-			//List<String> horariosSeleccionados = new ArrayList<String>(); 
-			String[] seleccionados = request.getParameterValues("seleccionados");			
+			
+			String[] seleccionados = request.getParameterValues("seleccionados");
+			
 			List<Horario> horariosSeleccionados = new ArrayList<Horario>();
 			horariosSeleccionados = turServ.obtenerSeleccionados(seleccionados, horarios);
 			

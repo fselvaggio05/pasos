@@ -14,13 +14,15 @@ import repository.PracticaRepository;
 
 public class HorarioService {
 	
-	protected HorarioRepository horRep;
-	protected PracticaService prServ;
+	private HorarioRepository horRep;
+	private PracticaService prServ;
+	private ConsultorioService conServ;
 	
 	public HorarioService()
 	{
 		this.horRep = new HorarioRepository();
 		this.prServ = new PracticaService();
+		this.conServ = new ConsultorioService();
 	}
 	
 	
@@ -111,6 +113,31 @@ public class HorarioService {
 			
 
 		
+	}
+
+
+
+	public boolean validaConsulorio(Horario hr) {
+		
+		
+		Integer cantConsultorio = conServ.getAllActivos().size();
+		
+		Integer cantHorarios = this.obtenerHorariosCreados(hr);
+		
+		
+		return false;
+		
+		
+		
+	}
+
+
+
+	private Integer obtenerHorariosCreados(Horario hr) {
+		
+		Integer cantHorarios = this.horRep.obtenerHorariosCreados(hr);
+		
+		return cantHorarios;
 	}
 
 

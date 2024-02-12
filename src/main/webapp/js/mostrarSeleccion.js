@@ -1,3 +1,30 @@
+function selectAll()
+{
+	 const all = document.getElementsByName("seleccionados")
+  	 all.forEach(item => item.checked = true)
+}
+
+function unSelectAll()
+{
+	 const all = document.getElementsByName("seleccionados")
+     all.forEach(item => item.checked = false)
+
+}
+
+
+function verificarSeleccion()
+{
+	if (!(document.getElementsByName("seleccionados")).checked)
+		{
+			alert('Debe seleccionar al menos un horario')
+			console.log("paso por aca")						
+		}
+		return false;
+
+}
+
+
+
 //function capturarSeleccion() {
 //      
 //		var seleccionados = document.querySelectorAll("cb1")

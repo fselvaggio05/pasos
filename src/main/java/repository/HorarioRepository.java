@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -409,9 +410,51 @@ public class HorarioRepository {
 	}
 
 
+	public Integer obtenerHorariosCreados(Horario hr) {
+		
+		Time desde = null;
+		Time hasta = null;
+		desde = Time.valueOf(hr.getHora_desde());
+		hasta = Time.valueOf(hr.getHora_hasta());
+		Integer cantHorarios = null;	
+		
+		
+		try
+		{		
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select count(*) from horarios where fecha_baja is null and dia_semana=? and hora_desde>=? and hora_hasta<=? " );
+			stmt.setString(1, hr.getDia_semana());
+			stmt.setTime(2, desde);
+			stmt.setTime(3, hasta);
+			rs= stmt.executeQuery();	
+			
+			while(rs.next() && rs != null)
+			{
+				cantHorarios = (Integer)rs.getObject(1);
+			
+			}			
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+			
+		}		
+		finally
+		{
+			
+			 try {
+		            if (rs != null) rs.close();
+		            if (stmt != null) stmt.close();
+		        	} 
+		        catch (Exception e) {
+		            e.printStackTrace();
+		        }			
+		}		
+		
+		return cantHorarios;
+
 
 	
-
+	}
 	
 	
 

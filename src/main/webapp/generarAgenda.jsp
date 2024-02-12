@@ -88,9 +88,16 @@
 <!-- 									class="btn btn-success col-2 justify-content-end" -->
 <!-- 									data-bs-toggle="modal" data-bs-target="#generarAgenda" onclick="capturarSeleccion()">Generar agenda -->
 <!-- 								</button> -->
+								<button type="button"
+									class="btn btn-success col-2 justify-content-end" onclick="selectAll()">Seleccionar todos 
+								</button>
 								
+								<button type="button"
+									class="btn btn-success col-2 justify-content-end me-4" onclick="unSelectAll()">Deseleccionar todos 
+								</button>
+				
 								<button type="submit"
-									class="btn btn-success col-2 justify-content-end">Generar agenda
+									class="btn btn-success col-2 justify-content-end" >Generar agenda
 								</button>
 								
 								<button type="button"
