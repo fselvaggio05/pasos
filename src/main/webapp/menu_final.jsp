@@ -59,7 +59,7 @@
         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
           <li><a href="practicas" class="link-dark rounded">Gestión Practicas profesionales</a></li>
           <li><a href="equipos" class="link-dark rounded">Gestión Equipos</a></li>
-          <li><a href="altaConsultorio.html" class="link-dark rounded">Gestión Consultorios</a></li>
+          <li><a href="consultorios" class="link-dark rounded">Gestión Consultorios</a></li>
           <li><a href="altaUsuario_admin.jsp" class="link-dark rounded">Gestión Usuarios</a></li>
           <li><a href="horarios" class="link-dark rounded">Gestión Horarios</a></li>
            <li><a href="" class="link-dark rounded">Gestión Practicas por profesional</a></li>

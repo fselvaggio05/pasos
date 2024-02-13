@@ -1,12 +1,9 @@
 package repository;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import conexionDB.FactoryConnection;
 import entity.Consultorio;
@@ -203,14 +200,10 @@ public class ConsultorioRepository {
 	public String eliminarConsultorio(Integer idConsultorio) {
 		// TODO Auto-generated method stub
 		String respuestaOperacion;
-		Date fecha_baja;
 		try
 		{
-			Calendar calendar = new GregorianCalendar();
-			fecha_baja = new Date(calendar.getTimeInMillis());
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update consultorio set estado=0, fecha_baja=? where id_consultorio=?");
-			stmt.setDate(1, new java.sql.Date(fecha_baja.getTime()));
-			stmt.setInt(2, idConsultorio);	
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update consultorio set estado=0, fecha_baja=current_timestamp() where id_consultorio=?");
+			stmt.setInt(1, idConsultorio);	
 			stmt.executeUpdate();
 			respuestaOperacion= "OK";
 		}
@@ -218,14 +211,14 @@ public class ConsultorioRepository {
 			respuestaOperacion = e.toString();
 		}		
 		finally {
-	        try {
-	            if (rs != null) rs.close();
-	            if (stmt != null) stmt.close();
-	        	} 
-	        catch (Exception e) {
-	            e.printStackTrace();
-	        }
-	        FactoryConnection.getInstancia().releaseConn(); //es correcta esta forma de cerrar la conexion?
+			        try {
+			            if (rs != null) rs.close();
+			            if (stmt != null) stmt.close();
+			        	} 
+			        catch (Exception e) {
+			            e.printStackTrace();
+			        }
+			        FactoryConnection.getInstancia().releaseConn(); //es correcta esta forma de cerrar la conexion?
 	    }			
 		return respuestaOperacion;
 	}
