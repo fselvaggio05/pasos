@@ -3,6 +3,9 @@ package repository;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import conexionDB.FactoryConnection;
@@ -221,5 +224,60 @@ public class ConsultorioRepository {
 			        FactoryConnection.getInstancia().releaseConn(); //es correcta esta forma de cerrar la conexion?
 	    }			
 		return respuestaOperacion;
+	}
+
+	
+	public List<Integer> getConsultoriosAsignados(LocalDate fecha, LocalTime hora_desde, LocalTime hora_hasta) {
+		
+			
+		
+		List<Integer> consDisponible = new ArrayList<Integer>();
+		
+		Time desde = null;
+		Time hasta = null;
+		desde = Time.valueOf(hora_desde);
+		hasta = Time.valueOf(hora_hasta);
+		Date fecha_turno = Date.valueOf(fecha);
+		Integer cantTurnos = null;
+		
+		
+		try {
+			
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select id_consultorio from turno where fecha_turno=? and ((hora_turno>=? and hora_hasta<=?) or (hora_turno>? and hora_hasta<=?) or (hora_turno>=? and hora_hasta<?))");			
+			stmt.setDate(1, fecha_turno);
+			stmt.setTime(2, desde);
+			stmt.setTime(3, hasta);
+			stmt.setTime(4, desde);
+			stmt.setTime(5, hasta);
+			stmt.setTime(6, desde);
+			stmt.setTime(7, hasta);
+			rs = stmt.executeQuery();
+			
+			
+			while (rs!=null && rs.next())
+			{
+				Integer id_consultorio;
+				id_consultorio = rs.getInt("id_consultorio");				
+				consDisponible.add(id_consultorio);						
+			}
+		} 
+		
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+	        try {
+	            if (rs != null) rs.close();
+	            if (stmt != null) stmt.close();
+	        	} 
+	        catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        FactoryConnection.getInstancia().releaseConn(); 
+	    }
+		
+		
+		return consDisponible;
 	}
 }

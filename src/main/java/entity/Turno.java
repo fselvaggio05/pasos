@@ -8,7 +8,8 @@ public class Turno {
 	
 	private Integer id_turno;
 	private LocalDate fecha_t;
-	private LocalTime hora_t;	
+	private LocalTime hora_t;
+	private LocalTime hora_hasta_t;	
 	private LocalDate fecha_generacion;
 	private LocalDate fecha_baja_t; //null en la generacion de agenda
 	private String observacion; //null en la generacion de agenda
@@ -107,7 +108,18 @@ public class Turno {
 	public void setDni(Integer dni) {
 		this.dni = dni;
 	}
+
+	public LocalTime getHora_hasta_t() {
+		return hora_hasta_t;
+	}
+
+	public void setHora_hasta_t(LocalTime hora_hasta_t) {
+		this.hora_hasta_t = hora_hasta_t;
+	}
+
 	
+
+
 	
 	
 	

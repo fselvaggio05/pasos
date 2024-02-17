@@ -20,7 +20,7 @@ public class HorarioRepository {
 		List<Horario> horarios = new ArrayList<Horario>();		
 		try
 		{		
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from horario h inner join profesional p on h.matricula=p.matricula inner join usuario u on p.dni=u.dni inner join practica pr on pr.id_practica=h.id_practica where h.fecha_baja is null order by u.apellido asc, h.dia_semana" );
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from horario h inner join profesional p on h.matricula=p.matricula inner join usuario u on p.dni=u.dni inner join practica pr on pr.id_practica=h.id_practica where h.fecha_baja is null order by h.hora_desde asc, u.apellido asc, pr.descripcion, h.dia_semana asc" );
 			rs= stmt.executeQuery();			
 			while(rs.next() && rs != null)
 			{
@@ -262,18 +262,25 @@ public class HorarioRepository {
 		
 		try
 		{		
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select count(*) from horarios where fecha_baja is null and dia_semana=? and hora_desde>=? and hora_hasta<=? " );
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select count(*) from horario where fecha_baja is null and dia_semana=? and ((hora_desde>? and hora_hasta<?) or (hora_desde>? and hora_desde<?) or (hora_hasta>? and hora_hasta<?))" );
 			stmt.setString(1, hr.getDia_semana());
 			stmt.setTime(2, desde);
 			stmt.setTime(3, hasta);
+			stmt.setTime(4, desde);
+			stmt.setTime(5, hasta);
+			stmt.setTime(6, desde);
+			stmt.setTime(7, hasta);
+			
 			rs= stmt.executeQuery();	
 			
 			while(rs.next() && rs != null)
 			{
-				cantHorarios = (Integer)rs.getObject(1);
+				cantHorarios = Integer.parseInt(rs.getString(1));
 			
 			}			
 		}
+		
+		
 		catch(SQLException e)
 		{
 			e.printStackTrace();

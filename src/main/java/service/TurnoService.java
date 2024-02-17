@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-
+import entity.Consultorio;
 import entity.Horario;
 import entity.Turno;
 import repository.TurnoRepository;
@@ -18,55 +18,87 @@ public class TurnoService {
 	
 	private TurnoRepository turRep;
 	private PracticaService prServ;
-	private LocalDate fecha_turno;
+	private ConsultorioService conServ;
+	private HorarioService horServ;
 	private String respuesta;
 	
 	public TurnoService()
 	{
 		this.turRep = new TurnoRepository();
 		this.prServ = new PracticaService();
+		this.conServ = new ConsultorioService();
+		this.horServ = new HorarioService();
 	}
 
 public String abrirAgenda(List<Horario> horarios) {
 		
 		Integer duracionPractica;
 		LocalTime hora_desde;
-		List<Turno> turnos = new ArrayList<Turno>();
+		LocalTime hora_desde_consultorio;
+		Integer cantConsultorios = null;
+		Boolean asignado = null;
+		LocalTime hora_hasta_turno = null;
 		
+		List<Turno> turnos = new ArrayList<Turno>();	
 		List<LocalDate> diasGeneracion = this.obtenerDiasGeneracionAgenda();
+		
+	
 		
 		if(diasGeneracion.size()!=0)
 		{
 			for (int i=0; i<diasGeneracion.size();i++)
 			{
-							
-				for(Horario h : horarios)
-				{
-					String nombreDia = diasGeneracion.get(i).format(DateTimeFormatter.ofPattern("EEEE",Locale.getDefault())); //EEEE, dd MMMM, yyyy formato completo fecha
+				String nombreDia = diasGeneracion.get(i).format(DateTimeFormatter.ofPattern("EEEE",Locale.getDefault())); //EEEE, dd MMMM, yyyy formato completo fecha
+//				hora_desde_consultorio = null;
+				
+				
+				  for(Horario h : horarios)
+				  {			
+//						if(hora_desde_consultorio == null)
+//						{
+//							hora_desde_consultorio = h.getHora_desde();
+//						}
 					
-					if(nombreDia.equals(h.getDia_semana()))
-					{
-						duracionPractica = prServ.getDuracionPractica(h.getId_practica());
-						hora_desde = h.getHora_desde();
-						
-						while(hora_desde.compareTo(h.getHora_hasta())<0)
-							{
-								Turno tur = new Turno();
-								tur.setFecha_generacion(LocalDate.now());					
-								tur.setFecha_t(diasGeneracion.get(i)); 
-								tur.setHora_t(hora_desde);
-								tur.setEstado_t("Libre");
-								tur.setId_horario(h.getId_horario());
-								turnos.add(tur);				
-								hora_desde= hora_desde.plusMinutes(duracionPractica);							
-							}
-					}
-				}
-				
-				
+						if(nombreDia.equals(h.getDia_semana()))
+						 {
+//						
+								duracionPractica = prServ.getDuracionPractica(h.getId_practica());
+								hora_desde = h.getHora_desde();
+								hora_desde_consultorio = hora_desde;
+								
+									while(hora_desde.compareTo(h.getHora_hasta())<0)
+									{
+										
+										Turno tur = new Turno();
+										tur.setFecha_generacion(LocalDate.now());					
+										tur.setFecha_t(diasGeneracion.get(i)); 
+										tur.setHora_t(hora_desde);
+										hora_hasta_turno = hora_desde.plusMinutes(duracionPractica);
+										tur.setHora_hasta_t(hora_hasta_turno);
+										tur.setEstado_t("Libre");
+										tur.setId_horario(h.getId_horario());
+//										tur.setId_consultorio(cons.getId_consultorio());
+										LocalDate fecha = diasGeneracion.get(i);
+										
+										
+										if(this.validarConsultorioDisponible(fecha,hora_desde,hora_hasta_turno))
+										{
+											tur.setId_consultorio(conServ.getConsultorioDisponible(fecha,hora_desde,hora_hasta_turno));
+											turRep.abrirAgenda(tur);
+											
+										}
+											
+									
+										hora_desde= hora_desde.plusMinutes(duracionPractica);	
+									}
+						}
+				   }	  
+				  
 			}
+				  
 			
-			respuesta = turRep.abrirAgenda(turnos);
+			
+//			respuesta = turRep.abrirAgenda(turnos);
 			
 			
 		}
@@ -194,5 +226,20 @@ public List<Horario> obtenerSeleccionados(String[] seleccionados, List<Horario> 
 }
 
 
-
+public boolean validarConsultorioDisponible(LocalDate fecha, LocalTime hora_desde, LocalTime hora_hasta)
+{
+	Integer cantTurnos = turRep.validarConsultorioDisponible(fecha,hora_desde,hora_hasta);
+	Integer cantConsultorios = conServ.getAllActivos().size();
+	
+	if(cantConsultorios>cantTurnos)
+	{
+		return true;
+	}
+	
+	else
+	{
+		return false;
+	}
+	
+}
 }

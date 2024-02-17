@@ -49,7 +49,7 @@ public class HorarioServlet extends HttpServlet {
 		String respuestaOperacion = null;
 		String mensaje;
 		Integer idHorario;
-		Boolean calculoHorario;
+		
 		
 		switch (operacion) {
 
@@ -64,28 +64,22 @@ public class HorarioServlet extends HttpServlet {
 													  }					
 							case "alta": {
 													Horario hr = new Horario();													
-													LocalTime desde = null;
-													LocalTime hasta = null;
-													Integer id_practica = null;													
-													id_practica = Integer.parseInt(request.getParameter("id_practica"));
-													desde = LocalTime.parse(request.getParameter("hora_desde"));
-													hasta = LocalTime.parse(request.getParameter("hora_hasta"));													
-													
+																										
+													hr.setId_practica(Integer.parseInt(request.getParameter("id_practica")));
+													hr.setHora_desde(LocalTime.parse(request.getParameter("hora_desde")));
+													hr.setHora_hasta(LocalTime.parse(request.getParameter("hora_hasta")));
+													hr.setDia_semana(request.getParameter("dia_semana"));
 													//TODO: ARREGLAR LOS DESPELOTES POR LOS CAMBIOS DE TIPO
-													calculoHorario = horServ.calculaHorario(id_practica, desde, hasta);		
-													
-													if(calculoHorario == true && horServ.validaConsulorio(hr)) {
+																									
+													if(horServ.calculaHorario(hr) && horServ.validaConsulorio(hr)) {
 																				hr.setMatricula(Integer.parseInt(request.getParameter("matriculaProf")));
-																				hr.setDia_semana(request.getParameter("dia_semana"));
-																				hr.setId_practica(id_practica);
-																				hr.setHora_desde(desde);
-																				hr.setHora_hasta(hasta);														
+																																																		
 																				respuestaOperacion = horServ.insertarHorario(hr);													
 																				}
 													
 													
 													
-													else {respuestaOperacion = "El horario ingresado debe ajustarse a la duracion de la practica.";}
+													else {respuestaOperacion = "No es posible agregar el horario ingresado";}
 													break;
 												}
 							case "eliminar": {

@@ -1,5 +1,7 @@
 package service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import entity.Consultorio;
@@ -45,5 +47,41 @@ public class ConsultorioService {
 	public String revivirConsultorio(Integer idConsultorio) {
 		// TODO Auto-generated method stub
 		return respuestaOperacion = consRep.revivirConsultorio(idConsultorio);
+	}
+
+	public Integer getConsultorioDisponible(LocalDate fecha, LocalTime hora_desde, LocalTime hora_hasta) {
+		
+		List<Integer> consAsignados = consRep.getConsultoriosAsignados(fecha, hora_desde, hora_hasta);
+		
+		List<Consultorio> consActivos = consRep.getAllActivos();
+		Integer id_consultorio = null;
+		
+		
+		
+		for(Consultorio c : consActivos )
+		{
+			if(consAsignados.size()==0)
+			{
+				id_consultorio = c.getId_consultorio();
+			}
+			
+			else
+			{
+				for(Integer cAsig : consAsignados)
+				{
+					if(c.getId_consultorio()!=cAsig)
+					{
+						id_consultorio = c.getId_consultorio();
+					}					
+					
+				}
+				
+			}
+						
+		}
+		
+		return id_consultorio;	
+		
+		
 	}
 }

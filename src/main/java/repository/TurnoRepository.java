@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,27 +29,31 @@ public class TurnoRepository {
 
 	
 	
-public String abrirAgenda(List<Turno> turnos) {
+public String abrirAgenda(Turno t) {
 	
 		
-		for (Turno t : turnos)
-		{
+		
 			Date fecha_generacion;
 			Date fecha_turno;
 			Time hora_turno;
+			Time hora_hasta;
 			
 			fecha_generacion = Date.valueOf(t.getFecha_generacion());
 			fecha_turno = Date.valueOf(t.getFecha_t());
 			hora_turno = Time.valueOf(t.getHora_t());
+			hora_hasta = Time.valueOf(t.getHora_hasta_t());
 			
 			try
 			{
-				stmt = FactoryConnection.getInstancia().getConn().prepareStatement("insert into turno (fecha_generacion, fecha_turno, hora_turno, estado_t, idHorario) values(?,?,?,?,?)");
+				stmt = FactoryConnection.getInstancia().getConn().prepareStatement("insert into turno (fecha_generacion, fecha_turno, hora_turno, hora_hasta, estado_t, idHorario, id_consultorio) values(?,?,?,?,?,?,?)");
 				stmt.setDate(1, fecha_generacion);
 				stmt.setDate(2, fecha_turno);
 				stmt.setTime(3, hora_turno);
-				stmt.setString(4, t.getEstado_t());
-				stmt.setInt(5, t.getId_horario());
+				stmt.setTime(4, hora_hasta);				
+				stmt.setString(5, t.getEstado_t());
+				stmt.setInt(6, t.getId_horario());
+				stmt.setInt(7, t.getId_consultorio());
+				
 				
 				stmt.executeUpdate();
 				
@@ -63,7 +70,7 @@ public String abrirAgenda(List<Turno> turnos) {
 			{
 				FactoryConnection.cerrarConexion(rs, stmt);
 			}
-		}
+		
 		
 		
 		return respuestaOperacion;
@@ -185,5 +192,58 @@ public List<Turno> buscarTurnosPendientes(Integer dni) {
 	
 	return turnos;
 }
+
+
+public Integer validarConsultorioDisponible(LocalDate fecha, LocalTime hora_desde, LocalTime hora_hasta) {
+	
+	Time desde = null;
+	Time hasta = null;
+	desde = Time.valueOf(hora_desde);
+	hasta = Time.valueOf(hora_hasta);
+	Date fecha_turno = Date.valueOf(fecha);
+	Integer cantTurnos = null;
+	
+	try
+	{
+		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select count(*) from turno where fecha_turno=? and ((hora_turno>=? and hora_hasta<=?) or (hora_turno>? and hora_hasta<=?) or (hora_turno>=? and hora_hasta<?))");
+		stmt.setDate(1, fecha_turno);
+		stmt.setTime(2, desde);
+		stmt.setTime(3, hasta);
+		stmt.setTime(4, desde);
+		stmt.setTime(5, hasta);
+		stmt.setTime(6, desde);
+		stmt.setTime(7, hasta);
+		rs = stmt.executeQuery();		
+		
+		if(rs!=null && rs.next())
+		{			
+			cantTurnos = Integer.parseInt(rs.getString(1));				
+		}		
+						
+		
+		else
+		{
+			cantTurnos = 0;
+		}
+					
+		
+	}
+	
+	catch (SQLException e)
+	{
+		e.toString();
+	}
+	
+	finally
+	{
+		FactoryConnection.cerrarConexion(rs, stmt);
+	}
+	
+	
+	return cantTurnos;
 	
 }
+	
+}
+
+

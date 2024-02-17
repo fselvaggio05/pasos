@@ -62,7 +62,7 @@
           <li><a href="consultorios" class="link-dark rounded">Gestión Consultorios</a></li>
           <li><a href="altaUsuario_admin.jsp" class="link-dark rounded">Gestión Usuarios</a></li>
           <li><a href="horarios" class="link-dark rounded">Gestión Horarios</a></li>
-           <li><a href="" class="link-dark rounded">Gestión Practicas por profesional</a></li>
+           
         </ul>
       </div>
     </li>

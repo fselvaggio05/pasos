@@ -52,10 +52,11 @@ public class HorarioService {
 		return horRep.inactivarHorario(idHorario);
 	}
 
-	public Boolean calculaHorario(Integer id_practica, LocalTime desde, LocalTime hasta) {
+	public Boolean calculaHorario(Horario hr) {
 		Integer duracionPractica;
-		duracionPractica = prServ.getDuracionPractica(id_practica);
-		long minutosDiferencia = Duration.between(desde, hasta).toMinutes();
+		duracionPractica = prServ.getDuracionPractica(hr.getId_practica());
+		long minutosDiferencia = Duration.between(hr.getHora_desde(), hr.getHora_hasta()).toMinutes();
+		
 		if (minutosDiferencia % duracionPractica == 0) {
 			return true;
 		} else {
@@ -65,23 +66,30 @@ public class HorarioService {
 
 
 	public boolean validaConsulorio(Horario hr) {
-		
-		
-		Integer cantConsultorio = conServ.getAllActivos().size();
-		
+				
+		Integer cantConsultorio = conServ.getAllActivos().size();		
 		Integer cantHorarios = this.obtenerHorariosCreados(hr);
 		
+		if(cantConsultorio>cantHorarios)
+		{
+			return true;
+		}
 		
-		return false;
+		else 
+		{
+			return false;
+		}
+		
+		
 		
 		
 	}
 
 
 
-	private Integer obtenerHorariosCreados(Horario hr) {
+	public Integer obtenerHorariosCreados(Horario hr) {
 		
-		Integer cantHorarios = this.horRep.obtenerHorariosCreados(hr);
+		Integer cantHorarios = horRep.obtenerHorariosCreados(hr);
 		
 		return cantHorarios;
 	}
