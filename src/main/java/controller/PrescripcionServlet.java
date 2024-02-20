@@ -105,7 +105,7 @@ public class PrescripcionServlet extends HttpServlet {
 			pr.setCod_practica(Integer.parseInt(request.getParameter("idPractica")));
 			pr.setFecha_prescripcion(LocalDate.parse(request.getParameter("fechaPresc")));
 			pr.setNro_afiliado(Integer.parseInt(request.getParameter("nroAfiliado")));
-			pr.setSesiones_asistidas(0);
+			pr.setSesiones_asistidas(0); 
 			pr.setFecha_alta_prescripcion(LocalDate.now());
 			
 			pac = (Paciente) sesion.getAttribute("paciente");			

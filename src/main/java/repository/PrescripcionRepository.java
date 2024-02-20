@@ -29,7 +29,7 @@ public class PrescripcionRepository {
 			stmt.setInt(4, pr.getCant_sesiones());
 			stmt.setInt(5, pr.getSesiones_asistidas());
 			stmt.setDate(6, Date.valueOf(pr.getFecha_alta_prescripcion()));
-			stmt.setInt(7,0);
+			stmt.setInt(7,1);
 			stmt.executeUpdate();
 			respuestaOperacion = "OK";			
 			
