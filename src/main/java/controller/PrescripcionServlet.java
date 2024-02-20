@@ -21,6 +21,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import service.HorarioService;
 import service.PacienteService;
 import service.PracticaService;
@@ -57,8 +58,8 @@ public class PrescripcionServlet extends HttpServlet {
 		String operacion = request.getParameter("operacion");
 		String respuestaOperacion = null;
 		String mensaje = null;
-		 
-		
+		Paciente pac = null;
+		HttpSession sesion = request.getSession(); 	
 		
 
 		switch (operacion) {
@@ -66,17 +67,20 @@ public class PrescripcionServlet extends HttpServlet {
 		
 		case "buscarPaciente": 
 		{
-			Integer dni = Integer.parseInt(request.getParameter("dniPaciente"));
-			Paciente pac = pacServ.buscarPaciente(dni); 
 			
-			//busco el paciente para mostrar sus datos ademas de los turnos registrados
+			
+			Integer dni = Integer.parseInt(request.getParameter("dniPaciente"));
+			pac = pacServ.buscarPaciente(dni); 		
+			
+			//busco el paciente para mostrar sus datos con los turnos registrados
 			
 			if(pac!=null)
 			{
 				List<Turno> turnos = new ArrayList<Turno>();			
 				turnos = turServ.buscarTurnosAsignados(pac.getDni());
-				request.setAttribute("turnos", turnos);	
-				request.setAttribute("paciente", pac);
+				sesion.setAttribute("paciente", pac);
+				sesion.setAttribute("turnos", turnos);	
+				
 				respuestaOperacion = "Paciente ok";
 				
 			}
@@ -101,10 +105,22 @@ public class PrescripcionServlet extends HttpServlet {
 			pr.setCod_practica(Integer.parseInt(request.getParameter("idPractica")));
 			pr.setFecha_prescripcion(LocalDate.parse(request.getParameter("fechaPresc")));
 			pr.setNro_afiliado(Integer.parseInt(request.getParameter("nroAfiliado")));
-			pr.setSesiones_asistidas(1);
+			pr.setSesiones_asistidas(0);
 			pr.setFecha_alta_prescripcion(LocalDate.now());
 			
-			respuestaOperacion = prescServ.insertarPrescripcion(pr);									
+			pac = (Paciente) sesion.getAttribute("paciente");			
+			
+			Prescripcion prescAnterior = prescServ.buscarPrescripcionesPaciente(pac,pr);
+			
+			if(prescAnterior == null)
+			{
+				respuestaOperacion = prescServ.insertarPrescripcion(pr);		
+			}
+			else
+			{
+				respuestaOperacion = "Existe una prescripcion vigente con los datos ingresados"; //mostrar prescripcion
+			}
+										
 			break;
 		}
 
@@ -126,8 +142,16 @@ public class PrescripcionServlet extends HttpServlet {
 			
 			else
 			{
-				mensaje = respuestaOperacion;
-				request.setAttribute("mensaje", mensaje);
+				if(respuestaOperacion.endsWith("datos"))
+				{
+					mensaje = "Existe una prescripcion cargada con estos datos";
+				}
+				else
+				{
+					mensaje = respuestaOperacion;
+					request.setAttribute("mensaje", mensaje);
+				}
+				
 				
 			}
 			
