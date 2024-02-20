@@ -92,13 +92,15 @@ public String abrirAgenda(List<Horario> horarios) {
 										hora_desde= hora_desde.plusMinutes(duracionPractica);	
 									}
 						}
-				   }	  
+				   }
 				  
+				  
+				  respuesta="OK";
 			}
 				  
 			
 			
-//			respuesta = turRep.abrirAgenda(turnos);
+
 			
 			
 		}

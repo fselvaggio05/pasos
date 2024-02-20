@@ -93,7 +93,7 @@
 								</button>
 								
 								<button type="button"
-									class="btn btn-success col-2 justify-content-end me-4" onclick="unSelectAll()">Deseleccionar todos 
+									class="btn btn-success col-3 justify-content-end me-4" onclick="unSelectAll()">Deseleccionar todos 
 								</button>
 				
 								<button type="submit"
@@ -229,7 +229,7 @@
     integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
     crossorigin="anonymous"></script>
     
-<script src="js/mostrarSeleccion.js"></script>
+<script src="js/funciones_abm.js"></script>
 </body>
 
 </html>
