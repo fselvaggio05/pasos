@@ -26,9 +26,7 @@ public class PacienteService {
 
 	public Paciente buscarPaciente(Integer dni) {
 		
-		Paciente pac = new Paciente();
-		pac = pacRep.buscarPaciente(dni);		
-		return pac;
+		return pacRep.buscarPaciente(dni);
 		
 	}
     

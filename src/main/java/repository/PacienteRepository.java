@@ -72,6 +72,7 @@ public class PacienteRepository {
 				pac.setNombre(rs.getString("nombre"));
 				pac.setDni(rs.getInt("dni"));
 				pac.setId_obra_social(rs.getInt("id_obra_social"));
+				pac.setNro_afiliado(rs.getInt("nro_afiliado"));
 				respuestaOperacion = "OK";
 				
 			}

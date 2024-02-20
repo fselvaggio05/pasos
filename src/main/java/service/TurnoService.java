@@ -190,13 +190,9 @@ public List<LocalDate> obtenerDiasGeneracionAgenda()
 	
 }
 
-public List<Turno> buscarTurnosPendientes(Integer dni) {
+public List<Turno> buscarTurnosAsignados(Integer dni) {
 	
-	List<Turno> turnos = new ArrayList<Turno>();
-	turnos = turRep.buscarTurnosPendientes(dni);
-	
-	return turnos;
-	
+	return turRep.buscarTurnosAsignados(dni);	
 	
 }
 

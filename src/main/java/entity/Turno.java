@@ -17,7 +17,8 @@ public class Turno {
 	private Integer id_horario;
 	private Integer id_consultorio; //null en la generacion de agenda
 	private Integer dni; //null en la generacion de agenda
-	private String desc_practica;
+	private Integer id_practica; //agregado para resolver la recuperacion de datos 
+	private String desc_practica; //agregado para resolver la recuperacion de datos 
 	private String nombre_profesional;
 	private String apellido_profesional;
 	
@@ -116,6 +117,16 @@ public class Turno {
 	public void setHora_hasta_t(LocalTime hora_hasta_t) {
 		this.hora_hasta_t = hora_hasta_t;
 	}
+
+	public Integer getId_practica() {
+		return id_practica;
+	}
+
+	public void setId_practica(Integer id_practica) {
+		this.id_practica = id_practica;
+	}
+
+	
 
 	
 

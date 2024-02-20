@@ -271,3 +271,35 @@ if (revivirHorario) {
         inputIdHorario.value = idHorario;   
     });
 }
+
+
+
+//Registro prescripcion
+const registroPrescripcion = document.getElementById('registroPrescripcion');
+        
+if(registroPrescripcion)
+{
+	function seleccionRadio() {
+            var e = document.getElementsByName('seleccion');
+            let valorSeleccionado;
+ 
+            for (i = 0; i < e.length; i++) {
+                if (e[i].checked)
+                {
+					valorSeleccionado = e[i].value
+					const inputIdPractica = registroPrescripcion.querySelector('.modal-body #idPractica');
+					inputIdPractica.value = valorSeleccionado; 
+					
+				}
+                    
+            }
+        }
+
+	
+	registroPrescripcion.addEventListener('show.bs.modal', event => {
+//        const idPractica = document.getElementById('seleccion')       
+        const inputNroAfiliado = registroPrescripcion.querySelector('.modal-body #nroAfiliado')
+       
+        });
+	
+}

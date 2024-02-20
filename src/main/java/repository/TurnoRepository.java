@@ -152,7 +152,7 @@ public List<LocalDate> getFeriados() {
 	return feriados;
 }
 
-public List<Turno> buscarTurnosPendientes(Integer dni) {
+public List<Turno> buscarTurnosAsignados(Integer dni) {
 	
 	List<Turno> turnos = new ArrayList<Turno>();
 	
@@ -167,11 +167,13 @@ public List<Turno> buscarTurnosPendientes(Integer dni) {
 		while(rs!=null && rs.next())
 		{
 			Turno tur = new Turno();
+			tur.setId_turno(rs.getInt("idturno"));
 			tur.setFecha_t(rs.getDate("fecha_turno").toLocalDate());
 			tur.setHora_t(rs.getTime("hora_turno").toLocalTime());
-			tur.setDesc_practica(rs.getString("p.descripcion"));
+			tur.setDesc_practica(rs.getString("p.descripcion")); //consultar otra forma de resolver esto sin agregar los campos de la practica al turno para poder mostrarlos
+			tur.setId_practica(rs.getInt("p.id_practica"));
 			tur.setNombre_profesional(rs.getString("nombre"));
-			tur.setApellido_profesional(rs.getString("apellido"));
+			tur.setApellido_profesional(rs.getString("apellido"));			
 			turnos.add(tur);
 			respuestaOperacion = "OK";
 			
