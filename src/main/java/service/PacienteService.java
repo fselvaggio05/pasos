@@ -1,5 +1,7 @@
 package service;
 
+import java.util.List;
+
 import entity.Paciente;
 import repository.PacienteRepository;
 import repository.UsuarioRepository;
@@ -28,6 +30,10 @@ public class PacienteService {
 		
 		return pacRep.buscarPaciente(dni);
 		
+	}
+
+	public List<Paciente> getAll() {
+		return pacRep.getAll();
 	}
     
     

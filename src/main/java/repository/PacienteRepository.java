@@ -7,6 +7,9 @@ import entity.Paciente;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PacienteRepository {
 
@@ -25,7 +28,7 @@ public class PacienteRepository {
 	    	
 	        stmt = FactoryConnection.getInstancia().getConn().prepareStatement("insert into paciente (dni,nro_afiliado,id_obra_social) values (?,?,?)");
 	        stmt.setInt(1,pac.getDni());
-	        stmt.setInt(2,pac.getNro_afiliado());
+	        stmt.setString(2,pac.getNro_afiliado());
 	        stmt.setInt(3,pac.getId_obra_social());
 	        stmt.executeUpdate();
 	        respuestaOperacion = "OK";
@@ -72,7 +75,7 @@ public class PacienteRepository {
 				pac.setNombre(rs.getString("nombre"));
 				pac.setDni(rs.getInt("dni"));
 				pac.setId_obra_social(rs.getInt("id_obra_social"));
-				pac.setNro_afiliado(rs.getInt("nro_afiliado"));
+				pac.setNro_afiliado(rs.getString("nro_afiliado"));
 				respuestaOperacion = "OK";
 				
 			}
@@ -91,6 +94,38 @@ public class PacienteRepository {
 		return pac;
 	}
 
-	
-
+	public List<Paciente> getAll() {
+		List<Paciente> pacientes = new ArrayList<>();		
+		try
+		{
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from paciente p inner join usuario u on u.dni=p.dni inner join obra_social os on os.id_obra_social=p.id_obra_social");
+			rs = stmt.executeQuery();
+			
+			while (rs != null && rs.next()) 
+			{
+				Paciente unPaciente = new Paciente();
+				unPaciente.setDni(rs.getInt("dni"));
+	            unPaciente.setApellido(rs.getString("apellido"));
+	            unPaciente.setNombre(rs.getString("nombre"));
+	            unPaciente.setFecha_nacimiento(rs.getObject("fecha_nacimiento", LocalDate.class));
+	            unPaciente.setGenero(rs.getString("genero"));
+	            unPaciente.setTelefono(rs.getString("telefono"));
+	            unPaciente.setEmail(rs.getString("email"));
+	            unPaciente.setId_obra_social(rs.getInt("id_obra_social"));
+	            unPaciente.setNro_afiliado(rs.getString("nro_afiliado"));
+	            pacientes.add(unPaciente);
+	        }
+	    } catch (SQLException e) {
+	        throw new RuntimeException("Error al ejecutar la consulta SQL", e);
+	    } finally {
+	        try {
+	            if (rs != null) rs.close();
+	            if (stmt != null) stmt.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        FactoryConnection.getInstancia().releaseConn();
+	    }
+	    return pacientes;	
+	}
 }

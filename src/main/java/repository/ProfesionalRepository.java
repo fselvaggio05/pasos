@@ -2,11 +2,10 @@ package repository;
 
 import conexionDB.FactoryConnection;
 import entity.Profesional;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +23,7 @@ public class ProfesionalRepository {
             stmt = FactoryConnection.getInstancia().getConn().prepareStatement("insert into profesional (dni,matricula) values (?,?)");
             stmt.setInt(1,prof.getDni());
             stmt.setInt(2,prof.getMatricula());
+            stmt.executeUpdate();
             respuestaOperacion = "OK";
             
 
@@ -50,49 +50,39 @@ public class ProfesionalRepository {
     }
 
 
-	public List<Profesional> getAll() {
-		
-		List<Profesional> profesionales = new ArrayList<Profesional>();
-		
-		try{
-            stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select apellido, nombre, matricula from profesional p inner join usuario u on p.dni=u.dni order by apellido asc");
-            rs=stmt.executeQuery();
-            
-            while(rs.next() && rs !=null)
-            {
-            	Profesional pr = new Profesional();
-            	pr.setApellido(rs.getString("apellido"));
-            	pr.setNombre(rs.getString("nombre"));
-            	pr.setMatricula(rs.getInt("matricula"));
-            	profesionales.add(pr);
-            }
-            
+    public List<Profesional> getAll() {
+        List<Profesional> profesionales = new ArrayList<>();
 
+        try {
+            stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+                "SELECT * FROM profesional p INNER JOIN usuario u ON p.dni = u.dni ORDER BY apellido ASC"
+            );
+            rs = stmt.executeQuery();
+
+            while (rs != null && rs.next()) {
+                Profesional pr = new Profesional();
+                pr.setDni(rs.getInt("dni"));
+                pr.setApellido(rs.getString("apellido"));
+                pr.setNombre(rs.getString("nombre"));
+                pr.setFecha_nacimiento(rs.getObject("fecha_nacimiento", LocalDate.class));
+                pr.setGenero(rs.getString("genero"));
+                pr.setTelefono(rs.getString("telefono"));
+                pr.setEmail(rs.getString("email"));
+                pr.setMatricula(rs.getInt("matricula"));
+                profesionales.add(pr);
+            }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        finally {
+            throw new RuntimeException("Error al ejecutar la consulta SQL", e);
+        } finally {
             try {
-                //se cierran conexiones abiertas en el orden inverso en que fueron abiertas
                 if (rs != null) rs.close();
                 if (stmt != null) stmt.close();
-
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            FactoryConnection.getInstancia().releaseConn(); //reveer esto, no me convene
-
+            FactoryConnection.getInstancia().releaseConn();
         }
-		
-		
-		return profesionales;
-		
-		
-	}
-	
-	
 
-
+        return profesionales;
+    }
 }

@@ -1,15 +1,14 @@
 package entity;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Usuario {
     private Integer dni;
     private String apellido;
 
     private String nombre;
-    private Date fecha_nacimiento;
+    private LocalDate fecha_nacimiento;
 
 
 //    TODO: Variable genero como ENUM
@@ -21,14 +20,12 @@ public class Usuario {
     private String email;
     private String clave;
 
-    public Usuario(Integer dni, String nombre, String apellido, String email, String fechaNac, String telefono, String clave, String genero) throws ParseException {
+    public Usuario(Integer dni, String apellido, String nombre, String email, LocalDate fecha_nac, String telefono, String clave, String genero) throws ParseException {
         this.dni=dni;
         this.nombre = nombre;
         this.apellido=apellido;
         this.email=email;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
-        Date fechaNacimiento = sdf.parse(fechaNac);
-        this.fecha_nacimiento=fechaNacimiento;
+        this.fecha_nacimiento=fecha_nac;
         this.telefono=telefono;
         this.genero=genero;
         this.clave=clave;
@@ -52,26 +49,14 @@ public class Usuario {
         this.nombre = nombre;
     }
 
-    public Date getFecha_nacimiento() {
+    public LocalDate getFecha_nacimiento() {
         return fecha_nacimiento;
     }
 
-    public void setFecha_nacimiento(Date fecha_nacimiento) {
-    
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
-//        Date fechaNacimiento = sdf.parse(apellido)(fecha_nacimiento);
-        this.fecha_nacimiento = fecha_nacimiento;
-        
+    public void setFecha_nacimiento(LocalDate fecha_nacimiento) {
+        this.fecha_nacimiento = fecha_nacimiento;        
     }
-/*
-   // public Enum getGenero() {
-        return genero;
-    }*/
 
-   /* public void setGenero(Enum genero) {
-        this.genero = genero;
-    }
-*/
     public String getTelefono() {
         return telefono;
     }
@@ -96,11 +81,10 @@ public class Usuario {
         this.clave = clave;
     }
 
-
     public Integer getDni() {
         return dni;
     }
-
+    
     public void setDni(Integer dni) {
         this.dni = dni;
     }
@@ -117,8 +101,4 @@ public class Usuario {
     public Usuario() {
 
     }
-
-
-	
-
 }
