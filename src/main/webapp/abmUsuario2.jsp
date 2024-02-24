@@ -1,4 +1,3 @@
-<%@ page import="java.util.List"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 
 
