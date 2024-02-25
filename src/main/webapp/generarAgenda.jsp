@@ -63,11 +63,11 @@
                                     <tr>
                                         <td> 
                                             <input class="form-check-input m-1" type="checkbox" id="cb1" name="seleccionados" value="${hor.id_horario}" >
-                                            <c:out value="${hor.matricula}"></c:out>
+                                            <c:out value="${hor.getProfesional().getMatricula()}"></c:out>
                                         </td>
                                                                            		  
-											<td><c:out value="${hor.apellido_profesional}"></c:out></td>
-											<td><c:out value="${hor.desc_practica}"></c:out></td>
+											<td><c:out value="${hor.getProfesional().getApellido()}"></c:out></td>
+											<td><c:out value="${hor.getPractica().getDescripcion()}"></c:out></td>
 											<td><c:out value="${hor.dia_semana}"></c:out></td>
 											<td><c:out value="${hor.hora_desde}"></c:out></td>
 											<td><c:out value="${hor.hora_hasta}"></c:out></td>
