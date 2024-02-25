@@ -49,29 +49,30 @@ public class ConsultorioService {
 		return respuestaOperacion = consRep.revivirConsultorio(idConsultorio);
 	}
 
-	public Integer getConsultorioDisponible(LocalDate fecha, LocalTime hora_desde, LocalTime hora_hasta) {
+	public Consultorio getConsultorioDisponible(LocalDate fecha, LocalTime hora_desde, LocalTime hora_hasta) {
 		
-		List<Integer> consAsignados = consRep.getConsultoriosAsignados(fecha, hora_desde, hora_hasta);
+		
+		List<Consultorio> consAsignados = consRep.getConsultoriosAsignados(fecha, hora_desde, hora_hasta);
 		
 		List<Consultorio> consActivos = consRep.getAllActivos();
-		Integer id_consultorio = null;
 		
+		Consultorio consDisponible = null;
 		
 		
 		for(Consultorio c : consActivos )
 		{
 			if(consAsignados.size()==0)
 			{
-				id_consultorio = c.getId_consultorio();
+				consDisponible = c;
 			}
 			
 			else
 			{
-				for(Integer cAsig : consAsignados)
+				for(Consultorio cAsig : consAsignados)
 				{
-					if(c.getId_consultorio()!=cAsig)
+					if(c.getId_consultorio()!=cAsig.getId_consultorio())
 					{
-						id_consultorio = c.getId_consultorio();
+						consDisponible = c;
 					}					
 					
 				}
@@ -80,7 +81,7 @@ public class ConsultorioService {
 						
 		}
 		
-		return id_consultorio;	
+		return consDisponible;	
 		
 		
 	}

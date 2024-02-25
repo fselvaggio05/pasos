@@ -42,9 +42,9 @@ public class PracticaService {
 									return respuestaOperacion = prRep.revivirPractica(idPractica);
 								}
 							
-								public Integer getDuracionPractica(Integer id_practica) 
+								public Integer getDuracionPractica(Practica pr) 
 								{		
-									return 	prRep.getDuracionPractica(id_practica);
+									return 	prRep.getDuracionPractica(pr);
 								}
 							
 								public List<Practica> getPracticasPorProf(Integer matricula) 

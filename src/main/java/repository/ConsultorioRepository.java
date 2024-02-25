@@ -228,18 +228,18 @@ public class ConsultorioRepository {
 	}
 
 	
-	public List<Integer> getConsultoriosAsignados(LocalDate fecha, LocalTime hora_desde, LocalTime hora_hasta) {
+	public List<Consultorio> getConsultoriosAsignados(LocalDate fecha, LocalTime hora_desde, LocalTime hora_hasta) {
 		
 			
 		
-		List<Integer> consDisponible = new ArrayList<Integer>();
+		List<Consultorio> consDisponible = new ArrayList<Consultorio>();
 		
 		Time desde = null;
 		Time hasta = null;
 		desde = Time.valueOf(hora_desde);
 		hasta = Time.valueOf(hora_hasta);
 		Date fecha_turno = Date.valueOf(fecha);
-		Integer cantTurnos = null;
+		
 		
 		
 		try {
@@ -257,9 +257,9 @@ public class ConsultorioRepository {
 			
 			while (rs!=null && rs.next())
 			{
-				Integer id_consultorio;
-				id_consultorio = rs.getInt("id_consultorio");				
-				consDisponible.add(id_consultorio);						
+				Consultorio cons = new Consultorio();
+				cons.setId_consultorio(rs.getInt("id_consultorio"));				
+				consDisponible.add(cons);						
 			}
 		} 
 		

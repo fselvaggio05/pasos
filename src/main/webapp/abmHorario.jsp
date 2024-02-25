@@ -48,9 +48,9 @@
 		                                    <tbody>
 		                                        <c:forEach var="unHorario" items="${tablaHorariosActivos}">
 		                                            <tr>
-		                                                <td><c:out value="${unHorario.matricula}"></c:out></td>
-		                                                <td><c:out value="${unHorario.apellido_profesional}"></c:out></td>
-		                                                <td><c:out value="${unHorario.desc_practica}"></c:out></td>
+		                                                <td><c:out value="${unHorario.getProfesional().getMatricula()}"></c:out></td>
+		                                                <td><c:out value="${unHorario.getProfesional().getApellido()}"></c:out></td>
+		                                                <td><c:out value="${unHorario.getPractica().getDescripcion()}"></c:out></td>
 		                                                <td><c:out value="${unHorario.dia_semana}"></c:out></td>
 		                                                <td><c:out value="${unHorario.hora_desde}"></c:out></td>
 		                                                <td><c:out value="${unHorario.hora_hasta}"></c:out></td>
@@ -79,13 +79,13 @@
 		                                    <tbody>
 		                                        <c:forEach var="unHorario" items="${tablaHorariosInactivos}">
 		                                            <tr>
-		                                                <td><c:out value="${unHorario.matricula}"></c:out></td>
-		                                                <td><c:out value="${unHorario.apellido_profesional}"></c:out></td>
-		                                                <td><c:out value="${unHorario.desc_practica}"></c:out></td>
+		                                                <td><c:out value="${unHorario.getProfesional().getMatricula()}"></c:out></td>
+		                                                <td><c:out value="${unHorario.getProfesional().getApellido()}"></c:out></td>
+		                                                <td><c:out value="${unHorario.getPractica().getDescripcion()}"></c:out></td>
 		                                                <td><c:out value="${unHorario.dia_semana}"></c:out></td>
 		                                                <td><c:out value="${unHorario.hora_desde}"></c:out></td>
 		                                                <td><c:out value="${unHorario.hora_hasta}"></c:out></td>
-		                                                <td>
+		                                            	<td>
 		                                                	<a href='#' data-bs-toggle='modal'data-bs-target='#revivirHorario' idHorario="${unHorario.id_horario}">
 		                                                		<i class='bi bi-heart-fill m-1'></i>
 		                                                	</a> 

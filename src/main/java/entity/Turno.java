@@ -11,20 +11,61 @@ public class Turno {
 	private LocalTime hora_t;
 	private LocalTime hora_hasta_t;	
 	private LocalDate fecha_generacion;
-	private LocalDate fecha_baja_t; //null en la generacion de agenda
-	private String observacion; //null en la generacion de agenda
+	private LocalDate fecha_baja_t; 
+	private String observacion; 
 	private String estado_t;
-	private Integer id_horario;
-	private Integer id_consultorio; //null en la generacion de agenda
-	private Integer dni; //null en la generacion de agenda
+	
+	//CLASE HORARIO 
+	private Horario horario;
+	
+	//CLASE CONSULTORIO 
+	private Consultorio consultorio;
+	
+	//CLASE PACIENTE 
+	private Paciente paciente;	
+	
+	
+	
+	
+	//RESOLVER EL AGREGADO DE ESTAS CLASES, NO TIENEN RELACION DIRECTA CON LA TABLA DE BD 
+	//CLASE PRACTICA 
 	private Integer id_practica; //agregado para resolver la recuperacion de datos 
-	private String desc_practica; //agregado para resolver la recuperacion de datos 
+	private String desc_practica; //agregado para resolver la recuperacion de datos
+	private Practica pr;
+	
 	private String nombre_profesional;
 	private String apellido_profesional;
+	private Profesional prof;
+		
 	
 	
 	
 	
+	
+	public Horario getHorario() {
+		return horario;
+	}
+
+	public void setHorario(Horario horario) {
+		this.horario = horario;
+	}
+
+	public Consultorio getConsultorio() {
+		return consultorio;
+	}
+
+	public void setConsultorio(Consultorio consultorio) {
+		this.consultorio = consultorio;
+	}
+
+	public Paciente getPaciente() {
+		return paciente;
+	}
+
+	public void setPaciente(Paciente paciente) {
+		this.paciente = paciente;
+	}
+
 	public String getApellido_profesional() {
 		return apellido_profesional;
 	}
@@ -91,24 +132,24 @@ public class Turno {
 	public void setEstado_t(String estado_t) {
 		this.estado_t = estado_t;
 	}
-	public Integer getId_horario() {
-		return id_horario;
-	}
-	public void setId_horario(Integer id_horario) {
-		this.id_horario = id_horario;
-	}
-	public Integer getId_consultorio() {
-		return id_consultorio;
-	}
-	public void setId_consultorio(Integer id_consultorio) {
-		this.id_consultorio = id_consultorio;
-	}
-	public Integer getDni() {
-		return dni;
-	}
-	public void setDni(Integer dni) {
-		this.dni = dni;
-	}
+////	public Integer getId_horario() {
+////		return id_horario;
+////	}
+////	public void setId_horario(Integer id_horario) {
+////		this.id_horario = id_horario;
+////	}
+////	public Integer getId_consultorio() {
+////		return id_consultorio;
+////	}
+////	public void setId_consultorio(Integer id_consultorio) {
+////		this.id_consultorio = id_consultorio;
+////	}
+////	public Integer getDni() {
+////		return dni;
+////	}
+////	public void setDni(Integer dni) {
+//		this.dni = dni;
+//	}
 
 	public LocalTime getHora_hasta_t() {
 		return hora_hasta_t;

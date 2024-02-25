@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import conexionDB.FactoryConnection;
 import entity.Horario;
+import entity.Practica;
+import entity.Profesional;
 
 public class HorarioRepository {
 	ResultSet rs = null;
@@ -25,15 +27,24 @@ public class HorarioRepository {
 			while(rs.next() && rs != null)
 			{
 				Horario hr = new Horario();
+				Practica pr = new Practica();
+				Profesional prof = new Profesional();
 				hr.setId_horario(rs.getInt("idHorario"));
 				hr.setFecha_alta(rs.getDate("fecha_alta").toLocalDate());
 				hr.setDia_semana(rs.getString("dia_semana"));
-				hr.setDesc_practica(rs.getString("descripcion"));
-				hr.setId_practica(rs.getInt("id_practica"));
+				
+				pr.setId_practica(rs.getInt("id_practica"));
+				pr.setDescripcion(rs.getString("descripcion"));
+				
+				hr.setPractica(pr);			
+				
 				hr.setHora_desde(rs.getTime("hora_desde").toLocalTime());
 				hr.setHora_hasta(rs.getTime("hora_hasta").toLocalTime());
-				hr.setMatricula(rs.getInt("matricula"));
-				hr.setApellido_profesional(rs.getString("apellido"));	
+				
+				prof.setMatricula(rs.getInt("matricula"));
+				prof.setApellido(rs.getString("apellido"));
+				hr.setProfesional(prof);
+				
 				horarios.add(hr);
 			}			
 		}
@@ -63,13 +74,25 @@ public class HorarioRepository {
 			while(rs.next() && rs != null)
 			{
 				Horario hr = new Horario();
+				Practica pr = new Practica();
+				Profesional prof = new Profesional();
+				
 				hr.setId_horario(rs.getInt("idHorario"));
 				hr.setDia_semana(rs.getString("dia_semana"));
-				hr.setDesc_practica(rs.getString("pr.descripcion"));
+				
+				pr.setId_practica(rs.getInt("pr.id_practica"));
+				pr.setDescripcion(rs.getString("pr.descripcion"));
+				
+				hr.setPractica(pr);
+				
 				hr.setHora_desde(rs.getTime("hora_desde").toLocalTime());
 				hr.setHora_hasta(rs.getTime("hora_hasta").toLocalTime());
-				hr.setMatricula(rs.getInt("matricula"));
-				hr.setApellido_profesional(rs.getString("apellido"));	
+				
+				prof.setMatricula(rs.getInt("matricula"));
+				prof.setApellido(rs.getString("apellido"));
+				
+				hr.setProfesional(prof);
+			
 				hr.setFecha_baja(rs.getDate("fecha_baja").toLocalDate());
 				horarios.add(hr);			
 			}			
@@ -101,16 +124,27 @@ public class HorarioRepository {
             while(rs.next() && rs != null)
 			{
 				Horario hr = new Horario();
+				Practica pr = new Practica();
+				Profesional prof = new Profesional();
+				
 				hr.setId_horario(rs.getInt("idHorario"));
 				hr.setId_horario(rs.getInt("idHorario"));
 				hr.setFecha_alta(rs.getDate("fecha_alta").toLocalDate());
 				hr.setDia_semana(rs.getString("dia_semana"));
-				hr.setId_practica(rs.getInt("pr.id_practica"));
-				hr.setDesc_practica(rs.getString("pr.descripcion"));
+				
+				pr.setId_practica(rs.getInt("pr.id_practica"));
+				pr.setDescripcion(rs.getString("pr.descripcion"));
+				
+				hr.setPractica(pr);
+				
 				hr.setHora_desde(rs.getTime("hora_desde").toLocalTime());
 				hr.setHora_hasta(rs.getTime("hora_hasta").toLocalTime());
-				hr.setMatricula(rs.getInt("matricula"));
-				hr.setApellido_profesional(rs.getString("apellido"));	
+				
+				prof.setMatricula(rs.getInt("matricula"));
+				prof.setApellido(rs.getString("apellido"));
+				
+				hr.setProfesional(prof);
+				
 				horariosProf.add(hr);			
 			}
         } catch (SQLException e) {
@@ -139,14 +173,26 @@ public class HorarioRepository {
             while(rs.next() && rs != null)
 			{
 				Horario hr = new Horario();
+				Practica pr = new Practica();
+				Profesional prof = new Profesional();
+				
 				hr.setId_horario(rs.getInt("idHorario"));
 				hr.setDia_semana(rs.getString("dia_semana"));
-				hr.setDesc_practica(rs.getString("pr.descripcion"));
+				
+				pr.setId_practica(rs.getInt("pr.id_practica"));
+				pr.setDescripcion(rs.getString("pr.descripcion"));
+				
+				hr.setPractica(pr);
+				
 				hr.setHora_desde(rs.getTime("hora_desde").toLocalTime());
 				hr.setHora_hasta(rs.getTime("hora_hasta").toLocalTime());
-				hr.setMatricula(rs.getInt("matricula"));
-				hr.setApellido_profesional(rs.getString("apellido"));	
 				hr.setFecha_baja(rs.getDate("fecha_baja").toLocalDate());
+				
+				prof.setMatricula(rs.getInt("matricula"));
+				prof.setApellido(rs.getString("apellido"));
+				
+				hr.setProfesional(prof);	
+			
 				horariosProf.add(hr);			
 			}
         } catch (SQLException e) {
@@ -175,11 +221,11 @@ public class HorarioRepository {
 		{
 			//Eliminé la fecha de alta, en la base está como valor default current timestamp
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("insert into horario (matricula, dia_semana, hora_desde, hora_hasta,id_practica) values (?,?,?,?,?)");
-			stmt.setInt(1, hr.getMatricula());
+			stmt.setInt(1, hr.getProfesional().getMatricula());
 			stmt.setString(2, hr.getDia_semana());
 			stmt.setTime(3, desde);
 			stmt.setTime(4, hasta);
-			stmt.setInt(5, hr.getId_practica());
+			stmt.setInt(5, hr.getPractica().getId_practica());
 			stmt.executeUpdate();
 			respuesta = "OK";			
 		}

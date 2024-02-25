@@ -62,7 +62,7 @@ public String abrirAgenda(List<Horario> horarios) {
 						if(nombreDia.equals(h.getDia_semana()))
 						 {
 //						
-								duracionPractica = prServ.getDuracionPractica(h.getId_practica());
+								duracionPractica = prServ.getDuracionPractica(h.getPractica());
 								hora_desde = h.getHora_desde();
 								hora_desde_consultorio = hora_desde;
 								
@@ -76,32 +76,24 @@ public String abrirAgenda(List<Horario> horarios) {
 										hora_hasta_turno = hora_desde.plusMinutes(duracionPractica);
 										tur.setHora_hasta_t(hora_hasta_turno);
 										tur.setEstado_t("Libre");
-										tur.setId_horario(h.getId_horario());
-//										tur.setId_consultorio(cons.getId_consultorio());
+										tur.setHorario(h);
 										LocalDate fecha = diasGeneracion.get(i);
-										
-										
+																				
 										if(this.validarConsultorioDisponible(fecha,hora_desde,hora_hasta_turno))
 										{
-											tur.setId_consultorio(conServ.getConsultorioDisponible(fecha,hora_desde,hora_hasta_turno));
-											turRep.abrirAgenda(tur);
-											
+											tur.setConsultorio(conServ.getConsultorioDisponible(fecha,hora_desde,hora_hasta_turno));
+											turRep.abrirAgenda(tur);											
 										}
 											
 									
 										hora_desde= hora_desde.plusMinutes(duracionPractica);	
 									}
 						}
-				   }
+				   }	  
 				  
-				  
-				  respuesta="OK";
 			}
 				  
-			
-			
-
-			
+	
 			
 		}
 		

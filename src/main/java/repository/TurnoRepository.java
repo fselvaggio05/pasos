@@ -51,8 +51,8 @@ public String abrirAgenda(Turno t) {
 				stmt.setTime(3, hora_turno);
 				stmt.setTime(4, hora_hasta);				
 				stmt.setString(5, t.getEstado_t());
-				stmt.setInt(6, t.getId_horario());
-				stmt.setInt(7, t.getId_consultorio());
+				stmt.setInt(6, t.getHorario().getId_horario());
+				stmt.setInt(7, t.getConsultorio().getId_consultorio());
 				
 				
 				stmt.executeUpdate();

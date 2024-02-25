@@ -54,7 +54,7 @@ public class HorarioService {
 
 	public Boolean calculaHorario(Horario hr) {
 		Integer duracionPractica;
-		duracionPractica = prServ.getDuracionPractica(hr.getId_practica());
+		duracionPractica = prServ.getDuracionPractica(hr.getPractica());
 		long minutosDiferencia = Duration.between(hr.getHora_desde(), hr.getHora_hasta()).toMinutes();
 		
 		if (minutosDiferencia % duracionPractica == 0) {

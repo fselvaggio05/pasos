@@ -187,13 +187,13 @@ public class PracticaRepository {
 										return respuestaOperacion;
 									}
 								
-									public Integer getDuracionPractica(Integer id_practica) {
+									public Integer getDuracionPractica(Practica pr) {
 										Integer duracionPractica = null;
 										
 										try 
 										{
 											stmt= FactoryConnection.getInstancia().getConn().prepareStatement("select duracion from practica where id_practica=?");
-											stmt.setInt(1, id_practica);
+											stmt.setInt(1, pr.getId_practica());
 											rs = stmt.executeQuery();	
 											
 											if(rs.next() && rs!=null )

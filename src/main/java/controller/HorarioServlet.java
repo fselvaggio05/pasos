@@ -63,16 +63,22 @@ public class HorarioServlet extends HttpServlet {
 														break;
 													  }					
 							case "alta": {
-													Horario hr = new Horario();													
-																										
-													hr.setId_practica(Integer.parseInt(request.getParameter("id_practica")));
+													Horario hr = new Horario();		
+													Practica pr = new Practica();
+													
+													pr.setId_practica(Integer.parseInt(request.getParameter("id_practica")));
+													
+													hr.setPractica(pr);
 													hr.setHora_desde(LocalTime.parse(request.getParameter("hora_desde")));
 													hr.setHora_hasta(LocalTime.parse(request.getParameter("hora_hasta")));
 													hr.setDia_semana(request.getParameter("dia_semana"));
 													//TODO: ARREGLAR LOS DESPELOTES POR LOS CAMBIOS DE TIPO
 																									
 													if(horServ.calculaHorario(hr) && horServ.validaConsulorio(hr)) {
-																				hr.setMatricula(Integer.parseInt(request.getParameter("matriculaProf")));
+														
+																				Profesional prof = new Profesional();
+																				prof.setMatricula(Integer.parseInt(request.getParameter("matriculaProf")));
+																				hr.setProfesional(prof);
 																																																		
 																				respuestaOperacion = horServ.insertarHorario(hr);													
 																				}
