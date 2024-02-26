@@ -107,4 +107,74 @@ public class UsuarioRepository {
 																		        		}
 																		        return respuestaOperacion;
 																		    }
+
+									public boolean validarAdministrador(Usuario us) {
+										boolean rta = false;
+								        try {
+								            stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT * FROM usuario WHERE dni = ?");
+								            stmt.setInt(1, us.getDni());
+								            rs = stmt.executeQuery();
+
+								            if (rs.next()) {
+								            	rta = true;
+								            }
+								        } catch (Exception e) {
+								            e.printStackTrace();
+								        } finally {
+								            try {
+								                if (rs != null) rs.close();
+								                if (stmt != null) stmt.close();
+								            } catch (Exception e) {
+								                e.printStackTrace();
+								            }
+								            FactoryConnection.getInstancia().releaseConn();
+								        }
+								        return rta;
+									}
+
+									public String updateUsuario(Usuario us) {
+										String respuestaOperacion;
+								        try
+								        {
+								            if(us.getClave()==null) {
+									        	stmt = FactoryConnection.getInstancia().getConn().prepareStatement("UPDATE usuario (apellido, nombre, telefono, fecha_nacimiento, genero, email) VALUES (?,?,?,?,?,?) WHERE dni = ?");
+									            stmt.setString(1, us.getApellido());
+									            stmt.setString(2, us.getNombre());
+									            stmt.setString(3, us.getTelefono());
+									            stmt.setDate(4,java.sql.Date.valueOf(us.getFecha_nacimiento()));
+									            stmt.setString(5, us.getGenero());
+									            stmt.setString(6, us.getEmail());
+									            stmt.setInt(7,us.getDni());
+									            stmt.executeUpdate();
+									            respuestaOperacion = "OK";
+								            }
+								            else {
+									        	stmt = FactoryConnection.getInstancia().getConn().prepareStatement("UPDATE usuario (apellido, nombre, telefono, clave, fecha_nacimiento, genero, email) VALUES (?,?,?,?,?,?,?) WHERE dni = ?");
+									            stmt.setString(1, us.getApellido());
+									            stmt.setString(2, us.getNombre());
+									            stmt.setString(3, us.getTelefono());
+									            stmt.setString(4, us.getClave());
+									            stmt.setDate(5,java.sql.Date.valueOf(us.getFecha_nacimiento()));
+									            stmt.setString(6, us.getGenero());
+									            stmt.setString(7, us.getEmail());
+									            stmt.setInt(8,us.getDni());
+									            stmt.executeUpdate();
+									            respuestaOperacion = "OK";								            	
+								            }								        	
+								        }								
+								        catch (SQLException e) {
+								           respuestaOperacion= e.toString();
+								        }
+								
+								        finally {
+										            try {              
+											                if (rs != null) rs.close();
+											                if (stmt != null) stmt.close();
+											            } catch (Exception e) {
+											                e.printStackTrace();
+											            }																				
+										            FactoryConnection.getInstancia().releaseConn();
+								        		}
+								        return respuestaOperacion;
+									}
 								}

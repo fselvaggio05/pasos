@@ -68,9 +68,16 @@
 													<td><c:out value="${unAdministrador.telefono}"/></td>
 													<td><c:out value="${unAdministrador.email}"/></td>
 													<td>
-														<a href='#' data-bs-toggle='modal' data-bs-target='#actualizarAdministrador' dni="${unAdministrador.dni}">
-															<i class="bi bi-pencil-fill"></i>
-														</a>
+													    <a href='#' class="editarUsuario" 
+													       data-dni="${unAdministrador.dni}"
+													       data-apellido="${unAdministrador.apellido}"
+													       data-nombre="${unAdministrador.nombre}"
+													       data-fecha-nacimiento="${unAdministrador.fecha_nacimiento}"
+													       data-genero="${unAdministrador.genero}"
+													       data-telefono="${unAdministrador.telefono}"
+													       data-email="${unAdministrador.email}">
+													        <i class="bi bi-pencil-fill"></i>
+													    </a>
 													</td>
 												</tr>
 											</c:forEach>
@@ -103,9 +110,17 @@
 													<td><c:out value="${unProfesional.telefono}"/></td>
 													<td><c:out value="${unProfesional.email}"/></td>
 													<td>
-														<a href='#' data-bs-toggle='modal' data-bs-target='#actualizarProfesional' dni="${unProfesional.dni}">
-															<i class="bi bi-pencil-fill"></i>
-														</a>
+													    <a href='#' class="editarUsuario" 
+													       data-matricula="${unProfesional.matricula}"
+													       data-dni="${unProfesional.dni}"
+													       data-apellido="${unProfesional.apellido}"
+													       data-nombre="${unProfesional.nombre}"
+													       data-fecha-nacimiento="${unProfesional.fecha_nacimiento}"
+													       data-genero="${unProfesional.genero}"
+													       data-telefono="${unProfesional.telefono}"
+													       data-email="${unProfesional.email}">
+													        <i class="bi bi-pencil-fill"></i>
+													    </a>
 													</td>
 												</tr>
 											</c:forEach>
@@ -140,10 +155,19 @@
 													<td><c:out value="${unPaciente.id_obra_social}"/></td>
 													<td><c:out value="${unPaciente.nro_afiliado}"/></td>
 													<td>
-														<a href='#' data-bs-toggle='modal' data-bs-target='#actualizarPaciente' dni="${unPaciente.dni}">
-															<i class="bi bi-pencil-fill"></i>
-														</a>
-													</td>
+									                    <a href='#' class="editarUsuario" data-tipo-usuario="3"
+									                        data-dni="${unPaciente.dni}"
+									                        data-apellido="${unPaciente.apellido}"
+									                        data-nombre="${unPaciente.nombre}"
+									                        data-fecha-nacimiento="${unPaciente.fecha_nacimiento}"
+									                        data-genero="${unPaciente.genero}"
+									                        data-telefono="${unPaciente.telefono}"
+									                        data-email="${unPaciente.email}"
+									                        data-id-obra-social="${unPaciente.id_obra_social}"
+									                        data-nro-afiliado="${unPaciente.nro_afiliado}">
+									                        <i class="bi bi-pencil-fill"></i>
+									                    </a>
+									                </td>
 												</tr>
 											</c:forEach>
 										</tbody>
@@ -161,8 +185,7 @@
 				</div>
 			</div>
 		</div>
- 
-<!-- 		VENTANA MODAL "AGREGAR USUARIO" -->
+		<!-- 		VENTANA MODAL "AGREGAR USUARIO" -->
 		<div class="modal fade" id="altaUsuario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		    <div class="modal-dialog">
 		        <div class="modal-content">
@@ -172,6 +195,7 @@
 		            </div>
 		            <form action="usuarios" method="post">
 		                <div class="modal-body">
+		                	<input type="hidden" id="tipoUsuarioHidden" name="tipoUsuario" value="1">		                	
 		                    <input type="hidden" value="alta" name="operacion">
 		                    <div id="camposAlta">
 		                        <div id="camposAdministrador" style="display: none;">
@@ -232,12 +256,12 @@
 		                            <div class="row mt-3">
 		                                <div class="col-12">
 		                                    <label>Obra Social</label>
-		                                    <select class="form-select" name="id_obra_social">
-		                                        <option value="1">Seleccione una Obra Social</option>
-													<c:forEach var="unaOS" items="${obrasSociales}" >
-														<option value="<c:out value="${unaOS.id_obra_social}"></c:out>"><c:out value="${unaOS.nombre}"></c:out></option>
-													</c:forEach>
-		                                    </select>
+		                                   <select class="form-select" name="id_obra_social">
+											    <option value="1">Seleccione una Obra Social</option>
+											    <c:forEach var="unaOS" items="${obrasSociales}">
+											        <option value="${unaOS.id_obra_social}">${unaOS.nombre}</option>
+											    </c:forEach>
+											</select>
 		                                </div>
 		                            </div>
 		                            <div class="row mt-3">
@@ -256,9 +280,113 @@
 		            </form>
 		        </div>
 		    </div>
+		</div>	
+		
+				<!--                     VENTANA MODAL "EDITAR USUARIO" -->
+		<div class="modal fade" id="actualizarUsuario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Editar Usuario</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <form action="usuarios" method="post">
+		        <div class="modal-body">
+		          <!-- Campo oculto para el tipo de usuario -->
+		          <input type="hidden" name="tipoUsuario" id="tipoUsuario">
+		          <!-- Campos de edición de usuario compartidos -->
+		          <div id="camposAdministradorUpdate" style="display: none;">
+					<div class="row mt-3">
+						<div class="col-6">
+							<label>Nombre</label>
+							<input type="text" class="form-control" name="nombre">
+							<c:out value="${unAdministrador.nombre}"></c:out>	
+						</div>
+						<div class="col-6">
+							<label>Apellido</label>
+							<input type="text" class="form-control" name="apellido">
+							<c:out value="${unAdministrador.apellido}"></c:out>
+						</div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-6">
+							<label>DNI</label>
+							<input type="text" class="form-control" name="dni" readOnly>
+							<c:out value="${unAdministrador.dni}"></c:out>
+						</div>
+						<div class="col-6">
+							<label>Fecha de Nacimiento</label>
+							<input type="date" class="form-control" name="fechaNacimiento">
+							<c:out value="${unAdministrador.fecha_nacimiento}"></c:out>
+						</div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-6">
+							<label>Teléfono</label>
+							<input type="text" class="form-control" name="telefono">
+							<c:out value="${unAdministrador.telefono}"></c:out>
+						</div>
+						<div class="col-6">
+							<label>Género</label>
+							<select class="form-select" name="genero">
+								<option value="1">Femenino</option>
+								<option value="2">Masculino</option>
+								<option value="3">No binario</option>
+							</select>
+							<c:out value="${unAdministrador.genero}"></c:out>
+						</div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-6">
+							<label>Email</label>
+							<input type="text" class="form-control" name="email">
+							<c:out value="${unAdministrador.email}"></c:out>
+						</div>
+						<div class="col-6">
+							<label>Contraseña</label>
+							<input type="password" class="form-control" name="contraseña">
+						</div>
+					</div>
+				</div>
+				<div id="camposProfesionalUpdate" style="display: none;">
+					<div class="row mt-3">
+						<div class="col-12 mt-3">
+							<label>Número de Matrícula</label>
+							<input type="text" class="form-control" name="matricula">
+							<c:out value="${unProfesional.matricula}"></c:out>
+						</div>
+					</div>
+				</div>
+				<div id="camposPacienteUpdate" style="display: none;">
+					<div class="row mt-3">
+						<div class="col-12">
+							<label>Obra Social</label>
+						   <select class="form-select" name="id_obra_social">
+								<option value="1">Seleccione una Obra Social</option>
+								<c:forEach var="unaOS" items="${obrasSociales}">
+									<option value="${unaOS.id_obra_social}">${unaOS.nombre}</option>
+								</c:forEach>
+							</select>
+							<c:out value="${unPaciente.id_obra_social}"></c:out>
+						</div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-12 mt-3">
+							<label>Número de Afiliado</label>
+							<input type="text" class="form-control" name="nro_afiliado">
+							<c:out value="${unPaciente.nro_afiliado}"></c:out>
+						</div>
+					</div>
+				</div>
+		        <div class="modal-footer">
+		          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+		          <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+		        </div>
+		      </form>
+		    </div>
+		  </div>
 		</div>
-		<!--                     VENTANA MODAL "EDITAR USUARIO" -->
-		<!-- FALTA DESARROLLARLO -->
+			
 		<!-- 			MENSAJE OPERACION 		 -->
 			<c:if test="${mensaje !=null }">
 			    <div class="modal fade" id="mensajeOK" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

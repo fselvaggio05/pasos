@@ -64,7 +64,11 @@ public class UsuarioServlet extends HttpServlet {
                     Usuario us;
 					try {
 						us = new Usuario(dni,apellido,nombre,email,fecha_nacimiento,telefono, contraseña, genero);
+						if(usServ.validarAdministrador(us)) {
+							respuestaOperacion = usServ.updateUsuario(us);
+						} else {
 					    respuestaOperacion = usServ.insertarUsuario(us);
+						}
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -89,7 +93,7 @@ public class UsuarioServlet extends HttpServlet {
             }
 
             case 3:{               
-                    Integer obraSocial = Integer.parseInt(request.getParameter("obraSocial"));
+                    Integer obraSocial = Integer.parseInt(request.getParameter("id_obra_social"));
                     String nroAfiliado = request.getParameter("nroAfiliado");
                     Paciente pac;
 					try {

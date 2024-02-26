@@ -33,4 +33,16 @@ public class UsuarioService {
 		// TODO Auto-generated method stub
 		return usRep.getAllAdministradores();
 	}
+
+
+	public boolean validarAdministrador(Usuario us) {
+		// TODO Auto-generated method stub
+		return usRep.validarAdministrador(us);
+	}
+
+
+	public String updateUsuario(Usuario us) {
+		// TODO Auto-generated method stub
+		return usRep.updateUsuario(us);
+	}
 }
