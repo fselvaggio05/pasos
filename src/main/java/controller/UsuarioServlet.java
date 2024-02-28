@@ -45,8 +45,13 @@ public class UsuarioServlet extends HttpServlet {
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {        
-        Integer opcUs = Integer.parseInt(request.getParameter("tipoUsuario"));
-		Integer dni = Integer.parseInt(request.getParameter("dni"));
+        Integer opcUs;
+    	if (request.getParameter("tipoUsuario")==null) {
+        	opcUs = Integer.parseInt(request.getParameter("tipoUsuarioUpdate"));
+        } else {
+        	opcUs = Integer.parseInt(request.getParameter("tipoUsuario"));
+        }
+        Integer dni = Integer.parseInt(request.getParameter("dni"));
 		String apellido = request.getParameter("apellido");
 		String nombre = request.getParameter("nombre"); 
         String email = request.getParameter("email"); 
@@ -65,7 +70,11 @@ public class UsuarioServlet extends HttpServlet {
 					try {
 						us = new Usuario(dni,apellido,nombre,email,fecha_nacimiento,telefono, contraseña, genero);
 						if(usServ.validarAdministrador(us)) {
-							respuestaOperacion = usServ.updateUsuario(us);
+							if (request.getParameter("contraseña").isBlank()) {
+								respuestaOperacion = usServ.updateUsuarioSinContraseña(us);
+							} else {
+								respuestaOperacion = usServ.updateUsuarioConContraseña(us);
+							}
 						} else {
 					    respuestaOperacion = usServ.insertarUsuario(us);
 						}

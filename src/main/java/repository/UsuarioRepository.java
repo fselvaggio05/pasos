@@ -132,35 +132,52 @@ public class UsuarioRepository {
 								        return rta;
 									}
 
-									public String updateUsuario(Usuario us) {
+									public String updateUsuarioSinContraseña(Usuario us) {
 										String respuestaOperacion;
 								        try
 								        {
-								            if(us.getClave()==null) {
-									        	stmt = FactoryConnection.getInstancia().getConn().prepareStatement("UPDATE usuario (apellido, nombre, telefono, fecha_nacimiento, genero, email) VALUES (?,?,?,?,?,?) WHERE dni = ?");
-									            stmt.setString(1, us.getApellido());
-									            stmt.setString(2, us.getNombre());
-									            stmt.setString(3, us.getTelefono());
-									            stmt.setDate(4,java.sql.Date.valueOf(us.getFecha_nacimiento()));
-									            stmt.setString(5, us.getGenero());
-									            stmt.setString(6, us.getEmail());
-									            stmt.setInt(7,us.getDni());
-									            stmt.executeUpdate();
-									            respuestaOperacion = "OK";
-								            }
-								            else {
-									        	stmt = FactoryConnection.getInstancia().getConn().prepareStatement("UPDATE usuario (apellido, nombre, telefono, clave, fecha_nacimiento, genero, email) VALUES (?,?,?,?,?,?,?) WHERE dni = ?");
-									            stmt.setString(1, us.getApellido());
-									            stmt.setString(2, us.getNombre());
-									            stmt.setString(3, us.getTelefono());
-									            stmt.setString(4, us.getClave());
-									            stmt.setDate(5,java.sql.Date.valueOf(us.getFecha_nacimiento()));
-									            stmt.setString(6, us.getGenero());
-									            stmt.setString(7, us.getEmail());
-									            stmt.setInt(8,us.getDni());
-									            stmt.executeUpdate();
-									            respuestaOperacion = "OK";								            	
-								            }								        	
+								        	stmt = FactoryConnection.getInstancia().getConn().prepareStatement("UPDATE usuario SET apellido = ?, nombre = ?, telefono = ?, fecha_nacimiento = ?, genero = ?, email = ? WHERE dni = ?");
+								            stmt.setString(1, us.getApellido());
+								            stmt.setString(2, us.getNombre());
+								            stmt.setString(3, us.getTelefono());
+								            stmt.setDate(4,java.sql.Date.valueOf(us.getFecha_nacimiento()));
+								            stmt.setString(5, us.getGenero());
+								            stmt.setString(6, us.getEmail());
+								            stmt.setInt(7,us.getDni());
+								            stmt.executeUpdate();
+								            respuestaOperacion = "OK";								            							        	
+								        }								
+								        catch (SQLException e) {
+								           respuestaOperacion= e.toString();
+								        }
+								
+								        finally {
+										            try {              
+											                if (rs != null) rs.close();
+											                if (stmt != null) stmt.close();
+											            } catch (Exception e) {
+											                e.printStackTrace();
+											            }																				
+										            FactoryConnection.getInstancia().releaseConn();
+								        		}
+								        return respuestaOperacion;
+									}
+									
+									public String updateUsuarioConContraseña(Usuario us) {
+										String respuestaOperacion;
+								        try
+								        {
+								        	stmt = FactoryConnection.getInstancia().getConn().prepareStatement("UPDATE usuario SET apellido = ?, nombre = ?, telefono = ?, fecha_nacimiento = ?, genero = ?, email = ?, clave = ? WHERE dni = ?");
+								            stmt.setString(1, us.getApellido());
+								            stmt.setString(2, us.getNombre());
+								            stmt.setString(3, us.getTelefono());
+								            stmt.setDate(4,java.sql.Date.valueOf(us.getFecha_nacimiento()));
+								            stmt.setString(5, us.getGenero());
+								            stmt.setString(6, us.getEmail());
+								            stmt.setString(7,us.getClave());
+								            stmt.setInt(8,us.getDni());
+								            stmt.executeUpdate();
+								            respuestaOperacion = "OK";								            							        	
 								        }								
 								        catch (SQLException e) {
 								           respuestaOperacion= e.toString();

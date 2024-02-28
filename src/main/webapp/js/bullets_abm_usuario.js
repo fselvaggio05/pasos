@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var tablaAdministradores = document.getElementById("tablaAdministradores");
     var tablaProfesionales = document.getElementById("tablaProfesionales");
     var tablaPacientes = document.getElementById("tablaPacientes");
-    
+
     // Obtener referencias a los botones de radio
     var administradorRadio = document.getElementById("administrador");
     var profesionalRadio = document.getElementById("profesional");
@@ -96,10 +96,14 @@ document.addEventListener("DOMContentLoaded", function() {
         if (tipoUsuario === "2") {
             // Profesional
             camposProfesionalUpdate.style.display = "block";
+			tipoUsuarioUpdate.value="2";
         } else if (tipoUsuario === "3") {
             // Paciente
             camposPacienteUpdate.style.display = "block";
-        }
+			tipoUsuarioUpdate.value="3";
+        } else{
+		tipoUsuarioUpdate.value="1";
+		}
     }
 
     // Manejar evento de cambio en el radio button para actualizar tipo de usuario en el modal de edición
@@ -111,62 +115,64 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // Manejar evento de clic en los enlaces de edición en las tablas
-    document.querySelectorAll('.editarUsuario').forEach(function(enlace) {
-        enlace.addEventListener("click", function(event) {
-            // Evitar que el enlace siga el enlace
-            event.preventDefault();
+document.querySelectorAll('.editarUsuario').forEach(function(enlace) {
+    enlace.addEventListener("click", function(event) {
+        // Evitar que el enlace siga el enlace
+        event.preventDefault();
 
-            // Obtener los valores relevantes del registro seleccionado
-            var dni = this.getAttribute("data-dni");
-            var apellido = this.getAttribute("data-apellido");
-            var nombre = this.getAttribute("data-nombre");
-            var fechaNacimiento = this.getAttribute("data-fecha-nacimiento");
-            var genero = this.getAttribute("data-genero");
-            var telefono = this.getAttribute("data-telefono");
-            var email = this.getAttribute("data-email");
-            var matricula = this.getAttribute("data-matricula");
-            var id_obra_social = this.getAttribute("data-id-obra-social");
-            var nro_afiliado = this.getAttribute("data-nro-afiliado");
+        // Obtener los valores relevantes del registro seleccionado
+        var tipoUsuario = this.getAttribute("tipoUsuario");
+        var dni = this.getAttribute("data-dni");
+        var apellido = this.getAttribute("data-apellido");
+        var nombre = this.getAttribute("data-nombre");
+        var fechaNacimiento = this.getAttribute("data-fecha-nacimiento");
+        var genero = this.getAttribute("data-genero");
+        var telefono = this.getAttribute("data-telefono");
+        var email = this.getAttribute("data-email");
+        var matricula = this.getAttribute("data-matricula");
+        var id_obra_social = this.getAttribute("data-id-obra-social");
+        var nro_afiliado = this.getAttribute("data-nro-afiliado");
 
-            // Comprobar los valores obtenidos
-            console.log("DNI:", dni);
-            console.log("Apellido:", apellido);
-            console.log("Nombre:", nombre);
-            console.log("Fecha de Nacimiento:", fechaNacimiento);
-            console.log("Género:", genero);
-            console.log("Teléfono:", telefono);
-            console.log("Email:", email);
-            console.log("Matricula", matricula);
-            console.log("Id Obra Social", id_obra_social);
-            console.log("Nro. Afiliado", nro_afiliado);
+        // Comprobar los valores obtenidos
+        console.log("DNI:", dni);
+        console.log("Apellido:", apellido);
+        console.log("Nombre:", nombre);
+        console.log("Fecha de Nacimiento:", fechaNacimiento);
+        console.log("Género:", genero);
+        console.log("Teléfono:", telefono);
+        console.log("Email:", email);
+        console.log("Matricula:", matricula);
+        console.log("ID Obra Social:", id_obra_social);
+        console.log("Nro. Afiliado:", nro_afiliado);
 
-            // Completar los campos del modal de edición con los valores obtenidos
-            document.querySelector("#camposAdministradorUpdate input[name='dni']").value = dni;
-            document.querySelector("#camposAdministradorUpdate input[name='apellido']").value = apellido;
-            document.querySelector("#camposAdministradorUpdate input[name='nombre']").value = nombre;
-            document.querySelector("#camposAdministradorUpdate input[name='fechaNacimiento']").value = fechaNacimiento;
-            document.querySelector("#camposAdministradorUpdate select[name='genero']").value = genero;
-            document.querySelector("#camposAdministradorUpdate input[name='telefono']").value = telefono;
-            document.querySelector("#camposAdministradorUpdate input[name='email']").value = email;
-            document.querySelector("#camposProfesionalUpdate input[name='matricula']").value = matricula;
-            document.querySelector("#camposPacienteUpdate input[name='nro_afiliado']").value =nro_afiliado;
-           // Obtener todas las opciones del desplegable
-            var opciones = document.querySelectorAll("#camposPacienteUpdate select[name='id_obra_social'] option");
-            
-            // Iterar sobre las opciones
-            opciones.forEach(function(opcion) {
-                // Comparar el valor de la opción con el ID de la obra social
-                if (opcion.value === id_obra_social) {
-                    // Establecer la opción como seleccionada
-                    opcion.selected = true;
-                }
-            });
+        // Completar los campos del modal de edición con los valores obtenidos
+        document.querySelector("#camposAdministradorUpdate input[name='dni']").value = dni;
+        document.querySelector("#camposAdministradorUpdate input[name='apellido']").value = apellido;
+        document.querySelector("#camposAdministradorUpdate input[name='nombre']").value = nombre;
+        document.querySelector("#camposAdministradorUpdate input[name='fechaNacimiento']").value = fechaNacimiento;
+        document.querySelector("#camposAdministradorUpdate select[name='genero']").value = genero;
+        document.querySelector("#camposAdministradorUpdate input[name='telefono']").value = telefono;
+        document.querySelector("#camposAdministradorUpdate input[name='email']").value = email;
+        document.querySelector("#camposProfesionalUpdate input[name='matricula']").value = matricula;
+        document.querySelector("#camposPacienteUpdate input[name='nro_afiliado']").value = nro_afiliado;
 
-            // Mostrar el modal de edición
-            var modal = new bootstrap.Modal(document.getElementById('actualizarUsuario'));
-            modal.show();
+        // Obtener todas las opciones del desplegable
+        var opciones = document.querySelectorAll("#camposPacienteUpdate select[name='id_obra_social'] option");
+
+        // Iterar sobre las opciones
+        opciones.forEach(function(opcion) {
+            // Comparar el valor de la opción con el ID de la obra social
+            if (opcion.value === id_obra_social) {
+                // Establecer la opción como seleccionada
+                opcion.selected = true;
+            }
         });
+
+        // Mostrar el modal de edición
+        var modal = new bootstrap.Modal(document.getElementById('actualizarUsuario'));
+        modal.show();
     });
+});
 
     // Mostrar los campos de edición inicialmente según el tipo de usuario seleccionado
     mostrarCamposEdicion(tipoUsuarioHidden.value);

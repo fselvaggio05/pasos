@@ -293,7 +293,7 @@
 		      <form action="usuarios" method="post">
 		        <div class="modal-body">
 		          <!-- Campo oculto para el tipo de usuario -->
-		          <input type="hidden" name="tipoUsuario" id="tipoUsuario">
+		          <input type="hidden" name="tipoUsuarioUpdate" id="tipoUsuarioUpdate">
 		          <!-- Campos de edición de usuario compartidos -->
 		          <div id="camposAdministradorUpdate" style="display: none;">
 					<div class="row mt-3">
