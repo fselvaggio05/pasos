@@ -35,6 +35,29 @@ public class PacienteService {
 	public List<Paciente> getAll() {
 		return pacRep.getAll();
 	}
+
+	public boolean validarPaciente(Paciente pac) {
+		// TODO Auto-generated method stub
+		return this.pacRep.validarPaciente(pac);
+	}
+
+	public String updatePacienteSinContraseña(Paciente pac) {
+		String rtaOperacion = usRep.updateUsuarioSinContraseña(pac);
+		if("OK".equals(rtaOperacion)) 
+		{
+			rtaOperacion = pacRep.updatePaciente(pac);
+		}
+		return rtaOperacion;
+	}
+	
+	public String updatePacienteConContraseña(Paciente pac) {
+		String rtaOperacion = usRep.updateUsuarioSinContraseña(pac);
+		if("OK".equals(rtaOperacion)) 
+		{
+			rtaOperacion = pacRep.updatePaciente(pac);
+		}
+		return rtaOperacion;
+	}
     
     
 }

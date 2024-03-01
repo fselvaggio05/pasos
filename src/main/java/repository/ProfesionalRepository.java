@@ -14,19 +14,14 @@ public class ProfesionalRepository {
     ResultSet rs = null;
     PreparedStatement stmt = null;
 
-
-    public String insertarProfesional(Profesional prof) {
-    	
+    public String insertarProfesional(Profesional prof) {    	
     	String respuestaOperacion;
-
         try{
             stmt = FactoryConnection.getInstancia().getConn().prepareStatement("insert into profesional (dni,matricula) values (?,?)");
             stmt.setInt(1,prof.getDni());
             stmt.setInt(2,prof.getMatricula());
             stmt.executeUpdate();
             respuestaOperacion = "OK";
-            
-
         } catch (SQLException e) {
             respuestaOperacion = e.toString();
         }
@@ -35,28 +30,19 @@ public class ProfesionalRepository {
                 //se cierran conexiones abiertas en el orden inverso en que fueron abiertas
                 if (rs != null) rs.close();
                 if (stmt != null) stmt.close();
-
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
             FactoryConnection.getInstancia().releaseConn(); //reveer esto, no me convene
-
         }
-        
         return respuestaOperacion;
-
     }
-
 
     public List<Profesional> getAll() {
         List<Profesional> profesionales = new ArrayList<>();
 
         try {
-            stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
-                "SELECT * FROM profesional p INNER JOIN usuario u ON p.dni = u.dni ORDER BY apellido ASC"
-            );
+            stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT * FROM profesional p INNER JOIN usuario u ON p.dni = u.dni ORDER BY apellido ASC");
             rs = stmt.executeQuery();
 
             while (rs != null && rs.next()) {
@@ -82,7 +68,56 @@ public class ProfesionalRepository {
             }
             FactoryConnection.getInstancia().releaseConn();
         }
-
         return profesionales;
+    }
+    
+	public boolean validarProfesional(Profesional prof) {
+		boolean rta = false;
+        try {
+            stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT * FROM profesional WHERE dni = ?");
+            stmt.setInt(1, prof.getDni());
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+            	rta = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            FactoryConnection.getInstancia().releaseConn();
+        }
+        return rta;
+	}
+
+	public String updateProfesional(Profesional prof) {
+		String respuestaOperacion;
+        try
+        {
+        	stmt = FactoryConnection.getInstancia().getConn().prepareStatement("UPDATE profesional SET matricula = ? WHERE dni = ?");
+            stmt.setInt(1, prof.getMatricula());
+            stmt.setInt(2,prof.getDni());
+            stmt.executeUpdate();
+            respuestaOperacion = "OK";								            							        	
+        }								
+        catch (SQLException e) {
+           respuestaOperacion= e.toString();
+        }
+
+        finally {
+		            try {              
+			                if (rs != null) rs.close();
+			                if (stmt != null) stmt.close();
+			            } catch (Exception e) {
+			                e.printStackTrace();
+			            }																				
+		            FactoryConnection.getInstancia().releaseConn();
+        		}
+        return respuestaOperacion;
     }
 }

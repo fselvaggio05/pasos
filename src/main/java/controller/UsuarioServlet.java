@@ -87,10 +87,23 @@ public class UsuarioServlet extends HttpServlet {
 
             case 2: { //TODO REVISAR MATRICULA QUE LLEGA EN NULL
                     Integer matricula = Integer.parseInt(request.getParameter("matricula"));
-                    Profesional prof;
 					try {
-						prof = new Profesional(dni, apellido, nombre, email,fecha_nacimiento,telefono,contraseña,genero, matricula);
-						respuestaOperacion = profServ.insertarProfesional(prof);
+						Profesional prof = new Profesional(dni, apellido, nombre, email,fecha_nacimiento,telefono,contraseña,genero, matricula);
+						if(profServ.validarProfesional(prof)) 
+						{
+							if(request.getParameter("contraseña").isBlank()) 
+							{
+								respuestaOperacion = profServ.updateProfesionalSinContraseña(prof);
+							}
+							else 
+							{
+								respuestaOperacion = profServ.updateProfesionalConContraseña(prof);
+							}	
+						}
+						else 
+						{
+							respuestaOperacion = profServ.insertarProfesional(prof);
+						}
 					} catch (NumberFormatException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -104,10 +117,23 @@ public class UsuarioServlet extends HttpServlet {
             case 3:{               
                     Integer obraSocial = Integer.parseInt(request.getParameter("id_obra_social"));
                     String nroAfiliado = request.getParameter("nroAfiliado");
-                    Paciente pac;
 					try {
-						pac = new Paciente(dni, apellido, nombre, email, fecha_nacimiento, telefono, contraseña, genero, obraSocial,nroAfiliado);
-	                    respuestaOperacion = pacServ.insertarPaciente(pac);	                    
+						Paciente pac = new Paciente(dni, apellido, nombre, email, fecha_nacimiento, telefono, contraseña, genero, obraSocial,nroAfiliado);
+						if(pacServ.validarPaciente(pac)) 
+						{
+							if(request.getParameter("contraseña").isBlank()) 
+							{
+								respuestaOperacion = pacServ.updatePacienteSinContraseña(pac);
+							}
+							else 
+							{
+								respuestaOperacion = pacServ.updatePacienteConContraseña(pac);
+							}
+						}
+						else 
+						{
+							respuestaOperacion = profServ.insertarProfesional(null);
+						}
 					} catch (NumberFormatException | ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -118,12 +144,12 @@ public class UsuarioServlet extends HttpServlet {
         if ("OK".equals(respuestaOperacion)) {
 			mensaje = "Operacion realizada correctamente";
 			request.setAttribute("mensaje", mensaje);
+			request.setAttribute("tipoUsuarioSeleccionado", opcUs);
 			this.doGet(request, response);
 		} else {
 			mensaje = respuestaOperacion;
 			request.setAttribute("mensaje", mensaje);
 			this.doGet(request, response);
-		}
-                
+		}     
     }
 }

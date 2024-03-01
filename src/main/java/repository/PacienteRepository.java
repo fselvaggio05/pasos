@@ -128,4 +128,55 @@ public class PacienteRepository {
 	    }
 	    return pacientes;	
 	}
+
+	public boolean validarPaciente(Paciente pac) {
+		boolean rta = false;
+        try {
+            stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT * FROM paciente WHERE dni = ?");
+            stmt.setInt(1, pac.getDni());
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+            	rta = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            FactoryConnection.getInstancia().releaseConn();
+        }
+        return rta;
+	}
+
+	public String updatePaciente(Paciente pac) {
+		String respuestaOperacion;
+        try
+        {
+        	stmt = FactoryConnection.getInstancia().getConn().prepareStatement("UPDATE paciente SET id_obra_social = ?, nro_afiliado = ? WHERE dni = ?");
+            stmt.setInt(1, pac.getId_obra_social());
+            stmt.setString(2, pac.getNro_afiliado());
+            stmt.setInt(3,pac.getDni());
+            stmt.executeUpdate();
+            respuestaOperacion = "OK";								            							        	
+        }								
+        catch (SQLException e) {
+           respuestaOperacion= e.toString();
+        }
+
+        finally {
+		            try {              
+			                if (rs != null) rs.close();
+			                if (stmt != null) stmt.close();
+			            } catch (Exception e) {
+			                e.printStackTrace();
+			            }																				
+		            FactoryConnection.getInstancia().releaseConn();
+        		}
+        return respuestaOperacion;
+	}
 }

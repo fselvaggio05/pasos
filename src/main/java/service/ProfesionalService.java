@@ -48,4 +48,27 @@ public class ProfesionalService {
     	return practicasProfesional;
     	
     }
+
+	public boolean validarProfesional(Profesional prof) {
+		// TODO Auto-generated method stub
+		return this.profRep.validarProfesional(prof);
+	}
+
+	public String updateProfesionalSinContraseña(Profesional prof) {
+		// TODO Auto-generated method stub
+		String rtaOperacion = usRep.updateUsuarioSinContraseña(prof);
+		if("OK".equals(rtaOperacion)) {
+			rtaOperacion = this.profRep.updateProfesional(prof);
+		}
+		return rtaOperacion;
+	}
+	
+	public String updateProfesionalConContraseña(Profesional prof) {
+		// TODO Auto-generated method stub
+		String rtaOperacion = usRep.updateUsuarioConContraseña(prof);
+		if("OK".equals(rtaOperacion)) {
+			rtaOperacion = this.profRep.updateProfesional(prof);
+		}
+		return rtaOperacion;
+	}
 }
