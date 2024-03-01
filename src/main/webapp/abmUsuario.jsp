@@ -27,19 +27,16 @@
 									</div>
 									<div class="col-6">
 										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio"
-												name="tipoUsuario" id="administrador" value="1" checked>
+											<input class="form-check-input" type="radio" name="tipoUsuario" id="administrador" value="1" checked <c:if test="${tipoUsuarioSeleccionado == 1}">checked</c:if>>
 											<label class="form-check-label" for="administrador">Administrador</label>
 										</div>
 										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio"
-												name="tipoUsuario" id="profesional" value="2"> <label
-												class="form-check-label" for="profesional">Profesional</label>
+											<input class="form-check-input" type="radio" name="tipoUsuario" id="profesional" value="2" <c:if test="${tipoUsuarioSeleccionado == 2}">checked</c:if>> 
+											<label class="form-check-label" for="profesional">Profesional</label>
 										</div>
 										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio"
-												name="tipoUsuario" id="paciente" value="3"> <label
-												class="form-check-label" for="paciente">Paciente</label>
+											<input class="form-check-input" type="radio" name="tipoUsuario" id="paciente" value="3" <c:if test="${tipoUsuarioSeleccionado == 3}">checked</c:if>> 
+											<label class="form-check-label" for="paciente">Paciente</label>
 										</div>
 									</div>
 								</div>

@@ -132,7 +132,7 @@ public class UsuarioServlet extends HttpServlet {
 						}
 						else 
 						{
-							respuestaOperacion = profServ.insertarProfesional(null);
+							respuestaOperacion = pacServ.insertarPaciente(pac);
 						}
 					} catch (NumberFormatException | ParseException e) {
 						// TODO Auto-generated catch block
