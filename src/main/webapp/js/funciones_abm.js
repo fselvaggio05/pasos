@@ -303,7 +303,87 @@ if(registroPrescripcion)
         });
 	
 }
+// Obra social
+const actualizarObraSocial = document.getElementById('actualizarObraSocial')
 
+// verifica que exista el modal de, si existe ingresa al if
+if (actualizarObraSocial) {
+	//agrega un evento onload al modal, cuando el modal se levante ejecuta la siguiente función
+  actualizarObraSocial.addEventListener('show.bs.modal', event => {
+    
+    //trae el link que levanto el modal
+    const a = event.relatedTarget
+    
+    //trae los atributos del link con los valores que se le enviaron 
+    const idObraSocial = a.getAttribute('idObraSocial');
+    //console.log(idPractica);
+    
+    const nomObraSocial=a.getAttribute('nomObraSocial');
+    
+	console.log(nomObraSocial);
+        
+	//traigo los campos en donde voy a mostrar los datos 
+    const inputIdObraSocial = actualizarObraSocial.querySelector('.modal-body #idObraSocial');
+   
+    const inputNomObraSocial = actualizarObraSocial.querySelector('.modal-body #nomObraSocial');    
+
+	//asigno los valores capturados para mostrarlos
+    inputIdObraSocial.value = idObraSocial;
+    
+    inputNomObraSocial.value = nomObraSocial;    
+  })
+}
+
+
+const eliminarObraSocial = document.getElementById('eliminarObraSocial');
+// verifica que exista el modal, si existe ingresa al if
+if (eliminarObraSocial) {
+	//agrega un evento onload al modal, cuando el modal se levante ejecuta la siguiente función
+  eliminarObraSocial.addEventListener('show.bs.modal', event => {
+    
+    //trae el link que levanto el modal
+    const a = event.relatedTarget
+    
+    //trae los atributos del link con los valores que se le enviaron 
+    const idObraSocial = a.getAttribute('idObraSocial');    
+    const nomObraSocial=a.getAttribute('nomObraSocial');
+
+	console.log(nomObraSocial);
+       
+	//traigo los campos en donde voy a mostrar los datos 
+    const inputIdObraSocial = eliminarObraSocial.querySelector('.modal-body #idObraSocial');
+    const inputNomObraSocial = eliminarObraSocial.querySelector('.modal-body #nomObraSocial');
+    
+        
+	//asigno los valores capturados para mostrarlos
+	inputIdObraSocial.value = idObraSocial;
+    inputNomObraSocial.innerHTML = nomObraSocial;   
+  })
+}
+
+const revivirObraSocial = document.getElementById('revivirObraSocial')
+if(revivirObraSocial){
+	revivirObraSocial.addEventListener('show.bs.modal', event => {
+    
+    //trae el link que levanto el modal
+    const a = event.relatedTarget
+    
+    //trae los atributos del link con los valores que se le enviaron 
+    const idObraSocial = a.getAttribute('idObraSocial');    
+    const nomObraSocial=a.getAttribute('nomObraSocial');
+
+	console.log(nomObraSocial);
+       
+	//traigo los campos en donde voy a mostrar los datos 
+    const inputIdObraSocial = revivirObraSocial.querySelector('.modal-body #idObraSocial');
+    const inputNomObraSocial = revivirObraSocial.querySelector('.modal-body #nomObraSocial');
+    
+        
+	//asigno los valores capturados para mostrarlos
+	inputIdObraSocial.value = idObraSocial;
+    inputNomObraSocial.innerHTML = nomObraSocial;   
+  })
+}
 
 // FUNCIONES SELECCION
 

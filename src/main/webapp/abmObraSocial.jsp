@@ -34,7 +34,7 @@
                             		</div>
                             		<div class="card-body">
                             			<!-- Tabla de obras sociales activas -->
-		                                <table id="tablaActivas" class="table table-striped my-2">
+		                                <table id="tablaActivos" class="table table-striped my-2">
 		                                    <thead>
 		                                        <tr>
 		                                            <th scope="col">Código de Obra social</th>
@@ -44,7 +44,7 @@
 		                                        </tr>
 		                                    </thead>
 		                                    <tbody>
-		                                        <c:forEach var="unaObraSocial" items="${tablaObrasSocialesActivass}">
+		                                        <c:forEach var="unaObraSocial" items="${tablaActivas}">
 		                                            <tr>
 		                                                <td><c:out value="${unaObraSocial.id_obra_social}"/></td>
 		                                                <td><c:out value="${unaObraSocial.nombre}"/></td>
@@ -62,7 +62,7 @@
 		                                    </tbody>
 		                                </table>
 		                                <!-- Tabla de obra sociales inactivas -->
-		                                <table id="tablaInactivas" class="table table-striped my-2" style="display: none;">
+		                                <table id="tablaInactivos" class="table table-striped my-2" style="display: none;">
 		                                    <thead>
 		                                        <tr>
 		                                            <th scope="col">Código de Obra Social</th>
@@ -72,7 +72,7 @@
 		                                        </tr>
 		                                    </thead>
 		                                    <tbody>
-		                                        <c:forEach var="unaObraSocial" items="${tablaObrasSocialesInactivas}">
+		                                        <c:forEach var="unaObraSocial" items="${tablaInactivas}">
 		                                            <tr>
 		                                                <td><c:out value="${unaObraSocial.id_obra_social}"/></td>
 		                                                <td><c:out value="${unaObraSocial.nombre}"/></td>
@@ -135,7 +135,10 @@
 					<form action="obrassociales" method="post">
 						<div class="modal-body">
 							<input type="hidden" value="alta" name="operacion">
-							
+							<div class="mb-3">
+								<label class="col-6">Codigo obra social:</label>
+	                            <input type="text" class="form-control col-6" name="idObraSocial">
+							</div>
 							<div class="mb-3">
 								<label class="col-6">Nombre obra social:</label>
 	                            <input type="text" class="form-control col-6" name="nomObraSocial">
@@ -150,7 +153,7 @@
 			</div>
 		</div>
 		<!--                     VENTANA MODAL "EDITAR OBRA SOCIAL" -->
-		<div class="modal fade" id="actualizarEquipo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal fade" id="actualizarObraSocial" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -161,7 +164,7 @@
 						<div class="modal-body">
 							<input type="hidden" value="actualizar" name="operacion">
 							<div class="mb-3">
-								<label class="col-6">Código Obra Social:</label>
+								<label class="col-6">Codigo Obra Social:</label>
                                 <input type="text" class="form-control col-6" id="idObraSocial" name="idObraSocial" readOnly>
                                 <c:out value="${unaObraSocial.id_obra_social}"></c:out>								
 							</div>
