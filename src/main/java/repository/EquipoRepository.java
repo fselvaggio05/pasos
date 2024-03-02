@@ -46,7 +46,7 @@ public class EquipoRepository {
 		//Read all
 		public List<Equipo> getAll()
 	{
-		List<Equipo> equipos = new ArrayList<>();		
+		List<Equipo> equipos = new ArrayList<Equipo>();		
 		//colocar try
 			try {
 				stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT * FROM equipo");
@@ -79,7 +79,7 @@ public class EquipoRepository {
 
 		//Read all Activos
 		public List<Equipo> getAllActivos() {
-		List<Equipo> equipos = new ArrayList<>();		
+		List<Equipo> equipos = new ArrayList<Equipo>();		
 		//colocar try
 			try {
 				stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT * FROM equipo where estado=1");
@@ -112,7 +112,7 @@ public class EquipoRepository {
 
 		//Read all Inactivos
 		public List<Equipo> getAllInactivos() {	
-			List<Equipo> equipos = new ArrayList<>();
+			List<Equipo> equipos = new ArrayList<Equipo>();
 			try {
 				stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT * FROM equipo where estado=0");
 				rs = stmt.executeQuery();
