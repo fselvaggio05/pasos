@@ -273,6 +273,32 @@ if (revivirHorario) {
 }
 
 
+//Registro turno - Recupera ID Turno de la tabla
+const registrarTurno = document.getElementById('registrarTurno')
+if(registrarTurno)
+{
+	function seleccionRadioTurno() {
+            var e = document.getElementsByName('idTurnoTabla');
+            let valorSeleccionado;
+ 
+            for (i = 0; i < e.length; i++) {
+                if (e[i].checked)
+                {					
+					valorSeleccionado = e[i].value
+					const idTurno = registrarTurno.querySelector('.modal-body #idTurno');
+					idTurno.value = valorSeleccionado; 
+					console.log(valorSeleccionado)
+					
+				}
+                    
+            }
+        }
+	
+}
+
+
+
+
 
 //Registro prescripcion
 const registroPrescripcion = document.getElementById('registroPrescripcion');
