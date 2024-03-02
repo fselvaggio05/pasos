@@ -112,7 +112,7 @@ public class EquipoRepository {
 
 		//Read all Inactivos
 		public List<Equipo> getAllInactivos() {	
-			List<Equipo> equipos = new ArrayList<>();
+			List<Equipo> equipos = new ArrayList<Equipo>();
 			try {
 				stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT * FROM equipo where estado=0");
 				rs = stmt.executeQuery();
