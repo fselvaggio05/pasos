@@ -24,7 +24,7 @@
       </button>
       <div class="collapse" id="turnos-collapse">
         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-          <li><a href="09 - registroTurno.jsp" class="link-dark rounded">Registrar turno</a></li>
+          <li><a href="registroTurno.jsp" class="link-dark rounded">Registrar turno</a></li>
           <li><a href="#" class="link-dark rounded">Consulta turnos</a></li>
           <li><a href="registrarAsistencia.jsp" class="link-dark rounded">Registrar asistencia</a></li>
           <li><a href="prescripcion" class="link-dark rounded">Registrar prescripcion</a></li>
