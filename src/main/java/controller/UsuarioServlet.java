@@ -69,7 +69,8 @@ public class UsuarioServlet extends HttpServlet {
                     Usuario us;
 					try {
 						us = new Usuario(dni,apellido,nombre,email,fecha_nacimiento,telefono, contraseña, genero);
-						if(usServ.validarAdministrador(us)) {
+						if(usServ.validarAdministrador(us)) {							
+							//deberia mostrar que YA existe y si queres updatear no hacer el update automatico, mostrando mensajes con datos del usuario actual.
 							if (request.getParameter("contraseña").isBlank()) {
 								respuestaOperacion = usServ.updateUsuarioSinContraseña(us);
 							} else {
@@ -91,6 +92,7 @@ public class UsuarioServlet extends HttpServlet {
 						Profesional prof = new Profesional(dni, apellido, nombre, email,fecha_nacimiento,telefono,contraseña,genero, matricula);
 						if(profServ.validarProfesional(prof)) 
 						{
+							//deberia mostrar que YA existe y si queres updatear no hacer el update automatico, mostrando mensajes con datos del usuario actual.
 							if(request.getParameter("contraseña").isBlank()) 
 							{
 								respuestaOperacion = profServ.updateProfesionalSinContraseña(prof);
@@ -121,6 +123,7 @@ public class UsuarioServlet extends HttpServlet {
 						Paciente pac = new Paciente(dni, apellido, nombre, email, fecha_nacimiento, telefono, contraseña, genero, obraSocial,nroAfiliado);
 						if(pacServ.validarPaciente(pac)) 
 						{
+							//deberia mostrar que YA existe y si queres updatear no hacer el update automatico, mostrando mensajes con datos del usuario actual.
 							if(request.getParameter("contraseña").isBlank()) 
 							{
 								respuestaOperacion = pacServ.updatePacienteSinContraseña(pac);

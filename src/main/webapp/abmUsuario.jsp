@@ -223,7 +223,7 @@
 									</div>
 									<div class="row mt-3">
 										<div class="col-6">
-											<label>Teléfono</label> <input type="text"
+											<label>Teléfono</label> <input type="number"
 												class="form-control" name="telefono">
 										</div>
 										<div class="col-6">
@@ -328,7 +328,7 @@
 								</div>
 								<div class="row mt-3">
 									<div class="col-6">
-										<label>Teléfono</label> <input type="text"
+										<label>Teléfono</label> <input type="number"
 											class="form-control" name="telefono">
 										<c:out value="${unAdministrador.telefono}"></c:out>
 									</div>
