@@ -38,4 +38,9 @@ public class UsuarioService {
 		// TODO Auto-generated method stub
 		return usRep.updateUsuarioSinContraseña(us);
 	}
+
+	public List<Usuario> getAllAdministradoresPorDNI(int dniBuscado) {
+		// TODO Auto-generated method stub
+		return this.usRep.getAllAdministradoresPorDNI(dniBuscado);
+	}
 }

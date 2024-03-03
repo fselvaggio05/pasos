@@ -177,3 +177,20 @@ document.querySelectorAll('.editarUsuario').forEach(function(enlace) {
     // Mostrar los campos de edición inicialmente según el tipo de usuario seleccionado
     mostrarCamposEdicion(tipoUsuarioHidden.value);
 });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var form = document.querySelector("form[action='usuarios']");
+        var radios = document.querySelectorAll("input[name='tipoUsuario']");
+
+        form.addEventListener("submit", function(event) {
+            var tipoUsuarioSeleccionado;
+            radios.forEach(function(radio) {
+                if (radio.checked) {
+                    tipoUsuarioSeleccionado = radio.value;
+                }
+            });
+
+            var inputTipoUsuario = document.querySelector("input[name='tipoUsuarioBusqueda']");
+            inputTipoUsuario.value = tipoUsuarioSeleccionado;
+        });
+    });

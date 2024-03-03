@@ -40,7 +40,6 @@ public class ProfesionalRepository {
 
     public List<Profesional> getAll() {
         List<Profesional> profesionales = new ArrayList<>();
-
         try {
             stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT * FROM profesional p INNER JOIN usuario u ON p.dni = u.dni ORDER BY apellido ASC");
             rs = stmt.executeQuery();
@@ -120,4 +119,37 @@ public class ProfesionalRepository {
         		}
         return respuestaOperacion;
     }
+
+	public List<Profesional> getAllPorDNI(int dniBuscado) {
+		List<Profesional> profesionales = new ArrayList<>();
+        try {
+            stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT * FROM profesional p INNER JOIN usuario u ON p.dni = u.dni WHERE u.dni = ?");
+            stmt.setInt(1,dniBuscado);
+            rs = stmt.executeQuery();
+
+            while (rs != null && rs.next()) {
+                Profesional pr = new Profesional();
+                pr.setDni(rs.getInt("dni"));
+                pr.setApellido(rs.getString("apellido"));
+                pr.setNombre(rs.getString("nombre"));
+                pr.setFecha_nacimiento(rs.getObject("fecha_nacimiento", LocalDate.class));
+                pr.setGenero(rs.getString("genero"));
+                pr.setTelefono(rs.getString("telefono"));
+                pr.setEmail(rs.getString("email"));
+                pr.setMatricula(rs.getInt("matricula"));
+                profesionales.add(pr);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al ejecutar la consulta SQL", e);
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            FactoryConnection.getInstancia().releaseConn();
+        }
+        return profesionales;
+	}
 }

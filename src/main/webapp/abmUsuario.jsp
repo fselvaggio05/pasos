@@ -40,6 +40,18 @@
 										</div>
 									</div>
 								</div>
+								<form action="usuarios" method="post">
+								    <div class="row justify-content-center mt-3">
+								        <div class="col-6">
+								            <div class="input-group">
+								                <input type="text" class="form-control" placeholder="Buscar por DNI" id="inputDNI" name="dniBuscado">
+								                <input type="hidden" name="tipoUsuarioBusqueda" value="1"> <!-- Campo oculto para el valor del radio button -->
+								                <input type="hidden" name="accion" value="buscar"> <!-- Campo oculto para indicar la acción -->
+								                <button class="btn btn-success" type="submit">Buscar</button>
+								            </div>
+								        </div>
+								    </div>
+								</form>
 								<!-- Tablas de administradores, profesionales y pacientes -->
 								<div class="card-body">
 									<!-- Sección de tablas -->
@@ -172,9 +184,7 @@
 								<!-- Botón de alta de usuario -->
 								<div class="row mt-3">
 									<div class="col-12" style="padding: 1%;">
-										<button id="btnMostrarCampos" type="button"
-											class="btn btn-success" data-bs-toggle="modal"
-											data-bs-target="#altaUsuario">Agregar Usuario</button>
+										<button id="btnMostrarCampos" type="button"	class="btn btn-success" data-bs-toggle="modal" data-bs-target="#altaUsuario">Agregar Usuario</button>
 									</div>
 								</div>
 							</div>
@@ -184,21 +194,18 @@
 			</div>
 		</div>
 		<!-- 		VENTANA MODAL "AGREGAR USUARIO" -->
-		<div class="modal fade" id="altaUsuario" tabindex="-1"
-			aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal fade" id="altaUsuario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="exampleModalLabel">Nuevo
-							Usuario</h1>
-						<button type="button" class="btn-close" data-bs-dismiss="modal"
-							aria-label="Close"></button>
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Nuevo Usuario</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<form action="usuarios" method="post">
 						<div class="modal-body">
-							<input type="hidden" id="tipoUsuarioHidden" name="tipoUsuario"
-								value="1"> <input type="hidden" value="alta"
-								name="operacion">
+							<input type="hidden" id="tipoUsuarioHidden" name="tipoUsuario" value="1"> 
+							<input type="hidden" value="alta" name="operacion">
+							<input type="hidden" name="idModal" value="altaUsuario">							
 							<div id="camposAlta">
 								<div id="camposAdministrador" style="display: none;">
 									<div class="row mt-3">

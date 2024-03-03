@@ -71,4 +71,9 @@ public class ProfesionalService {
 		}
 		return rtaOperacion;
 	}
+
+	public List<Profesional> getAllPorDNI(int dniBuscado) {
+		// TODO Auto-generated method stub
+		return this.profRep.getAllPorDNI(dniBuscado);
+	}
 }

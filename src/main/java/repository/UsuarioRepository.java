@@ -194,4 +194,37 @@ public class UsuarioRepository {
 								        		}
 								        return respuestaOperacion;
 									}
+
+									public List<Usuario> getAllAdministradoresPorDNI(int dniBuscado) {
+										List<Usuario> administradores = new ArrayList<>();
+								        try {
+								            stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT * FROM usuario WHERE dni NOT IN (SELECT dni FROM paciente) AND dni NOT IN (SELECT dni FROM profesional) AND dni = ?");
+								            stmt.setInt(1,dniBuscado);
+								            rs = stmt.executeQuery();
+
+								            while (rs.next()) 
+								            {
+								                Usuario us = new Usuario();
+								                us.setDni(rs.getInt("dni"));
+								                us.setApellido(rs.getString("apellido"));
+								                us.setNombre(rs.getString("nombre"));
+								                us.setFecha_nacimiento(rs.getObject("fecha_nacimiento", LocalDate.class));
+								                us.setGenero(rs.getString("genero"));
+								                us.setTelefono(rs.getString("telefono"));
+								                us.setEmail(rs.getString("email"));
+								                administradores.add(us);
+								            }
+								        } catch (Exception e) {
+								            e.printStackTrace();
+								        } finally {
+								            try {
+								                if (rs != null) rs.close();
+								                if (stmt != null) stmt.close();
+								            } catch (Exception e) {
+								                e.printStackTrace();
+								            }
+								            FactoryConnection.getInstancia().releaseConn();
+								        }
+								        return administradores;
+									}
 								}

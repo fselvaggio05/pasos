@@ -20,48 +20,33 @@ public class PacienteRepository {
     Paciente pac = new Paciente();
 
     public String insertarPaciente(Paciente pac)
-    {   	
-    	   	
-	
+    {
 	    try
-	    {
-	    	
+	    {   	
 	        stmt = FactoryConnection.getInstancia().getConn().prepareStatement("insert into paciente (dni,nro_afiliado,id_obra_social) values (?,?,?)");
 	        stmt.setInt(1,pac.getDni());
 	        stmt.setString(2,pac.getNro_afiliado());
 	        stmt.setInt(3,pac.getId_obra_social());
 	        stmt.execute();
 	        respuestaOperacion = "OK";
-	
 	    } 
 	    catch (SQLException e) {
 	        respuestaOperacion = e.toString();
 	    }
-	
 	    finally {
-	
 	        try {
-	            
 	            if (rs != null) rs.close();
-	            if (stmt != null) stmt.close();
-	
-	
+	            if (stmt != null) stmt.close();	
 	        } catch (Exception e) {
 	            respuestaOperacion = e.toString();
 	        }
-	
 	        FactoryConnection.getInstancia().releaseConn(); //reveer esto, no me convene
-	
 	    }
-	    
 	    return respuestaOperacion;
-	
 	    }
 
 	public Paciente buscarPaciente(Integer dni) {
-		
 		Paciente pac = new Paciente();
-		
 		try
 		{
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from paciente p inner join usuario u on u.dni=p.dni inner join obra_social os on os.id_obra_social=p.id_obra_social where p.dni=?");
@@ -70,27 +55,21 @@ public class PacienteRepository {
 			
 			if(rs!=null && rs.next())
 			{
-				
 				pac.setApellido(rs.getString("u.apellido"));
 				pac.setNombre(rs.getString("nombre"));
 				pac.setDni(rs.getInt("dni"));
 				pac.setId_obra_social(rs.getInt("id_obra_social"));
 				pac.setNro_afiliado(rs.getString("nro_afiliado"));
-				respuestaOperacion = "OK";
-				
+				respuestaOperacion = "OK";	
 			}
-			
 		}
-		
 		catch (SQLException e)
 		{
 			respuestaOperacion = e.toString();
 		}
-		
 		finally {
 			FactoryConnection.cerrarConexion(rs, stmt);
 		}
-		
 		return pac;
 	}
 
@@ -179,4 +158,40 @@ public class PacienteRepository {
         		}
         return respuestaOperacion;
 	}
+
+	public List<Paciente> getAllPorDNI(int dniBuscado) {
+		List<Paciente> pacientes = new ArrayList<>();		
+		try
+		{
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from paciente p inner join usuario u on u.dni=p.dni inner join obra_social os on os.id_obra_social=p.id_obra_social where u.dni = ?");
+			stmt.setInt(1,dniBuscado);
+			rs = stmt.executeQuery();
+			
+			while (rs != null && rs.next()) 
+			{
+				Paciente unPaciente = new Paciente();
+				unPaciente.setDni(rs.getInt("dni"));
+	            unPaciente.setApellido(rs.getString("apellido"));
+	            unPaciente.setNombre(rs.getString("nombre"));
+	            unPaciente.setFecha_nacimiento(rs.getObject("fecha_nacimiento", LocalDate.class));
+	            unPaciente.setGenero(rs.getString("genero"));
+	            unPaciente.setTelefono(rs.getString("telefono"));
+	            unPaciente.setEmail(rs.getString("email"));
+	            unPaciente.setId_obra_social(rs.getInt("id_obra_social"));
+	            unPaciente.setNro_afiliado(rs.getString("nro_afiliado"));
+	            pacientes.add(unPaciente);
+	        }
+	    } catch (SQLException e) {
+	        throw new RuntimeException("Error al ejecutar la consulta SQL", e);
+	    } finally {
+	        try {
+	            if (rs != null) rs.close();
+	            if (stmt != null) stmt.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        FactoryConnection.getInstancia().releaseConn();
+	    }
+	    return pacientes;
+	 }
 }

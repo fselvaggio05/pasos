@@ -58,10 +58,9 @@ public class PacienteService {
 		}
 		return rtaOperacion;
 	}
-    
-    
+
+	public List<Paciente> getAllPorDNI(int dniBuscado) {
+		// TODO Auto-generated method stub
+		return this.pacRep.getAllPorDNI(dniBuscado);
+	}    
 }
-
-
-
-
