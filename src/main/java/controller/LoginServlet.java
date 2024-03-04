@@ -28,7 +28,7 @@ public class LoginServlet extends HttpServlet {
         UsuarioService usServ = new UsuarioService();
         Usuario us = usServ.buscarUsuario(req.getParameter("mail"),req.getParameter("pass"));
 
-        if(us.getDni()==0)
+        if(us==null)
         {
             req.setAttribute("error", "Email o password incorrectos");
             req.getRequestDispatcher("/index.jsp").forward(req,resp);
@@ -37,12 +37,14 @@ public class LoginServlet extends HttpServlet {
         else
         {
 
-            HttpSession session = req.getSession();
+            HttpSession session = req.getSession(true);
             session.setAttribute("usuario", us);
             resp.sendRedirect(req.getContextPath() + "/menu_final.jsp");
         }
     }
 
+    
+  
 
 
 }

@@ -17,6 +17,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import service.HorarioService;
 import service.PracticaService;
 import service.ProfesionalService;
@@ -42,10 +43,22 @@ public class AgendaServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		horarios = horServ.getAllActivos();
-		request.setAttribute("horarios", horarios);
-		request.getRequestDispatcher("generarAgenda.jsp").forward(request, response);		
-
+		HttpSession session = request.getSession();
+		
+		if(session!=null) 
+		{
+			horarios = horServ.getAllActivos();
+			request.setAttribute("horarios", horarios);
+			request.getRequestDispatcher("generarAgenda.jsp").forward(request, response);
+			
+		}
+		
+		else
+		{
+			String mensaje = "No se ha iniciado sesion";
+			request.setAttribute("mensaje", mensaje);
+			
+		}
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
