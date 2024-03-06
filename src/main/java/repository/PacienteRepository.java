@@ -1,6 +1,7 @@
 package repository;
 
 import conexionDB.FactoryConnection;
+import entity.ObraSocial;
 import entity.Paciente;
 
 
@@ -26,7 +27,7 @@ public class PacienteRepository {
 	        stmt = FactoryConnection.getInstancia().getConn().prepareStatement("insert into paciente (dni,nro_afiliado,id_obra_social) values (?,?,?)");
 	        stmt.setInt(1,pac.getDni());
 	        stmt.setString(2,pac.getNro_afiliado());
-	        stmt.setInt(3,pac.getId_obra_social());
+	        stmt.setInt(3,pac.getObra_social().getId_obra_social());
 	        stmt.execute();
 	        respuestaOperacion = "OK";
 	    } 
@@ -47,6 +48,7 @@ public class PacienteRepository {
 
 	public Paciente buscarPaciente(Integer dni) {
 		Paciente pac = new Paciente();
+		ObraSocial obraSocial = new ObraSocial();
 		try
 		{
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from paciente p inner join usuario u on u.dni=p.dni inner join obra_social os on os.id_obra_social=p.id_obra_social where p.dni=?");
@@ -58,7 +60,11 @@ public class PacienteRepository {
 				pac.setApellido(rs.getString("u.apellido"));
 				pac.setNombre(rs.getString("nombre"));
 				pac.setDni(rs.getInt("dni"));
-				pac.setId_obra_social(rs.getInt("id_obra_social"));
+				obraSocial.setId_obra_social(rs.getInt("id_obra_social"));
+				obraSocial.setNombre(rs.getString("nombre_obra_social"));
+				obraSocial.setEstado(rs.getBoolean("estado"));
+				obraSocial.setFecha_baja(rs.getDate("fecha_baja").toLocalDate());
+				pac.setObra_social(obraSocial);
 				pac.setNro_afiliado(rs.getString("nro_afiliado"));
 				respuestaOperacion = "OK";	
 			}
@@ -83,6 +89,7 @@ public class PacienteRepository {
 			while (rs != null && rs.next()) 
 			{
 				Paciente unPaciente = new Paciente();
+				ObraSocial obraSocial = new ObraSocial();
 				unPaciente.setDni(rs.getInt("dni"));
 	            unPaciente.setApellido(rs.getString("apellido"));
 	            unPaciente.setNombre(rs.getString("nombre"));
@@ -90,8 +97,19 @@ public class PacienteRepository {
 	            unPaciente.setGenero(rs.getString("genero"));
 	            unPaciente.setTelefono(rs.getString("telefono"));
 	            unPaciente.setEmail(rs.getString("email"));
-	            unPaciente.setId_obra_social(rs.getInt("id_obra_social"));
-	            unPaciente.setNro_afiliado(rs.getString("nro_afiliado"));
+	            obraSocial.setId_obra_social(rs.getInt("id_obra_social"));
+				obraSocial.setNombre(rs.getString("nombre_os"));
+				obraSocial.setEstado(rs.getBoolean("estado_os"));
+				if (rs.getDate("fecha_baja_os")==null) 
+				{
+					obraSocial.setFecha_baja(null);
+				}
+				else 
+				{
+					obraSocial.setFecha_baja(rs.getDate("fecha_baja_os").toLocalDate());
+				}				
+				unPaciente.setObra_social(obraSocial);
+				unPaciente.setNro_afiliado(rs.getString("nro_afiliado"));
 	            pacientes.add(unPaciente);
 	        }
 	    } catch (SQLException e) {
@@ -137,7 +155,7 @@ public class PacienteRepository {
         try
         {
         	stmt = FactoryConnection.getInstancia().getConn().prepareStatement("UPDATE paciente SET id_obra_social = ?, nro_afiliado = ? WHERE dni = ?");
-            stmt.setInt(1, pac.getId_obra_social());
+            stmt.setInt(1, pac.getObra_social().getId_obra_social());
             stmt.setString(2, pac.getNro_afiliado());
             stmt.setInt(3,pac.getDni());
             stmt.executeUpdate();
@@ -170,14 +188,25 @@ public class PacienteRepository {
 			while (rs != null && rs.next()) 
 			{
 				Paciente unPaciente = new Paciente();
+				ObraSocial obraSocial = new ObraSocial();
 				unPaciente.setDni(rs.getInt("dni"));
 	            unPaciente.setApellido(rs.getString("apellido"));
 	            unPaciente.setNombre(rs.getString("nombre"));
 	            unPaciente.setFecha_nacimiento(rs.getObject("fecha_nacimiento", LocalDate.class));
 	            unPaciente.setGenero(rs.getString("genero"));
 	            unPaciente.setTelefono(rs.getString("telefono"));
-	            unPaciente.setEmail(rs.getString("email"));
-	            unPaciente.setId_obra_social(rs.getInt("id_obra_social"));
+	            unPaciente.setEmail(rs.getString("email"));obraSocial.setId_obra_social(rs.getInt("id_obra_social"));
+				obraSocial.setNombre(rs.getString("nombre_os"));
+				obraSocial.setEstado(rs.getBoolean("estado_os"));
+				if (rs.getDate("fecha_baja_os")==null) 
+				{
+					obraSocial.setFecha_baja(null);
+				}
+				else 
+				{
+					obraSocial.setFecha_baja(rs.getDate("fecha_baja_os").toLocalDate());
+				}
+				pac.setObra_social(obraSocial);
 	            unPaciente.setNro_afiliado(rs.getString("nro_afiliado"));
 	            pacientes.add(unPaciente);
 	        }

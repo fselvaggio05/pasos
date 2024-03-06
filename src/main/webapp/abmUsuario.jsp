@@ -44,7 +44,7 @@
 								    <div class="row justify-content-center mt-3">
 								        <div class="col-6">
 								            <div class="input-group">
-								                <input type="text" class="form-control" placeholder="Buscar por DNI" id="inputDNI" name="dniBuscado">
+								                <input type="text" class="form-control" placeholder="Buscar por DNI" id="inputDNI" name="dniBuscado" <c:if test="${not empty dniBuscado}">value="${dniBuscado}"</c:if>>
 								                <input type="hidden" name="tipoUsuarioBusqueda" value="1"> <!-- Campo oculto para el valor del radio button -->
 								                <input type="hidden" name="accion" value="buscar"> <!-- Campo oculto para indicar la acción -->
 								                <button class="btn btn-success" type="submit">Buscar</button>
@@ -78,7 +78,13 @@
 													<td><c:out value="${unAdministrador.apellido}" /></td>
 													<td><c:out value="${unAdministrador.nombre}" /></td>
 													<td><c:out value="${unAdministrador.fecha_nacimiento}" /></td>
-													<td><c:out value="${unAdministrador.genero}" /></td>
+													<td>
+														<c:choose>
+											                <c:when test="${unAdministrador.genero == 1}">Femenino</c:when>
+											                <c:when test="${unAdministrador.genero == 2}">Masculino</c:when>
+											                <c:when test="${unAdministrador.genero == 3}">No Binario</c:when>
+											            </c:choose>
+													</td>
 													<td><c:out value="${unAdministrador.telefono}" /></td>
 													<td><c:out value="${unAdministrador.email}" /></td>
 													<td><a href='#' class="editarUsuario"
@@ -88,8 +94,8 @@
 														data-fecha-nacimiento="${unAdministrador.fecha_nacimiento}"
 														data-genero="${unAdministrador.genero}"
 														data-telefono="${unAdministrador.telefono}"
-														data-email="${unAdministrador.email}"> <i
-															class="bi bi-pencil-fill"></i>
+														data-email="${unAdministrador.email}"> 
+														<i class="bi bi-pencil-fill"></i>
 													</a></td>
 												</tr>
 											</c:forEach>
@@ -118,8 +124,13 @@
 													<td><c:out value="${unProfesional.apellido}" /></td>
 													<td><c:out value="${unProfesional.nombre}" /></td>
 													<td><c:out value="${unProfesional.fecha_nacimiento}" /></td>
-													<td><c:out value="${unProfesional.genero}" /></td>
-													<td><c:out value="${unProfesional.telefono}" /></td>
+													<td>
+														<c:choose>
+											                <c:when test="${unProfesional.genero == 1}">Femenino</c:when>
+											                <c:when test="${unProfesional.genero == 2}">Masculino</c:when>
+											                <c:when test="${unProfesional.genero == 3}">No Binario</c:when>
+											            </c:choose>
+													</td><td><c:out value="${unProfesional.telefono}" /></td>
 													<td><c:out value="${unProfesional.email}" /></td>
 													<td><a href='#' class="editarUsuario"
 														data-matricula="${unProfesional.matricula}"
@@ -129,8 +140,8 @@
 														data-fecha-nacimiento="${unProfesional.fecha_nacimiento}"
 														data-genero="${unProfesional.genero}"
 														data-telefono="${unProfesional.telefono}"
-														data-email="${unProfesional.email}"> <i
-															class="bi bi-pencil-fill"></i>
+														data-email="${unProfesional.email}"> 
+														<i class="bi bi-pencil-fill"></i>
 													</a></td>
 												</tr>
 											</c:forEach>
@@ -159,10 +170,15 @@
 													<td><c:out value="${unPaciente.apellido}" /></td>
 													<td><c:out value="${unPaciente.nombre}" /></td>
 													<td><c:out value="${unPaciente.fecha_nacimiento}" /></td>
-													<td><c:out value="${unPaciente.genero}" /></td>
-													<td><c:out value="${unPaciente.telefono}" /></td>
+													<td>
+														<c:choose>
+											                <c:when test="${unPaciente.genero == 1}">Femenino</c:when>
+											                <c:when test="${unPaciente.genero == 2}">Masculino</c:when>
+											                <c:when test="${unPaciente.genero == 3}">No Binario</c:when>
+											            </c:choose>
+													</td><td><c:out value="${unPaciente.telefono}" /></td>
 													<td><c:out value="${unPaciente.email}" /></td>
-													<td><c:out value="${unPaciente.id_obra_social}" /></td>
+													<td><c:out value="${unPaciente.getObra_social().getNombre_os()}" /></td>
 													<td><c:out value="${unPaciente.nro_afiliado}" /></td>
 													<td><a href='#' class="editarUsuario"
 														data-tipo-usuario="3" data-dni="${unPaciente.dni}"
@@ -172,9 +188,9 @@
 														data-genero="${unPaciente.genero}"
 														data-telefono="${unPaciente.telefono}"
 														data-email="${unPaciente.email}"
-														data-id-obra-social="${unPaciente.id_obra_social}"
-														data-nro-afiliado="${unPaciente.nro_afiliado}"> <i
-															class="bi bi-pencil-fill"></i>
+														data-id-obra-social="${unPaciente.getObra_social().getId_obra_social()}"
+														data-nro-afiliado="${unPaciente.nro_afiliado}"> 
+														<i class="bi bi-pencil-fill"></i>
 													</a></td>
 												</tr>
 											</c:forEach>
@@ -268,7 +284,7 @@
 												name="id_obra_social">
 												<option value="1">Seleccione una Obra Social</option>
 												<c:forEach var="unaOS" items="${obrasSociales}">
-													<option value="${unaOS.id_obra_social}">${unaOS.nombre}</option>
+													<option value="${unaOS.id_obra_social}">${unaOS.nombre_os}</option>
 												</c:forEach>
 											</select>
 										</div>
@@ -373,11 +389,10 @@
 							<div id="camposPacienteUpdate" style="display: none;">
 								<div class="row mt-3">
 									<div class="col-12">
-										<label>Obra Social</label> <select class="form-select"
-											name="id_obra_social">
+										<label>Obra Social</label> <select class="form-select" name="id_obra_social">
 											<option value="1">Seleccione una Obra Social</option>
 											<c:forEach var="unaOS" items="${obrasSociales}">
-												<option value="${unaOS.id_obra_social}">${unaOS.nombre}</option>
+												<option value="${unaOS.id_obra_social}">${unaOS.nombre_os}</option>
 											</c:forEach>
 										</select>
 										<c:out value="${unPaciente.id_obra_social}"></c:out>
@@ -385,8 +400,7 @@
 								</div>
 								<div class="row mt-3">
 									<div class="col-12 mt-3">
-										<label>Número de Afiliado</label> <input type="text"
-											class="form-control" name="nro_afiliado">
+										<label>Número de Afiliado</label> <input type="text" class="form-control" name="nroAfiliado">
 										<c:out value="${unPaciente.nro_afiliado}"></c:out>
 									</div>
 								</div>

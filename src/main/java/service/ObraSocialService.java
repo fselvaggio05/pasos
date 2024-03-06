@@ -43,6 +43,11 @@ public class ObraSocialService {
 	
 	public String revivirObraSocial(Integer id_obra_social) {
 		// TODO Auto-generated method stub
-		return respuestaOperacion = osRep.revivirConsultorio(id_obra_social);
+		return respuestaOperacion = osRep.revivirObraSocial(id_obra_social);
+	}
+
+	public ObraSocial getObraSocial(Integer id_obra_social) {
+		// TODO Auto-generated method stub
+		return this.osRep.getObraSocial(id_obra_social);
 	}
 }

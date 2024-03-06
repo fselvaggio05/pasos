@@ -60,7 +60,7 @@ public class UsuarioServlet extends HttpServlet {
 
         if("buscar".equals(accion)) 
         {
-            if(request.getParameter("dniBuscado")==null) 
+            if(request.getParameter("dniBuscado").isBlank()) 
             {
             	List<Usuario> administradores = usServ.getAllAdministradores();
         		List<Profesional> profesionales = profServ.getAll();
@@ -70,6 +70,7 @@ public class UsuarioServlet extends HttpServlet {
         		request.setAttribute("tablaProfesionales", profesionales);
         		request.setAttribute("tablaPacientes", pacientes);
         		request.setAttribute("obrasSociales", obrasSociales);
+        		request.setAttribute("tipoUsuarioSeleccionado", opcUs);
             	request.getRequestDispatcher("abmUsuario.jsp").forward(request,response);
             }
             else 
@@ -81,19 +82,28 @@ public class UsuarioServlet extends HttpServlet {
     	        	{
     	        		List<Usuario> administradores = usServ.getAllAdministradoresPorDNI(dniBuscado);
     	        		request.setAttribute("tablaAdministradores", administradores);
+    	        		request.setAttribute("tipoUsuarioSeleccionado", opcUs);
+    	        		request.setAttribute("dniBuscado", dniBuscado);
     	            	request.getRequestDispatcher("abmUsuario.jsp").forward(request,response);
+    	            	break;
     	        	}
     	        	case 2:
     	        	{
     	        		List<Profesional> profesionales = profServ.getAllPorDNI(dniBuscado);
     	        		request.setAttribute("tablaProfesionales", profesionales);
+    	        		request.setAttribute("tipoUsuarioSeleccionado", opcUs);
+    	        		request.setAttribute("dniBuscado", dniBuscado);
     	            	request.getRequestDispatcher("abmUsuario.jsp").forward(request,response);
+    	            	break;
     	        	}
     	        	case 3: 
     	        	{
     	        		List<Paciente> pacientes = pacServ.getAllPorDNI(dniBuscado);
     	        		request.setAttribute("tablaPacientes", pacientes);
+    	        		request.setAttribute("tipoUsuarioSeleccionado", opcUs);
+    	        		request.setAttribute("dniBuscado", dniBuscado);
     	            	request.getRequestDispatcher("abmUsuario.jsp").forward(request,response);
+    	            	break;
     	        	}
             	}
             }
@@ -152,7 +162,10 @@ public class UsuarioServlet extends HttpServlet {
 						{
 							if("altaUsuario".equals(modal)) 
 							{
-								//deberia mostrar que YA existe y si queres updatear no hacer el update automatico, mostrando mensajes con datos del usuario actual.
+								respuestaOperacion = "El Profesional ya existe.";
+							}
+							else 
+							{
 								if(request.getParameter("contraseña").isBlank()) 
 								{
 									respuestaOperacion = profServ.updateProfesionalSinContraseña(prof);
@@ -161,10 +174,6 @@ public class UsuarioServlet extends HttpServlet {
 								{
 									respuestaOperacion = profServ.updateProfesionalConContraseña(prof);
 								}
-							}
-							else 
-							{
-								respuestaOperacion = "El profesional ya existe.";
 							}
 						}
 						else 
@@ -182,7 +191,9 @@ public class UsuarioServlet extends HttpServlet {
             }
 
             case 3:{               
-                    Integer obraSocial = Integer.parseInt(request.getParameter("id_obra_social"));
+                    Integer id_obra_social = Integer.parseInt(request.getParameter("id_obra_social"));
+                    ObraSocialService osServ = new ObraSocialService();
+                    ObraSocial obraSocial = osServ.getObraSocial(id_obra_social);
                     String nroAfiliado = request.getParameter("nroAfiliado");
 					try {
 						Paciente pac = new Paciente(dni, apellido, nombre, email, fecha_nacimiento, telefono, contraseña, genero, obraSocial,nroAfiliado);
@@ -190,7 +201,10 @@ public class UsuarioServlet extends HttpServlet {
 						{
 							if("altaUsuario".equals(modal)) 
 							{
-								//deberia mostrar que YA existe y si queres updatear no hacer el update automatico, mostrando mensajes con datos del usuario actual.
+								respuestaOperacion ="El Paciente ya existe.";
+							}
+							else 
+							{
 								if(request.getParameter("contraseña").isBlank()) 
 								{
 									respuestaOperacion = pacServ.updatePacienteSinContraseña(pac);
@@ -199,10 +213,6 @@ public class UsuarioServlet extends HttpServlet {
 								{
 									respuestaOperacion = pacServ.updatePacienteConContraseña(pac);
 								}
-							}
-							else 
-							{
-								respuestaOperacion = "El Paciente ya existe.";
 							}
 						}
 						else 

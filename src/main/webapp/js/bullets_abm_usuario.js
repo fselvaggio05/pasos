@@ -154,7 +154,7 @@ document.querySelectorAll('.editarUsuario').forEach(function(enlace) {
         document.querySelector("#camposAdministradorUpdate input[name='telefono']").value = telefono;
         document.querySelector("#camposAdministradorUpdate input[name='email']").value = email;
         document.querySelector("#camposProfesionalUpdate input[name='matricula']").value = matricula;
-        document.querySelector("#camposPacienteUpdate input[name='nro_afiliado']").value = nro_afiliado;
+        document.querySelector("#camposPacienteUpdate input[name='nroAfiliado']").value = nro_afiliado;
 
         // Obtener todas las opciones del desplegable
         var opciones = document.querySelectorAll("#camposPacienteUpdate select[name='id_obra_social'] option");

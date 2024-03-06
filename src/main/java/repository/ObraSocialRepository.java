@@ -18,7 +18,7 @@ public class ObraSocialRepository {
 	public String insertarObraSocial(int id_obra_social, String nombre) {					
 		try
 		{
-			stmt= FactoryConnection.getInstancia().getConn().prepareStatement("insert into obra_social (id_obra_social,nombre) values (?,?)");
+			stmt= FactoryConnection.getInstancia().getConn().prepareStatement("insert into obra_social (id_obra_social,nombre_os) values (?,?)");
 			stmt.setInt(1,id_obra_social);
 			stmt.setString(2, nombre);
 			stmt.executeUpdate();
@@ -35,7 +35,7 @@ public class ObraSocialRepository {
 	        catch (Exception e) {
 	            e.printStackTrace();
 	        }
-	        FactoryConnection.getInstancia().releaseConn(); //es correcta esta forma de cerrar la conexion?
+	        FactoryConnection.getInstancia().releaseConn(); 
 	    }
 		return respuestaOperacion;
 	}
@@ -53,9 +53,9 @@ public class ObraSocialRepository {
 				{
 					ObraSocial unaOS = new ObraSocial();
 					unaOS.setId_obra_social(rs.getInt("id_obra_social"));
-					unaOS.setNombre(rs.getString("nombre"));
-					unaOS.setEstado(rs.getBoolean("estado"));
-					unaOS.setFecha_baja(rs.getObject("fecha_baja", LocalDate.class));
+					unaOS.setNombre(rs.getString("nombre_os"));
+					unaOS.setEstado(rs.getBoolean("estado_os"));
+					unaOS.setFecha_baja(rs.getObject("fecha_baja_os", LocalDate.class));
 					obrasSociales.add(unaOS);					
 				}
 			} 
@@ -81,15 +81,13 @@ public class ObraSocialRepository {
 		List<ObraSocial> obrasSociales = new ArrayList<>();		
 		//colocar try
 		try {
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT * FROM obra_social WHERE estado = 1");
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT * FROM obra_social WHERE estado_os = 1");
 			rs = stmt.executeQuery();
 			while (rs!=null && rs.next())
 			{
 				ObraSocial unaOS = new ObraSocial();
 				unaOS.setId_obra_social(rs.getInt("id_obra_social"));
-				unaOS.setNombre(rs.getString("nombre"));
-				unaOS.setEstado(rs.getBoolean("estado"));
-				unaOS.setFecha_baja(rs.getObject("fecha_baja", LocalDate.class));
+				unaOS.setNombre(rs.getString("nombre_os"));
 				obrasSociales.add(unaOS);					
 			}
 		} 
@@ -114,15 +112,15 @@ public class ObraSocialRepository {
 		public List<ObraSocial> getAllInactivas() {	
 			List<ObraSocial> obrasSociales = new ArrayList<>();
 			try {
-				stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT * FROM obra_social WHERE estado = 0");
+				stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT * FROM obra_social WHERE estado_os = 0");
 				rs = stmt.executeQuery();
 				while (rs!=null && rs.next())
 				{
 					ObraSocial unaOS = new ObraSocial();
 					unaOS.setId_obra_social(rs.getInt("id_obra_social"));
-					unaOS.setNombre(rs.getString("nombre"));
-					unaOS.setEstado(rs.getBoolean("estado"));
-					unaOS.setFecha_baja(rs.getObject("fecha_baja", LocalDate.class));
+					unaOS.setNombre(rs.getString("nombre_os"));
+					unaOS.setEstado(rs.getBoolean("estado_os"));
+					unaOS.setFecha_baja(rs.getObject("fecha_baja_os", LocalDate.class));
 					obrasSociales.add(unaOS);					
 				}
 			} 
@@ -144,12 +142,12 @@ public class ObraSocialRepository {
 	}
 
 	//Update
-		//Update datos consultorio
+		//Update datos Obra Social
 		public String actualizarObraSocial(Integer id_obra_social, String nombre) {
 			// TODO Auto-generated method stub		
 			try
 			{
-				stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update obra_social set nombre=? where id_obra_social=?");
+				stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update obra_social set nombre_os=? where id_obra_social=?");
 				stmt.setString(1, nombre);
 				stmt.setInt(2, id_obra_social);	
 				stmt.executeUpdate();
@@ -171,13 +169,13 @@ public class ObraSocialRepository {
 			return respuestaOperacion;
 		}
 		
-		//Rehabilitar Consultorio Dado de Baja
-		public String revivirConsultorio(Integer id_obra_social)
+		//Rehabilitar Obra Social Dada de Baja
+		public String revivirObraSocial(Integer id_obra_social)
 		{
 			String respuestaOperacion;
 			try
 			{
-				stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update obra_social set estado=1, fecha_baja=null where id_obra_social=?");
+				stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update obra_social set estado_os=1, fecha_baja_os=null where id_obra_social=?");
 				stmt.setInt(1, id_obra_social);
 				stmt.executeUpdate();
 				respuestaOperacion= "OK";				
@@ -204,7 +202,7 @@ public class ObraSocialRepository {
 		String respuestaOperacion;
 		try
 		{
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update obra_social set estado=0, fecha_baja=current_timestamp() where id_obra_social=?");
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update obra_social set estado_os=0, fecha_baja_os=current_timestamp() where id_obra_social=?");
 			stmt.setInt(1, id_obra_social);	
 			stmt.executeUpdate();
 			respuestaOperacion= "OK";
@@ -223,5 +221,44 @@ public class ObraSocialRepository {
 			        FactoryConnection.getInstancia().releaseConn(); //es correcta esta forma de cerrar la conexion?
 	    }			
 		return respuestaOperacion;
+	}
+
+	public ObraSocial getObraSocial(Integer id_obra_social) {
+		ObraSocial obraSocial = new ObraSocial();		
+		//colocar try
+			try {
+				stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT * FROM obra_social where id_obra_social = ?");
+				stmt.setInt(1, id_obra_social);
+				rs = stmt.executeQuery();
+				while (rs!=null && rs.next())
+				{
+					obraSocial.setId_obra_social(rs.getInt("id_obra_social"));
+					obraSocial.setNombre(rs.getString("nombre_os"));
+					obraSocial.setEstado(rs.getBoolean("estado_os"));
+					if(rs.getDate("fecha_baja_os")==null) 
+					{
+						obraSocial.setFecha_baja(null);
+					}
+					else 
+					{
+						obraSocial.setFecha_baja(rs.getObject("fecha_baja_os", LocalDate.class));
+					}
+				}
+			} 
+			catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			finally {
+		        try {
+		            if (rs != null) rs.close();
+		            if (stmt != null) stmt.close();
+		        	} 
+		        catch (Exception e) {
+		            e.printStackTrace();
+		        }
+		        FactoryConnection.getInstancia().releaseConn(); 
+		    }
+			return obraSocial;	
 	}
 }
