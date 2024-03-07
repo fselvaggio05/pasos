@@ -27,6 +27,11 @@ public class UsuarioRepository {
 									                us.setNombre(rs.getString("nombre"));
 									                us.setDni((rs.getInt("dni")));
 									            }
+									            
+									            else
+									            {
+									            	us = null;
+									            }
 								        	} catch (Exception e) {
 								        							e.printStackTrace();
 								        						  }
@@ -39,7 +44,8 @@ public class UsuarioRepository {
 										                					e.printStackTrace();
 										            					  }
 										            FactoryConnection.getInstancia().releaseConn(); //reveer esto, no me convene								
-								        		}								
+								        		}
+								        
 								        return us;
 								    }								
 								

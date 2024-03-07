@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.LocalTime;
 import java.util.List;
 import entity.Horario;
+import entity.Profesional;
 import repository.HorarioRepository;
 
 public class HorarioService {
@@ -92,6 +93,13 @@ public class HorarioService {
 		Integer cantHorarios = horRep.obtenerHorariosCreados(hr);
 		
 		return cantHorarios;
+	}
+
+	public List<Profesional> getProfesionales(Integer id_practica) {
+		
+		return horRep.getProfesionales(id_practica);
+		
+		
 	}
 
 }

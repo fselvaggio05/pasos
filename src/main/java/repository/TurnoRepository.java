@@ -1,3 +1,4 @@
+
 package repository;
 
 import java.sql.Date;
@@ -19,6 +20,8 @@ import com.mysql.cj.xdevapi.PreparableStatement.PreparableStatementFinalizer;
 import conexionDB.FactoryConnection;
 
 import entity.Horario;
+import entity.Practica;
+import entity.Profesional;
 import entity.Turno;
 
 public class TurnoRepository {
@@ -167,13 +170,26 @@ public List<Turno> buscarTurnosAsignados(Integer dni) {
 		while(rs!=null && rs.next())
 		{
 			Turno tur = new Turno();
+			Practica pr = new Practica();
+			Profesional prof = new Profesional();
+			Horario hor = new Horario();
+			
 			tur.setId_turno(rs.getInt("idturno"));
 			tur.setFecha_t(rs.getDate("fecha_turno").toLocalDate());
 			tur.setHora_t(rs.getTime("hora_turno").toLocalTime());
-			tur.setDesc_practica(rs.getString("p.descripcion")); //consultar otra forma de resolver esto sin agregar los campos de la practica al turno para poder mostrarlos
-			tur.setId_practica(rs.getInt("p.id_practica"));
-			tur.setNombre_profesional(rs.getString("nombre"));
-			tur.setApellido_profesional(rs.getString("apellido"));			
+			
+			prof.setNombre(rs.getString("nombre"));
+			prof.setApellido(rs.getString("apellido"));	
+			
+			pr.setDescripcion(rs.getString("p.descripcion")); 
+			pr.setId_practica(rs.getInt("p.id_practica"));
+			
+			hor.setId_horario(rs.getInt("h.idHorario"));
+			hor.setPractica(pr);
+			hor.setProfesional(prof);
+			
+			tur.setHorario(hor);
+					
 			turnos.add(tur);
 			respuestaOperacion = "OK";
 			
@@ -245,7 +261,76 @@ public Integer validarConsultorioDisponible(LocalDate fecha, LocalTime hora_desd
 	return cantTurnos;
 	
 }
+
+public List<Turno> buscarTurnosDisponibles(Integer matricula) {
 	
+	List<Turno> turnosDisponibles = new ArrayList<Turno>();
+	
+	try
+	{
+		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from turno t inner join horario h on h.idHorario=t.idHorario where t.estado_t='Libre' and h.matricula=? and t.fecha_turno>? order by t.fecha_turno");
+		stmt.setInt(1, matricula);
+		stmt.setDate(2, Date.valueOf(LocalDate.now()));
+		rs = stmt.executeQuery();
+		
+		while(rs!=null && rs.next())
+		{
+			Turno tur = new Turno();
+			tur.setId_turno(rs.getInt("idturno"));
+			tur.setFecha_t(rs.getDate("fecha_turno").toLocalDate());
+			tur.setHora_t(rs.getTime("hora_turno").toLocalTime());
+			turnosDisponibles.add(tur);
+		}
+		
+	}
+	
+	catch (SQLException e)
+	{
+		respuestaOperacion = e.toString();
+	}
+	
+	finally
+	{
+		FactoryConnection.cerrarConexion(rs, stmt);
+	}
+	
+	return turnosDisponibles;
 }
 
+public String registroTurno(Integer dni, Integer id_turno) {
+	
+	Integer respUpdate = null;
+	
+	try
+	{
+		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update turno set dni=?, estado_t='Asignado' where idturno=?");
+		stmt.setInt(1, dni);
+		stmt.setInt(2, id_turno);
+		respUpdate = stmt.executeUpdate();
+		
+		if(respUpdate==1)
+		{
+			respuestaOperacion = "OK";
+		}
+		
+		else
+		{
+			respuestaOperacion  = null;
+		}
+	}
+	
+	catch(SQLException e)
+	{
+		respuestaOperacion = e.toString();
+	}
+	
+	finally
+	{
+		FactoryConnection.cerrarConexion(rs, stmt);
+	}
+	
+	return respuestaOperacion;
+}
+	
+}
 

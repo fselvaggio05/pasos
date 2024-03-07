@@ -99,11 +99,8 @@ public String abrirAgenda(List<Horario> horarios) {
 		
 		else
 		{
-			respuesta= null;
+			respuesta = null;
 		}
-		
-		
-		
 		
 		return respuesta;
 		
@@ -153,8 +150,7 @@ public List<LocalDate> obtenerDiasGeneracionAgenda()
 	
 	else
 	{
-		fecha_turno_desde = ultima_fecha_generacion.plusDays(15);
-		
+		fecha_turno_desde = ultima_fecha_generacion.plusDays(15);		
 	}
 	
 	
@@ -231,5 +227,15 @@ public boolean validarConsultorioDisponible(LocalDate fecha, LocalTime hora_desd
 		return false;
 	}
 	
+}
+
+public List<Turno> buscarTurnosDisponibles(Integer matricula) {
+	
+	return turRep.buscarTurnosDisponibles(matricula);
+}
+
+public String registroTurno(Integer dni, Integer id_turno) {
+	
+	return turRep.registroTurno(dni,id_turno);
 }
 }

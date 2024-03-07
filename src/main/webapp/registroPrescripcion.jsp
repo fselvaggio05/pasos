@@ -83,9 +83,9 @@
                             <c:forEach var="tur" items="${turnos}">
 											<tr>
 											
-												<td><input class="form-check-input m-1" type="radio" name="seleccion" id="seleccion" value="${tur.id_practica}" onclick="seleccionRadio()">												
-                                            		<c:out value="${tur.apellido_profesional} , ${tur.nombre_profesional}"></c:out></td>
-												<td><c:out value="${tur.desc_practica}"></c:out></td>
+												<td><input class="form-check-input m-1" type="radio" name="seleccion" id="seleccion" value="${tur.getHorario().getPractica().getId_practica()}" onclick="seleccionRadio()">												
+                                            		<c:out value="${tur.getHorario().getProfesional().getApellido()} , ${tur.getHorario().getProfesional().getNombre()}"></c:out></td>
+												<td><c:out value="${tur.getHorario().getPractica().getDescripcion()}"></c:out></td>
 												<td><c:out value="${tur.fecha_t}    ${tur.hora_t}"></c:out></td>
 												
 											</tr>

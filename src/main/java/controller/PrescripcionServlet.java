@@ -78,6 +78,11 @@ public class PrescripcionServlet extends HttpServlet {
 			{
 				List<Turno> turnos = new ArrayList<Turno>();			
 				turnos = turServ.buscarTurnosAsignados(pac.getDni());
+				
+				if(turnos !=null)
+				{
+					
+				}
 				sesion.setAttribute("paciente", pac);
 				sesion.setAttribute("turnos", turnos);	
 				

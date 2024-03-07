@@ -350,5 +350,44 @@ public class HorarioRepository {
 	
 	}
 	
+	
+	
+	
+public List<Profesional> getProfesionales(Integer id_practica) {
+		
+		List<Profesional> profesionales = new ArrayList<Profesional>();
+		
+		try
+		{
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select distinct us.apellido, us.nombre, prof.matricula from horario h inner join profesional prof on prof.matricula=h.matricula inner join usuario us on us.dni=prof.dni where id_practica=? and h.fecha_baja is null");
+			stmt.setInt(1, id_practica);
+			rs = stmt.executeQuery();
+			
+			while(rs!=null && rs.next())
+			{
+				Profesional pr = new Profesional();
+				pr.setMatricula(rs.getInt("matricula"));
+				pr.setApellido(rs.getString("apellido"));
+				pr.setNombre(rs.getString("nombre"));
+				profesionales.add(pr);
+				
+			}
+			
+		}
+		
+		catch (SQLException e)
+		{
+			respuesta = e.toString();
+		}
+		
+		finally
+		{
+			FactoryConnection.cerrarConexion(rs, stmt);
+		}
+		
+		return profesionales;
+	}
+	
+
 
 }

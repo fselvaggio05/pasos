@@ -27,21 +27,6 @@ public class Turno {
 	
 	
 	
-	//RESOLVER EL AGREGADO DE ESTAS CLASES, NO TIENEN RELACION DIRECTA CON LA TABLA DE BD 
-	//CLASE PRACTICA 
-	private Integer id_practica; //agregado para resolver la recuperacion de datos 
-	private String desc_practica; //agregado para resolver la recuperacion de datos
-	private Practica pr;
-	
-	private String nombre_profesional;
-	private String apellido_profesional;
-	private Profesional prof;
-		
-	
-	
-	
-	
-	
 	public Horario getHorario() {
 		return horario;
 	}
@@ -66,30 +51,7 @@ public class Turno {
 		this.paciente = paciente;
 	}
 
-	public String getApellido_profesional() {
-		return apellido_profesional;
-	}
 
-	public void setApellido_profesional(String apellido_profesional) {
-		this.apellido_profesional = apellido_profesional;
-	}
-
-	public String getNombre_profesional() {
-		return nombre_profesional;
-	}
-
-	public void setNombre_profesional(String nombre_profesional) {
-		this.nombre_profesional = nombre_profesional;
-	}
-
-	public String getDesc_practica() {
-		return desc_practica;
-	}
-	
-	public void setDesc_practica(String desc_practica) {
-		this.desc_practica = desc_practica;
-	}
-	
 	public Integer getId_turno() {
 		return id_turno;
 	}
@@ -132,24 +94,6 @@ public class Turno {
 	public void setEstado_t(String estado_t) {
 		this.estado_t = estado_t;
 	}
-////	public Integer getId_horario() {
-////		return id_horario;
-////	}
-////	public void setId_horario(Integer id_horario) {
-////		this.id_horario = id_horario;
-////	}
-////	public Integer getId_consultorio() {
-////		return id_consultorio;
-////	}
-////	public void setId_consultorio(Integer id_consultorio) {
-////		this.id_consultorio = id_consultorio;
-////	}
-////	public Integer getDni() {
-////		return dni;
-////	}
-////	public void setDni(Integer dni) {
-//		this.dni = dni;
-//	}
 
 	public LocalTime getHora_hasta_t() {
 		return hora_hasta_t;
@@ -159,23 +103,6 @@ public class Turno {
 		this.hora_hasta_t = hora_hasta_t;
 	}
 
-	public Integer getId_practica() {
-		return id_practica;
-	}
-
-	public void setId_practica(Integer id_practica) {
-		this.id_practica = id_practica;
-	}
-
-	
-
-	
-
-
-	
-	
-	
-	
 	
 
 }
