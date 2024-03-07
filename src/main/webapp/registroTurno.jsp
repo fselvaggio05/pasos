@@ -34,16 +34,21 @@
                 <div class="container ">
 
 
-                    <h5 class="small fst-italic text-right mt-3">Bienvenido @USUARIO</h5>
+                    <h5 class="small fst-italic text-right mt-3">Bienvenido <c:out value="${usuario.getApellido()} ${usuario.getNombre() }"></c:out></h5>
             
                     <h4 class="text-center my-4 mb-5 text-decoration-underline fw-bold ">Registro turno</h4>
             
+                   
+                   
                     <div class="justify-content-end">
-                        <label class="fs-6  fst-italic fw-bold mb-3 " for="">Seleccione una práctica</label>
+                        <label class="fs-6  fst-italic fw-bold mb-3 ">Seleccione una práctica</label>
                         <form action="registroTurno" method="post">
 	                        <input type="hidden" value="buscarProfesional" name="operacion">
 	                        <select class="form-select mb-2" name="practicas">
 	                           <c:forEach var="pr" items="${practicas}">
+	                           		<c:if test="${practicaSelecionada}">
+	                           			<option value="<c:out value="${practicaSelecionada}"></c:out>" selected><c:out value="${pr.descripcion}"></c:out></option>
+	                           		</c:if>
 	                           		<option value="<c:out value="${pr.id_practica}"></c:out>"><c:out value="${pr.descripcion}"></c:out></option>
 							   </c:forEach> 
 	                        </select>
@@ -52,8 +57,8 @@
                         
                     </div>
             
-                    <div>
-                        <label class="fs-6  fst-italic fw-bold mb-3" for="">Seleccione un profesional</label>
+                    <div class="col-4">
+                        <label class="fs-6 fst-italic fw-bold mb-3" for="">Seleccione un profesional</label>
                         
                         <form action="registroTurno" method="post">
                           <input type="hidden" value="buscarTurnos" name="operacion">
@@ -65,7 +70,16 @@
 	                        <button type="submit" class="btn btn-success btn-sm">Seleccionar</button>
                         </form>
                     </div>
-            
+            		
+            		 <div class="col-4">
+                        <label class="fs-6 fst-italic fw-bold mt-2" for="">DNI paciente</label>
+                        
+                        <form action="registroTurno" method="post">
+                          <input type="hidden" value="buscarPaciente" name="operacion">
+	                        <input type="number" class="form-control"  name="dniPaciente">
+	                        <button type="submit" class="btn btn-success btn-sm">Seleccionar</button>
+                        </form>
+                    </div>
             
             
                     <div class="mt-4 container">
@@ -83,12 +97,18 @@
             				    	<c:forEach var="tur" items="${turnos}">
 	                                	<tr>
 	                                		<td> 
-			                               		 <input type="radio" class="form-check-input" name="idTurnoTabla" id="idTurnoTabla" value="${tur.id_turno}" onclick="seleccionRadioTurno()">	
+<%-- 			                               		 <input type="radio" class="form-check-input" name="idTurnoTabla" id="idTurnoTabla" value="${tur.id_turno}" onclick="seleccionRadioTurno()"> --%>
+			                               		 <input type="hidden" value="<c:out value="${tur.fecha_t}"></c:out>" id="fechaTurno">	
 			                               		 <c:out value="${tur.fecha_t}"></c:out>
 	                                		 </td>
 	                                		 <td>
+	                                		 	 <input type="hidden" value="<c:out value="${tur.hora_t}"></c:out>" id="horaTurno">
 	                                		 	<c:out value="${tur.hora_t}"></c:out>
 	                                		 </td>
+	                                		 <td>
+	                                		 	<a href='#' class="btn btn-success btn-sm" data-bs-toggle='modal' data-bs-target='#registrarTurno' idTurno="${tur.id_turno}" fecha_turno="${tur.fecha_t}" hora_turno="${tur.hora_t}">Reservar</a>
+	                                		 </td>
+	                                		 
 	                                	</tr>                                		 
                                 	</c:forEach>    
                             </tbody>
@@ -96,15 +116,9 @@
                     </div>
             
                     <div class="row justify-content-end">
-            
-                        <div class="col-2">
-<%--                              <a href='#' class="btn btn-success btn-sm m-1" data-bs-toggle='modal' data-bs-target='#registrarTurno' idTurnoTabla="${tur.id_turno}">Reservar turno --%>
-<!--                              </a>  -->
-                             <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#registrarTurno">Reservar turno</button>
-                        </div>
-            
+                                                
                         <div class="col-1">
-                            <button type="button" class="btn btn-success btn-sm">Cancelar</button>
+                            <a href='menu_final.jsp' class="btn btn-success btn-sm">Cancelar</a>
                         </div>
                     </div>
                    
@@ -118,17 +132,42 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Registrar turno</h1>
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmar reserva de turno</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <form action="registroTurno" method="post">
                             <div class="modal-body">
                                 <input type="hidden" value="registroTurno" name="operacion">
-                                <input type="number" id="idTurno" name="idTurno">
+                                <input type="hidden" name ="idTurno" id="idTurno">
+                               
 								<div class="mb-3">
-                                    <label class="col-6">DNI Paciente:</label>
-                                    <input type="number"  class="form-control col-6" name="dniPaciente" >
+                                    <label  class="fw-bold form-label col-6">Apellido y nombre paciente</label>
+     		                        <c:out value="${paciente.apellido} ${paciente.nombre}"></c:out>
                                 </div>
+                                <div class="mb-3">
+                                	<label  class="fw-bold form-label col-6">DNI</label> 
+									<c:out value="${paciente.dni}"></c:out>
+							    </div>
+								<div class="mb-3">
+                                    <label  class="fw-bold form-label col-6">Numero de afiliado</label> 
+   									<input type="hidden" value="${paciente.nro_afiliado}" name="nroAfiliado" > 
+  									<c:out value="${paciente.nro_afiliado}"></c:out>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label  class="fw-bold form-label col-6">Fecha turno</label>    								
+  									<label  class="form-label " id="fechaTurno"></label> 
+                                </div>
+                                
+                                
+                                <div class="mb-3">
+                                    <label  class="fw-bold form-label col-6">Hora turno</label>    								
+  									<label  class="form-label " id="horaTurno"></label> 
+                                </div>
+                                
+                                
+                                
+                                                              
                                
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

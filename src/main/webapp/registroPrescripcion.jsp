@@ -139,8 +139,7 @@
                         <form action="prescripcion" method="post">
                             <div class="modal-body">
                                 <input type="hidden" value="alta" name="operacion">
-                                	<input type="hidden" id="idPractica" name="idPractica">
-                                	                                	
+                                	<input type="hidden" id="idPractica" name="idPractica">                	                                	
                                 	
                                 
                                 	

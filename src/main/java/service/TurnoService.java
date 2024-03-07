@@ -94,7 +94,7 @@ public String abrirAgenda(List<Horario> horarios) {
 			}
 				  
 	
-			
+			respuesta = "OK";
 		}
 		
 		else

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import entity.Horario;
+import entity.Paciente;
 import entity.Practica;
 import entity.Profesional;
 import entity.Turno;
@@ -50,7 +51,10 @@ public class TurnoServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		practicas = prServ.getAllActivas();
-		request.setAttribute("practicas", practicas);
+		HttpSession session = request.getSession(); 
+		session.setAttribute("practicas", practicas);
+		
+//		request.setAttribute("practicas", practicas);		
 		request.getRequestDispatcher("registroTurno.jsp").forward(request, response);		
 
 	}
@@ -59,49 +63,68 @@ public class TurnoServlet extends HttpServlet {
 
 		String respuestaOperacion = null;
 		String mensaje = null;
+		Paciente pac = null;
 		
-		HttpSession sesion = null; 
+		HttpSession session = request.getSession(); 
 		
-
+		
 		String operacion = request.getParameter("operacion");
+		
 		
 		switch (operacion) {
 		
 		case "buscarProfesional": {
 			
-			Integer id_practica = Integer.parseInt(request.getParameter("practicas"));			
+			Integer id_practica = Integer.parseInt(request.getParameter("practicas"));	
+			session.setAttribute("practicaSeleccionada", id_practica); //no funciono
 			List<Profesional> profesionales = horServ.getProfesionales(id_practica); 
-			request.setAttribute("profesionales", profesionales);
+			session.setAttribute("profesionales", profesionales);
+		//	request.setAttribute("practicaSeleccionada", id_practica);
+//			request.getRequestDispatcher("registroTurno").forward(request, response);
 			this.doGet(request, response);
 					
 			break;
 		}
 		
+		
+		
 		case "buscarTurnos":
 		{
 			Integer matricula = Integer.parseInt(request.getParameter("profesional"));
 			List<Turno> turnosDisponibles = turServ.buscarTurnosDisponibles(matricula);
-			request.setAttribute("turnos", turnosDisponibles);
+			session.setAttribute("turnos", turnosDisponibles);
 			this.doGet(request, response);
 			
 			break;
 		}
 		
-		case "registroTurno":
+		
+		case "buscarPaciente":
 		{
 			Integer dni = Integer.parseInt(request.getParameter("dniPaciente"));
-			Integer id_turno = Integer.parseInt(request.getParameter("idTurno"));
+			pac = pacServ.buscarPaciente(dni);
 			
-			if(pacServ.buscarPaciente(dni)!=null)
+			if(pac==null)
 			{
-				respuestaOperacion = turServ.registroTurno(dni,id_turno);
-			}
 			
-			else
-			{
 				respuestaOperacion="No se ha encontrado el paciente";
 			}
+			
+			session.setAttribute("paciente", pac);
+			this.doGet(request, response);
+			
+			break;
+		}
+		
+		
+		case "registroTurno":
+		{
+			pac = (Paciente)session.getAttribute("paciente");
+			Integer id_turno = Integer.parseInt(request.getParameter("idTurno"));
+			
+			respuestaOperacion = turServ.registroTurno(pac.getDni(),id_turno);
 				
+			
 			
 			
 			if (respuestaOperacion == "OK") {

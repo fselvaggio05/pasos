@@ -14,18 +14,23 @@ public class UsuarioRepository {
 								    PreparedStatement stmt = null;
 								    Usuario us = new Usuario();
 
-								    public Usuario buscarUsuario(String mail, String pass) 
+								    public Usuario buscarUsuario(Integer dni, String pass) 
 								    {
-								        try {								
-									            stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from usuario where email=? and clave=?");
-									            stmt.setString(1, mail);
+								    	
+//								    	modificado el 5/3
+								       
+								    	try {								
+									            stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT us.dni, nombre, apellido, tipo_usuario FROM pasos.usuario us left join paciente pac on pac.dni=us.dni left join profesional prof on prof.dni=us.dni where us.dni=? and us.clave=?");
+									            stmt.setInt(1, dni);
 									            stmt.setString(2, pass);
 									            rs = stmt.executeQuery();
 									
 									            if (rs != null && rs.next()) {
-									                us.setApellido(rs.getString("apellido"));
+									            	us.setDni((rs.getInt("dni")));
+									            	us.setApellido(rs.getString("apellido"));
 									                us.setNombre(rs.getString("nombre"));
-									                us.setDni((rs.getInt("dni")));
+									                us.setTipo_usuario(rs.getString("tipo_usuario"));									                
+									                
 									            }
 									            
 									            else
@@ -199,5 +204,43 @@ public class UsuarioRepository {
 										            FactoryConnection.getInstancia().releaseConn();
 								        		}
 								        return respuestaOperacion;
+									}
+
+									public Integer buscarDniUsuario(String mail) {
+
+										
+										Integer dni = null;
+										
+										 try {								
+									            stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select dni from usuario where email=?");
+									            stmt.setString(1, mail);
+									          
+									            rs = stmt.executeQuery();
+									
+									            if (rs != null && rs.next()) {	
+									            	
+									                dni = rs.getInt("dni");
+									            }
+									            
+									            else
+									            {
+									            	dni = null;
+									            }
+								        	} catch (Exception e) {
+								        							e.printStackTrace();
+								        						  }
+								        finally {
+										            try {
+										                //se cierran conexiones abiertas en el orden inverso en que fueron abiertas
+										                if (rs != null) rs.close();
+										                if (stmt != null) stmt.close();										
+										            } catch (Exception e) {
+										                					e.printStackTrace();
+										            					  }
+										            FactoryConnection.getInstancia().releaseConn(); //reveer esto, no me convene								
+								        		}
+								        
+								        return dni;
+										
 									}
 								}

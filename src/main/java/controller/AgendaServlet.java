@@ -43,22 +43,11 @@ public class AgendaServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		HttpSession session = request.getSession();
-		
-		if(session!=null) 
-		{
 			horarios = horServ.getAllActivos();
 			request.setAttribute("horarios", horarios);
 			request.getRequestDispatcher("generarAgenda.jsp").forward(request, response);
 			
-		}
-		
-		else
-		{
-			String mensaje = "No se ha iniciado sesion";
-			request.setAttribute("mensaje", mensaje);
-			
-		}
+	
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -90,7 +79,7 @@ public class AgendaServlet extends HttpServlet {
 		
 		if (respuestaOperacion == "OK") {
 
-			mensaje = "Agenda generada exitosamente para "+cantSeleccionados+ " horarios seleccionados de " +cantTotalHorarios+" horarios";
+			mensaje = "Agenda generada exitosamente para "+cantSeleccionados+ " horario/s seleccionados de " +cantTotalHorarios+" horarios  ";
 			request.setAttribute("mensaje", mensaje);		
 		}
 
