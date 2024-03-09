@@ -14,7 +14,7 @@
 
   <body>
 
-    <% String rolUsuario=(String)session.getAttribute("rol"); pageContext.setAttribute( "rol" , rolUsuario); %>
+    <% Integer rolUsuario=(Integer)session.getAttribute("rol"); pageContext.setAttribute( "rol" , rolUsuario); %>
 
       <div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
         <a href="/" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
@@ -33,19 +33,19 @@
             <div class="collapse" id="turnos-collapse">
               <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 
-                <c:if test="${rol=='administrador' or rol=='paciente' or rol=='profesional'}">
+                <c:if test="${rol=='1' or rol=='2' or rol=='3'}">
                   <li><a href="registroTurno" class="link-dark rounded">Registrar turno</a></li>
                 </c:if>
-                <c:if test="${rol=='administrador' or rol=='paciente' or rol=='profesional'}">
+                <c:if test="${rol=='1' or rol=='2' or rol=='3'}">
                   <li><a href="#" class="link-dark rounded">Consulta turnos</a></li>
                 </c:if>
-                <c:if test="${rol=='administrador' or rol=='profesional'}">
+                <c:if test="${rol=='1' or rol=='2'}">
                   <li><a href="registroAsistencia" class="link-dark rounded">Registrar asistencia</a></li>
                 </c:if>
-                <c:if test="${(rol=='administrador')}">
+                <c:if test="${(rol=='1')}">
                   <li><a href="prescripcion" class="link-dark rounded">Registrar prescripcion</a></li>
                 </c:if>
-                <c:if test="${(rol=='administrador')}">
+                <c:if test="${(rol=='1')}">
                   <li><a href="generarAgendas" class="link-dark rounded">Generar agenda</a></li>
                 </c:if>
 
@@ -55,7 +55,7 @@
 
 
 
-          <c:if test="${(rol=='administrador')}">
+          <c:if test="${(rol=='1')}">
             <li class="mb-1">
               <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
                 data-bs-target="#reportes-collapse" aria-expanded="false">
@@ -78,7 +78,7 @@
 
           <li class="border-top my-3"></li>
           
-          <c:if test="${(rol=='administrador')}">
+          <c:if test="${(rol=='1')}">
             <li class="mb-1">
               <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
                 data-bs-target="#admin-collapse" aria-expanded="false">

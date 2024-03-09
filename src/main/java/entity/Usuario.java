@@ -19,7 +19,7 @@ public class Usuario {
 
     private String email;
     private String clave;
-    private String tipo_usuario;
+    private Integer tipo_usuario;
 
     public Usuario(Integer dni, String apellido, String nombre, String email, LocalDate fecha_nac, String telefono, String clave, String genero) throws ParseException {
         this.dni=dni;
@@ -97,16 +97,15 @@ public class Usuario {
     public String getGenero()
     {
         return genero;
-    }
-    
+    } 
     
 
-    public String getTipo_usuario() {
+	public Integer getTipo_usuario() {
 		return tipo_usuario;
 	}
 
 
-	public void setTipo_usuario(String tipo_usuario) {
+	public void setTipo_usuario(Integer tipo_usuario) {
 		this.tipo_usuario = tipo_usuario;
 	}
 

@@ -29,7 +29,7 @@ public class UsuarioRepository {
 									            	us.setDni((rs.getInt("dni")));
 									            	us.setApellido(rs.getString("apellido"));
 									                us.setNombre(rs.getString("nombre"));
-									                us.setTipo_usuario(rs.getString("tipo_usuario"));									                
+									                us.setTipo_usuario(rs.getInt("tipo_usuario"));									                
 									                
 									            }
 									            
