@@ -21,25 +21,36 @@ public class LoginServlet extends HttpServlet {
     {
     	this.usServ = new UsuarioService();
     }
+    
+    
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+    	
+    	Usuario us = new Usuario();
         UsuarioService usServ = new UsuarioService();
-        Usuario us = usServ.buscarUsuario(req.getParameter("mail"),req.getParameter("pass"));
+      
+        Integer dni = usServ.buscarDniUsuario(req.getParameter("mail"));
 
-        if(us==null)
+        if(dni==null)
         {
-            req.setAttribute("error", "Email o password incorrectos");
+            req.setAttribute("error", "Mail no registrado");
             req.getRequestDispatcher("/index.jsp").forward(req,resp);
         }
 
         else
         {
+        	us = usServ.buscarUsuario(dni,req.getParameter("pass"));
+        	
+        	if(us!=null)
+        	{
+        		 HttpSession session = req.getSession(true);
+                 session.setAttribute("usuario", us);
+                 session.setAttribute("rol", us.getTipo_usuario());                 
+                 resp.sendRedirect(req.getContextPath() + "/menu_final.jsp");
+        	}
 
-            HttpSession session = req.getSession(true);
-            session.setAttribute("usuario", us);
-            resp.sendRedirect(req.getContextPath() + "/menu_final.jsp");
+           
         }
     }
 

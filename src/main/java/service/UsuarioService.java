@@ -11,8 +11,8 @@ public class UsuarioService {
         this.usRep=new UsuarioRepository();
     }
 
-    public Usuario buscarUsuario(String mail, String pass) {
-        return usRep.buscarUsuario(mail,pass);
+    public Usuario buscarUsuario(Integer dni, String pass) {
+        return usRep.buscarUsuario(dni,pass);
     }
 
     public String insertarUsuario(Usuario us) {
@@ -39,8 +39,17 @@ public class UsuarioService {
 		return usRep.updateUsuarioSinContraseña(us);
 	}
 
+
 	public List<Usuario> getAllAdministradoresPorDNI(int dniBuscado) {
 		// TODO Auto-generated method stub
 		return this.usRep.getAllAdministradoresPorDNI(dniBuscado);
 	}
+
+	public Integer buscarDniUsuario(String mail) {
+		// TODO Auto-generated method stub
+		return usRep.buscarDniUsuario(mail);
+	}
+
+
+
 }

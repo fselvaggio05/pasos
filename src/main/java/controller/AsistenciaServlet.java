@@ -78,7 +78,7 @@ public class AsistenciaServlet extends HttpServlet {
 		
 		if (respuestaOperacion == "OK") {
 
-			mensaje = "Agenda generada exitosamente    ";
+			mensaje = "";
 			request.setAttribute("mensaje", mensaje);		
 		}
 
@@ -86,7 +86,7 @@ public class AsistenciaServlet extends HttpServlet {
 			
 			if(respuestaOperacion == null)
 			{
-				mensaje = "No existen horarios para la/s fecha/s de generacion de agenda    ";
+				mensaje = "";
 				request.setAttribute("mensaje", mensaje);
 			}
 			

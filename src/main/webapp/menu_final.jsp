@@ -1,76 +1,110 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" >
-  <link rel="stylesheet" href="css/sidebar.css">
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+  <!DOCTYPE html>
+  <html lang="en">
 
-</head>
-
-
-<body>
-<div class="flex-shrink-0 p-3 bg-white" style="width: 280px;" >
-  <a href="/" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-    <svg class="bi me-2"  width="80" height="74" ></svg>
-    <img src="kr2png12.png" width="80" height="80" alt="Logo Clinica">
-  </a>
-  <ul class="list-unstyled ps-0">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/sidebar.css">
 
 
-    <li class="mb-1">
-      <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#turnos-collapse" aria-expanded="false">
-        Turnos
-      </button>
-      <div class="collapse" id="turnos-collapse">
-        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-          <li><a href="registroTurno.jsp" class="link-dark rounded">Registrar turno</a></li>
-          <li><a href="#" class="link-dark rounded">Consulta turnos</a></li>
-          <li><a href="registrarAsistencia.jsp" class="link-dark rounded">Registrar asistencia</a></li>
-          <li><a href="prescripcion" class="link-dark rounded">Registrar prescripcion</a></li>
-          <li><a href="generarAgendas" class="link-dark rounded">Generar agenda</a></li>
+  </head>
+
+
+  <body>
+
+    <% String rolUsuario=(String)session.getAttribute("rol"); pageContext.setAttribute( "rol" , rolUsuario); %>
+
+      <div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
+        <a href="/" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+          <svg class="bi me-2" width="80" height="74"></svg>
+          <img src="kr2png12.png" width="80" height="80" alt="Logo Clinica">
+        </a>
+
+
+
+        <ul class="list-unstyled ps-0">
+          <li class="mb-1">
+            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
+              data-bs-target="#turnos-collapse" aria-expanded="false">
+              Turnos
+            </button>
+            <div class="collapse" id="turnos-collapse">
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+
+                <c:if test="${rol=='administrador' or rol=='paciente' or rol=='profesional'}">
+                  <li><a href="registroTurno" class="link-dark rounded">Registrar turno</a></li>
+                </c:if>
+                <c:if test="${rol=='administrador' or rol=='paciente' or rol=='profesional'}">
+                  <li><a href="#" class="link-dark rounded">Consulta turnos</a></li>
+                </c:if>
+                <c:if test="${rol=='administrador' or rol=='profesional'}">
+                  <li><a href="registroAsistencia" class="link-dark rounded">Registrar asistencia</a></li>
+                </c:if>
+                <c:if test="${(rol=='administrador')}">
+                  <li><a href="prescripcion" class="link-dark rounded">Registrar prescripcion</a></li>
+                </c:if>
+                <c:if test="${(rol=='administrador')}">
+                  <li><a href="generarAgendas" class="link-dark rounded">Generar agenda</a></li>
+                </c:if>
+
+              </ul>
+            </div>
+          </li>
+
+
+
+          <c:if test="${(rol=='administrador')}">
+            <li class="mb-1">
+              <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
+                data-bs-target="#reportes-collapse" aria-expanded="false">
+                Reportes
+              </button>
+              <div class="collapse" id="reportes-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+
+                  <li><a href="#" class="link-dark rounded">Facturacion Ambulatoria</a></li>
+                  <li><a href="#" class="link-dark rounded">Facturacion Plan Discapacidad</a></li>
+
+                </ul>
+              </div>
+            </li>
+          </c:if>
+
+
+
+
+
+          <li class="border-top my-3"></li>
+          
+          <c:if test="${(rol=='administrador')}">
+            <li class="mb-1">
+              <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
+                data-bs-target="#admin-collapse" aria-expanded="false">
+                Administrar
+              </button>
+              <div class="collapse" id="admin-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+
+                  <li><a href="practicas" class="link-dark rounded">Gestión Practicas profesionales</a></li>
+                  <li><a href="equipos" class="link-dark rounded">Gestión Equipos</a></li>
+                  <li><a href="consultorios" class="link-dark rounded">Gestión Consultorios</a></li>
+                  <li><a href="usuarios" class="link-dark rounded">Gestión Usuarios</a></li>
+                  <li><a href="horarios" class="link-dark rounded">Gestión Horarios</a></li>
+
+                </ul>
+              </div>
+            </li>
+          </c:if>
         </ul>
+
+
       </div>
-    </li>
+     
 
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>
+  </body>
 
-
-    <li class="mb-1">
-      <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#reportes-collapse" aria-expanded="false">
-        Reportes
-      </button>
-      <div class="collapse" id="reportes-collapse">
-        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-          <li><a href="#" class="link-dark rounded">Facturacion Ambulatoria</a></li>
-          <li><a href="#" class="link-dark rounded">Facturacion Plan Discapacidad</a></li>
-        </ul>
-      </div>
-    </li>
-
-
-
-
-    <li class="border-top my-3"></li>
-
-    <li class="mb-1">
-      <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#admin-collapse" aria-expanded="false">
-        Administrar
-      </button>
-      <div class="collapse" id="admin-collapse">
-        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-          <li><a href="practicas" class="link-dark rounded">Gestión Practicas profesionales</a></li>
-          <li><a href="equipos" class="link-dark rounded">Gestión Equipos</a></li>
-          <li><a href="consultorios" class="link-dark rounded">Gestión Consultorios</a></li>
-          <li><a href="altaUsuario_admin.jsp" class="link-dark rounded">Gestión Usuarios</a></li>
-          <li><a href="horarios" class="link-dark rounded">Gestión Horarios</a></li>
-           
-        </ul>
-      </div>
-    </li>
-  </ul>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" ></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" ></script>
-</body>
-</html>
+  </html>

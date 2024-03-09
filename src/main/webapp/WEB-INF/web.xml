@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://jakarta.ee/xml/ns/jakartaee" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd" version="6.0">
+  
+ 
+  <display-name>Clinica_PASOS</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <servlet-name>AgendaServlet</servlet-name>
+    <servlet-class>controller.AgendaServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AsistenciaServlet</servlet-name>
+    <servlet-class>controller.AsistenciaServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ConsultorioServlet</servlet-name>
+    <servlet-class>controller.ConsultorioServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>EquipoServlet</servlet-name>
+    <servlet-class>controller.EquipoServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>HorarioServlet</servlet-name>
+    <servlet-class>controller.HorarioServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>controller.LoginServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ObraSocialServlet</servlet-name>
+    <servlet-class>controller.ObraSocialServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>PracticaServlet</servlet-name>
+    <servlet-class>controller.PracticaServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>PrescripcionServlet</servlet-name>
+    <servlet-class>controller.PrescripcionServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>TurnoServlet</servlet-name>
+    <servlet-class>controller.TurnoServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UsuarioServlet</servlet-name>
+    <servlet-class>controller.UsuarioServlet</servlet-class>
+  </servlet>
+  
+  <filter>
+  	<filter-name>LoginFiltro</filter-name>
+  	<filter-class>filter.FiltroLogin</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>LoginFiltro</filter-name>
+  	
+  	
+  	
+<!--   	PARA DESACTIVAR EL FILTRO, COMENTAR DESDE ACA  -->
+  	<url-pattern>/generarAgendas</url-pattern>
+  	<url-pattern>/generarAgenda.jsp</url-pattern>
+  	  	
+  	<url-pattern>/registroAsistencia</url-pattern>
+  	<url-pattern>/registrarAsistencia.jsp</url-pattern>
+  	
+  	<url-pattern>/consultorios</url-pattern>
+  	<url-pattern>/abmConsultorio.jsp</url-pattern>
+  	
+  	<url-pattern>/equipos</url-pattern>
+  	<url-pattern>/abmEquipo.jsp</url-pattern>
+  	
+  	<url-pattern>/horarios</url-pattern>
+  	<url-pattern>/abmHorario.jsp</url-pattern>
+  	
+  	<url-pattern>/practicas</url-pattern>
+  	<url-pattern>/abmPractica.jsp</url-pattern>
+  	
+  	<url-pattern>/prescripcion</url-pattern>
+  	<url-pattern>/registroPrescripcion.jsp</url-pattern>
+  	
+  	<url-pattern>/registroTurno</url-pattern>
+  	<url-pattern>/registroTurno.jsp</url-pattern>
+  	
+  	<url-pattern>/usuarios</url-pattern>
+  	<url-pattern>/abmUsuarios.jsp</url-pattern>
+  	
+  	<url-pattern>/obrassociales</url-pattern>
+  	<url-pattern>/abmObraSocial.jsp</url-pattern>
+  	
+<!--   	HASTA ACA -->
+  	
+  	
+  	<url-pattern></url-pattern>
+ 
+  </filter-mapping>
+  
+</web-app>

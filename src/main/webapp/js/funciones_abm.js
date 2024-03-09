@@ -274,25 +274,57 @@ if (revivirHorario) {
 
 
 //Registro turno - Recupera ID Turno de la tabla
+
 const registrarTurno = document.getElementById('registrarTurno')
+
 if(registrarTurno)
 {
-	function seleccionRadioTurno() {
-            var e = document.getElementsByName('idTurnoTabla');
-            let valorSeleccionado;
- 
-            for (i = 0; i < e.length; i++) {
-                if (e[i].checked)
-                {					
-					valorSeleccionado = e[i].value
-					const idTurno = registrarTurno.querySelector('.modal-body #idTurno');
-					idTurno.value = valorSeleccionado; 
-					console.log(valorSeleccionado)
-					
-				}
-                    
-            }
-        }
+//	function seleccionRadioTurno() {
+//            var e = document.getElementsByName('idTurnoTabla');
+//            let valorSeleccionado;
+// 
+//            for (i = 0; i < e.length; i++) {
+//                if (e[i].checked)
+//                {					
+//					valorSeleccionado = e[i].value
+//					
+//					const idTurno = registrarTurno.querySelector('.modal-body #idTurno');
+//								
+//					idTurno.value = valorSeleccionado; 
+//					console.log(valorSeleccionado)
+//					
+//				}
+//                    
+//            }
+//        }
+      
+        registrarTurno.addEventListener('show.bs.modal', event => {
+        
+        // Trae el link que levantó el modal
+        const a = event.relatedTarget
+        
+        // Trae los atributos del link con los valores que se le enviaron 
+        const idTurno = a.getAttribute('idTurno')
+        const fechaTurno = a.getAttribute('fecha_turno');
+        const horaTurno = a.getAttribute('hora_turno');
+        
+        console.log(idTurno)
+		console.log(fechaTurno)
+        
+        
+        // Traigo el formulario dentro del modal
+        const form = registrarTurno.querySelector('form');
+        
+        // Busco los campos en donde voy a mostrar los datos dentro del formulario
+        const inputHiddenIdTurno = form.querySelector('#idTurno');
+        const labelFechaTurno = form.querySelector('#fechaTurno');
+        const labelHoraTurno = form.querySelector('#horaTurno');    
+
+        // Asigno los valores capturados para mostrarlos
+        inputHiddenIdTurno.value = idTurno;
+        labelFechaTurno.innerHTML = fechaTurno;
+        labelHoraTurno.innerHTML = horaTurno;
+    });
 	
 }
 
