@@ -43,9 +43,14 @@ public class AgendaServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		HttpSession session = request.getSession();
+		
+		if(session!=null) 
+		{
 			horarios = horServ.getAllActivos();
 			request.setAttribute("horarios", horarios);
 			request.getRequestDispatcher("generarAgenda.jsp").forward(request, response);
+		}
 			
 	
 	}
