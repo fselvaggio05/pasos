@@ -23,7 +23,7 @@ import java.io.IOException;
  * Servlet Filter implementation class FiltroLogin
  */
 
-@WebFilter (urlPatterns="/Pasos/generarAgenda")
+@WebFilter (urlPatterns="/Pasos/")
 public class FiltroLogin extends HttpFilter implements Filter {
        
     /**
