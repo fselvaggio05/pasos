@@ -332,5 +332,41 @@ public String registroTurno(Integer dni, Integer id_turno) {
 	return respuestaOperacion;
 }
 	
-}
+public List<Turno> buscarTurnosAsistidosAmbulatorios(LocalDate fecha_desde, LocalDate fecha_hasta) {
+	//Busca de todos los turnos registrados, aquellos que fueron asistidos, de tipo Ambulatorio y están pendientes de cobrar para el rango de fechas ingresado
+List<Turno> turnosPendientesACobrar = new ArrayList<Turno>();
+	
+	try
+	{
+		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from turno t where t.fecha_turno>=? and t.fecha_turno<=? and t.tipo='Ambulatorio' and t.estado_t='Asistido' order by t.fecha_turno");
+		stmt.setDate(1, Date.valueOf(fecha_desde));
+		stmt.setDate(2, Date.valueOf(fecha_hasta));
+		rs = stmt.executeQuery();
+		
+		while(rs!=null && rs.next())
+		{
+			Turno tur = new Turno();
+			tur.setId_turno(rs.getInt("idturno"));
+			tur.setFecha_t(rs.getDate("fecha_turno").toLocalDate());
+			tur.setHora_t(rs.getTime("hora_turno").toLocalTime());
+			// tur.setHorario(rs.getInt("idhorario"));
+			turnosPendientesACobrar.add(tur);
+		}
+		
+	}
+	
+	catch (SQLException e)
+	{
+		respuestaOperacion = e.toString();
+	}
+	
+	finally
+	{
+		FactoryConnection.cerrarConexion(rs, stmt);
+	}
+	
+	return turnosPendientesACobrar;
+	
+
+} } 
 
