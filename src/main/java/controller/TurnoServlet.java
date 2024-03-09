@@ -52,9 +52,7 @@ public class TurnoServlet extends HttpServlet {
 
 		practicas = prServ.getAllActivas();
 		HttpSession session = request.getSession(); 
-		session.setAttribute("practicas", practicas);
-		
-//		request.setAttribute("practicas", practicas);		
+		session.setAttribute("practicas", practicas);		
 		request.getRequestDispatcher("registroTurno.jsp").forward(request, response);		
 
 	}
@@ -65,8 +63,7 @@ public class TurnoServlet extends HttpServlet {
 		String mensaje = null;
 		Paciente pac = null;
 		
-		HttpSession session = request.getSession(); 
-		
+		HttpSession session = request.getSession();		
 		
 		String operacion = request.getParameter("operacion");
 		
@@ -75,8 +72,9 @@ public class TurnoServlet extends HttpServlet {
 		
 		case "buscarProfesional": {
 			
-			Integer id_practica = Integer.parseInt(request.getParameter("practicas"));	
-			session.setAttribute("practicaSeleccionada", id_practica); //no funciono
+			Integer id_practica = Integer.parseInt(request.getParameter("practicas"));			
+			session.setAttribute("practicaSeleccionada",id_practica); 
+			
 			List<Profesional> profesionales = horServ.getProfesionales(id_practica); 
 			session.setAttribute("profesionales", profesionales);
 		//	request.setAttribute("practicaSeleccionada", id_practica);
@@ -91,6 +89,8 @@ public class TurnoServlet extends HttpServlet {
 		case "buscarTurnos":
 		{
 			Integer matricula = Integer.parseInt(request.getParameter("profesional"));
+			session.setAttribute("profesionalSeleccionado", matricula); 
+			
 			List<Turno> turnosDisponibles = turServ.buscarTurnosDisponibles(matricula);
 			session.setAttribute("turnos", turnosDisponibles);
 			this.doGet(request, response);
@@ -102,16 +102,20 @@ public class TurnoServlet extends HttpServlet {
 		case "buscarPaciente":
 		{
 			Integer dni = Integer.parseInt(request.getParameter("dniPaciente"));
-			pac = pacServ.buscarPaciente(dni);
-			
+			request.setAttribute("dniPacienteBuscado", dni); 			
+			pac = pacServ.buscarPaciente(dni);			
 			if(pac==null)
-			{
-			
+			{			
 				respuestaOperacion="No se ha encontrado el paciente";
 			}
 			
-			session.setAttribute("paciente", pac);
-			this.doGet(request, response);
+			else
+			{
+				session.setAttribute("paciente", pac);
+				this.doGet(request, response);
+				
+			}
+			
 			
 			break;
 		}
@@ -121,11 +125,7 @@ public class TurnoServlet extends HttpServlet {
 		{
 			pac = (Paciente)session.getAttribute("paciente");
 			Integer id_turno = Integer.parseInt(request.getParameter("idTurno"));
-			
-			respuestaOperacion = turServ.registroTurno(pac.getDni(),id_turno);
-				
-			
-			
+			respuestaOperacion = turServ.registroTurno(pac.getDni(),id_turno);			
 			
 			if (respuestaOperacion == "OK") {
 
@@ -150,9 +150,16 @@ public class TurnoServlet extends HttpServlet {
 				}
 			}
 			
+			session.setAttribute("profesionales",null);
+			session.setAttribute("turnos", null);
+			session.setAttribute("dniPacienteBuscado", null);
+			session.setAttribute("paciente", null);		
+			session.setAttribute("practicaSeleccionada", null);	
 			
 			this.doGet(request, response);
 			break;
+			
+			
 		}
 
 	}
