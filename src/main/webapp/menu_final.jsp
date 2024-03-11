@@ -32,6 +32,10 @@
             </button>
             <div class="collapse" id="turnos-collapse">
               <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              
+               <c:if test="${rol=='1' or rol=='2' or rol=='3'}">
+                  <li><a href="login.jsp" class="link-dark rounded">Login</a></li>
+                </c:if>
 
                 <c:if test="${rol=='1' or rol=='2' or rol=='3'}">
                   <li><a href="registroTurno" class="link-dark rounded">Registrar turno</a></li>

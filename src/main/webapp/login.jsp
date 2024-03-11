@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -24,21 +25,18 @@
                         
     <div class="white-panel">
         <div class="login-show ">
-        <form action="login" method="post">
             <h2 class="mb-5">INICIO DE SESION</h2>
-            <input type="text" placeholder="Email" name="mail">
-            <input type="password" placeholder="Password" name="pass">
-            <input type="submit" value="Login">
-<!--             <input class="mr-4 form-check-input" type="checkbox" value="" id="recordarUsuario">Recordar usuario -->
-         </form>
+            <input type="text" placeholder="Email">
+            <input type="password" placeholder="Password">
+            <input type="button" value="Login">
             
         </div>
         <div class="register-show">
-<!--             <h2>REGISTER</h2> -->
-<!--             <input type="text" placeholder="Email"> -->
-<!--             <input type="password" placeholder="Password"> -->
-<!--             <input type="password" placeholder="Confirm Password"> -->
-<!--             <input type="button" value="Register"> -->
+            <h2>REGISTER</h2>
+            <input type="text" placeholder="Email">
+            <input type="password" placeholder="Password">
+            <input type="password" placeholder="Confirm Password">
+            <input type="button" value="Register">
         </div>
     </div>
 </div>
