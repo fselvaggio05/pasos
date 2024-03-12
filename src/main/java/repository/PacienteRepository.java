@@ -61,9 +61,9 @@ public class PacienteRepository {
 				pac.setNombre(rs.getString("nombre"));
 				pac.setDni(rs.getInt("dni"));
 				obraSocial.setId_obra_social(rs.getInt("id_obra_social"));
-				obraSocial.setNombre(rs.getString("nombre_obra_social"));
-				obraSocial.setEstado(rs.getBoolean("estado"));
-				obraSocial.setFecha_baja(rs.getDate("fecha_baja").toLocalDate());
+				obraSocial.setNombre(rs.getString("nombre_os"));
+				//obraSocial.setEstado(rs.getBoolean("estado_os"));
+				//obraSocial.setFecha_baja(rs.getDate("fecha_baja_os").toLocalDate());
 				pac.setObra_social(obraSocial);
 				pac.setNro_afiliado(rs.getString("nro_afiliado"));
 				respuestaOperacion = "OK";	

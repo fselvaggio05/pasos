@@ -214,10 +214,10 @@
                                        <label class="fw-bold form-label col-6">DNI</label>
                                        <c:out value="${paciente.dni}"></c:out>
                                    </div>
-                                   <div class="mb-3">
-                                       <label class="fw-bold form-label col-6">Obra social</label>                                       
-<%--   agregar con cambios de andre    <c:out value="${paciente.getObraSocial().getDescripcion()}"></c:out> --%>
-                                   </div>
+<!--                                    <div class="mb-3"> -->
+<!--                                        <label class="fw-bold form-label col-6">Obra social</label>                                        -->
+<%--    										<c:out value="${paciente.getObra_Social().getNombre_os()}"></c:out>  --%>
+<!--                                    </div> -->
                                    
                                    <div class="mb-3">
                                        <label class="fw-bold form-label col-6">Numero de afiliado</label>
