@@ -149,15 +149,11 @@
                                            <c:forEach var="tur" items="${turnos}">
                                                <tr>
                                                    <td>
-<!--                                                        <input type="radio" class="form-check-input" name="idTurnoTabla" -->
-<%-- <%--                                                            id="idTurnoTabla" value="${tur.id_turno}">  --%> 
-<%--                                                        <input type="hidden" value="<c:out value=" ${tur.fecha_t}"></c:out>" --%>
-<!--                                                        id="fechaTurno"> -->
+
                                                        <c:out value="${tur.fecha_t}"></c:out>
                                                    </td>
                                                    <td>
-<%--                                                        <input type="hidden" value="<c:out value=" ${tur.hora_t}"></c:out>" --%>
-<!--                                                        id="horaTurno"> -->
+
                                                        <c:out value="${tur.hora_t}"></c:out>
                                                    </td>
                                                    <td>

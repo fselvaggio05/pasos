@@ -127,16 +127,13 @@ public class TurnoServlet extends HttpServlet {
 			pac = (Paciente)session.getAttribute("paciente");
 			Integer id_turno = Integer.parseInt(request.getParameter("idTurno"));
 			
-			
 			if(pac!=null)
-			{
-				respuestaOperacion = turServ.registroTurno(pac.getDni(),id_turno);	
+			{				
+				respuestaOperacion = turServ.registroTurno(pac,id_turno);	
 				
 				if (respuestaOperacion == "OK") {
-
 					mensaje = "Turno registrado exitosamente    ";
-					request.setAttribute("mensaje", mensaje);
-					
+					request.setAttribute("mensaje", mensaje);					
 				}
 			}
 			

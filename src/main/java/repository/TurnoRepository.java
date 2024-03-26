@@ -20,7 +20,9 @@ import com.mysql.cj.xdevapi.PreparableStatement.PreparableStatementFinalizer;
 import conexionDB.FactoryConnection;
 
 import entity.Horario;
+import entity.Paciente;
 import entity.Practica;
+import entity.Prescripcion;
 import entity.Profesional;
 import entity.Turno;
 
@@ -161,7 +163,7 @@ public List<Turno> buscarTurnosAsignados(Integer dni) {
 	
 	try
 	{
-		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from turno t inner join horario h on h.idHorario=t.idHorario inner join practica p on p.id_practica=h.id_practica inner join profesional pf on pf.matricula=h.matricula inner join usuario u on u.dni=pf.dni where t.dni=? and fecha_turno > ?");
+		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from turno t inner join horario h on h.idHorario=t.idHorario inner join practica p on p.id_practica=h.id_practica inner join profesional pf on pf.matricula=h.matricula inner join usuario u on u.dni=pf.dni where t.dni=? and fecha_turno >= ? and estado_t='Asignado'");
 		stmt.setInt(1, dni);
 		Date fechaHoy = Date.valueOf(LocalDate.now());
 		stmt.setDate(2, fechaHoy);
@@ -297,15 +299,16 @@ public List<Turno> buscarTurnosDisponibles(Integer matricula) {
 	return turnosDisponibles;
 }
 
-public String registroTurno(Integer dni, Integer id_turno) {
+public String registroTurnoConPrescripcion(Paciente pac, Integer id_turno, Integer id_presc) {
 	
 	Integer respUpdate = null;
 	
 	try
 	{
-		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update turno set dni=?, estado_t='Asignado' where idturno=?");
-		stmt.setInt(1, dni);
-		stmt.setInt(2, id_turno);
+		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update turno set dni=?, estado_t='Asignado', id_prescripcion=? where idturno=?");
+		stmt.setInt(1, pac.getDni());
+		stmt.setInt(2,id_presc); 		
+		stmt.setInt(3, id_turno);
 		respUpdate = stmt.executeUpdate();
 		
 		if(respUpdate==1)
@@ -331,6 +334,238 @@ public String registroTurno(Integer dni, Integer id_turno) {
 	
 	return respuestaOperacion;
 }
+
+
+public String registroTurnoSinPrescripcion(Paciente pac, Integer id_turno) {
+	
+	Integer respUpdate = null;
+	
+	try
+	{
+		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update turno set dni=?, estado_t='Asignado' where idturno=?");
+		stmt.setInt(1, pac.getDni());		
+		stmt.setInt(2, id_turno);
+		respUpdate = stmt.executeUpdate();
+		
+		if(respUpdate==1)
+		{
+			respuestaOperacion = "OK";
+		}
+		
+		else
+		{
+			respuestaOperacion  = null;
+		}
+	}
+	
+	catch(SQLException e)
+	{
+		respuestaOperacion = e.toString();
+	}
+	
+	finally
+	{
+		FactoryConnection.cerrarConexion(rs, stmt);
+	}
+	
+	return respuestaOperacion;
+	
+}
+
+
+public String registrarAsistencia(Paciente pac, Turno tur) {
+	
+	
+	
+	try
+	{
+		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update turno set estado_t='Asistido' where idturno=? and dni=?");		
+		stmt.setInt(1, tur.getId_turno());
+		stmt.setInt(2, pac.getDni());
+		Integer resultadoUpdate  = stmt.executeUpdate();
+		
+		if(resultadoUpdate==1)
+		{
+			respuestaOperacion = "OK";
+		}		
+		else
+		{
+			respuestaOperacion=null;
+		}
+	}
+	
+	
+	catch (SQLException e)
+	{
+		respuestaOperacion = e.toString();
+	}
+	
+	
+	finally
+	{
+		FactoryConnection.cerrarConexion(rs, stmt);
+	}
+	return respuestaOperacion;
+}
+
+public Turno buscarTurno(Integer idTurno) {
+	
+	Turno tur = new Turno();
+	
+	try
+	{
+		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from turno t inner join horario h on h.idHorario=t.idHorario inner join practica pr on pr.id_practica=h.id_practica where idTurno=?");
+		stmt.setInt(1, idTurno);
+		rs = stmt.executeQuery();
+		
+		if(rs!=null && rs.next())
+		{			
+			
+			Practica pr = new Practica();
+			Horario h = new Horario();
+			
+			tur.setFecha_t(rs.getDate("fecha_turno").toLocalDate());
+			tur.setId_turno(idTurno);
+			h.setId_horario(rs.getInt("idHorario"));
+			pr.setId_practica(rs.getInt("id_practica"));
+			
+			h.setPractica(pr);
+			tur.setHorario(h);
+			
+			//si el turno tiene una prescripcion asociada, traigo el id
+			if(rs.getInt("id_prescripcion")!=0)
+			{
+				Prescripcion presc = new Prescripcion();
+				presc.setId_Prescripcion(rs.getInt("id_prescripcion")); //campo en tabla que refiere a prescripcion id_prescripcion				
+				tur.setPrescripcion(presc);	
+			}
+			
+			else
+			{
+				tur.setPrescripcion(null);
+			}
+			
+					
+		}
+	}
+	
+	catch(SQLException e)
+	{
+		respuestaOperacion = e.toString();
+	}
+	
+	finally
+	{
+		FactoryConnection.cerrarConexion(rs, stmt);
+	}
+	
+	return tur;
+}
+
+public Practica buscarPracticaTurno(Integer id_turno) {
+	
+	
+	Practica pr = new Practica();
+	
+	try
+	{
+		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select pr.id_practica,descripcion from turno t inner join horario h on h.idHorario=t.idHorario inner join practica pr on pr.id_practica=h.id_practica where idTurno=?");
+		stmt.setInt(1, id_turno);
+		rs = stmt.executeQuery();
+		
+		if(rs!=null && rs.next())
+		{			
+			pr.setId_practica(rs.getInt("id_practica"));
+			pr.setDescripcion(rs.getString("descripcion"));
+		}
+	}
+	
+	catch(SQLException e)
+	{
+		respuestaOperacion = e.toString();
+	}
+	
+	finally
+	{
+		FactoryConnection.cerrarConexion(rs, stmt);
+	}
+	
+	return pr;
+}
+
+
+//es correcto que el metodo este aca o puede ir en prescripcion? por ppio de responsabilidad
+public void buscarPrescripcion(Turno tur) {
+	
+	try
+	{
+		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from turno t inner join prescripcion pr on pr.id_ambulatoria=t.id_prescripcion where idTurno=?");
+		stmt.setInt(1, tur.getId_turno());
+		rs = stmt.executeQuery();
+		
+		if(rs!=null && rs.next())
+		{			
+			Prescripcion presc = new Prescripcion();	
+			presc.setId_Prescripcion(rs.getInt("id_ambulatoria"));
+			presc.setCant_sesiones(rs.getInt("cant_sesiones"));
+			presc.setSesiones_asistidas(rs.getInt("sesiones_asistidas"));
+			tur.setPrescripcion(presc);
+			
+		}
+	}
+	
+	catch(SQLException e)
+	{
+		respuestaOperacion = e.toString();
+	}
+	
+	finally
+	{
+		FactoryConnection.cerrarConexion(rs, stmt);
+	}
+	
+	
+	
+}
+
+public String asignarPrescripcionATurno(Turno tur, Integer id_prescripcion) {
+	
+	try
+	{
+		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update turno set id_prescripcion=? where idturno=?");
+		stmt.setInt(1, id_prescripcion);
+		stmt.setInt(2, tur.getId_turno());
+		Integer resultadoUpdate  = stmt.executeUpdate();
+		
+		if(resultadoUpdate==1)
+		{
+			respuestaOperacion = "OK";
+		}		
+		else
+		{
+			respuestaOperacion=null;
+		}
+	}
+	
+	catch(SQLException e)
+	{
+		respuestaOperacion = e.toString();
+	}
+	
+	finally
+	{
+		FactoryConnection.cerrarConexion(rs, stmt);
+	}
+	
+	
+	return respuestaOperacion;
+	
+	
+	
+}
+
+
+
 	
 }
 

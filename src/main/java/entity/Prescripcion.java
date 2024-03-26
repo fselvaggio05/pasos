@@ -2,10 +2,14 @@ package entity;
 
 import java.time.LocalDate;
 
+
+//Clase correspondiente a la prescripcion ambulatoria
 public class Prescripcion {
 	
+	
+	private Integer id_prescripcion;
 	private LocalDate fecha_prescripcion;
-	private Integer nro_afiliado;
+	private String nro_afiliado;
 	private Integer cod_practica;
 	private Integer cant_sesiones;
 	private Integer sesiones_asistidas;
@@ -18,7 +22,7 @@ public class Prescripcion {
 	}
 
 
-	public Prescripcion(LocalDate fecha_prescripcion, Integer nro_afiliado, Integer cod_practica, Integer cant_sesiones,
+	public Prescripcion(LocalDate fecha_prescripcion, String nro_afiliado, Integer cod_practica, Integer cant_sesiones,
 			Integer sesiones_asistidas, LocalDate fecha_alta_prescripcion, Integer estado) {
 		
 		this.fecha_prescripcion = fecha_prescripcion;
@@ -32,16 +36,26 @@ public class Prescripcion {
 	
 	
 	
+	public Integer getId_Prescripcion() {
+		return id_prescripcion;
+	}
+
+
+	public void setId_Prescripcion(Integer id_ambulatoria) {
+		this.id_prescripcion = id_ambulatoria;
+	}
+
+
 	public LocalDate getFecha_prescripcion() {
 		return fecha_prescripcion;
 	}
 	public void setFecha_prescripcion(LocalDate fecha_prescripcion) {
 		this.fecha_prescripcion = fecha_prescripcion;
 	}
-	public Integer getNro_afiliado() {
+	public String getNro_afiliado() {
 		return nro_afiliado;
 	}
-	public void setNro_afiliado(Integer nro_afiliado) {
+	public void setNro_afiliado(String nro_afiliado) {
 		this.nro_afiliado = nro_afiliado;
 	}
 	public Integer getCod_practica() {

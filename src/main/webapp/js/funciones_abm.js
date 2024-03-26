@@ -273,32 +273,15 @@ if (revivirHorario) {
 }
 
 
-//Registro turno - Recupera ID Turno de la tabla
+//Registro turno 
 
 const registrarTurno = document.getElementById('registrarTurno')
 
 if(registrarTurno)
 {
-//	function seleccionRadioTurno() {
-//            var e = document.getElementsByName('idTurnoTabla');
-//            let valorSeleccionado;
-// 
-//            for (i = 0; i < e.length; i++) {
-//                if (e[i].checked)
-//                {					
-//					valorSeleccionado = e[i].value
-//					
-//					const idTurno = registrarTurno.querySelector('.modal-body #idTurno');
-//								
-//					idTurno.value = valorSeleccionado; 
-//					console.log(valorSeleccionado)
-//					
-//				}
-//                    
-//            }
-//        }
-      
+
         registrarTurno.addEventListener('show.bs.modal', event => {
+
         
         // Trae el link que levantó el modal
         const a = event.relatedTarget
@@ -345,22 +328,63 @@ if(registroPrescripcion)
                 if (e[i].checked)
                 {
 					valorSeleccionado = e[i].value
-					const inputIdPractica = registroPrescripcion.querySelector('.modal-body #idPractica');
+					const inputIdPractica = registroPrescripcion.querySelector('.modal-body #idTurno');
 					inputIdPractica.value = valorSeleccionado; 
+					console.log(valorSeleccionado)
 					
 				}
                     
             }
         }
-
 	
-	registroPrescripcion.addEventListener('show.bs.modal', event => {
-//        const idPractica = document.getElementById('seleccion')       
+		registroPrescripcion.addEventListener('show.bs.modal', event => {
+     
         const inputNroAfiliado = registroPrescripcion.querySelector('.modal-body #nroAfiliado')
        
         });
 	
 }
+
+
+
+//Registro asistencia 
+const registroAsistencia = document.getElementById('registroAsistencia');
+
+if(registroAsistencia)
+{
+	registroAsistencia.addEventListener('show.bs.modal', event => {   
+   
+    const a = event.relatedTarget
+    const idTurno = a.getAttribute('idTurno');
+    const apellidoProfesional=a.getAttribute('apellidoProfesional');
+    const descPractica=a.getAttribute('descPractica');
+    const fechaTurno=a.getAttribute('fecha_turno');
+    const horaTurno=a.getAttribute('hora_turno');    
+    
+	console.log(idTurno);
+	
+	
+    const inputIdTurno = registroAsistencia.querySelector('.modal-body #idTurno');
+    const labelDescPractica = registroAsistencia.querySelector('.modal-body #descPractica');
+    const labelProfesional = registroAsistencia.querySelector('.modal-body #apellidoProfesional');    
+    const labelFechaTurno = registroAsistencia.querySelector('.modal-body #fechaTurno');
+    const labelHoraTurno = registroAsistencia.querySelector('.modal-body #horaTurno'); 
+     
+     
+    inputIdTurno.value=idTurno;
+    labelDescPractica.innerHTML = descPractica;
+    labelProfesional.innerHTML = apellidoProfesional;
+    labelFechaTurno.innerHTML = fechaTurno;
+    labelHoraTurno.innerHTML = horaTurno
+	
+      
+  })
+	
+}
+
+
+
+
 // Obra social
 const actualizarObraSocial = document.getElementById('actualizarObraSocial')
 
@@ -464,7 +488,7 @@ function verificarSeleccion()
 	if (!(document.getElementsByName("seleccionados")).checked)
 		{
 			alert('Debe seleccionar al menos un horario')
-			console.log("paso por aca")						
+								
 		}
 		return false;
 

@@ -11,6 +11,9 @@ import java.util.Locale;
 
 import entity.Consultorio;
 import entity.Horario;
+import entity.Paciente;
+import entity.Practica;
+import entity.Prescripcion;
 import entity.Turno;
 import repository.TurnoRepository;
 
@@ -20,6 +23,7 @@ public class TurnoService {
 	private PracticaService prServ;
 	private ConsultorioService conServ;
 	private HorarioService horServ;
+	private PrescripcionService prescServ;
 	private String respuesta;
 	
 	public TurnoService()
@@ -28,6 +32,7 @@ public class TurnoService {
 		this.prServ = new PracticaService();
 		this.conServ = new ConsultorioService();
 		this.horServ = new HorarioService();
+		this.prescServ = new PrescripcionService();
 	}
 
 public String abrirAgenda(List<Horario> horarios) {
@@ -234,8 +239,87 @@ public List<Turno> buscarTurnosDisponibles(Integer matricula) {
 	return turRep.buscarTurnosDisponibles(matricula);
 }
 
-public String registroTurno(Integer dni, Integer id_turno) {
+
+//19/03
+public String registroTurno(Paciente pac, Integer id_turno) {
 	
-	return turRep.registroTurno(dni,id_turno);
+	//busco la practica que corresponde al turno solicitado
+	Practica pr = this.buscarPracticaTurno(id_turno);
+	
+	//consulto si hay una prescripcion vigente para esa practica
+	Prescripcion presc = prescServ.buscarPrescripcionActiva(pac,pr);	
+	
+	//si no hay una prescripcion activa y vigente para el paciente, registro el turno con el campo que corresponde a la prescripcion en 0
+	if(presc==null)
+	{
+		
+		turRep.registroTurnoSinPrescripcion(pac,id_turno);		
+	}
+	
+	else
+	{
+		turRep.registroTurnoConPrescripcion(pac,id_turno,presc.getId_Prescripcion());
+		
+	}
+	return "OK";
+}
+
+
+//19/03
+private Practica buscarPracticaTurno(Integer id_turno) {
+	
+	return turRep.buscarPracticaTurno(id_turno);
+}
+
+public String registrarAsistencia(Paciente pac, Integer idTurno) {
+	
+	Turno tur = this.buscarTurno(idTurno);	
+//		
+//	if(tur.getFecha_t().isEqual(LocalDate.now())) //verificacion desactivada para hacer pruebas
+//	{
+		turRep.registrarAsistencia(pac, tur);
+		
+		if(tur.getPrescripcion()!=null)
+		{
+			this.buscarPrescripcion(tur);
+			
+			if(tur.getPrescripcion().getCant_sesiones()-1 == tur.getPrescripcion().getSesiones_asistidas())
+			{
+				prescServ.desactivarVigenciaPrescripcion(tur.getPrescripcion());
+			}
+			
+			else
+			{
+				prescServ.incrementarSesionesAsistidas(tur.getPrescripcion());	
+			}
+			
+		}
+		
+		return respuesta = "OK";		
+		
+//	}
+//	
+//	else
+//	{
+//		return null;
+//	}
+//		
+	
+}
+
+private void buscarPrescripcion(Turno tur) {
+	
+	turRep.buscarPrescripcion(tur);
+	
+}
+
+public Turno buscarTurno(Integer id_turno)
+{
+	return turRep.buscarTurno(id_turno);
+}
+
+public String asignarPrescripcionATurno(Turno tur, Integer id_prescripcion)
+{
+	return turRep.asignarPrescripcionATurno(tur,id_prescripcion);
 }
 }

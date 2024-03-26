@@ -1,6 +1,7 @@
 package service;
 
 import entity.Paciente;
+import entity.Practica;
 import entity.Prescripcion;
 import repository.PrescripcionRepository;
 
@@ -14,7 +15,7 @@ public class PrescripcionService {
 	}
 	
 	
-	public String insertarPrescripcion(Prescripcion pr)
+	public Integer insertarPrescripcion(Prescripcion pr)
 	{
 				
 		return prescRep.insertarPrescripcion(pr);
@@ -28,5 +29,28 @@ public class PrescripcionService {
 		return prescRep.buscarPrescrionesPaciente(pac, pr);
 		 
 	}
+
+
+	public Prescripcion buscarPrescripcionActiva(Paciente pac, Practica pr) {
+		
+		return prescRep.buscarPrescripcionActiva(pac,pr);
+	}
+
+
+	public void incrementarSesionesAsistidas(Prescripcion prescripcion) {
+		
+		prescRep.incrementarSesionesAsistidas(prescripcion);
+		
+	}
+
+
+	public void desactivarVigenciaPrescripcion(Prescripcion prescripcion) {
+		
+		prescRep.desactivarVigenciaPrescripcion(prescripcion);
+		
+	}
+
+
+	
 
 }

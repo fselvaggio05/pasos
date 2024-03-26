@@ -15,6 +15,8 @@ public class Turno {
 	private String observacion; 
 	private String estado_t;
 	
+	
+	
 	//CLASE HORARIO 
 	private Horario horario;
 	
@@ -24,9 +26,22 @@ public class Turno {
 	//CLASE PACIENTE 
 	private Paciente paciente;	
 	
+	//CLASE PRESCRIPCION, PUEDE NO EXISTIR SI EL TURNO ES PARTICULAR
+	private Prescripcion prescripcion;
 	
 	
 	
+	
+	
+	
+	public Prescripcion getPrescripcion() {
+		return prescripcion;
+	}
+
+	public void setPrescripcion(Prescripcion prescripcion) {
+		this.prescripcion = prescripcion;
+	}
+
 	public Horario getHorario() {
 		return horario;
 	}
