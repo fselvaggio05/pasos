@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import conexionDB.FactoryConnection;
+import entity.Equipo;
 import entity.Practica;
 
 public class PracticaRepository {
@@ -22,11 +23,20 @@ public class PracticaRepository {
 												while (rs!=null && rs.next())
 												{
 													Practica pr = new Practica ();
+													Equipo eq = new Equipo();
 													pr.setId_practica(rs.getInt("id_practica"));
 													pr.setDescripcion(rs.getString("descripcion"));
 													pr.setDuracion(rs.getInt("duracion"));
-													pr.setId_equipo(rs.getInt("id_equipo"));
-													pr.setDesc_equipo(rs.getString("e.descripcion"));
+													eq.setId_equipo(rs.getInt("id_equipo"));
+													eq.setDescripcion(rs.getString("e.descripcion"));
+													eq.setEstado(rs.getBoolean("e.estado"));
+													if(rs.getDate("e.fecha_baja")==null) {
+														eq.setFecha_baja(null);
+													} else {
+														eq.setFecha_baja(rs.getDate("e.fecha_baja").toLocalDate());	
+													}													
+													pr.setEquipo(eq);
+													pr.setMonto(rs.getDouble("monto"));
 													practicas.add(pr);
 												}
 											}
@@ -47,7 +57,7 @@ public class PracticaRepository {
 									}								
 								
 									public List<Practica> getAllInactivas() {											
-											List<Practica> practicas = new ArrayList<>();
+										   List<Practica> practicas = new ArrayList<>();
 											
 											try {
 												stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT * FROM practica p INNER JOIN equipo e ON p.id_equipo = e.id_equipo where p.estado=0");
@@ -55,12 +65,21 @@ public class PracticaRepository {
 												while (rs!=null && rs.next())
 												{
 													Practica pr = new Practica ();
+													Equipo eq = new Equipo();
 													pr.setId_practica(rs.getInt("id_practica"));
 													pr.setDescripcion(rs.getString("p.descripcion"));
 													pr.setDuracion(rs.getInt("duracion"));
 													pr.setFecha_baja(rs.getDate("fecha_baja"));
-													pr.setId_equipo(rs.getInt("id_equipo"));
-													pr.setDesc_equipo(rs.getString("e.descripcion"));
+													eq.setId_equipo(rs.getInt("id_equipo"));
+													eq.setDescripcion(rs.getString("e.descripcion"));
+													eq.setEstado(rs.getBoolean("e.estado"));
+													if(rs.getDate("e.fecha_baja")==null) {
+														eq.setFecha_baja(null);
+													} else {
+														eq.setFecha_baja(rs.getDate("e.fecha_baja").toLocalDate());	
+													}													
+													pr.setEquipo(eq);
+													pr.setMonto(rs.getDouble("monto"));
 													practicas.add(pr);
 												}
 											} 
@@ -80,14 +99,15 @@ public class PracticaRepository {
 											return practicas;								
 									}
 								
-									public String insertarPractica(Integer idPractica, String descPractica, Integer duracion, Integer idEquipo) {													
+									public String insertarPractica(Integer idPractica, String descPractica, Integer duracion, Integer idEquipo,Double monto) {													
 										try
 										{
-											stmt= FactoryConnection.getInstancia().getConn().prepareStatement("insert into practica (id_practica, descripcion, duracion, id_equipo) values (?,?,?,?)");
+											stmt= FactoryConnection.getInstancia().getConn().prepareStatement("insert into practica (id_practica, descripcion, duracion, id_equipo, monto) values (?,?,?,?,?)");
 											stmt.setInt(1,idPractica);
 											stmt.setString(2, descPractica);
 											stmt.setInt(3, duracion);
 											stmt.setInt(4, idEquipo);
+											stmt.setDouble(5, monto);
 											stmt.executeUpdate();
 											respuestaOperacion = "OK";
 										}
@@ -107,14 +127,15 @@ public class PracticaRepository {
 										return respuestaOperacion;
 									}
 								
-									public String actualizarPractica(Integer idPractica, String descPractica, Integer duracion, Integer idEquipo) {														
+									public String actualizarPractica(Integer idPractica, String descPractica, Integer duracion, Integer idEquipo, Double monto) {														
 										try
 										{														
-											stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update practica set descripcion=?, id_equipo=?, duracion=? where id_practica=?");
+											stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update practica set descripcion=?, id_equipo=?, duracion=?, monto=? where id_practica=?");
 											stmt.setString(1, descPractica);
 											stmt.setInt(2, idEquipo);
 											stmt.setInt(3, duracion);
-											stmt.setInt(4, idPractica);
+											stmt.setDouble(4, monto);
+											stmt.setInt(5, idPractica);
 											stmt.executeUpdate();
 											respuestaOperacion= "OK";													
 										}
@@ -220,49 +241,5 @@ public class PracticaRepository {
 										}
 										
 										return duracionPractica;
-										
 									}
-								
-								
-								
-								
-								
-									public List<Practica> getPracticasPorProf(Integer matricula) {
-										
-								
-										List<Practica> practicasProfesional = new ArrayList<>();
-										
-										try {
-											stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from profesionalespracticas pp inner join profesionales pr on pr.matricula=pp.matricula inner join practica p on p.id_practica=pp.id_practica where pp.matricula=?");
-											stmt.setInt(1, matricula);
-											
-											rs = stmt.executeQuery();
-											while (rs!=null && rs.next())
-											{
-												Practica pr = new Practica ();
-												pr.setId_practica(rs.getInt("p.id_practica"));
-												pr.setDescripcion(rs.getString("p.descripcion"));
-												practicasProfesional.add(pr);			
-												
-											}
-										} 
-										
-										catch (SQLException e) {
-											// TODO Auto-generated catch block
-											e.printStackTrace();
-										}
-										finally {
-								
-									        try {
-									            if (rs != null) rs.close();
-									            if (stmt != null) stmt.close();
-									        	} 
-									        catch (Exception e) {
-									            e.printStackTrace();
-									        }
-								
-									        FactoryConnection.getInstancia().releaseConn(); 
-									    }
-										return practicasProfesional;	
-									}								
 	}

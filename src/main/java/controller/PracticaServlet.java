@@ -41,6 +41,7 @@ public class PracticaServlet extends HttpServlet {
 																									String descPractica;
 																									Integer duracion;
 																									Integer idEquipo;
+																									Double monto;
 																									String mensaje;
 																									String respuestaOperacion=null;																									
 																									String opcion = request.getParameter("operacion");
@@ -53,7 +54,8 @@ public class PracticaServlet extends HttpServlet {
 																											descPractica = request.getParameter("descPractica");
 																											duracion = Integer.parseInt(request.getParameter("duracion"));
 																											idEquipo = Integer.parseInt(request.getParameter("idEquipo"));
-																											respuestaOperacion = prServ.insertarPractica(idPractica,descPractica,duracion, idEquipo);
+																											monto = Double.parseDouble(request.getParameter("monto"));
+																											respuestaOperacion = prServ.insertarPractica(idPractica,descPractica,duracion, idEquipo, monto);
 																											break;
 																										}
 																										
@@ -63,7 +65,8 @@ public class PracticaServlet extends HttpServlet {
 																											descPractica = request.getParameter("descPractica");
 																											duracion = Integer.parseInt(request.getParameter("duracion"));
 																											idEquipo = Integer.parseInt(request.getParameter("idEquipo"));	
-																											respuestaOperacion = prServ.actualizarPractica(idPractica, descPractica, duracion, idEquipo);
+																											monto = Double.parseDouble(request.getParameter("monto"));
+																											respuestaOperacion = prServ.actualizarPractica(idPractica, descPractica, duracion, idEquipo,monto);
 																											break;
 																										}
 																										
@@ -83,7 +86,7 @@ public class PracticaServlet extends HttpServlet {
 																									
 																									if (respuestaOperacion == "OK")
 																									{																										
-																										mensaje = "Operacion realizada correctamente   ";
+																										mensaje = "Operacion realizada correctamente.";
 																										request.setAttribute("mensaje", mensaje);
 																										this.doGet(request, response);																										
 																									}																									

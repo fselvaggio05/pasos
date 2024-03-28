@@ -16,5 +16,20 @@
         });
     });
 
-   
+document.addEventListener('DOMContentLoaded', function() {
+    formatearMontos('tablaActivos');
+    formatearMontos('tablaInactivos');
+});
 
+function formatearMontos(tablaId) {
+    var montoElements = document.querySelectorAll('#' + tablaId + ' tbody tr td:nth-child(5)');
+    montoElements.forEach(function(element) {
+        var monto = element.textContent.trim();
+        var montoFormateado = formatearMonto(monto);
+        element.textContent = montoFormateado;
+    });
+}
+
+function formatearMonto(monto) {
+    return parseFloat(monto).toLocaleString(undefined, { minimumFractionDigits: 2 });
+}

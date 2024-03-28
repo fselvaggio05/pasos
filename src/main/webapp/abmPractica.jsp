@@ -39,6 +39,7 @@
 												<th scope="col">Descripcion</th>
 												<th scope="col">Duracion</th>
 												<th scope="col">Equipo</th>
+												<th scope="col">Monto</th>
 												<th scope="col">Operaciones</th>
 											</tr>
 										</thead>
@@ -49,11 +50,12 @@
 														<td><c:out value="${unaPractica.id_practica}"></c:out></td>
 														<td><c:out value="${unaPractica.descripcion}"></c:out></td>
 														<td><c:out value="${unaPractica.duracion}"></c:out></td>
-														<td><c:out value="${unaPractica.desc_equipo}"></c:out></td>
+														<td><c:out value="${unaPractica.equipo.descripcion}"></c:out></td>
+														<td><c:out value="${unaPractica.monto}"></c:out></td>
 														<td><a href='#' data-bs-toggle='modal' data-bs-target='#eliminarPractica' idPractica="${unaPractica.id_practica}" descPractica="${unaPractica.descripcion}">
 																<i class='bi bi-trash-fill m-1'></i>
 															</a> 
-															<a href='#' data-bs-toggle='modal' data-bs-target='#actualizarPractica' idPractica="${unaPractica.id_practica}" descPractica="${unaPractica.descripcion}" equipo="${unaPractica.id_equipo}" duracion = "${unaPractica.duracion}">
+															<a href='#' data-bs-toggle='modal' data-bs-target='#actualizarPractica' idPractica="${unaPractica.id_practica}" descPractica="${unaPractica.descripcion}" equipo="${unaPractica.equipo.id_equipo}" duracion = "${unaPractica.duracion}" monto ="${unaPractica.monto}">
 																<i class="bi bi-pencil-fill" onclick=""></i>
 															</a>
 														</td>
@@ -70,6 +72,7 @@
 												<th scope="col">Descripcion</th>
 												<th scope="col">Duracion</th>
 												<th scope="col">Equipo</th>
+												<th scope="col">Monto</th>
 												<th scope="col">Operaciones</th>
 											</tr>
 										</thead>
@@ -80,7 +83,8 @@
 														<td><c:out value="${unaPractica.id_practica}"></c:out></td>
 														<td><c:out value="${unaPractica.descripcion}"></c:out></td>
 														<td><c:out value="${unaPractica.duracion}"></c:out></td>
-														<td><c:out value="${unaPractica.desc_equipo}"></c:out></td>
+														<td><c:out value="${unaPractica.equipo.descripcion}"></c:out></td>
+														<td><c:out value="${unaPractica.monto}"></c:out></td>
 														<td><a href='#' data-bs-toggle='modal' data-bs-target='#revivirPractica' idPractica="${unaPractica.id_practica}" descPractica="${unaPractica.descripcion}">
 																<i class='bi bi-heart-fill m-1' onclick=""></i>
 															</a> 
@@ -131,78 +135,90 @@
                         </div>
                         <form action="practicas" method="post" onsubmit="mensaje()">
                             <div class="modal-body">
-                                <input type="hidden" value="alta" name="operacion">
-								<div class="mb-3">
-                                    <label class="col-6">Codigo Practica:</label>
-                                    <input type="text"  class="form-control col-6" name="idPractica" >
-                                </div>
-                                <div class="mb-3">
-                                    <label class="col-6">Descripcion practica:</label>
-                                    <input type="text" class="form-control col-6" name="descPractica" >
-                                </div>
-								<div class="mb-3">
-                                    <label class="col-6">Duracion:</label>
-                                    <input type="text" class="form-control col-6" name="duracion" >
-                                </div>
-                                <div class="mb-3">
-                                    <label class="col-6">Equipo:</label>
-                                    <select class="form-select col-6" name="idEquipo"> 
-                                    	<option value="1">Seleccione un equipo</option>
-                                    		<c:forEach var="equip" items="${equipos}" >
-                                    			<option value="<c:out value="${equip.id_equipo}"></c:out>"><c:out value="${equip.descripcion}"></c:out></option>
-                                    		</c:forEach>
-                                    </select>                               
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="submit" class="btn btn-primary">Guardar</button>
-                                </div>
-                            </div>
+							    <input type="hidden" value="alta" name="operacion">
+							    <div class="mb-3">
+							        <label class="col-6">Codigo Practica:</label>
+							        <input type="text" class="form-control col-6" name="idPractica">
+							    </div>
+							    <div class="mb-3">
+							        <label class="col-6">Descripcion practica:</label>
+							        <input type="text" class="form-control col-6" name="descPractica">
+							    </div>
+							    <div class="mb-3">
+							        <label class="col-6">Duracion:</label>
+							        <input type="text" class="form-control col-6" name="duracion">
+							    </div>
+							    <div class="mb-3">
+							        <label class="col-6">Monto:</label>
+							        <input type="number" step="0.01" class="form-control col-6" name="monto">
+							    </div>
+							    <div class="mb-3">
+							        <label class="col-6">Equipo:</label>
+							        <select class="form-select col-6" name="idEquipo">
+							            <option value="1">Seleccione un equipo</option>
+							            <c:forEach var="equip" items="${equipos}">
+							                <option value="<c:out value="${equip.id_equipo}"></c:out>">
+							                    <c:out value="${equip.descripcion}"></c:out>
+							                </option>
+							            </c:forEach>
+							        </select>
+							    </div>
+							    <div class="modal-footer">
+							        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+							        <button type="submit" class="btn btn-primary">Guardar</button>
+							    </div>
+							</div>
                         </form>
                     </div>
                  </div>
               </div>
-			<!--VENTANA MODAL "EDITAR PRACTICA" -->                    
+			<!-- VENTANA MODAL "EDITAR PRACTICA" -->
 			<div class="modal fade" id="actualizarPractica" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Editar practica</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <form action="practicas" method="post">
-                            <div class="modal-body">
-                                <input type="hidden" value="actualizar" name="operacion">
-								<div class="mb-3">
-                                    <label class="col-6">Codigo Practica:</label>
-                                    <input type="text" class="form-control col-6" id="idPractica" name="idPractica" readOnly>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="col-6">Descripcion practica:</label>
-                                    <input type="text" class="form-control col-6" id="descPractica" name="descPractica" >
-                                </div>
-								<div class="mb-3">
-                                    <label class="col-6">Duracion:</label>
-                                    <input type="text" class="form-control col-6" id="duracion" name="duracion" >
-                                </div>
-                                <div class="mb-3">
-                                    <label class="col-6">Equipo:</label>
-                                    <select class="form-select col-6" id="equipo" name="idEquipo">
-                                   	<option value="">Seleccione un equipo</option>
-                                    		<c:forEach var="equip" items="${equipos}" >
-                                    			<option value="<c:out value="${equip.id_equipo}"></c:out>"><c:out value="${equip.descripcion}"></c:out></option>
-                                    		</c:forEach>		
-		                           </select>                                                 
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="submit" class="btn btn-primary">Guardar</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                 </div>
-              </div>
+			    <div class="modal-dialog">
+			        <div class="modal-content">
+			            <div class="modal-header">
+			                <h1 class="modal-title fs-5" id="exampleModalLabel">Editar practica</h1>
+			                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			            </div>
+			            <form action="practicas" method="post">
+			                <div class="modal-body">
+			                    <input type="hidden" value="actualizar" name="operacion">
+			                    <div class="mb-3">
+			                        <label class="col-6">Codigo Practica:</label>
+			                        <input type="text" class="form-control col-6" id="idPractica" name="idPractica" readOnly>
+			                    </div>
+			                    <div class="mb-3">
+			                        <label class="col-6">Descripcion practica:</label>
+			                        <input type="text" class="form-control col-6" id="descPractica" name="descPractica">
+			                    </div>
+			                    <div class="mb-3">
+			                        <label class="col-6">Duracion:</label>
+			                        <input type="text" class="form-control col-6" id="duracion" name="duracion">
+			                    </div>
+			                    <div class="mb-3">
+			                        <label class="col-6">Monto:</label>
+			                        <input type="number" step="0.01" class="form-control col-6" id="monto" name="monto">
+			                    </div>
+			                    <div class="mb-3">
+			                        <label class="col-6">Equipo:</label>
+			                        <select class="form-select col-6" id="equipo" name="idEquipo">
+			                            <option value="">Seleccione un equipo</option>
+			                            <c:forEach var="equip" items="${equipos}">
+			                                <option value="<c:out value="${equip.id_equipo}"></c:out>">
+			                                    <c:out value="${equip.descripcion}"></c:out>
+			                                </option>
+			                            </c:forEach>
+			                        </select>
+			                    </div>
+			                    <div class="modal-footer">
+			                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+			                        <button type="submit" class="btn btn-primary">Guardar</button>
+			                    </div>
+			                </div>
+			            </form>
+			        </div>
+			    </div>
+			</div>
               <!--                     VENTANA MODAL "REVIVIR PRACTICA" -->
 				<div class="modal fade" id="revivirPractica" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 					<div class="modal-dialog">

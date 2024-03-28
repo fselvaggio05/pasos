@@ -14,26 +14,26 @@ if (actualizarPractica) {
     const descripcion=a.getAttribute('descPractica');
     const duracion = a.getAttribute('duracion');
     const equipo = a.getAttribute('equipo');
+    const monto = a.getAttribute('monto');
     
     console.log(idPractica);
 	console.log(duracion);
 	console.log(equipo);
-    
-   
+	console.log(monto);   
     
 	//traigo los campos en donde voy a mostrar los datos 
     const inputIdPractica = actualizarPractica.querySelector('.modal-body #idPractica');
     const inputDescripcion = actualizarPractica.querySelector('.modal-body #descPractica');
     const inputDuracion = actualizarPractica.querySelector('.modal-body #duracion');
     const selectEquipo = actualizarPractica.querySelector('.modal-body #equipo');
+    const inputMonto = actualizarPractica.querySelector('.modal-body #monto');
     
-    
-
 	//asigno los valores capturados para mostrarlos
     inputIdPractica.value = idPractica;
     inputDescripcion.value = descripcion;
     inputDuracion.value = duracion;
-    selectEquipo.value = equipo;    
+    selectEquipo.value = equipo;
+    inputMonto.value = monto;    
   })
 }
 
@@ -76,8 +76,7 @@ if(revivirPractica){
        
 	//traigo los campos en donde voy a mostrar los datos 
     const inputIdPractica = revivirPractica.querySelector('.modal-body #idPractica');
-    const inputDescripcion = revivirPractica.querySelector('.modal-body #descPractica');
-    
+    const inputDescripcion = revivirPractica.querySelector('.modal-body #descPractica');    
         
 	//asigno los valores capturados para mostrarlos
 	inputIdPractica.value = idPractica;

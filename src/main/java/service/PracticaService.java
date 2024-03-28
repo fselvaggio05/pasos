@@ -18,14 +18,14 @@ public class PracticaService {
 									return prRep.getAllActivas();
 								}
 							
-								public String insertarPractica(Integer idPractica, String descPractica, Integer duracion, Integer idEquipo) 
+								public String insertarPractica(Integer idPractica, String descPractica, Integer duracion, Integer idEquipo, Double monto) 
 								{
-									return respuestaOperacion = prRep.insertarPractica(idPractica,descPractica,duracion,idEquipo);	
+									return respuestaOperacion = prRep.insertarPractica(idPractica,descPractica,duracion,idEquipo,monto);	
 								}
 	
-								public String actualizarPractica(Integer idPractica, String descPractica, Integer duracion, Integer idEquipo) 
+								public String actualizarPractica(Integer idPractica, String descPractica, Integer duracion, Integer idEquipo, Double monto) 
 								{									
-									return respuestaOperacion = prRep.actualizarPractica(idPractica, descPractica, duracion, idEquipo);	
+									return respuestaOperacion = prRep.actualizarPractica(idPractica, descPractica, duracion, idEquipo, monto);	
 								}
 
 								public String eliminarPractica(Integer idPractica) {
@@ -45,11 +45,5 @@ public class PracticaService {
 								public Integer getDuracionPractica(Practica pr) 
 								{		
 									return 	prRep.getDuracionPractica(pr);
-								}
-							
-								public List<Practica> getPracticasPorProf(Integer matricula) 
-								{	
-									List<Practica> practicasProfesional = prRep.getPracticasPorProf(matricula);
-									return practicasProfesional;
 								}
 							 }
