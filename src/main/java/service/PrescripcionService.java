@@ -1,5 +1,7 @@
 package service;
 
+import java.util.List;
+
 import entity.Paciente;
 import entity.Practica;
 import entity.Prescripcion;
@@ -48,6 +50,25 @@ public class PrescripcionService {
 		
 		prescRep.desactivarVigenciaPrescripcion(prescripcion);
 		
+	}
+
+	public List<Prescripcion> getAllAmbulatorias() {
+		return prescRep.getAllAmbulatorias();
+	}
+
+
+	public List<Prescripcion> getAllDiscapacidad() {
+		return prescRep.getAllDiscapacidad();
+	}
+
+
+	public List<Prescripcion> getAmbulatoriasPaciente(Paciente pac) {
+		return prescRep.getAmbulatoriasPaciente(pac);
+	}
+
+
+	public List<Prescripcion> getDiscapacidadPaciente(Paciente pac) {
+		return prescRep.getDiscapacidadPaciente(pac);
 	}
 
 

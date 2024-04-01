@@ -1,28 +1,30 @@
 package entity;
 
-import java.sql.Date;
+import java.time.LocalDate;
+import java.util.List;
+
+import entity.Enumeradores.TipoPractica;
 
 public class Practica {
 	
 	private Integer id_practica;
+	private TipoPractica tipo_practica;
 	private String descripcion;
 	private Equipo equipo;
-	private Integer estado;
+	private Boolean estado;
 	private Integer duracion;
-	private Date fecha_baja;
-	private Double monto;
-	
+	private LocalDate fecha_baja;
+	private List<Monto_Practica> montos;
+
 	public Practica () {
 	}
 	
-	
-	public Practica(Integer id_practica, String descripcion, Equipo equipo, Integer estado, Integer duracion, Double monto) {	
+	public Practica(Integer id_practica, String descripcion, Equipo equipo, Boolean estado, Integer duracion) {	
 		this.id_practica = id_practica;
 		this.descripcion = descripcion;
 		this.equipo = equipo;
 		this.estado = estado;
 		this.duracion = duracion;
-		this.monto = monto;
 	}
 	
 	public Integer getId_practica() {
@@ -44,19 +46,19 @@ public class Practica {
 		this.equipo = equipo;
 	}
 
-	public Integer getEstado() {
+	public Boolean getEstado() {
 		return estado;
 	}
 
-	public void setEstado(Integer estado) {
+	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
 
-	public Date getFecha_baja() {
+	public LocalDate getFecha_baja() {
 		return fecha_baja;
 	}
 
-	public void setFecha_baja(Date fecha_baja) {
+	public void setFecha_baja(LocalDate fecha_baja) {
 		this.fecha_baja = fecha_baja;
 	}
 
@@ -68,11 +70,21 @@ public class Practica {
 		this.duracion = duracion;
 	}
 
-	public Double getMonto() {
-		return monto;
+	public TipoPractica getTipo_practica() {
+		return tipo_practica;
 	}
 
-	public void setMonto(Double monto) {
-		this.monto = monto;
+
+	public void setTipo_practica(TipoPractica tipo_practica) {
+		this.tipo_practica = tipo_practica;
+	}
+	
+	public List<Monto_Practica> getMonto() {
+		return montos;
+	}
+
+
+	public void setMonto(List<Monto_Practica> montos) {
+		this.montos = montos;
 	}
 }

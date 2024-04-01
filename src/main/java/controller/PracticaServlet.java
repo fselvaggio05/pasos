@@ -55,7 +55,7 @@ public class PracticaServlet extends HttpServlet {
 																											duracion = Integer.parseInt(request.getParameter("duracion"));
 																											idEquipo = Integer.parseInt(request.getParameter("idEquipo"));
 																											monto = Double.parseDouble(request.getParameter("monto"));
-																											respuestaOperacion = prServ.insertarPractica(idPractica,descPractica,duracion, idEquipo, monto);
+																											//respuestaOperacion = prServ.insertarPractica(idPractica,descPractica,duracion, idEquipo, monto);
 																											break;
 																										}
 																										
@@ -84,7 +84,7 @@ public class PracticaServlet extends HttpServlet {
 																										}
 																									}
 																									
-																									if (respuestaOperacion == "OK")
+																									if ("OK".equals(respuestaOperacion))
 																									{																										
 																										mensaje = "Operacion realizada correctamente.";
 																										request.setAttribute("mensaje", mensaje);

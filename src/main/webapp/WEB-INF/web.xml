@@ -67,6 +67,7 @@
   	
   	
 <!--   	PARA DESACTIVAR EL FILTRO, COMENTAR DESDE ACA  -->
+<!-- 
   	<url-pattern>/generarAgendas</url-pattern>
   	<url-pattern>/generarAgenda.jsp</url-pattern>
   	  	
@@ -95,7 +96,7 @@
   	<url-pattern>/abmUsuarios.jsp</url-pattern>
   	
   	<url-pattern>/obrassociales</url-pattern>
-  	<url-pattern>/abmObraSocial.jsp</url-pattern>
+  	<url-pattern>/abmObraSocial.jsp</url-pattern>-->
   	
 <!--   	HASTA ACA -->
   	

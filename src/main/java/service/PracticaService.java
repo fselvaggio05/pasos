@@ -1,6 +1,8 @@
 package service;
 
 import java.util.List;
+
+import entity.Enumeradores;
 import entity.Practica;
 import repository.PracticaRepository;
 
@@ -18,9 +20,9 @@ public class PracticaService {
 									return prRep.getAllActivas();
 								}
 							
-								public String insertarPractica(Integer idPractica, String descPractica, Integer duracion, Integer idEquipo, Double monto) 
+								public String insertarPractica(Integer idPractica, Enumeradores.TipoPractica tipo_practica, String descPractica, Integer duracion, Integer idEquipo) 
 								{
-									return respuestaOperacion = prRep.insertarPractica(idPractica,descPractica,duracion,idEquipo,monto);	
+									return respuestaOperacion = prRep.insertarPractica(idPractica,tipo_practica,descPractica,duracion,idEquipo);	
 								}
 	
 								public String actualizarPractica(Integer idPractica, String descPractica, Integer duracion, Integer idEquipo, Double monto) 
