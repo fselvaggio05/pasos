@@ -83,7 +83,7 @@
                                                    <c:when test="${prof.matricula eq profesionalSeleccionado}">
                                                        <option value="<c:out value=" ${pr.id_practica}">
                                                            </c:out>" selected><c:out value="${pr.descripcion}"></c:out>
-                                                       </option> --%>
+                                                       </option> 
                                                        <option value="<c:out value="${prof.matricula}">
                                                            </c:out>" selected><c:out
                                                                value="${prof.apellido} , ${prof.nombre}"></c:out>

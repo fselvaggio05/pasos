@@ -78,8 +78,6 @@ public class TurnoServlet extends HttpServlet {
 			
 			List<Profesional> profesionales = horServ.getProfesionales(id_practica); 
 			session.setAttribute("profesionales", profesionales);
-		//	request.setAttribute("practicaSeleccionada", id_practica);
-//			request.getRequestDispatcher("registroTurno").forward(request, response);
 			this.doGet(request, response);
 					
 			break;

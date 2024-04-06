@@ -384,6 +384,71 @@ if(registroAsistencia)
 
 
 
+//Filtro busqueda turnos 
+const filtroTurno = document.getElementById('filtro')
+
+    filtroTurno.addEventListener('change', () => {
+      ocultarCampos();        
+           
+      if (filtroTurno.value > -1) {
+        document.getElementById(`filtro-${filtroTurno.value}`).style.display = 'block';
+        document.getElementById(`btnBuscar`).style.display = 'block';
+        
+      }
+    });
+    
+    function ocultarCampos() {
+      document.getElementById('filtro-1').style.display = 'none';
+      document.getElementById('filtro-2').style.display = 'none';
+      document.getElementById('filtro-3').style.display = 'none';
+      document.getElementById('btnBuscar').style.display = 'none';
+    }
+
+    ocultarCampos();
+
+
+//Cancela turno
+
+const cancelaTurno = document.getElementById('cancelaTurno')
+
+if(cancelaTurno)
+{
+
+        cancelaTurno.addEventListener('show.bs.modal', event => {
+
+        
+        // Trae el link que levantó el modal
+        const a = event.relatedTarget
+        
+        // Trae los atributos del link con los valores que se le enviaron 
+        const idTurno = a.getAttribute('idTurno');
+        const descPractica = a.getAttribute('descPractica');
+        const profesional = a.getAttribute('profesional')       
+        const datosTurno = a.getAttribute('datosTurno');
+        
+        console.log(idTurno)
+        console.log(profesional)        
+        
+        // Traigo el formulario dentro del modal
+        const form = cancelaTurno.querySelector('form');
+        
+        // Busco los campos en donde voy a mostrar los datos dentro del formulario
+        const inputHiddenIdTurno = form.querySelector('#idTurno');
+        const labelDescPractica = form.querySelector('#descPractica');
+        const labelProfesional = form.querySelector('#profesional');
+        const labelDatosTurno = form.querySelector('#datosTurno');      
+
+        // Asigno los valores capturados para mostrarlos
+        inputHiddenIdTurno.value = idTurno;
+        labelDescPractica.innerHTML = descPractica;
+        labelProfesional.innerHTML = profesional;
+        labelDatosTurno.innerHTML = datosTurno;
+    });
+	
+}
+
+
+
 
 // Obra social
 const actualizarObraSocial = document.getElementById('actualizarObraSocial')

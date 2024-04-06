@@ -39,7 +39,7 @@
                   <li><a href="registroTurno" class="link-dark rounded">Registrar turno</a></li>
                 </c:if>
                 <c:if test="${rol=='1' or rol=='2' or rol=='3'}">
-                  <li><a href="#" class="link-dark rounded">Consulta turnos</a></li>
+                  <li><a href="consultaTurnos" class="link-dark rounded">Consulta turnos</a></li>
                 </c:if>
                 <c:if test="${rol=='1' or rol=='2'}">
                   <li><a href="registroAsistencia" class="link-dark rounded">Registrar asistencia</a></li>

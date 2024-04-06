@@ -65,7 +65,7 @@ public class AsistenciaServlet extends HttpServlet {
 			Paciente pac = pacServ.buscarPaciente(dni); //busco el paciente para mostrar los datos tambine junto con los turnos registrados
 			session.setAttribute("paciente", pac);
 			List<Turno> turnos = new ArrayList<Turno>();			
-			turnos = turServ.buscarTurnosAsignados(pac.getDni());
+			turnos = turServ.buscarTurnosAsignadosPaciente(pac.getDni());
 			session.setAttribute("turnos", turnos);	
 			break;
 			
