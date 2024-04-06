@@ -51,7 +51,7 @@
 							<input type="hidden" value="filtroTurno" name="opcion">
 							<div class="row">
 								<div class="col-3">
-									<c:if test="${rol=='1' or rol=='2'}">
+									
 										<select class="form-select" id="filtro" name="filtro">
 											<option value="-1" selected>Buscar turnos por...</option>
 											<c:if test="${rol=='1'}">
@@ -64,7 +64,7 @@
 												<option value="3">Fecha</option>
 											</c:if>
 										</select>
-									</c:if>
+								
 
 								</div>
 
