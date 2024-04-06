@@ -30,17 +30,11 @@ public class ProfesionalService {
         return respuestaOperacion;
     }
     
-    
-    
     public List<Profesional> getAll()
     {
     	return profRep.getAll();
     }
-    
-    
-    
-    //Metodo creado para traer solo las practicas que realiza un profesional cuando se da de alta en "Agregar horario" - Sin terminar
-    //Cuando selecciono el profesional en la lista de profesionales, deberia cargar solo las practicas que tiene habilitadas 
+     
     public List<Practica> getPracticasPorProf(Integer matricula)
     {
 		List<Practica> practicasProfesional = prServ.getPracticasPorProf(matricula);

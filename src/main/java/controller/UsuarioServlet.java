@@ -154,7 +154,7 @@ public class UsuarioServlet extends HttpServlet {
                 break;              
             }
 
-            case 2: { //TODO REVISAR MATRICULA QUE LLEGA EN NULL
+            case 2: { 
                     Integer matricula = Integer.parseInt(request.getParameter("matricula"));
 					try {
 						Profesional prof = new Profesional(dni, apellido, nombre, email,fecha_nacimiento,telefono,contraseña,genero, matricula);

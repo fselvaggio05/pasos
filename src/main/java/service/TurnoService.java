@@ -110,15 +110,13 @@ public String abrirAgenda(List<Horario> horarios) {
 		return respuesta;
 		
 	}
-	
-	
+		
 public LocalDate getUltimaFechaGeneracion()
 	{
 		return turRep.getUltimaFechaGeneracion();
 		
 		
 	}
-
 
 public List<LocalDate> obtenerDiasGeneracionAgenda()
 {
@@ -185,9 +183,9 @@ public List<LocalDate> obtenerDiasGeneracionAgenda()
 	
 }
 
-public List<Turno> buscarTurnosAsignados(Integer dni) {
+public List<Turno> buscarTurnosAsignadosPaciente(Integer dni) {
 	
-	return turRep.buscarTurnosAsignados(dni);	
+	return turRep.buscarTurnosAsignadosPaciente(dni);	
 	
 }
 
@@ -216,7 +214,6 @@ public List<Horario> obtenerSeleccionados(String[] seleccionados, List<Horario> 
 	return horariosSeleccionados;
 }
 
-
 public boolean validarConsultorioDisponible(LocalDate fecha, LocalTime hora_desde, LocalTime hora_hasta)
 {
 	Integer cantTurnos = turRep.validarConsultorioDisponible(fecha,hora_desde,hora_hasta);
@@ -239,8 +236,6 @@ public List<Turno> buscarTurnosDisponibles(Integer matricula) {
 	return turRep.buscarTurnosDisponibles(matricula);
 }
 
-
-//19/03
 public String registroTurno(Paciente pac, Integer id_turno) {
 	
 	//busco la practica que corresponde al turno solicitado
@@ -264,8 +259,6 @@ public String registroTurno(Paciente pac, Integer id_turno) {
 	return "OK";
 }
 
-
-//19/03
 private Practica buscarPracticaTurno(Integer id_turno) {
 	
 	return turRep.buscarPracticaTurno(id_turno);
@@ -319,7 +312,41 @@ public Turno buscarTurno(Integer id_turno)
 }
 
 public String asignarPrescripcionATurno(Turno tur, Integer id_prescripcion)
+
 {
 	return turRep.asignarPrescripcionATurno(tur,id_prescripcion);
 }
+
+
+public String cancelaTurno(Integer idTurno) {
+		
+	Turno tur = new Turno();
+	tur = this.buscarTurno(idTurno);
+	
+	LocalDate fechaMaxCancelacion = tur.getFecha_t().minusDays(1);
+	
+	if(LocalDate.now().isBefore(fechaMaxCancelacion))
+	{
+		return turRep.cancelaTurno(idTurno);
+	}
+
+	else 
+	{
+		return "Fallo cancelacion";
+	}
+	
+	
+}
+
+public List<Turno> buscarTurnosDelDia(LocalDate fecha_turno) {
+	
+	return turRep.buscarTurnosDelDia(fecha_turno);
+}
+
+public List<Turno> buscarTurnosAsignadosProfesional(Integer matricula) {
+	
+	return turRep.buscarTurnosAsignadosProfesional(matricula);
+}
+
+
 }
