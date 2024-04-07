@@ -32,12 +32,14 @@
             </button>
             <div class="collapse" id="turnos-collapse">
               <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              
+               
 
                 <c:if test="${rol=='1' or rol=='2' or rol=='3'}">
                   <li><a href="registroTurno" class="link-dark rounded">Registrar turno</a></li>
                 </c:if>
                 <c:if test="${rol=='1' or rol=='2' or rol=='3'}">
-                  <li><a href="#" class="link-dark rounded">Consulta turnos</a></li>
+                  <li><a href="consultaTurnos" class="link-dark rounded">Consulta turnos</a></li>
                 </c:if>
                 <c:if test="${rol=='1' or rol=='2'}">
                   <li><a href="registroAsistencia" class="link-dark rounded">Registrar asistencia</a></li>
@@ -55,7 +57,7 @@
 
 
 
-          <c:if test="${(rol=='1')}">
+          <c:if test="${rol=='1' or rol=='2'}">
             <li class="mb-1">
               <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
                 data-bs-target="#reportes-collapse" aria-expanded="false">
@@ -64,9 +66,10 @@
               <div class="collapse" id="reportes-collapse">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 
-                  <li><a href="#" class="link-dark rounded">Facturacion Ambulatoria</a></li>
-                  <li><a href="#" class="link-dark rounded">Facturacion Plan Discapacidad</a></li>
-
+                  <li><a href="ListadoAmbulatorias.jsp" class="link-dark rounded">Facturacion Ambulatoria</a></li>
+                  <li><a href="ListadoDiscapacidad.jsp" class="link-dark rounded">Facturacion Plan Discapacidad</a></li>
+				  <li><a href="RegistroPracticasPendientesDeCobro.jsp" class="link-dark rounded">Registro practicas abonadas</a></li>
+				  
                 </ul>
               </div>
             </li>

@@ -72,7 +72,7 @@
                                 <tr>
                                     <th scope="col">Profesional</th>
                                     <th scope="col">Práctica</th>
-                                    <th scope="col">Turno asignado</th>
+                                    <th scope="col">Turno</th>
 
                                 </tr>
 
@@ -83,7 +83,8 @@
                             <c:forEach var="tur" items="${turnos}">
 											<tr>
 											
-												<td><input class="form-check-input m-1" type="radio" name="seleccion" id="seleccion" value="${tur.getHorario().getPractica().getId_practica()}" onclick="seleccionRadio()">												
+												<td><input class="form-check-input m-1" type="radio" name="seleccion" id="seleccion" value="${tur.getId_turno()}" onclick="seleccionRadio()">
+																									
                                             		<c:out value="${tur.getHorario().getProfesional().getApellido()} , ${tur.getHorario().getProfesional().getNombre()}"></c:out></td>
 												<td><c:out value="${tur.getHorario().getPractica().getDescripcion()}"></c:out></td>
 												<td><c:out value="${tur.fecha_t}    ${tur.hora_t}"></c:out></td>
@@ -139,7 +140,7 @@
                         <form action="prescripcion" method="post">
                             <div class="modal-body">
                                 <input type="hidden" value="alta" name="operacion">
-                                	<input type="hidden" id="idPractica" name="idPractica">                	                                	
+                                	<input type="hidden" id="idTurno" name="idTurno">                	                                	
                                 	
                                 
                                 	

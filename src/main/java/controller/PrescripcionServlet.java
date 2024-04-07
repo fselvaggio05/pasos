@@ -77,7 +77,7 @@ public class PrescripcionServlet extends HttpServlet {
 			if(pac!=null)
 			{
 				List<Turno> turnos = new ArrayList<Turno>();			
-				turnos = turServ.buscarTurnosAsignados(pac.getDni());
+				turnos = turServ.buscarTurnosAsignadosPaciente(pac.getDni());
 				
 				if(turnos == null)
 				{
@@ -86,7 +86,7 @@ public class PrescripcionServlet extends HttpServlet {
 				sesion.setAttribute("paciente", pac);
 				sesion.setAttribute("turnos", turnos);	
 				
-//				respuestaOperacion = "Paciente ok";
+				respuestaOperacion = "Paciente ok";
 				
 			}
 			
@@ -104,26 +104,32 @@ public class PrescripcionServlet extends HttpServlet {
 		{
 			
 			Prescripcion pr = new Prescripcion();
-			pr.setCant_sesiones(Integer.parseInt(request.getParameter("cantSesiones")));
-			String salida = request.getParameter("idPractica");
-			System.out.println(salida);
-			pr.setCod_practica(Integer.parseInt(request.getParameter("idPractica")));
+			pr.setCant_sesiones(Integer.parseInt(request.getParameter("cantSesiones")));		
 			pr.setFecha_prescripcion(LocalDate.parse(request.getParameter("fechaPresc")));
-			pr.setNro_afiliado(Integer.parseInt(request.getParameter("nroAfiliado")));
-			pr.setSesiones_asistidas(0); 
+			pr.setNro_afiliado(request.getParameter("nroAfiliado"));
+			pr.setSesiones_asistidas(1); 
 			pr.setFecha_alta_prescripcion(LocalDate.now());
+			//busco el turno y traigo la practica asociada para setear la practica en la prescripcion
+			Integer idTurno = Integer.parseInt(request.getParameter("idTurno"));			
+			Turno tur = turServ.buscarTurno(idTurno);
+				
+			pr.setCod_practica(tur.getHorario().getPractica().getId_practica());
 			
-			pac = (Paciente) sesion.getAttribute("paciente");			
+			//realizo el registro de asistencia dentro del mismo registro de prescripcion
+			pac = (Paciente) sesion.getAttribute("paciente");				
 			
 			Prescripcion prescAnterior = prescServ.buscarPrescripcionesPaciente(pac,pr);
 			
 			if(prescAnterior == null)
 			{
-				respuestaOperacion = prescServ.insertarPrescripcion(pr);		
+				Integer id_prescripcion = prescServ.insertarPrescripcion(pr);
+				turServ.registrarAsistencia(pac, idTurno);
+				turServ.asignarPrescripcionATurno(tur, id_prescripcion); 
+				respuestaOperacion = "OK";
 			}
 			else
 			{
-				respuestaOperacion = "Existe una prescripcion vigente con los datos ingresados"; //mostrar prescripcion
+				respuestaOperacion = "Existe una prescripcion vigente con los datos ingresados"; //agregar mostrar prescripcion
 			}
 										
 			break;
