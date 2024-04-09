@@ -16,6 +16,15 @@ public class Enumeradores {
 	    public int getCodigo() {
 	        return codigo;
 	    }
-	}
 
+	    // Método para convertir una cadena en un enum TipoPractica
+	    public static TipoPractica fromString(String str) {
+	        if (str.equalsIgnoreCase("Ambulatoria")) {
+	            return AMBULATORIA;
+	        } else if (str.equalsIgnoreCase("Discapacidad")) {
+	            return DISCAPACIDAD;
+	        }
+	        throw new IllegalArgumentException("Cadena de TipoPractica no válida: " + str);
+	    }
+	}
 }

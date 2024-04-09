@@ -14,7 +14,7 @@ public class Practica {
 	private Boolean estado;
 	private Integer duracion;
 	private LocalDate fecha_baja;
-	private List<Monto_Practica> montos;
+	private List<MontosPractica> montos;
 
 	public Practica () {
 	}
@@ -79,12 +79,12 @@ public class Practica {
 		this.tipo_practica = tipo_practica;
 	}
 	
-	public List<Monto_Practica> getMonto() {
+	public List<MontosPractica> getMontos() {
 		return montos;
 	}
 
 
-	public void setMonto(List<Monto_Practica> montos) {
+	public void setMontos(List<MontosPractica> montos) {
 		this.montos = montos;
 	}
 }

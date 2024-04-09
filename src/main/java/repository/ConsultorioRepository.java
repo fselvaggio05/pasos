@@ -276,9 +276,7 @@ public class ConsultorioRepository {
 	            e.printStackTrace();
 	        }
 	        FactoryConnection.getInstancia().releaseConn(); 
-	    }
-		
-		
+	    }		
 		return consDisponible;
 	}
 }

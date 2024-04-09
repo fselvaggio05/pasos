@@ -1,40 +1,41 @@
 //Practicas 
-const actualizarPractica = document.getElementById('actualizarPractica')
+const actualizarPractica = document.getElementById('actualizarPractica');
 
-// verifica que exista el modal, si existe ingresa al if
 if (actualizarPractica) {
-	//agrega un evento onload al modal, cuando el modal se levante ejecuta la siguiente función
-  actualizarPractica.addEventListener('show.bs.modal', event => {
-    
-    //trae el link que levanto el modal
-    const a = event.relatedTarget
-    
-    //trae los atributos del link con los valores que se le enviaron 
-    const idPractica = a.getAttribute('idPractica')
-    const descripcion=a.getAttribute('descPractica');
-    const duracion = a.getAttribute('duracion');
-    const equipo = a.getAttribute('equipo');
-    const monto = a.getAttribute('monto');
-    
-    console.log(idPractica);
-	console.log(duracion);
-	console.log(equipo);
-	console.log(monto);   
-    
-	//traigo los campos en donde voy a mostrar los datos 
-    const inputIdPractica = actualizarPractica.querySelector('.modal-body #idPractica');
-    const inputDescripcion = actualizarPractica.querySelector('.modal-body #descPractica');
-    const inputDuracion = actualizarPractica.querySelector('.modal-body #duracion');
-    const selectEquipo = actualizarPractica.querySelector('.modal-body #equipo');
-    const inputMonto = actualizarPractica.querySelector('.modal-body #monto');
-    
-	//asigno los valores capturados para mostrarlos
-    inputIdPractica.value = idPractica;
-    inputDescripcion.value = descripcion;
-    inputDuracion.value = duracion;
-    selectEquipo.value = equipo;
-    inputMonto.value = monto;    
-  })
+    actualizarPractica.addEventListener('show.bs.modal', event => {
+        const a = event.relatedTarget;
+        const idPractica = a.getAttribute('idPractica');
+        const descripcion = a.getAttribute('descPractica');
+        const duracion = a.getAttribute('duracion');
+        const equipo = a.getAttribute('equipo');
+        const tipoPractica = a.getAttribute('tipoPractica'); // Captura el tipo de práctica del enlace
+
+        console.log(idPractica);
+        console.log(duracion);
+        console.log(equipo);
+        console.log(tipoPractica);
+
+        const inputIdPractica = actualizarPractica.querySelector('.modal-body #idPractica');
+        const inputDescripcion = actualizarPractica.querySelector('.modal-body #descPractica');
+        const inputDuracion = actualizarPractica.querySelector('.modal-body #duracion');
+        const selectEquipo = actualizarPractica.querySelector('.modal-body #equipo');
+        const ambulatoriaRadio = actualizarPractica.querySelector('.modal-body #ambulatoria'); // Obtener el radio de Ambulatoria
+        const discapacidadRadio = actualizarPractica.querySelector('.modal-body #discapacidad'); // Obtener el radio de Discapacidad
+        const equipoField = actualizarPractica.querySelector('.modal-body #equipoField');
+
+        inputIdPractica.value = idPractica;
+        inputDescripcion.value = descripcion;
+        inputDuracion.value = duracion;
+        selectEquipo.value = equipo;
+
+        if (tipoPractica === 'AMBULATORIA') {
+            ambulatoriaRadio.checked = true; // Marcar el radio de Ambulatoria si es tipoPractica 1
+            equipoField.style.display = 'block'; // Mostrar el campo de equipo si es Ambulatoria
+        } else if (tipoPractica === 'DISCAPACIDAD') {
+            discapacidadRadio.checked = true; // Marcar el radio de Discapacidad si es tipoPractica 2
+            equipoField.style.display = 'none'; // Ocultar el campo de equipo si es Discapacidad
+        }
+    });
 }
 
 const eliminarPractica = document.getElementById('eliminarPractica');
@@ -463,6 +464,57 @@ if(revivirObraSocial){
 	//asigno los valores capturados para mostrarlos
 	inputIdObraSocial.value = idObraSocial;
     inputNomObraSocial.innerHTML = nomObraSocial;   
+  })
+}
+
+// Montos Practica
+//Alta
+const altaMontoModal = document.getElementById('altaMonto');
+
+altaMontoModal.addEventListener('show.bs.modal', function (event) {
+	const idPractica = event.relatedTarget.getAttribute('idPractica');
+    const idPracticaInputReadOnly = document.getElementById('idPractica');
+    
+    // Establecer el valor de idPractica en los campos oculto y readonly del formulario
+    idPracticaInputReadOnly.value = idPractica;
+});
+
+//Actualizar
+const actualizarMontoPractica = document.getElementById('actualizarMonto')
+
+// verifica que exista el modal de, si existe ingresa al if
+if (actualizarMonto) {
+	//agrega un evento onload al modal, cuando el modal se levante ejecuta la siguiente función
+  actualizarMonto.addEventListener('show.bs.modal', event => {
+    
+    //trae el link que levanto el modal
+    const a = event.relatedTarget
+    
+    //trae los atributos del link con los valores que se le enviaron 
+    const idPractica = a.getAttribute('idPractica');
+    console.log(idPractica);
+    const idMonto = a.getAttribute('id_monto');
+    console.log(idMonto);
+    const fechaDesde=a.getAttribute('fechaDesde');
+	console.log(fechaDesde);
+	const fechaHasta=a.getAttribute('fechaHasta');
+	console.log(fechaHasta);
+	const monto = a.getAttribute('monto');
+	console.log(monto);
+        
+	//traigo los campos en donde voy a mostrar los datos 
+    const inputIdPractica = actualizarMonto.querySelector('.modal-body #idPractica');
+    const inputIdMonto = actualizarMonto.querySelector('.modal-body #idMonto');
+    const inputFechaDesde = actualizarMonto.querySelector('.modal-body #fechaDesde');
+    const inputFechaHasta = actualizarMonto.querySelector('.modal-body #fechaHasta');
+    const inputMonto = actualizarMonto.querySelector('.modal-body #monto');    
+    
+	//asigno los valores capturados para mostrarlos
+    inputIdPractica.value = idPractica;
+    inputIdMonto.value = idMonto;    
+    inputFechaDesde.value = fechaDesde;
+    inputFechaHasta.value = fechaHasta;
+    inputMonto.value = monto;    
   })
 }
 

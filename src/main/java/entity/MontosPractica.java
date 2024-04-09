@@ -2,10 +2,13 @@ package entity;
 
 import java.time.LocalDate;
 
-public class Monto_Practica {
+public class MontosPractica {
 	
 	private int id_monto;
 	private LocalDate fecha_desde;
+	private LocalDate fecha_hasta;
+	private Double  monto;
+	
 	public int getId_monto() {
 		return id_monto;
 	}
@@ -30,7 +33,4 @@ public class Monto_Practica {
 	public void setMonto(Double monto) {
 		this.monto = monto;
 	}
-	private LocalDate fecha_hasta;
-	private Double  monto;
-
 }

@@ -20,16 +20,26 @@ public class PracticaService {
 									return prRep.getAllActivas();
 								}
 							
-								public String insertarPractica(Integer idPractica, Enumeradores.TipoPractica tipo_practica, String descPractica, Integer duracion, Integer idEquipo) 
+								public String insertarAmbulatoria(Integer idPractica, Enumeradores.TipoPractica tipo_practica, String descPractica, Integer duracion, Integer idEquipo) 
 								{
-									return respuestaOperacion = prRep.insertarPractica(idPractica,tipo_practica,descPractica,duracion,idEquipo);	
+									return respuestaOperacion = prRep.insertarAmbulatoria(idPractica,tipo_practica,descPractica,duracion,idEquipo);	
+								}
+								
+								public String insertarDiscapacidad(Integer idPractica, Enumeradores.TipoPractica tipo_practica, String descPractica, Integer duracion) 
+								{
+									return respuestaOperacion = prRep.insertarDiscapacidad(idPractica,tipo_practica,descPractica,duracion);	
 								}
 	
-								public String actualizarPractica(Integer idPractica, String descPractica, Integer duracion, Integer idEquipo, Double monto) 
+								public String actualizarAmbulatoria(Integer idPractica, String descPractica, Integer duracion, Integer idEquipo) 
 								{									
-									return respuestaOperacion = prRep.actualizarPractica(idPractica, descPractica, duracion, idEquipo, monto);	
+									return respuestaOperacion = prRep.actualizarAmbulatoria(idPractica, descPractica, duracion, idEquipo);	
 								}
 
+								public String actualizarDiscapacidad(Integer idPractica, String descPractica, Integer duracion) 
+								{									
+									return respuestaOperacion = prRep.actualizarDiscapacidad(idPractica, descPractica, duracion);	
+								}
+								
 								public String eliminarPractica(Integer idPractica) {
 									return respuestaOperacion = prRep.eliminarPractica(idPractica);
 								}
@@ -47,5 +57,9 @@ public class PracticaService {
 								public Integer getDuracionPractica(Practica pr) 
 								{		
 									return 	prRep.getDuracionPractica(pr);
+								}
+
+								public Practica getPracticaPorID(Integer idPractica) {
+									return prRep.getPracticaPorID(idPractica);
 								}
 							 }
