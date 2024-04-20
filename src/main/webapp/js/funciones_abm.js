@@ -315,37 +315,58 @@ if(registrarTurno)
 
 
 
-//Registro prescripcion
-const registroPrescripcion = document.getElementById('registroPrescripcion');
-        
-if(registroPrescripcion)
-{
-	function seleccionRadio() {
-            var e = document.getElementsByName('seleccion');
-            let valorSeleccionado;
- 
-            for (i = 0; i < e.length; i++) {
-                if (e[i].checked)
-                {
-					valorSeleccionado = e[i].value
-					const inputIdPractica = registroPrescripcion.querySelector('.modal-body #idTurno');
-					inputIdPractica.value = valorSeleccionado; 
-					console.log(valorSeleccionado)
-					
-				}
-                    
-            }
-        }
+//Prescripcion
+	//Registro
+	const registroPrescripcion = document.getElementById('registroPrescripcion');
+	        
+	if(registroPrescripcion)
+	{
+		function seleccionRadio() {
+	            var e = document.getElementsByName('seleccion');
+	            let valorSeleccionado;
+	 
+	            for (i = 0; i < e.length; i++) {
+	                if (e[i].checked)
+	                {
+						valorSeleccionado = e[i].value
+						const inputIdPractica = registroPrescripcion.querySelector('.modal-body #idTurno');
+						inputIdPractica.value = valorSeleccionado; 
+						console.log(valorSeleccionado)	
+					}           
+	            }
+	        }
+			registroPrescripcion.addEventListener('show.bs.modal', event => {
+	        const inputNroAfiliado = registroPrescripcion.querySelector('.modal-body #nroAfiliado')
+	        });
+	}
 	
-		registroPrescripcion.addEventListener('show.bs.modal', event => {
-     
-        const inputNroAfiliado = registroPrescripcion.querySelector('.modal-body #nroAfiliado')
-       
-        });
+	//Anular
+	const anularPrescripcion = document.getElementById('anularPrescripcion');
 	
-}
-
-
+	if (anularPrescripcion) {
+	    anularPrescripcion.addEventListener('show.bs.modal', event => {
+	        const button = event.relatedTarget;
+	        const idPrescripcion = button.getAttribute('idPrescripcion');
+	        const paciente = button.getAttribute('paciente');
+	        const practica = button.getAttribute('practica');
+	        const sesiones = button.getAttribute('sesiones');
+	
+	        console.log(idPrescripcion);
+	        console.log(paciente);
+	        console.log(practica);
+	        console.log(sesiones);
+	
+	        const inputIdPrescripcion = anularPrescripcion.querySelector('.modal-body #idPrescripcion');
+	        const labelPaciente = anularPrescripcion.querySelector('.modal-body #pacientePrescripcion');
+	        const labelPractica = anularPrescripcion.querySelector('.modal-body #practicaPrescripcion');
+	        const labelSesiones = anularPrescripcion.querySelector('.modal-body #sesionesPrescripcion');
+	
+	        inputIdPrescripcion.value = idPrescripcion;
+	        labelPaciente.textContent = paciente;
+	        labelPractica.textContent = practica;
+	        labelSesiones.textContent = sesiones;
+	    });
+	}
 
 //Registro asistencia 
 const registroAsistencia = document.getElementById('registroAsistencia');
@@ -363,26 +384,19 @@ if(registroAsistencia)
     
 	console.log(idTurno);
 	
-	
     const inputIdTurno = registroAsistencia.querySelector('.modal-body #idTurno');
     const labelDescPractica = registroAsistencia.querySelector('.modal-body #descPractica');
     const labelProfesional = registroAsistencia.querySelector('.modal-body #apellidoProfesional');    
     const labelFechaTurno = registroAsistencia.querySelector('.modal-body #fechaTurno');
-    const labelHoraTurno = registroAsistencia.querySelector('.modal-body #horaTurno'); 
-     
+    const labelHoraTurno = registroAsistencia.querySelector('.modal-body #horaTurno');      
      
     inputIdTurno.value=idTurno;
     labelDescPractica.innerHTML = descPractica;
     labelProfesional.innerHTML = apellidoProfesional;
     labelFechaTurno.innerHTML = fechaTurno;
-    labelHoraTurno.innerHTML = horaTurno
-	
-      
-  })
-	
+    labelHoraTurno.innerHTML = horaTurno      
+  })	
 }
-
-
 
 //Filtro busqueda turnos 
 const filtroTurno = document.getElementById('filtro')
@@ -392,8 +406,7 @@ const filtroTurno = document.getElementById('filtro')
            
       if (filtroTurno.value > -1) {
         document.getElementById(`filtro-${filtroTurno.value}`).style.display = 'block';
-        document.getElementById(`btnBuscar`).style.display = 'block';
-        
+        document.getElementById(`btnBuscar`).style.display = 'block';        
       }
     });
     
@@ -403,20 +416,14 @@ const filtroTurno = document.getElementById('filtro')
       document.getElementById('filtro-3').style.display = 'none';
       document.getElementById('btnBuscar').style.display = 'none';
     }
-
     ocultarCampos();
 
 
 //Cancela turno
-
 const cancelaTurno = document.getElementById('cancelaTurno')
-
 if(cancelaTurno)
 {
-
-        cancelaTurno.addEventListener('show.bs.modal', event => {
-
-        
+        cancelaTurno.addEventListener('show.bs.modal', event => {        
         // Trae el link que levantó el modal
         const a = event.relatedTarget
         
@@ -443,12 +450,8 @@ if(cancelaTurno)
         labelDescPractica.innerHTML = descPractica;
         labelProfesional.innerHTML = profesional;
         labelDatosTurno.innerHTML = datosTurno;
-    });
-	
+    });	
 }
-
-
-
 
 // Obra social
 const actualizarObraSocial = document.getElementById('actualizarObraSocial')
@@ -463,24 +466,20 @@ if (actualizarObraSocial) {
     
     //trae los atributos del link con los valores que se le enviaron 
     const idObraSocial = a.getAttribute('idObraSocial');
-    //console.log(idPractica);
-    
+    //console.log(idPractica);    
     const nomObraSocial=a.getAttribute('nomObraSocial');
     
 	console.log(nomObraSocial);
         
 	//traigo los campos en donde voy a mostrar los datos 
-    const inputIdObraSocial = actualizarObraSocial.querySelector('.modal-body #idObraSocial');
-   
+    const inputIdObraSocial = actualizarObraSocial.querySelector('.modal-body #idObraSocial');   
     const inputNomObraSocial = actualizarObraSocial.querySelector('.modal-body #nomObraSocial');    
 
 	//asigno los valores capturados para mostrarlos
-    inputIdObraSocial.value = idObraSocial;
-    
+    inputIdObraSocial.value = idObraSocial;    
     inputNomObraSocial.value = nomObraSocial;    
   })
 }
-
 
 const eliminarObraSocial = document.getElementById('eliminarObraSocial');
 // verifica que exista el modal, si existe ingresa al if
@@ -595,7 +594,6 @@ function unSelectAll()
 {
 	 const all = document.getElementsByName("seleccionados")
      all.forEach(item => item.checked = false)
-
 }
 
 
@@ -603,9 +601,7 @@ function verificarSeleccion()
 {
 	if (!(document.getElementsByName("seleccionados")).checked)
 		{
-			alert('Debe seleccionar al menos un horario')
-								
+			alert('Debe seleccionar al menos un horario')								
 		}
 		return false;
-
 }

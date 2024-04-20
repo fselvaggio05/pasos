@@ -1,5 +1,6 @@
 package service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import entity.Paciente;
@@ -17,10 +18,10 @@ public class PrescripcionService {
 	}
 	
 	
-	public Integer insertarPrescripcion(Prescripcion pr)
+	public String insertarPrescripcion(Paciente paciente,LocalDate fechaPrescripcion,Integer id_practica,Integer cantSesiones)
 	{
 				
-		return prescRep.insertarPrescripcion(pr);
+		return prescRep.insertarPrescripcion(paciente,fechaPrescripcion,id_practica,cantSesiones);
 		
 	}
 
@@ -52,26 +53,16 @@ public class PrescripcionService {
 		
 	}
 
-	public List<Prescripcion> getAllAmbulatorias() {
-		return prescRep.getAllAmbulatorias();
+	public List<Prescripcion> getAll() {
+		return prescRep.getAll();
+	}
+
+	public List<Prescripcion> getAllPaciente(Paciente pac) {
+		return prescRep.getAllPaciente(pac);
 	}
 
 
-	public List<Prescripcion> getAllDiscapacidad() {
-		return prescRep.getAllDiscapacidad();
+	public String anularPrescripcion(Integer idPrescripcion) {
+		return prescRep.anularPrescripcion(idPrescripcion);
 	}
-
-
-	public List<Prescripcion> getAmbulatoriasPaciente(Paciente pac) {
-		return prescRep.getAmbulatoriasPaciente(pac);
-	}
-
-
-	public List<Prescripcion> getDiscapacidadPaciente(Paciente pac) {
-		return prescRep.getDiscapacidadPaciente(pac);
-	}
-
-
-	
-
 }

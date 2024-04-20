@@ -47,7 +47,7 @@ public class PacienteRepository {
 	    }
 
 	public Paciente buscarPaciente(Integer dni) {
-		Paciente pac = new Paciente();
+		Paciente pac = null;
 		ObraSocial obraSocial = new ObraSocial();
 		try
 		{
@@ -57,6 +57,7 @@ public class PacienteRepository {
 			
 			if(rs!=null && rs.next())
 			{
+				pac = new Paciente();
 				pac.setApellido(rs.getString("u.apellido"));
 				pac.setNombre(rs.getString("nombre"));
 				pac.setDni(rs.getInt("dni"));
