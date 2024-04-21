@@ -104,6 +104,42 @@ public class MontosPracticaRepository {
 	    }										
 		return respuestaOperacion;
 	}
+
+	public boolean validarSuperposicion(Integer id_practica, LocalDate fecha_desde, LocalDate fecha_hasta) {
+		Boolean superposicion=false;
+		try {
+				stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT COUNT(*) AS cantidad FROM monto_practica WHERE id_practica = ? AND ((fecha_desde <= ? AND fecha_hasta >= ?) OR (fecha_desde <= ? AND fecha_hasta >= ?)OR (fecha_desde >= ? AND fecha_hasta <= ?))");
+				stmt.setInt(1, id_practica);
+				stmt.setDate(2, Date.valueOf(fecha_desde));
+				stmt.setDate(3, Date.valueOf(fecha_hasta));
+				stmt.setDate(4, Date.valueOf(fecha_desde));
+				stmt.setDate(5, Date.valueOf(fecha_hasta));
+				stmt.setDate(6, Date.valueOf(fecha_desde));
+				stmt.setDate(7, Date.valueOf(fecha_hasta));
+				rs2 = stmt.executeQuery();
+				if (rs2!=null && rs2.next())
+				{
+					Integer cant = rs2.getInt("cantidad");
+					if (cant>0) {
+						superposicion=true;
+					}
+				}
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+			finally {
+				        try {
+				            if (rs2!= null) rs2.close();
+				            if (stmt != null) stmt.close();
+				        	} 
+				        catch (Exception e) {
+				            e.printStackTrace();
+				        }								
+		        FactoryConnection.getInstancia().releaseConn(); 
+		    }											
+			return superposicion;
+	}
 	
 	//Delete
 }

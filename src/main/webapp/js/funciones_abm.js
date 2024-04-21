@@ -311,8 +311,64 @@ if(registrarTurno)
 	
 }
 
+// Montos Practica
+//Alta
+const altaMontoModal = document.getElementById('altaMonto');
 
+altaMontoModal.addEventListener('show.bs.modal', function (event) {
+	// Trae el link que levantó el modal
+    const boton = document.getElementById('btnAltaMontos');
 
+        
+    // Trae los atributos del link con los valores que se le enviaron 
+    const idPractica = boton.dataset.practica;
+        //const idPractica = event.relatedTarget.getAttribute('idPractica');
+	
+	console.log('Codigo practica:', idPractica);
+    const idPracticaInputReadOnly = document.getElementById('idPracticaAlta');
+    
+    // Establecer el valor de idPractica en los campos oculto y readonly del formulario
+    idPracticaInputReadOnly.value = idPractica;
+});
+
+//Actualizar
+const actualizarMontoPractica = document.getElementById('actualizarMonto')
+
+// verifica que exista el modal de, si existe ingresa al if
+if (actualizarMonto) {
+	//agrega un evento onload al modal, cuando el modal se levante ejecuta la siguiente función
+  actualizarMonto.addEventListener('show.bs.modal', event => {
+    
+    //trae el link que levanto el modal
+    const a = event.relatedTarget
+    
+    //trae los atributos del link con los valores que se le enviaron 
+    const idPractica = a.getAttribute('idPractica');
+    console.log(idPractica);
+    const idMonto = a.getAttribute('id_monto');
+    console.log(idMonto);
+    const fechaDesde=a.getAttribute('fechaDesde');
+	console.log(fechaDesde);
+	const fechaHasta=a.getAttribute('fechaHasta');
+	console.log(fechaHasta);
+	const monto = a.getAttribute('monto');
+	console.log(monto);
+        
+	//traigo los campos en donde voy a mostrar los datos 
+    const inputIdPractica = actualizarMonto.querySelector('.modal-body #idPractica');
+    const inputIdMonto = actualizarMonto.querySelector('.modal-body #idMonto');
+    const inputFechaDesde = actualizarMonto.querySelector('.modal-body #fechaDesde');
+    const inputFechaHasta = actualizarMonto.querySelector('.modal-body #fechaHasta');
+    const inputMonto = actualizarMonto.querySelector('.modal-body #monto');    
+    
+	//asigno los valores capturados para mostrarlos
+    inputIdPractica.value = idPractica;
+    inputIdMonto.value = idMonto;    
+    inputFechaDesde.value = fechaDesde;
+    inputFechaHasta.value = fechaHasta;
+    inputMonto.value = monto;    
+  })
+}
 
 
 //Prescripcion
@@ -531,56 +587,7 @@ if(revivirObraSocial){
   })
 }
 
-// Montos Practica
-//Alta
-const altaMontoModal = document.getElementById('altaMonto');
 
-altaMontoModal.addEventListener('show.bs.modal', function (event) {
-	const idPractica = event.relatedTarget.getAttribute('idPractica');
-    const idPracticaInputReadOnly = document.getElementById('idPractica');
-    
-    // Establecer el valor de idPractica en los campos oculto y readonly del formulario
-    idPracticaInputReadOnly.value = idPractica;
-});
-
-//Actualizar
-const actualizarMontoPractica = document.getElementById('actualizarMonto')
-
-// verifica que exista el modal de, si existe ingresa al if
-if (actualizarMonto) {
-	//agrega un evento onload al modal, cuando el modal se levante ejecuta la siguiente función
-  actualizarMonto.addEventListener('show.bs.modal', event => {
-    
-    //trae el link que levanto el modal
-    const a = event.relatedTarget
-    
-    //trae los atributos del link con los valores que se le enviaron 
-    const idPractica = a.getAttribute('idPractica');
-    console.log(idPractica);
-    const idMonto = a.getAttribute('id_monto');
-    console.log(idMonto);
-    const fechaDesde=a.getAttribute('fechaDesde');
-	console.log(fechaDesde);
-	const fechaHasta=a.getAttribute('fechaHasta');
-	console.log(fechaHasta);
-	const monto = a.getAttribute('monto');
-	console.log(monto);
-        
-	//traigo los campos en donde voy a mostrar los datos 
-    const inputIdPractica = actualizarMonto.querySelector('.modal-body #idPractica');
-    const inputIdMonto = actualizarMonto.querySelector('.modal-body #idMonto');
-    const inputFechaDesde = actualizarMonto.querySelector('.modal-body #fechaDesde');
-    const inputFechaHasta = actualizarMonto.querySelector('.modal-body #fechaHasta');
-    const inputMonto = actualizarMonto.querySelector('.modal-body #monto');    
-    
-	//asigno los valores capturados para mostrarlos
-    inputIdPractica.value = idPractica;
-    inputIdMonto.value = idMonto;    
-    inputFechaDesde.value = fechaDesde;
-    inputFechaHasta.value = fechaHasta;
-    inputMonto.value = monto;    
-  })
-}
 
 // FUNCIONES SELECCION
 

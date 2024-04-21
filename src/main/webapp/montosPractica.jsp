@@ -21,6 +21,7 @@
                 <div class="container">
                     <div>
                         <h4 class="text-center my-5 text-decoration-underline fw-bold ">Historico de Montos por Practica</h4>
+                        <input type="hidden" value="<%= request.getParameter("idPractica") %>" id="idPractica" name="idPractica">
                         <div class="row justify-content-center mt-3">
                             <div class="card text-center">
                                 <div class="card-body">
@@ -57,8 +58,8 @@
 									    </tbody>
 									</table>
                                     <div class="row justify-content-end">
-                                        <button type="button" class="btn btn-success col-2 m-1" data-bs-toggle="modal" data-bs-target="#altaMonto" data-bs-whatever="@mdo" idPractica="${practica.id_practica}">Agregar Monto</button>
-    									<a href="practicas" class="btn btn-success col-2 m-1">Volver</a>
+										<button id="btnAltaMontos" type="button" class="btn btn-success col-2 m-1" data-bs-toggle="modal" data-bs-target="#altaMonto" data-bs-whatever="@mdo" data-practica="<%= request.getParameter("idPractica") %>">Agregar Monto</button>
+    									<a href="practicas" class="btn btn-primary col-2 m-1">Volver</a>
                                     </div>
                                 </div>
                             </div>
@@ -80,8 +81,9 @@
 						<div class="modal-body">
 							<input type="hidden" value="alta" name="operacion">
 							<div class="mb-3">
-						        <label class="col-6">ID de Practica:</label>
-						        <input type="text" class="form-control col-6" id="idPractica" name="idPractica" readonly>
+						        <label class="col-6">Codigo de Practica:</label>
+						        <input type="text" class="form-control col-6" id="idPracticaAlta" name="idPracticaAlta" readonly>
+						        <c:out value="${idPractica}"></c:out>						        
 						    </div>							
 						    <div class="mb-3">
 								<label class="col-6">Fecha Desde:</label>
@@ -165,6 +167,5 @@
 		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
 		<script src="js/funciones_abm.js"></script>
-	</body>
-	
+	</body>	
 </html>

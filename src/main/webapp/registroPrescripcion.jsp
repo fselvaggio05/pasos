@@ -65,9 +65,7 @@
                                             	<a href="registroTurno?idPrescripcion=${prescripcion.id_prescripcion}">
 	                                                <i class="bi bi-calendar-plus-fill m-1"></i>
 	                                            </a>
-                                            </c:if>
-                                            <c:if test="${empty prescripcion.fecha_baja_prescipcion}">
-					                            <a href="#" data-bs-toggle="modal" data-bs-target="#anularPrescripcion" idPrescripcion="${prescripcion.id_prescripcion}" paciente="${prescripcion.paciente.nombre} ${prescripcion.paciente.apellido}" practica="${prescripcion.practica.descripcion}" sesiones="${prescripcion.cant_sesiones}">
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#anularPrescripcion" idPrescripcion="${prescripcion.id_prescripcion}" paciente="${prescripcion.paciente.nombre} ${prescripcion.paciente.apellido}" practica="${prescripcion.practica.descripcion}" sesiones="${prescripcion.cant_sesiones}">
 					                                <i class="bi bi-trash-fill m-1"></i>
 					                            </a>
 					                        </c:if>

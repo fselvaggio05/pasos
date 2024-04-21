@@ -28,4 +28,8 @@ public class MontosPracticaService {
 		return mpr.actualizarMonto(idMonto,monto);
 		
 	}
+
+	public boolean validarSuperposicion(Integer id_practica, LocalDate fecha_desde, LocalDate fecha_hasta) {
+		return mpr.validarSuperposicion(id_practica,fecha_desde,fecha_hasta);
+	}
 }
