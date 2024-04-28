@@ -6,13 +6,11 @@ import java.util.List;
 import entity.Paciente;
 import entity.Practica;
 import entity.Prescripcion;
-import entity.Turno;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import service.PacienteService;
 import service.PracticaService;
 import service.PrescripcionService;
@@ -31,8 +29,10 @@ public class PrescripcionServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Prescripcion> prescripciones = prescServ.getAll();
-        request.setAttribute("prescripciones", prescripciones);
+    	if(request.getAttribute("prescripciones")==null) {
+            List<Prescripcion> prescripciones = prescServ.getAll();
+            request.setAttribute("prescripciones", prescripciones);
+    	}
         request.getRequestDispatcher("registroPrescripcion.jsp").forward(request, response);
     }
 
@@ -41,15 +41,13 @@ public class PrescripcionServlet extends HttpServlet {
         String operacion = request.getParameter("operacion");
         String respuestaOperacion = null;
         Paciente pac = null;
-        HttpSession sesion = request.getSession();    
+        String buscarPaciente = request.getParameter("buscarPaciente");
+    	String agregarPrescripcion = request.getParameter("agregarPrescripcion");
+        String dniPacienteParam = request.getParameter("dniPaciente");
         
         switch (operacion) {
             case "buscarPaciente": 
-            {
-            	String buscarPaciente = request.getParameter("buscarPaciente");
-            	String agregarPrescripcion = request.getParameter("agregarPrescripcion");
-                String dniPacienteParam = request.getParameter("dniPaciente");
-            	
+            {            	
             	//Si entró por Buscar Paciente me fijo si hay un dni o recargo la pag completa
             	if(buscarPaciente!=null) 
             	{
@@ -71,19 +69,13 @@ public class PrescripcionServlet extends HttpServlet {
                             respuestaOperacion = "No se encontraron prescripciones para ese paciente.";
                         }
                         // Establecer los atributos de sesión
-                        sesion.setAttribute("dniPaciente", pac.getDni());
-                        sesion.setAttribute("prescripciones", prescripciones);
-                        // Redireccionar al doGet normal
-                        request.getRequestDispatcher("registroPrescripcion.jsp").forward(request, response);
+                        request.setAttribute("dniPaciente", pac.getDni());
+                        request.setAttribute("prescripciones", prescripciones);
                     } 
                     else 
                     {
                         // Si el paciente no existe, notificar con un mensaje
                         respuestaOperacion = "Paciente no encontrado";
-                        // Establecer el mensaje como atributo de la solicitud
-                        request.setAttribute("mensaje", respuestaOperacion);
-                        // Volver a cargar la página actual (puede necesitar ajustes si se están utilizando frameworks)
-                        request.getRequestDispatcher("registroPrescripcion.jsp").forward(request, response);
                     }                    
             	}
             	else if (agregarPrescripcion!=null) 

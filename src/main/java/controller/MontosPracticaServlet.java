@@ -8,6 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import service.MontosPracticaService;
 import service.PracticaService;
 
@@ -38,6 +39,7 @@ public class MontosPracticaServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		mps = new MontosPracticaService();
 		Integer idPractica;
+		HttpSession session = request.getSession();
 		if(request.getParameter("idPractica")==null) {
 			idPractica = Integer.parseInt(request.getParameter("idPracticaAlta"));
 		}else {
@@ -82,16 +84,18 @@ public class MontosPracticaServlet extends HttpServlet {
 		if ("OK".equals(respuestaOperacion))
 		{																										
 			mensaje = "Operacion realizada correctamente.";
-			request.setAttribute("mensaje", mensaje);
-			request.setAttribute("idPractica",idPractica);
-			this.doGet(request, response);																										
+			session.setAttribute("mensaje", mensaje);
+			session.setAttribute("idPractica", idPractica);
+			response.sendRedirect(request.getContextPath() + "/MontosPractica?idPractica=" + idPractica);
+			//this.doGet(request, response);																										
 		}																									
 		else 
 		{																										
 			mensaje = respuestaOperacion;
-			request.setAttribute("mensaje", mensaje);
-			request.setAttribute("idPractica",idPractica);
-			this.doGet(request, response);																									
+			session.setAttribute("mensaje", mensaje);
+			session.setAttribute("idPractica", idPractica);
+			response.sendRedirect(request.getContextPath() + "/MontosPractica?idPractica=" + idPractica);
+			//this.doGet(request, response);																									
 		}	
 	}
 }

@@ -83,7 +83,6 @@
 							<div class="mb-3">
 						        <label class="col-6">Codigo de Practica:</label>
 						        <input type="text" class="form-control col-6" id="idPracticaAlta" name="idPracticaAlta" readonly>
-						        <c:out value="${idPractica}"></c:out>						        
 						    </div>							
 						    <div class="mb-3">
 								<label class="col-6">Fecha Desde:</label>

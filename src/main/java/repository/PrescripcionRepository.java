@@ -49,7 +49,7 @@ public class PrescripcionRepository {
 		List<Prescripcion> ambulatorias = new ArrayList<>();
 		try
 		{
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from prescripcion presc inner join paciente pac on pac.nro_afiliado = presc.nro_afiliado inner join usuario us on us.dni=pac.dni inner join obra_social os on os.id_obra_social=pac.id_obra_social inner join practica pract on pract.id_practica = presc.cod_practica inner join equipo eq on eq.id_equipo = pract.id_equipo"); //traigo todas
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from prescripcion presc inner join paciente pac on pac.nro_afiliado = presc.nro_afiliado inner join usuario us on us.dni=pac.dni inner join obra_social os on os.id_obra_social=pac.id_obra_social inner join practica pract on pract.id_practica = presc.cod_practica left join equipo eq on eq.id_equipo = pract.id_equipo"); //traigo todas
 			rs = stmt.executeQuery();
 			
 			while(rs!=null && rs.next())
@@ -138,7 +138,7 @@ public class PrescripcionRepository {
 		List<Prescripcion> ambulatorias = new ArrayList<>();
 		try
 		{
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from prescripcion presc inner join paciente pac on pac.nro_afiliado = presc.nro_afiliado inner join usuario us on us.dni=pac.dni inner join obra_social os on os.id_obra_social=pac.id_obra_social inner join practica pract on pract.id_practica = presc.cod_practica inner join equipo eq on eq.id_equipo = pract.id_equipo where presc.nro_afiliado=?");
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from prescripcion presc inner join paciente pac on pac.nro_afiliado = presc.nro_afiliado inner join usuario us on us.dni=pac.dni inner join obra_social os on os.id_obra_social=pac.id_obra_social inner join practica pract on pract.id_practica = presc.cod_practica left join equipo eq on eq.id_equipo = pract.id_equipo where presc.nro_afiliado=?");
 			stmt.setString(1, pac.getNro_afiliado());
 
 			rs = stmt.executeQuery();
