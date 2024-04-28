@@ -9,89 +9,96 @@ public class Prescripcion {
 	
 	private Integer id_prescripcion;
 	private LocalDate fecha_prescripcion;
-	private String nro_afiliado;
-	private Integer cod_practica;
+	private Paciente paciente;
+	private Practica practica;
 	private Integer cant_sesiones;
 	private Integer sesiones_asistidas;
 	private LocalDate fecha_alta_prescripcion;
-	private Integer estado;
-	
+	private Boolean estado;
+	private LocalDate fecha_baja_prescipcion;
 		
-	public Prescripcion() {
-		
+	public LocalDate getFecha_baja_prescipcion() {
+		return fecha_baja_prescipcion;
 	}
 
+	public void setFecha_baja_prescipcion(LocalDate fecha_baja_prescipcion) {
+		this.fecha_baja_prescipcion = fecha_baja_prescipcion;
+	}
 
-	public Prescripcion(LocalDate fecha_prescripcion, String nro_afiliado, Integer cod_practica, Integer cant_sesiones,
-			Integer sesiones_asistidas, LocalDate fecha_alta_prescripcion, Integer estado) {
-		
+	public Prescripcion() {		
+	}
+
+	public Prescripcion(LocalDate fecha_prescripcion, Paciente paciente, Practica practica, Integer cant_sesiones, Integer sesiones_asistidas, Double monto_aprobado, Double monto_utilizado, LocalDate fecha_alta_prescripcion, Boolean estado) {
 		this.fecha_prescripcion = fecha_prescripcion;
-		this.nro_afiliado = nro_afiliado;
-		this.cod_practica = cod_practica;
+		this.paciente = paciente;
+		this.practica = practica;
 		this.cant_sesiones = cant_sesiones;
 		this.sesiones_asistidas = sesiones_asistidas;
 		this.fecha_alta_prescripcion = fecha_alta_prescripcion;
 		this.estado = estado;
 	}
 	
-	
-	
-	public Integer getId_Prescripcion() {
+	public Integer getId_prescripcion() {
 		return id_prescripcion;
 	}
 
-
-	public void setId_Prescripcion(Integer id_ambulatoria) {
-		this.id_prescripcion = id_ambulatoria;
+	public void setId_prescripcion(Integer id_prescripcion) {
+		this.id_prescripcion = id_prescripcion;
 	}
-
 
 	public LocalDate getFecha_prescripcion() {
 		return fecha_prescripcion;
 	}
+	
 	public void setFecha_prescripcion(LocalDate fecha_prescripcion) {
 		this.fecha_prescripcion = fecha_prescripcion;
 	}
-	public String getNro_afiliado() {
-		return nro_afiliado;
+	
+	public Paciente getPaciente() {
+		return paciente;
 	}
-	public void setNro_afiliado(String nro_afiliado) {
-		this.nro_afiliado = nro_afiliado;
+	
+	public void setPaciente(Paciente paciente) {
+		this.paciente = paciente;
 	}
-	public Integer getCod_practica() {
-		return cod_practica;
+	
+	public Practica getPractica() {
+		return practica;
 	}
-	public void setCod_practica(Integer cod_practica) {
-		this.cod_practica = cod_practica;
+
+	public void setPractica(Practica practica) {
+		this.practica = practica;
 	}
+	
 	public Integer getCant_sesiones() {
 		return cant_sesiones;
 	}
+	
 	public void setCant_sesiones(Integer cant_sesiones) {
 		this.cant_sesiones = cant_sesiones;
 	}
+	
 	public Integer getSesiones_asistidas() {
 		return sesiones_asistidas;
 	}
+	
 	public void setSesiones_asistidas(Integer sesiones_asistidas) {
 		this.sesiones_asistidas = sesiones_asistidas;
 	}
+	
 	public LocalDate getFecha_alta_prescripcion() {
 		return fecha_alta_prescripcion;
 	}
+	
 	public void setFecha_alta_prescripcion(LocalDate fecha_alta_prescripcion) {
 		this.fecha_alta_prescripcion = fecha_alta_prescripcion;
 	}
-	public Integer getEstado() {
+	
+	public Boolean getEstado() {
 		return estado;
 	}
-	public void setEstado(Integer estado) {
+	
+	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
-	
-	
-	
-	
-	
-
 }

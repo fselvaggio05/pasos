@@ -1,12 +1,9 @@
 package repository;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import conexionDB.FactoryConnection;
 import entity.Equipo;
@@ -122,7 +119,7 @@ public class EquipoRepository {
 					eq.setId_equipo(rs.getInt("id_equipo"));
 					eq.setTipo_equipo(rs.getString("tipo_equipo"));
 					eq.setDescripcion(rs.getString("descripcion"));
-					eq.setFecha_baja(rs.getDate("fecha_baja"));
+					eq.setFecha_baja(rs.getDate("fecha_baja").toLocalDate());
 					equipos.add(eq);					
 				}
 			} 
@@ -203,14 +200,10 @@ public class EquipoRepository {
 	public String eliminarEquipo(Integer idEquipo) {
 		// TODO Auto-generated method stub
 		String respuestaOperacion;
-		Date fecha_baja;
 		try
 		{
-			Calendar calendar = new GregorianCalendar();
-			fecha_baja = new Date(calendar.getTimeInMillis());
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update equipo set estado=0, fecha_baja=? where id_equipo=?");
-			stmt.setDate(1, new java.sql.Date(fecha_baja.getTime()));
-			stmt.setInt(2, idEquipo);	
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update equipo set estado=0, fecha_baja=current_timestamp() where id_equipo=?");
+			stmt.setInt(1, idEquipo);	
 			stmt.executeUpdate();
 			respuestaOperacion= "OK";
 		}

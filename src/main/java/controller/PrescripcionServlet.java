@@ -1,175 +1,141 @@
 package controller;
 
 import java.io.IOException;
-import java.sql.Time;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import entity.Horario;
 import entity.Paciente;
 import entity.Practica;
 import entity.Prescripcion;
-import entity.Profesional;
-import entity.Turno;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import service.HorarioService;
 import service.PacienteService;
 import service.PracticaService;
 import service.PrescripcionService;
-import service.ProfesionalService;
-import service.TurnoService;
 
 @WebServlet("/prescripcion")
-
 public class PrescripcionServlet extends HttpServlet {
-	
-	private TurnoService turServ;
-	private PacienteService pacServ;
-	private PrescripcionService prescServ;
-	
-	
+    private static final long serialVersionUID = 1L;
+    private PacienteService pacServ;
+    private PrescripcionService prescServ;
+    private PracticaService practServ;
 
-	public PrescripcionServlet() {
-		
-		this.turServ = new TurnoService();
-		this.pacServ = new PacienteService();
-		this.prescServ = new PrescripcionService();
-	}
+    public PrescripcionServlet() {      
+        this.pacServ = new PacienteService();
+        this.prescServ = new PrescripcionService();
+        this.practServ = new PracticaService();
+    }
 
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	if(request.getAttribute("prescripciones")==null) {
+            List<Prescripcion> prescripciones = prescServ.getAll();
+            request.setAttribute("prescripciones", prescripciones);
+    	}
+        request.getRequestDispatcher("registroPrescripcion.jsp").forward(request, response);
+    }
 
-		
-		request.getRequestDispatcher("registroPrescripcion.jsp").forward(request, response);		
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-	}
+        String operacion = request.getParameter("operacion");
+        String respuestaOperacion = null;
+        Paciente pac = null;
+        String buscarPaciente = request.getParameter("buscarPaciente");
+    	String agregarPrescripcion = request.getParameter("agregarPrescripcion");
+        String dniPacienteParam = request.getParameter("dniPaciente");
+        
+        switch (operacion) {
+            case "buscarPaciente": 
+            {            	
+            	//Si entró por Buscar Paciente me fijo si hay un dni o recargo la pag completa
+            	if(buscarPaciente!=null) 
+            	{
+            		// Verificar si el parámetro dniPaciente es nulo o está vacío
+                    if (dniPacienteParam == null || dniPacienteParam.isEmpty()) {
+                        this.doGet(request, response);
+                        return;
+                    }                    
+                    // Convertir el dniPaciente a Integer y buscar al paciente
+                    Integer dni = Integer.parseInt(dniPacienteParam);
+                    pac = pacServ.buscarPaciente(dni);
+                    
+                    if (pac != null) 
+                    {
+                        // Si el paciente existe, buscar las prescripciones que tenga
+                        List<Prescripcion> prescripciones = prescServ.getAllPaciente(pac);
+                        if (prescripciones == null) 
+                        {
+                            respuestaOperacion = "No se encontraron prescripciones para ese paciente.";
+                        }
+                        // Establecer los atributos de sesión
+                        request.setAttribute("dniPaciente", pac.getDni());
+                        request.setAttribute("prescripciones", prescripciones);
+                    } 
+                    else 
+                    {
+                        // Si el paciente no existe, notificar con un mensaje
+                        respuestaOperacion = "Paciente no encontrado";
+                    }                    
+            	}
+            	else if (agregarPrescripcion!=null) 
+            	{
+            		// Verificar si el parámetro dniPaciente es nulo o está vacío
+                    if (dniPacienteParam == null || dniPacienteParam.isEmpty()) 
+                    {
+                        respuestaOperacion="Ingrese el DNI del Paciente para registrar una Prescripción.";
+                    }
+                    else 
+                    {
+                    	Integer dni = Integer.parseInt(dniPacienteParam);
+                    	//Busco al Paciente
+                    	pac=pacServ.buscarPaciente(dni);
+                    	if(pac!=null) 
+                    	{
+                    		List<Practica>practicas=practServ.getAllActivas();
+                    		request.setAttribute("paciente", pac);
+                    		request.setAttribute("practicas", practicas);
+                    		request.setAttribute("accion", agregarPrescripcion);
+                    	}
+                    	else 
+                    	{
+                    		respuestaOperacion = "El Paciente no existe.";
+                    	}
+                    	
+                    }
+            	}
+            	break;
+            }
+            case "alta":
+            {
+                Integer dniPaciente = Integer.parseInt(request.getParameter("dniPaciente"));
+                Paciente paciente = pacServ.buscarPaciente(dniPaciente);
+                LocalDate fechaPrescripcion = LocalDate.parse(request.getParameter("fechaPrescripcion"));
+            	Integer id_practica = Integer.parseInt(request.getParameter("id_practica"));
+            	Integer cantSesiones = Integer.parseInt(request.getParameter("cantSesiones"));
+            	respuestaOperacion=prescServ.insertarPrescripcion(paciente,fechaPrescripcion,id_practica,cantSesiones);
+                break;
+            }
+            
+            case "anular":
+            {
+            	Integer idPrescripcion = Integer.parseInt(request.getParameter("idPrescripcion"));
+            	respuestaOperacion = prescServ.anularPrescripcion(idPrescripcion);
+            	break;
+            }
+        }
 
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		String operacion = request.getParameter("operacion");
-		String respuestaOperacion = null;
-		String mensaje = null;
-		Paciente pac = null;
-		HttpSession sesion = request.getSession(); 	
-		
-
-		switch (operacion) {
-		
-		
-		case "buscarPaciente": 
-		{
-			
-			
-			Integer dni = Integer.parseInt(request.getParameter("dniPaciente"));
-			pac = pacServ.buscarPaciente(dni); 		
-			
-			//busco el paciente para mostrar sus datos con los turnos registrados
-			
-			if(pac!=null)
-			{
-				List<Turno> turnos = new ArrayList<Turno>();			
-				turnos = turServ.buscarTurnosAsignadosPaciente(pac.getDni());
-				
-				if(turnos == null)
-				{
-					respuestaOperacion = "No se encontraron turnos registrados";
-				}
-				sesion.setAttribute("paciente", pac);
-				sesion.setAttribute("turnos", turnos);	
-				
-				respuestaOperacion = "Paciente ok";
-				
-			}
-			
-			else
-			{
-				respuestaOperacion = "Paciente no encontrado";
-			}
-			
-			break;
-			
-			
+        if ("OK".equals(respuestaOperacion))
+		{																										
+			String mensaje = "Operacion realizada correctamente.";
+			request.setAttribute("mensaje", mensaje);
+			this.doGet(request, response);																										
+		}																									
+		else 
+		{																										
+			String mensaje = respuestaOperacion;
+			request.setAttribute("mensaje", mensaje);
+			this.doGet(request, response);																									
 		}
-
-		case "alta": 
-		{
-			
-			Prescripcion pr = new Prescripcion();
-			pr.setCant_sesiones(Integer.parseInt(request.getParameter("cantSesiones")));		
-			pr.setFecha_prescripcion(LocalDate.parse(request.getParameter("fechaPresc")));
-			pr.setNro_afiliado(request.getParameter("nroAfiliado"));
-			pr.setSesiones_asistidas(1); 
-			pr.setFecha_alta_prescripcion(LocalDate.now());
-			//busco el turno y traigo la practica asociada para setear la practica en la prescripcion
-			Integer idTurno = Integer.parseInt(request.getParameter("idTurno"));			
-			Turno tur = turServ.buscarTurno(idTurno);
-				
-			pr.setCod_practica(tur.getHorario().getPractica().getId_practica());
-			
-			//realizo el registro de asistencia dentro del mismo registro de prescripcion
-			pac = (Paciente) sesion.getAttribute("paciente");				
-			
-			Prescripcion prescAnterior = prescServ.buscarPrescripcionesPaciente(pac,pr);
-			
-			if(prescAnterior == null)
-			{
-				Integer id_prescripcion = prescServ.insertarPrescripcion(pr);
-				turServ.registrarAsistencia(pac, idTurno);
-				turServ.asignarPrescripcionATurno(tur, id_prescripcion); 
-				respuestaOperacion = "OK";
-			}
-			else
-			{
-				respuestaOperacion = "Existe una prescripcion vigente con los datos ingresados"; //agregar mostrar prescripcion
-			}
-										
-			break;
-		}
-
-	}
-		
-		if (respuestaOperacion == "OK") {
-
-			mensaje = "Prescripcion registrada exitosamente    ";
-			request.setAttribute("mensaje", mensaje);		
-		}
-
-		else {
-			
-			if(respuestaOperacion.endsWith("encontrado"))
-			{
-				mensaje = "El DNI del paciente no se encuentra registrado    ";
-				request.setAttribute("mensaje", mensaje);
-			}
-			
-			else
-			{
-				if(respuestaOperacion.endsWith("datos"))
-				{
-					mensaje = "Existe una prescripcion cargada con estos datos";
-				}
-				else
-				{
-					mensaje = respuestaOperacion;
-					request.setAttribute("mensaje", mensaje);
-				}
-				
-				
-			}
-			
-		}
-		
-		
-		this.doGet(request, response);
-
-}
+    }
 }

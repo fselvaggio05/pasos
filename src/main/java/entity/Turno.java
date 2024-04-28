@@ -2,10 +2,8 @@ package entity;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
-public class Turno {
-	
+public class Turno {	
 	private Integer id_turno;
 	private LocalDate fecha_t;
 	private LocalTime hora_t;
