@@ -508,7 +508,7 @@ public class TurnoRepository {
 			FactoryConnection.cerrarConexion(rs, stmt);
 		}
 		return turnos;
-	}
+	
 }
 
 
