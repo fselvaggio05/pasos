@@ -21,25 +21,21 @@
                         <div class="row">
                         	<div class="col-6">
                             	<form action="registroTurno" method="post" id="practica">
-                            		<input type="hidden" value="buscarProfesional" name="operacion">
-                                	<select class="form-select mb-2" name="practicas" onchange="document.getElementById('practica').submit()">
-                                		<option value="1">Seleccione una Practica</option>
-                                    	<c:forEach var="pr" items="${practicas}">
-                                        	<c:choose>
-                                            	<c:when test="${pr.id_practica eq practicaSeleccionada}">
-                                                	<option value="<c:out value="${pr.id_practica}">
-                                                    	</c:out>" selected><c:out value="${pr.descripcion}"></c:out>
-                                                	</option>
-                                                </c:when>
-                                                <c:otherwise>
-                                                	<option value="<c:out value="${pr.id_practica}">
-                                                    	</c:out>"><c:out value="${pr.descripcion}"></c:out>
-                                                    </option>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </c:forEach>
-                                    </select>
-                                </form>
+								    <input type="hidden" value="buscarProfesional" name="operacion">
+								    <select class="form-select mb-2" name="practicas" onchange="document.getElementById('practica').submit()">
+								        <option value="0">Seleccione una Practica</option>
+								        <c:forEach var="pr" items="${practicas}">
+								            <c:choose>
+								                <c:when test="${pr.id_practica eq practicaSeleccionada}">
+								                    <option value="${pr.id_practica}" selected>${pr.descripcion}</option>
+								                </c:when>
+								                <c:otherwise>
+								                    <option value="${pr.id_practica}">${pr.descripcion}</option>
+								                </c:otherwise>
+								            </c:choose>
+								        </c:forEach>
+								    </select>
+								</form>
                             </div> 
                             <c:if test="${not empty practicaSeleccionada}">
                             	<div class="col-6">

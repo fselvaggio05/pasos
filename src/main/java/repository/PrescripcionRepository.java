@@ -45,6 +45,94 @@ public class PrescripcionRepository {
 	}
 
 	//Read
+	public Prescripcion getPrescripcion(Integer idPrescripcion) {
+		Prescripcion presc = new Prescripcion();
+		try
+		{
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from prescripcion presc inner join paciente pac on pac.nro_afiliado = presc.nro_afiliado inner join usuario us on us.dni=pac.dni inner join obra_social os on os.id_obra_social=pac.id_obra_social inner join practica pract on pract.id_practica = presc.cod_practica left join equipo eq on eq.id_equipo = pract.id_equipo where presc.id_prescripcion = ?"); //traigo todas
+			stmt.setInt(1, idPrescripcion);
+			rs = stmt.executeQuery();
+			
+			while(rs!=null && rs.next())
+			{
+				//Armo el Paciente que ompone la Prescripcion
+				Paciente pac = new Paciente();
+				pac.setDni(rs.getInt("us.dni"));
+				pac.setApellido(rs.getString("us.apellido"));
+				pac.setNombre(rs.getString("us.nombre"));
+				pac.setTelefono(rs.getString("us.telefono"));
+				pac.setFecha_nacimiento(rs.getDate("us.fecha_nacimiento").toLocalDate());
+				pac.setGenero(rs.getString("us.genero"));
+				pac.setEmail(rs.getString("us.email"));
+				pac.setClave(rs.getString("us.clave"));
+				pac.setNro_afiliado(rs.getString("pac.nro_afiliado"));
+				
+				//Armo la Obra Social que corresponde al Paciente
+				ObraSocial os = new ObraSocial();
+				os.setId_obra_social(rs.getInt("os.id_obra_social"));
+				os.setNombre(rs.getString("os.nombre_os"));
+				os.setEstado(rs.getBoolean("os.estado_os"));
+				if(rs.getDate("os.fecha_baja_os")== null) {
+					os.setFecha_baja(null);
+				} else {
+					os.setFecha_baja(rs.getDate("os.fecha_baja_os").toLocalDate());
+				}
+				//Asigno la OS al Paciente
+				pac.setObra_social(os);
+				
+				//Armo la Practica que compone la Prescripcion
+				Practica pract = new Practica();
+				pract.setId_practica(rs.getInt("id_practica"));
+				pract.setDescripcion(rs.getString("pract.descripcion"));
+				pract.setEstado(rs.getBoolean("pract.estado"));
+				pract.setDuracion(rs.getInt("pract.duracion"));
+				if(rs.getDate("pract.fecha_baja")==null) //Meto el if porque da error si está  nula
+				{
+					pract.setFecha_baja(null);
+				}
+				else 
+				{
+					pract.setFecha_baja(rs.getDate("pract.fecha_baja").toLocalDate());
+				}
+				//pract.setMonto(rs.getDouble("monto"));
+				
+				//Armo el Equipo que compone a la Práctica
+				Equipo eq = new Equipo();
+				eq.setId_equipo(rs.getInt("eq.id_equipo"));
+				eq.setTipo_equipo(rs.getString("eq.tipo_equipo"));
+				eq.setDescripcion(rs.getString("eq.descripcion"));
+				eq.setEstado(rs.getBoolean("eq.estado"));
+				if(rs.getDate("eq.fecha_baja")==null) //Meto el if porque da error si está  nula
+				{eq.setFecha_baja(null);}
+				else {eq.setFecha_baja(rs.getDate("eq.fecha_baja").toLocalDate());}
+				//Asigno el Equipo a la Práctica
+				pract.setEquipo(eq);				
+				
+				presc.setId_prescripcion(rs.getInt("presc.id_prescripcion"));
+				presc.setFecha_prescripcion(rs.getDate("presc.fecha_prescripcion").toLocalDate());
+				presc.setPaciente(pac);
+				presc.setPractica(pract);
+				presc.setCant_sesiones(rs.getInt("cant_sesiones"));
+				presc.setSesiones_asistidas(rs.getInt("sesiones_asistidas"));
+				presc.setFecha_alta_prescripcion(rs.getDate("presc.fecha_alta_presc").toLocalDate());
+				if(rs.getDate("presc.fecha_baja_presc")==null) {
+					presc.setFecha_baja_prescipcion(null);
+				} else {
+					presc.setFecha_baja_prescipcion(rs.getDate("presc.fecha_baja_presc").toLocalDate());
+				}
+				presc.setEstado(rs.getBoolean("presc.estado"));
+			}
+		}
+		catch (SQLException e)
+		{
+			respuestaOperacion = e.toString();
+		}
+		finally {
+			FactoryConnection.cerrarConexion(rs, stmt);
+		}
+		return presc;
+	}
+	
 	public List<Prescripcion> getAll() {
 		List<Prescripcion> ambulatorias = new ArrayList<>();
 		try

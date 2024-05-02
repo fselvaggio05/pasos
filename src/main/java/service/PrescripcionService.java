@@ -65,4 +65,9 @@ public class PrescripcionService {
 	public String anularPrescripcion(Integer idPrescripcion) {
 		return prescRep.anularPrescripcion(idPrescripcion);
 	}
+
+
+	public Prescripcion getPrescripcion(Integer idPrescripcion) {
+		return prescRep.getPrescripcion(idPrescripcion);
+	}
 }
