@@ -6,11 +6,13 @@ import java.util.List;
 import entity.Paciente;
 import entity.Practica;
 import entity.Prescripcion;
+import entity.Usuario;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import service.PacienteService;
 import service.PracticaService;
 import service.PrescripcionService;
@@ -29,11 +31,29 @@ public class PrescripcionServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	if(request.getAttribute("prescripciones")==null) {
+    	HttpSession session = request.getSession(); 
+ 		Usuario us = (Usuario) session.getAttribute("usuario");
+ 		
+ 		if(us.getTipo_usuario()==3)
+		{
+ 			Paciente pac = pacServ.buscarPaciente(us.getDni());
+			session.setAttribute("paciente", pac);
+			// aca hay q buscar ahora todas las prescripciones del paciente. 
+			//practConPrescripcion = prescServ.buscarPracticasConPrescripcionActiva(pac);
+			List<Prescripcion> prescripciones = prescServ.buscarTodasLasPrescripciones(pac);
+			request.setAttribute("prescripciones", prescripciones);
+		}
+ 		
+ 		else
+ 		{
+ 			if(request.getAttribute("prescripciones")==null) {
             List<Prescripcion> prescripciones = prescServ.getAll();
             request.setAttribute("prescripciones", prescripciones);
-    	}
-        request.getRequestDispatcher("registroPrescripcion.jsp").forward(request, response);
+ 			}
+ 		}
+ 			
+        request.getRequestDispatcher("registroPrescripcion.jsp").forward(request, response); 
+      
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

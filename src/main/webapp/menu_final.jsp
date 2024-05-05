@@ -44,7 +44,7 @@
                 <c:if test="${rol=='1' or rol=='2'}">
                   <li><a href="registroAsistencia" class="link-dark rounded">Registrar asistencia</a></li>
                 </c:if>
-                <c:if test="${(rol=='1')}">
+                <c:if test="${(rol=='1') or rol=='3'}">
                   <li><a href="prescripcion" class="link-dark rounded">Registrar prescripcion</a></li>
                 </c:if>
                 <c:if test="${(rol=='1')}">

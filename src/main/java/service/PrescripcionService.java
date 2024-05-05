@@ -65,4 +65,9 @@ public class PrescripcionService {
 	public String anularPrescripcion(Integer idPrescripcion) {
 		return prescRep.anularPrescripcion(idPrescripcion);
 	}
+	
+	public List<Prescripcion> buscarTodasLasPrescripciones(Paciente pac)
+	{
+		return prescRep.buscarTodasLasPrescripciones(pac);
+	}
 }
