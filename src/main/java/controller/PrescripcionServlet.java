@@ -38,8 +38,6 @@ public class PrescripcionServlet extends HttpServlet {
 		{
  			Paciente pac = pacServ.buscarPaciente(us.getDni());
 			session.setAttribute("paciente", pac);
-			// aca hay q buscar ahora todas las prescripciones del paciente. 
-			//practConPrescripcion = prescServ.buscarPracticasConPrescripcionActiva(pac);
 			List<Prescripcion> prescripciones = prescServ.buscarTodasLasPrescripciones(pac);
 			request.setAttribute("prescripciones", prescripciones);
 		}
