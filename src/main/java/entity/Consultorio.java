@@ -1,13 +1,13 @@
 package entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Consultorio {
 	
 	protected Integer id_consultorio;
 	protected String descripcion;
 	protected Boolean estado;
-	protected Date fecha_baja;
+	protected LocalDate fecha_baja;
 	
 	public Consultorio()
 	{
@@ -16,7 +16,7 @@ public class Consultorio {
 	
 	
 	
-	public Consultorio(Integer id_consultorio, String descripcion, Boolean estado, Date fecha_baja) {
+	public Consultorio(Integer id_consultorio, String descripcion, Boolean estado, LocalDate fecha_baja) {
 		
 		this.id_consultorio = id_consultorio;
 		this.descripcion = descripcion;
@@ -50,11 +50,11 @@ public class Consultorio {
 		this.estado = estado;
 	}
 	
-	public Date getFecha_baja() {
+	public LocalDate getFecha_baja() {
 		return fecha_baja;
 	}
 	
-	public void setFecha_baja(Date fecha_baja) {
+	public void setFecha_baja(LocalDate fecha_baja) {
 		this.fecha_baja = fecha_baja;
 	}
 }

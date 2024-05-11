@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import conexionDB.FactoryConnection;
 import entity.Consultorio;
+import entity.Enumeradores;
+import entity.Equipo;
 import entity.Horario;
 import entity.Paciente;
 import entity.Practica;
@@ -276,42 +278,128 @@ public class TurnoRepository {
 	}
 
 	public Turno buscarTurno(Integer idTurno) {
-		Turno tur = new Turno();
+		Turno unTurno = new Turno();
 
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
-					"select * from turno t inner join horario h on h.idHorario=t.idHorario inner join practica pr on pr.id_practica=h.id_practica where idTurno=?");
+					"select * from turno t inner join horario h on h.idHorario=t.idHorario inner join practica pr on pr.id_practica=h.id_practica inner join profesional prof on h.matricula=prof.matricula inner join usuario u on prof.dni=u.dni inner join consultorio c on c.id_consultorio=t.id_consultorio inner join equipo eq on eq.id_equipo=pr.id_equipo where idTurno=?");
 			stmt.setInt(1, idTurno);
 			rs = stmt.executeQuery();
 
 			if (rs != null && rs.next()) {
-				Practica pr = new Practica();
-				Horario h = new Horario();
+				Horario unHorario = new Horario();
+				Practica unaPractica = new Practica();
+				Equipo unEquipo = new Equipo();
+				Profesional unProfesional = new Profesional();
+				Consultorio unConsultorio = new Consultorio();
 
-				tur.setFecha_t(rs.getDate("fecha_turno").toLocalDate());
-				tur.setId_turno(idTurno);
-				h.setId_horario(rs.getInt("idHorario"));
-				pr.setId_practica(rs.getInt("id_practica"));
-
-				h.setPractica(pr);
-				tur.setHorario(h);
-
+				unTurno.setId_turno(idTurno);
+				unTurno.setFecha_generacion(rs.getDate("t.fecha_generacion").toLocalDate());
+				unTurno.setFecha_t(rs.getDate("fecha_turno").toLocalDate());
+				unTurno.setHora_t(rs.getTime("t.hora_turno").toLocalTime());
+				unTurno.setHora_hasta_t(rs.getTime("t.hora_hasta").toLocalTime());
+				unTurno.setEstado_t(rs.getString("t.estado_t"));
+				
+				//Armamos el Horario para el Turno
+				unHorario.setId_horario(rs.getInt("idHorario"));
+				unHorario.setFecha_alta(rs.getDate("h.fecha_alta").toLocalDate());
+				if(rs.getDate("h.fecha_baja")==null) 
+				{
+					unHorario.setFecha_baja(null);
+				}
+				else 
+				{
+					unHorario.setFecha_baja(rs.getDate("h.fecha_baja").toLocalDate());
+				}
+				unHorario.setHora_desde(rs.getTime("h.hora_desde").toLocalTime());
+				unHorario.setHora_hasta(rs.getTime("h.hora_hasta").toLocalTime());
+				unHorario.setDia_semana(rs.getString("h.dia_semana"));
+				
+				//Armo la Practica para el Horario
+				unaPractica.setId_practica(rs.getInt("id_practica"));
+				if(rs.getInt("pr.tipo_practica")==1) {
+					unaPractica.setTipo_practica(Enumeradores.TipoPractica.AMBULATORIA);
+				}
+				else {
+					unaPractica.setTipo_practica(Enumeradores.TipoPractica.DISCAPACIDAD);
+				}
+				unaPractica.setDescripcion(rs.getString("pr.descripcion"));
+				unaPractica.setEstado(rs.getBoolean("pr.estado"));
+				unaPractica.setDuracion(rs.getInt("pr.duracion"));
+				if(rs.getDate("pr.fecha_baja")==null) 
+				{
+					unaPractica.setFecha_baja(null);
+				}
+				else 
+				{
+					unaPractica.setFecha_baja(rs.getDate("pr.fecha_baja").toLocalDate());
+				}
+				
+				//Armo el Equipo para la Practica
+				unEquipo.setId_equipo(rs.getInt("eq.id_equipo"));
+				unEquipo.setTipo_equipo(rs.getString("eq.tipo_equipo"));
+				unEquipo.setDescripcion(rs.getString("eq.descripcion"));
+				unEquipo.setEstado(rs.getBoolean("eq.estado"));
+				if(rs.getDate("eq.fecha_baja")==null) 
+				{
+					unEquipo.setFecha_baja(null);
+				}
+				else 
+				{
+					unEquipo.setFecha_baja(rs.getDate("eq.fecha_baja").toLocalDate());
+				}
+				//Asigno el Equipo a la Practica
+				unaPractica.setEquipo(unEquipo);
+				//Asigno Practica a Horario
+				unHorario.setPractica(unaPractica);
+				
+				//Armo el Profesional para el Horario
+				unProfesional.setDni(rs.getInt("u.dni"));
+				unProfesional.setMatricula(rs.getInt("prof.matricula"));
+				unProfesional.setApellido(rs.getString("u.apellido"));
+				unProfesional.setNombre(rs.getString("u.nombre"));
+				unProfesional.setTelefono(rs.getString("u.telefono"));
+				unProfesional.setFecha_nacimiento(rs.getDate("u.fecha_nacimiento").toLocalDate());
+				unProfesional.setGenero(rs.getString("u.genero"));
+				unProfesional.setEmail(rs.getString("u.email"));
+				unProfesional.setClave(rs.getString("u.clave"));
+				unProfesional.setTipo_usuario(rs.getInt("u.tipo_usuario"));
+				//Asigno el Profesional al Horario
+				unHorario.setProfesional(unProfesional);
+				
+				
+				unTurno.setHorario(unHorario);
 				// si el turno tiene una prescripcion asociada, traigo el id
 				if (rs.getInt("id_prescripcion") != 0) {
-					Prescripcion presc = new Prescripcion();
-					presc.setId_prescripcion(rs.getInt("id_prescripcion")); // campo en tabla que refiere a prescripcion
+					Prescripcion unaPrescripcion = new Prescripcion();
+					unaPrescripcion.setId_prescripcion(rs.getInt("id_prescripcion")); // campo en tabla que refiere a prescripcion
 																			// id_prescripcion
-					tur.setPrescripcion(presc);
+					unTurno.setPrescripcion(unaPrescripcion);
 				} else {
-					tur.setPrescripcion(null);
+					unTurno.setPrescripcion(null);
 				}
+				
+				//Armo el Consultorio para el Turno
+				unConsultorio.setId_consultorio(rs.getInt("c.id_consultorio"));
+				unConsultorio.setDescripcion(rs.getString("c.descripcion"));
+				unConsultorio.setEstado(rs.getBoolean("c.estado"));
+				if(rs.getDate("c.fecha_baja")==null) 
+				{
+					unConsultorio.setFecha_baja(null);
+				}
+				else 
+				{
+					unConsultorio.setFecha_baja(rs.getDate("c.fecha_baja").toLocalDate());
+				}
+				//Asigno el Consultorio al Turno
+				unTurno.setConsultorio(unConsultorio);
 			}
 		} catch (SQLException e) {
 			respuestaOperacion = e.toString();
 		} finally {
 			FactoryConnection.cerrarConexion(rs, stmt);
 		}
-		return tur;
+		return unTurno;
 	}
 
 	public Practica buscarPracticaTurno(Integer id_turno) {
