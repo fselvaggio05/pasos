@@ -1,10 +1,10 @@
-
 package controller;
 
 import java.io.IOException;
 import java.util.List;
 import entity.Paciente;
 import entity.Practica;
+import entity.Prescripcion;
 import entity.Profesional;
 import entity.Turno;
 import jakarta.servlet.ServletException;
@@ -12,10 +12,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import service.HorarioService;
 import service.PacienteService;
 import service.PracticaService;
+import service.PrescripcionService;
 import service.TurnoService;
 
 @WebServlet("/registroTurno")
@@ -26,6 +26,7 @@ private static final long serialVersionUID = 1L;
 	private PracticaService prServ;
 	private TurnoService turServ;
 	private PacienteService pacServ;
+	private PrescripcionService prescServ;
 	private List<Practica> practicas;
 	
 
@@ -34,85 +35,181 @@ private static final long serialVersionUID = 1L;
 		this.prServ = new PracticaService();
 		this.turServ = new TurnoService();
 		this.pacServ = new PacienteService();
+		this.prescServ = new PrescripcionService();
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+				
+		if(request.getParameter("idPrescripcion")!=null) //Me fijo si viene de la ventana de Prescripcion
+		{	
+			String idPrescripcion = request.getParameter("idPrescripcion");
+			Prescripcion prescripcion = prescServ.getPrescripcion(Integer.parseInt(idPrescripcion));
+			List<Profesional> profesionales = horServ.getProfesionales(prescripcion.getPractica().getId_practica());
+			request.setAttribute("prescripcion", prescripcion);
+			request.setAttribute("idPrescripcion", prescripcion.getId_prescripcion());
+			request.setAttribute("practicaSeleccionada", prescripcion.getPractica().getId_practica());
+			request.setAttribute("profesionales", profesionales);
+			if(request.getParameter("profesionalSeleccionado")!=null) 
+			{
+				Integer matricula = Integer.parseInt(request.getParameter("profesionalSeleccionado"));
+				request.setAttribute("profesionalSeleccionado", matricula);
+			}				
+		}
+		if(request.getAttribute("practicaSeleccionada")!=null) //me fijo si ya elegi la practica
+		{
+			Integer practicaSeleccionada = (Integer) request.getAttribute("practicaSeleccionada");
+			if(request.getAttribute("profesionalSeleccionado")!=null) //me fijo si ya elegi el profesional
+			{
+				Integer profesionalSeleccionado = (Integer) request.getAttribute("profesionalSeleccionado");
+				if(request.getAttribute("paciente")!=null) //Me fijo si ya busqué el Paciente para registrar el turno
+				{
+					Paciente paciente = (Paciente) request.getAttribute("paciente");
+					request.setAttribute("paciente", paciente);
+					Integer idTurno = (Integer) request.getAttribute("idTurno");
+					request.setAttribute("idTurno", idTurno);
+					Turno turno = (Turno) request.getAttribute("turno");
+					request.setAttribute("turno", turno);
+					
+				}
+				List<Turno> turnos = turServ.buscarTurnosDisponibles(profesionalSeleccionado);
+				request.setAttribute("turnos", turnos);
+			}
+			List<Profesional> profesionales = horServ.getProfesionales(practicaSeleccionada);
+			request.setAttribute("profesionales", profesionales);
+			request.setAttribute("practicaSeleccionada", practicaSeleccionada);
+		}
+		String targetPage = "registroTurno.jsp";
+		if(request.getParameter("idPrescripcion") != null) {
+		    targetPage += "?idPrescripcion=" + request.getParameter("idPrescripcion");
+		}
 		practicas = prServ.getAllActivas();
-		HttpSession session = request.getSession(); 
-		session.setAttribute("practicas", practicas);		
-		request.getRequestDispatcher("registroTurno.jsp").forward(request, response);	
+		request.setAttribute("practicas", practicas);
+		request.getRequestDispatcher(targetPage).forward(request, response);
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String idPrescripcion = null;
 		String respuestaOperacion = null;
 		String mensaje = null;
 		Paciente pac = null;		
-		HttpSession session = request.getSession();			
 		String operacion = request.getParameter("operacion");
-				
+		if(request.getParameter("idPrescripcion")!=null) 
+		{
+			idPrescripcion = request.getParameter("idPrescripcion");
+			request.setAttribute("idPrescripcion", idPrescripcion);
+		}
+		
 		switch (operacion) {		
 		case "buscarProfesional": {
-			
-			Integer id_practica = Integer.parseInt(request.getParameter("practicas"));			
-			session.setAttribute("practicaSeleccionada",id_practica); 			
+			Integer id_practica = Integer.parseInt(request.getParameter("practicas"));
+			request.setAttribute("practicaSeleccionada",id_practica); 			
 			List<Profesional> profesionales = horServ.getProfesionales(id_practica); 
-			session.setAttribute("profesionales", profesionales);
-			this.doGet(request, response);					
+			request.setAttribute("profesionales", profesionales);
+			if(idPrescripcion!=null) 
+			{
+				response.sendRedirect(request.getContextPath() + "/registroTurno?idPrescripcion=" + idPrescripcion);
+			}
+			else 
+			{
+				this.doGet(request, response);	
+			}						
 			break;
 		}		
 		
 		case "buscarTurnos":
 		{
+			Integer practicaSeleccionada = Integer.parseInt(request.getParameter("practicaSeleccionada"));
 			Integer matricula = Integer.parseInt(request.getParameter("profesional"));
-			session.setAttribute("profesionalSeleccionado", matricula); 			
+			request.setAttribute("practicaSeleccionada", practicaSeleccionada);
+			request.setAttribute("profesionalSeleccionado", matricula); 			
 			List<Turno> turnosDisponibles = turServ.buscarTurnosDisponibles(matricula);
-			session.setAttribute("turnos", turnosDisponibles);
-			this.doGet(request, response);			
+			request.setAttribute("turnos", turnosDisponibles);
+			if(turnosDisponibles!=null) 
+			{
+				if(idPrescripcion!=null) 
+				{
+					 String redirectURL = request.getContextPath() + "/registroTurno?idPrescripcion=" + idPrescripcion;
+					    redirectURL += "&practicaSeleccionada=" + practicaSeleccionada;
+					    redirectURL += "&profesionalSeleccionado=" + matricula;
+					    response.sendRedirect(redirectURL);
+				}
+				else 
+				{
+					this.doGet(request, response);	
+				}
+			}
+			else 
+			{
+				respuestaOperacion = "No hay turnos diponibles para ese profesional.";
+				request.setAttribute("mensaje", respuestaOperacion);						
+			}
 			break;
 		}		
 		
 		case "buscarPaciente":
 		{
 			Integer dni = Integer.parseInt(request.getParameter("dniPaciente"));
-			request.setAttribute("dniPacienteBuscado", dni); 			
+			Integer idTurno = Integer.parseInt(request.getParameter("idTurnoHidden"));
+			Turno turno = turServ.buscarTurno(idTurno);
+			request.setAttribute("dniPacienteBuscado", dni);
+			request.setAttribute("idTurno",idTurno);
+			request.setAttribute("turno", turno);
+			request.setAttribute("practicaSeleccionada", turno.getHorario().getPractica().getId_practica());
+			request.setAttribute("profesionalSeleccionado", turno.getHorario().getProfesional().getMatricula());
 			pac = pacServ.buscarPaciente(dni);			
-			if(pac==null)
+			if(pac == null)
 			{			
-				respuestaOperacion="No se ha encontrado el paciente";
+				respuestaOperacion="El Paciente no está registrado.";
+				request.setAttribute("mensaje", respuestaOperacion);
 			}			
 			else
 			{
-				session.setAttribute("paciente", pac);
-				this.doGet(request, response);				
+				request.setAttribute("paciente", pac);					
 			}			
+			if(idPrescripcion!=null) 
+			{
+				response.sendRedirect(request.getContextPath() + "/registroTurno?idPrescripcion=" + idPrescripcion);
+			}
+			else 
+			{
+				this.doGet(request, response);	
+			}	
 			break;
 		}		
 		
 		case "registroTurno":
 		{
-			pac = (Paciente)session.getAttribute("paciente");
+			Integer dniPac = Integer.parseInt(request.getParameter("dniPaciente"));
 			Integer id_turno = Integer.parseInt(request.getParameter("idTurno"));
+			pac = pacServ.buscarPaciente(dniPac);
 			
 			if(pac!=null)
 			{				
 				respuestaOperacion = turServ.registroTurno(pac,id_turno);	
 				
 				if (respuestaOperacion == "OK") {
-					mensaje = "Turno registrado exitosamente    ";
+					mensaje = "Turno registrado exitosamente.";
 					request.setAttribute("mensaje", mensaje);					
 				}
 			}
 			else {				
-					mensaje = "Debe seleccionar un paciente   ";
+					mensaje = "Debe seleccionar un paciente.";
 					request.setAttribute("mensaje", mensaje);					
 				}				
 			}			
-			session.setAttribute("profesionales",null);
-			session.setAttribute("turnos", null);
-			session.setAttribute("dniPacienteBuscado", null);
-			session.setAttribute("paciente", null);		
-			session.setAttribute("practicaSeleccionada", null);				
-			this.doGet(request, response);
+			request.setAttribute("profesionales",null);
+			request.setAttribute("turnos", null);
+			request.setAttribute("dniPacienteBuscado", null);
+			request.setAttribute("paciente", null);		
+			request.setAttribute("practicaSeleccionada", null);				
+			if(idPrescripcion!=null)
+			{
+				response.sendRedirect(request.getContextPath() + "/registroTurno?idPrescripcion=" + idPrescripcion);
+			}
+			else 
+			{
+				this.doGet(request, response);	
+			}	
 			break;			
 		}
 	}	
