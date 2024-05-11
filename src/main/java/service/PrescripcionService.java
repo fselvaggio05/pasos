@@ -69,5 +69,9 @@ public class PrescripcionService {
 	public List<Prescripcion> buscarTodasLasPrescripciones(Paciente pac)
 	{
 		return prescRep.buscarTodasLasPrescripciones(pac);
+
+
+	public Prescripcion getPrescripcion(Integer idPrescripcion) {
+		return prescRep.getPrescripcion(idPrescripcion);
 	}
 }

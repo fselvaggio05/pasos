@@ -12,26 +12,11 @@ public class Turno {
 	private LocalDate fecha_baja_t; 
 	private String observacion; 
 	private String estado_t;
-	
-	
-	
-	//CLASE HORARIO 
 	private Horario horario;
-	
-	//CLASE CONSULTORIO 
 	private Consultorio consultorio;
-	
-	//CLASE PACIENTE 
 	private Paciente paciente;	
-	
-	//CLASE PRESCRIPCION, PUEDE NO EXISTIR SI EL TURNO ES PARTICULAR
 	private Prescripcion prescripcion;
-	
-	
-	
-	
-	
-	
+		
 	public Prescripcion getPrescripcion() {
 		return prescripcion;
 	}
@@ -115,7 +100,4 @@ public class Turno {
 	public void setHora_hasta_t(LocalTime hora_hasta_t) {
 		this.hora_hasta_t = hora_hasta_t;
 	}
-
-	
-
 }
