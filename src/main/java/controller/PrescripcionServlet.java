@@ -31,25 +31,10 @@ public class PrescripcionServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	HttpSession session = request.getSession(); 
- 		Usuario us = (Usuario) session.getAttribute("usuario");
- 		
- 		if(us.getTipo_usuario()==3)
-		{
- 			Paciente pac = pacServ.buscarPaciente(us.getDni());
-			session.setAttribute("paciente", pac);
-			List<Prescripcion> prescripciones = prescServ.buscarTodasLasPrescripciones(pac);
-			request.setAttribute("prescripciones", prescripciones);
-		}
- 		
- 		else
- 		{
- 			if(request.getAttribute("prescripciones")==null) {
+    	if(request.getAttribute("prescripciones")==null) {
             List<Prescripcion> prescripciones = prescServ.getAll();
             request.setAttribute("prescripciones", prescripciones);
- 			}
- 		}
- 			
+    	}
         request.getRequestDispatcher("registroPrescripcion.jsp").forward(request, response); 
       
     }
