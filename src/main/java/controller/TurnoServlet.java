@@ -13,6 +13,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import service.HorarioService;
 import service.PacienteService;
 import service.PracticaService;
@@ -29,7 +30,7 @@ private static final long serialVersionUID = 1L;
 	private PacienteService pacServ;
 	private PrescripcionService prescServ;
 	private List<Practica> practicas;
-	private PrescripcionService prescServ;
+	
 	
 
 	public TurnoServlet() {
