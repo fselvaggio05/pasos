@@ -84,6 +84,7 @@
 	                                            </tr>    
 	                                        </thead>
 	                                        <tbody>
+	                                        
 	                                        	<c:forEach var="tur" items="${turnos}">
 	                                            	<tr>
 	                                                	<td><c:out value="${tur.fecha_t}"></c:out></td>
