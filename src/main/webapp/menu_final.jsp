@@ -44,7 +44,7 @@
                 <c:if test="${rol=='1' or rol=='2'}">
                   <li><a href="registroAsistencia" class="link-dark rounded">Registrar asistencia</a></li>
                 </c:if>
-                <c:if test="${(rol=='1') or rol=='3'}">
+                <c:if test="${(rol=='1')}">
                   <li><a href="prescripcion" class="link-dark rounded">Registrar prescripcion</a></li>
                 </c:if>
                 <c:if test="${(rol=='1')}">
@@ -99,9 +99,14 @@
                 </ul>
               </div>
             </li>
-          </c:if>
+          </c:if>            
+          
         </ul>
-
+		
+          <div class="border-top my-3">
+			<a href="index.jsp" class="btn btn-toggle align-items-center rounded collapsed text-decoration-underline">Cerrar sesion</a>
+		  </div>
+			
 
       </div>
      

@@ -70,7 +70,7 @@ public class PrescripcionService {
 	{
 		return prescRep.buscarTodasLasPrescripciones(pac);
 	}
-
+	
 
 	public Prescripcion getPrescripcion(Integer idPrescripcion) {
 		return prescRep.getPrescripcion(idPrescripcion);

@@ -65,7 +65,7 @@ private static final long serialVersionUID = 1L;
  			}
  		}
  		  
-		request.getRequestDispatcher("registroTurno.jsp").forward(request, response);	
+		
 				
 		if(request.getParameter("idPrescripcion")!=null) //Me fijo si viene de la ventana de Prescripcion
 		{	
