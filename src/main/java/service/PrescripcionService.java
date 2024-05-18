@@ -18,10 +18,10 @@ public class PrescripcionService {
 	}
 	
 	
-	public Integer insertarPrescripcion(Prescripcion pr)
+	public String insertarPrescripcion(Paciente paciente,LocalDate fechaPrescripcion,Integer id_practica,Integer cantSesiones)
 	{
 				
-		return prescRep.insertarPrescripcion(pr);
+		return prescRep.insertarPrescripcion(paciente,fechaPrescripcion,id_practica,cantSesiones);
 		
 	}
 
@@ -53,13 +53,21 @@ public class PrescripcionService {
 		
 	}
 
+	public List<Prescripcion> getAll() {
+		return prescRep.getAll();
+	}
 
-	public List<Prescripcion> buscarPrescripcionesAmbulatorias(LocalDate fecha_desde, LocalDate fecha_hasta) {
-		return prescRep.buscarPrescripcionesAmbulatorias(fecha_desde,fecha_hasta);
-		
+	public List<Prescripcion> getAllPaciente(Paciente pac) {
+		return prescRep.getAllPaciente(pac);
 	}
 
 
-	
+	public String anularPrescripcion(Integer idPrescripcion) {
+		return prescRep.anularPrescripcion(idPrescripcion);
+	}
 
+
+	public Prescripcion getPrescripcion(Integer idPrescripcion) {
+		return prescRep.getPrescripcion(idPrescripcion);
+	}
 }

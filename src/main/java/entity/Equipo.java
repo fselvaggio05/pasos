@@ -1,6 +1,6 @@
 package entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Equipo {
 	
@@ -8,7 +8,7 @@ public class Equipo {
 	protected String tipo_equipo; //esto deberia ser un enum
 	protected String descripcion;
 	protected Boolean estado;
-	protected Date fecha_baja;
+	protected LocalDate fecha_baja;
 	
 	public Equipo()
 	{
@@ -17,7 +17,7 @@ public class Equipo {
 	
 	
 	
-	public Equipo(Integer id_equipo, String tipo_equipo, String descripcion, Boolean estado, Date fecha_baja) {
+	public Equipo(Integer id_equipo, String tipo_equipo, String descripcion, Boolean estado, LocalDate fecha_baja) {
 		
 		this.id_equipo = id_equipo;
 		this.tipo_equipo = tipo_equipo;
@@ -52,11 +52,10 @@ public class Equipo {
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
-	public Date getFecha_baja() {
+	public LocalDate getFecha_baja() {
 		return fecha_baja;
 	}
-	public void setFecha_baja(Date fecha_baja) {
+	public void setFecha_baja(LocalDate fecha_baja) {
 		this.fecha_baja = fecha_baja;
 	}
-
 }

@@ -1,40 +1,41 @@
 //Practicas 
-const actualizarPractica = document.getElementById('actualizarPractica')
+const actualizarPractica = document.getElementById('actualizarPractica');
 
-// verifica que exista el modal, si existe ingresa al if
 if (actualizarPractica) {
-	//agrega un evento onload al modal, cuando el modal se levante ejecuta la siguiente función
-  actualizarPractica.addEventListener('show.bs.modal', event => {
-    
-    //trae el link que levanto el modal
-    const a = event.relatedTarget
-    
-    //trae los atributos del link con los valores que se le enviaron 
-    const idPractica = a.getAttribute('idPractica')
-    const descripcion=a.getAttribute('descPractica');
-    const duracion = a.getAttribute('duracion');
-    const equipo = a.getAttribute('equipo');
-    
-    console.log(idPractica);
-	console.log(duracion);
-	console.log(equipo);
-    
-   
-    
-	//traigo los campos en donde voy a mostrar los datos 
-    const inputIdPractica = actualizarPractica.querySelector('.modal-body #idPractica');
-    const inputDescripcion = actualizarPractica.querySelector('.modal-body #descPractica');
-    const inputDuracion = actualizarPractica.querySelector('.modal-body #duracion');
-    const selectEquipo = actualizarPractica.querySelector('.modal-body #equipo');
-    
-    
+    actualizarPractica.addEventListener('show.bs.modal', event => {
+        const a = event.relatedTarget;
+        const idPractica = a.getAttribute('idPractica');
+        const descripcion = a.getAttribute('descPractica');
+        const duracion = a.getAttribute('duracion');
+        const equipo = a.getAttribute('equipo');
+        const tipoPractica = a.getAttribute('tipoPractica'); // Captura el tipo de práctica del enlace
 
-	//asigno los valores capturados para mostrarlos
-    inputIdPractica.value = idPractica;
-    inputDescripcion.value = descripcion;
-    inputDuracion.value = duracion;
-    selectEquipo.value = equipo;    
-  })
+        console.log(idPractica);
+        console.log(duracion);
+        console.log(equipo);
+        console.log(tipoPractica);
+
+        const inputIdPractica = actualizarPractica.querySelector('.modal-body #idPractica');
+        const inputDescripcion = actualizarPractica.querySelector('.modal-body #descPractica');
+        const inputDuracion = actualizarPractica.querySelector('.modal-body #duracion');
+        const selectEquipo = actualizarPractica.querySelector('.modal-body #equipo');
+        const ambulatoriaRadio = actualizarPractica.querySelector('.modal-body #ambulatoria'); // Obtener el radio de Ambulatoria
+        const discapacidadRadio = actualizarPractica.querySelector('.modal-body #discapacidad'); // Obtener el radio de Discapacidad
+        const equipoField = actualizarPractica.querySelector('.modal-body #equipoField');
+
+        inputIdPractica.value = idPractica;
+        inputDescripcion.value = descripcion;
+        inputDuracion.value = duracion;
+        selectEquipo.value = equipo;
+
+        if (tipoPractica === 'AMBULATORIA') {
+            ambulatoriaRadio.checked = true; // Marcar el radio de Ambulatoria si es tipoPractica 1
+            equipoField.style.display = 'block'; // Mostrar el campo de equipo si es Ambulatoria
+        } else if (tipoPractica === 'DISCAPACIDAD') {
+            discapacidadRadio.checked = true; // Marcar el radio de Discapacidad si es tipoPractica 2
+            equipoField.style.display = 'none'; // Ocultar el campo de equipo si es Discapacidad
+        }
+    });
 }
 
 const eliminarPractica = document.getElementById('eliminarPractica');
@@ -76,8 +77,7 @@ if(revivirPractica){
        
 	//traigo los campos en donde voy a mostrar los datos 
     const inputIdPractica = revivirPractica.querySelector('.modal-body #idPractica');
-    const inputDescripcion = revivirPractica.querySelector('.modal-body #descPractica');
-    
+    const inputDescripcion = revivirPractica.querySelector('.modal-body #descPractica');    
         
 	//asigno los valores capturados para mostrarlos
 	inputIdPractica.value = idPractica;
@@ -311,41 +311,118 @@ if(registrarTurno)
 	
 }
 
+// Montos Practica
+//Alta
+const altaMontoModal = document.getElementById('altaMonto');
 
+altaMontoModal.addEventListener('show.bs.modal', function (event) {
+	// Trae el link que levantó el modal
+    const boton = document.getElementById('btnAltaMontos');
 
-
-
-//Registro prescripcion
-const registroPrescripcion = document.getElementById('registroPrescripcion');
         
-if(registroPrescripcion)
-{
-	function seleccionRadio() {
-            var e = document.getElementsByName('seleccion');
-            let valorSeleccionado;
- 
-            for (i = 0; i < e.length; i++) {
-                if (e[i].checked)
-                {
-					valorSeleccionado = e[i].value
-					const inputIdPractica = registroPrescripcion.querySelector('.modal-body #idTurno');
-					inputIdPractica.value = valorSeleccionado; 
-					console.log(valorSeleccionado)
-					
-				}
-                    
-            }
-        }
+    // Trae los atributos del link con los valores que se le enviaron 
+    const idPractica = boton.dataset.practica;
+        //const idPractica = event.relatedTarget.getAttribute('idPractica');
 	
-		registroPrescripcion.addEventListener('show.bs.modal', event => {
-     
-        const inputNroAfiliado = registroPrescripcion.querySelector('.modal-body #nroAfiliado')
-       
-        });
-	
+	console.log('Codigo practica:', idPractica);
+    const idPracticaInputReadOnly = document.getElementById('idPracticaAlta');
+    
+    // Establecer el valor de idPractica en los campos oculto y readonly del formulario
+    idPracticaInputReadOnly.value = idPractica;
+});
+
+//Actualizar
+const actualizarMontoPractica = document.getElementById('actualizarMonto')
+
+// verifica que exista el modal de, si existe ingresa al if
+if (actualizarMonto) {
+	//agrega un evento onload al modal, cuando el modal se levante ejecuta la siguiente función
+  actualizarMonto.addEventListener('show.bs.modal', event => {
+    
+    //trae el link que levanto el modal
+    const a = event.relatedTarget
+    
+    //trae los atributos del link con los valores que se le enviaron 
+    const idPractica = a.getAttribute('idPractica');
+    console.log(idPractica);
+    const idMonto = a.getAttribute('id_monto');
+    console.log(idMonto);
+    const fechaDesde=a.getAttribute('fechaDesde');
+	console.log(fechaDesde);
+	const fechaHasta=a.getAttribute('fechaHasta');
+	console.log(fechaHasta);
+	const monto = a.getAttribute('monto');
+	console.log(monto);
+        
+	//traigo los campos en donde voy a mostrar los datos 
+    const inputIdPractica = actualizarMonto.querySelector('.modal-body #idPractica');
+    const inputIdMonto = actualizarMonto.querySelector('.modal-body #idMonto');
+    const inputFechaDesde = actualizarMonto.querySelector('.modal-body #fechaDesde');
+    const inputFechaHasta = actualizarMonto.querySelector('.modal-body #fechaHasta');
+    const inputMonto = actualizarMonto.querySelector('.modal-body #monto');    
+    
+	//asigno los valores capturados para mostrarlos
+    inputIdPractica.value = idPractica;
+    inputIdMonto.value = idMonto;    
+    inputFechaDesde.value = fechaDesde;
+    inputFechaHasta.value = fechaHasta;
+    inputMonto.value = monto;    
+  })
 }
 
 
+//Prescripcion
+	//Registro
+	const registroPrescripcion = document.getElementById('registroPrescripcion');
+	        
+	if(registroPrescripcion)
+	{
+		function seleccionRadio() {
+	            var e = document.getElementsByName('seleccion');
+	            let valorSeleccionado;
+	 
+	            for (i = 0; i < e.length; i++) {
+	                if (e[i].checked)
+	                {
+						valorSeleccionado = e[i].value
+						const inputIdPractica = registroPrescripcion.querySelector('.modal-body #idTurno');
+						inputIdPractica.value = valorSeleccionado; 
+						console.log(valorSeleccionado)	
+					}           
+	            }
+	        }
+			registroPrescripcion.addEventListener('show.bs.modal', event => {
+	        const inputNroAfiliado = registroPrescripcion.querySelector('.modal-body #nroAfiliado')
+	        });
+	}
+	
+	//Anular
+	const anularPrescripcion = document.getElementById('anularPrescripcion');
+	
+	if (anularPrescripcion) {
+	    anularPrescripcion.addEventListener('show.bs.modal', event => {
+	        const button = event.relatedTarget;
+	        const idPrescripcion = button.getAttribute('idPrescripcion');
+	        const paciente = button.getAttribute('paciente');
+	        const practica = button.getAttribute('practica');
+	        const sesiones = button.getAttribute('sesiones');
+	
+	        console.log(idPrescripcion);
+	        console.log(paciente);
+	        console.log(practica);
+	        console.log(sesiones);
+	
+	        const inputIdPrescripcion = anularPrescripcion.querySelector('.modal-body #idPrescripcion');
+	        const labelPaciente = anularPrescripcion.querySelector('.modal-body #pacientePrescripcion');
+	        const labelPractica = anularPrescripcion.querySelector('.modal-body #practicaPrescripcion');
+	        const labelSesiones = anularPrescripcion.querySelector('.modal-body #sesionesPrescripcion');
+	
+	        inputIdPrescripcion.value = idPrescripcion;
+	        labelPaciente.textContent = paciente;
+	        labelPractica.textContent = practica;
+	        labelSesiones.textContent = sesiones;
+	    });
+	}
 
 //Registro asistencia 
 const registroAsistencia = document.getElementById('registroAsistencia');
@@ -363,26 +440,19 @@ if(registroAsistencia)
     
 	console.log(idTurno);
 	
-	
     const inputIdTurno = registroAsistencia.querySelector('.modal-body #idTurno');
     const labelDescPractica = registroAsistencia.querySelector('.modal-body #descPractica');
     const labelProfesional = registroAsistencia.querySelector('.modal-body #apellidoProfesional');    
     const labelFechaTurno = registroAsistencia.querySelector('.modal-body #fechaTurno');
-    const labelHoraTurno = registroAsistencia.querySelector('.modal-body #horaTurno'); 
-     
+    const labelHoraTurno = registroAsistencia.querySelector('.modal-body #horaTurno');      
      
     inputIdTurno.value=idTurno;
     labelDescPractica.innerHTML = descPractica;
     labelProfesional.innerHTML = apellidoProfesional;
     labelFechaTurno.innerHTML = fechaTurno;
-    labelHoraTurno.innerHTML = horaTurno
-	
-      
-  })
-	
+    labelHoraTurno.innerHTML = horaTurno      
+  })	
 }
-
-
 
 //Filtro busqueda turnos 
 const filtroTurno = document.getElementById('filtro')
@@ -392,8 +462,7 @@ const filtroTurno = document.getElementById('filtro')
            
       if (filtroTurno.value > -1) {
         document.getElementById(`filtro-${filtroTurno.value}`).style.display = 'block';
-        document.getElementById(`btnBuscar`).style.display = 'block';
-        
+        document.getElementById(`btnBuscar`).style.display = 'block';        
       }
     });
     
@@ -403,20 +472,14 @@ const filtroTurno = document.getElementById('filtro')
       document.getElementById('filtro-3').style.display = 'none';
       document.getElementById('btnBuscar').style.display = 'none';
     }
-
     ocultarCampos();
 
 
 //Cancela turno
-
 const cancelaTurno = document.getElementById('cancelaTurno')
-
 if(cancelaTurno)
 {
-
-        cancelaTurno.addEventListener('show.bs.modal', event => {
-
-        
+        cancelaTurno.addEventListener('show.bs.modal', event => {        
         // Trae el link que levantó el modal
         const a = event.relatedTarget
         
@@ -443,12 +506,8 @@ if(cancelaTurno)
         labelDescPractica.innerHTML = descPractica;
         labelProfesional.innerHTML = profesional;
         labelDatosTurno.innerHTML = datosTurno;
-    });
-	
+    });	
 }
-
-
-
 
 // Obra social
 const actualizarObraSocial = document.getElementById('actualizarObraSocial')
@@ -463,24 +522,20 @@ if (actualizarObraSocial) {
     
     //trae los atributos del link con los valores que se le enviaron 
     const idObraSocial = a.getAttribute('idObraSocial');
-    //console.log(idPractica);
-    
+    //console.log(idPractica);    
     const nomObraSocial=a.getAttribute('nomObraSocial');
     
 	console.log(nomObraSocial);
         
 	//traigo los campos en donde voy a mostrar los datos 
-    const inputIdObraSocial = actualizarObraSocial.querySelector('.modal-body #idObraSocial');
-   
+    const inputIdObraSocial = actualizarObraSocial.querySelector('.modal-body #idObraSocial');   
     const inputNomObraSocial = actualizarObraSocial.querySelector('.modal-body #nomObraSocial');    
 
 	//asigno los valores capturados para mostrarlos
-    inputIdObraSocial.value = idObraSocial;
-    
+    inputIdObraSocial.value = idObraSocial;    
     inputNomObraSocial.value = nomObraSocial;    
   })
 }
-
 
 const eliminarObraSocial = document.getElementById('eliminarObraSocial');
 // verifica que exista el modal, si existe ingresa al if
@@ -532,6 +587,8 @@ if(revivirObraSocial){
   })
 }
 
+
+
 // FUNCIONES SELECCION
 
 function selectAll()
@@ -544,7 +601,6 @@ function unSelectAll()
 {
 	 const all = document.getElementsByName("seleccionados")
      all.forEach(item => item.checked = false)
-
 }
 
 
@@ -552,9 +608,7 @@ function verificarSeleccion()
 {
 	if (!(document.getElementsByName("seleccionados")).checked)
 		{
-			alert('Debe seleccionar al menos un horario')
-								
+			alert('Debe seleccionar al menos un horario')								
 		}
 		return false;
-
 }

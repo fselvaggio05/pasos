@@ -57,7 +57,7 @@ public class ConsultorioRepository {
 					consultorio.setId_consultorio(rs.getInt("id_consultorio"));
 					consultorio.setDescripcion(rs.getString("descripcion"));
 					consultorio.setEstado(rs.getBoolean("estado"));
-					consultorio.setFecha_baja(rs.getDate("fecha_baja"));
+					consultorio.setFecha_baja(rs.getDate("fecha_baja").toLocalDate());
 					consultorios.add(consultorio);					
 				}
 			} 
@@ -91,7 +91,7 @@ public class ConsultorioRepository {
 					consultorio.setId_consultorio(rs.getInt("id_consultorio"));
 					consultorio.setDescripcion(rs.getString("descripcion"));
 					consultorio.setEstado(rs.getBoolean("estado"));
-					consultorio.setFecha_baja(rs.getDate("fecha_baja"));
+					consultorio.setFecha_baja(rs.getDate("fecha_baja").toLocalDate());
 					consultorios.add(consultorio);						
 				}
 			} 
@@ -124,7 +124,7 @@ public class ConsultorioRepository {
 					consultorio.setId_consultorio(rs.getInt("id_consultorio"));
 					consultorio.setDescripcion(rs.getString("descripcion"));
 					consultorio.setEstado(rs.getBoolean("estado"));
-					consultorio.setFecha_baja(rs.getDate("fecha_baja"));
+					consultorio.setFecha_baja(rs.getDate("fecha_baja").toLocalDate());
 					consultorios.add(consultorio);						
 				}
 			} 
@@ -276,9 +276,7 @@ public class ConsultorioRepository {
 	            e.printStackTrace();
 	        }
 	        FactoryConnection.getInstancia().releaseConn(); 
-	    }
-		
-		
+	    }		
 		return consDisponible;
 	}
 }
