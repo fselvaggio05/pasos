@@ -1,5 +1,8 @@
 package service;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import entity.Paciente;
 import entity.Practica;
 import entity.Prescripcion;
@@ -47,6 +50,12 @@ public class PrescripcionService {
 	public void desactivarVigenciaPrescripcion(Prescripcion prescripcion) {
 		
 		prescRep.desactivarVigenciaPrescripcion(prescripcion);
+		
+	}
+
+
+	public List<Prescripcion> buscarPrescripcionesAmbulatorias(LocalDate fecha_desde, LocalDate fecha_hasta) {
+		return prescRep.buscarPrescripcionesAmbulatorias(fecha_desde,fecha_hasta);
 		
 	}
 

@@ -39,7 +39,9 @@
                     <div class="row  justify-content-evenly">
                         <div class="col-2">
                             <label for="">Fecha desde:</label>
+                            <label class="form-label" id="fecha_desde"></label>
                         </div>
+
 
                         <div class="col-2">
                             <input type="date" class="form-control col-2 ml-4">
@@ -47,6 +49,7 @@
 
                         <div class="col-2">
                             <label for="">Fecha hasta:</label>
+                            <label class="form-label" id="fecha_hasta"></label>
                         </div>
 
                         <div class="col-2">
@@ -65,7 +68,8 @@
 
 
                 <div class="container">
-                    <table class="table">
+                
+                    <table class="tableBORRAR">
                         <thead>
                             <tr>
                                 <th scope="col"></th>
@@ -141,15 +145,72 @@
                     </table>
 
 
+<table class="table table-striped my-2" id="tablaPrescripciones">
+						<thead>
+							<tr>
+								<th scope="col">Obra Social</th>
+								<th scope="col">Practica</th>
+								<th scope="col">Fecha</th>
+								<th scope="col">Paciente</th>
+								<th scope="col">Cantidad de sesiones</th>
+
+							</tr>
+
+						</thead>
+
+						<tbody>
+
+							<c:if test="${prescripciones!=null}">
+
+								<c:forEach var="pre" items="${prescripciones}">
+
+									<tr>
+										<td><c:out
+												value="${pre.getObra_social().getNombre()}"></c:out>
+										</td>
+
+										<td><c:out
+												value="${pre.getCodPractica()}"></c:out>
+										</td>
+
+										<td><c:out value="${pre.getFecha_prescripcion()}"></c:out>
+										</td>
+										<td><c:out
+												value="${pre.getPaciente().getApellido()} , ${pre.getPaciente().getNombre()}"></c:out>
+										</td>
+                                                                                     <td><c:out
+												value="${pre.getCant_Sesiones()}"></c:out>
+										</td>
+
+
+
+										<td><a href="#" class="btn btn-success btn-sm"
+											nomObra_Social="${pre.getObra_social().getNombre()}"
+                                            codPractica="${pre.getCodPractica()}"
+											paciente="${pre.getPaciente().getApellido()} , ${pre.getPaciente().getNombre()}"
+											sesiones="${pre.getCant_Sesiones()}"
+											data-bs-toggle="modal" data-bs-target="#excluir">Excluir</a>
+											</td>
+									</tr>
+								</c:forEach>
+							</c:if>
+						</tbody>
+						
+						
+						
+					</table>
+
+
+
                     <div class="container">
                         <div class="row justify-content-end">
 
-                            <div class="col-3">
-                                <button type="button" class="btn btn-success">Descargar reporte</button>
-                            </div>
-                            <div class="col-2">
-                                <button type="button" class="btn btn-success">Cancelar</button>
-                            </div>
+                         <div class="col-2">
+									<button type="submit" class="btn btn-success" id="listado">Buscar</button>
+								</div>
+                              <div class="col-2">
+									<button type="submit" class="btn btn-success" id="exportar">Exportar</button>
+								</div>
 
                         </div>
 

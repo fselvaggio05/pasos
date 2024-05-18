@@ -15,6 +15,9 @@ public class Prescripcion {
 	private Integer sesiones_asistidas;
 	private LocalDate fecha_alta_prescripcion;
 	private Integer estado;
+	private Paciente Paciente;
+	private ObraSocial ObraSocial;
+
 	
 		
 	public Prescripcion() {
@@ -88,10 +91,33 @@ public class Prescripcion {
 	public void setEstado(Integer estado) {
 		this.estado = estado;
 	}
+
+
+	public void setPaciente(Paciente pc) {
+		this.Paciente=pc;
+		
+	}
+
+
+	public void setObraSocial(ObraSocial os) {
+		this.setObraSocial(os);
+		
+	}
+
+
+	public ObraSocial getObraSocial() {
+		
+		return ObraSocial;
+	}
+
+
+	public Paciente getPaciente() {
+		// 
+		return Paciente;
+	}
 	
 	
-	
-	
+
 	
 
 }
