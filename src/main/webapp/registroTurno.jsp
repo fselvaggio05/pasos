@@ -90,7 +90,7 @@
 	                                                    <td><c:out value="${tur.hora_t}"></c:out></td>
 	                                                    <td>
 														    <c:if test="${not empty idPrescripcion}">
-															    <a href='#' class="btn btn-success btn-sm btn-reservar" data-bs-toggle='modal' data-bs-target='#registrarTurno' id="botonRegistrarTurno-${tur.id_turno}" idTurno="${tur.id_turno}" idPrescripcion="${idPrescripcion}" fecha_t="${tur.fecha_t}" hora_t="${tur.hora_t}">Reservar</a>
+															    <a href='#' class="btn btn-success btn-sm btn-reservar" data-bs-toggle='modal' data-bs-target='#registrarTurno' idTurno="${tur.id_turno}" fecha_t="${tur.fecha_t}" hora_t="${tur.hora_t}" profesional="${tur.horario.profesional.apellido}, ${tur.horario.profesional.nombre}">Reservar</a>
 															</c:if>
 														    <c:if test="${empty idPrescripcion}">
 														        <a href='#' class="btn btn-success btn-sm" data-bs-toggle='modal' data-bs-target='#buscarPaciente' id="botonBuscarPaciente-${tur.id_turno}" idTurno="${tur.id_turno}">Reservar</a>
@@ -134,160 +134,116 @@
 			    </div>
 			  </div>
 			</div>
-            <script>
-			    document.addEventListener("DOMContentLoaded", function() {
-			        // Capturamos el botón que abre el modal de buscar paciente
-			        var botonReservar = document.querySelector("[data-bs-target='#buscarPaciente']");	
-			        
-			        // Añadimos un evento de clic al botón de reservar turno
-			        botonReservar.addEventListener("click", function() {
-			            // Obtenemos el valor de idTurno del botón
-			            var idTurno = this.getAttribute("idTurno");	
-			            
-			            // Asignamos el valor al campo oculto
-			            document.getElementById('idTurnoHidden').value = idTurno;
-			        });
-			
-			        // Capturamos el botón que abre el modal de registrar turno
-			        var botonRegistrar = document.querySelector("[data-bs-target='#registrarTurno']");
-			        
-			        // Añadimos un evento de clic al botón de registrar turno
-			        if (botonRegistrar) { // Comprobamos si el botón existe
-			            botonRegistrar.addEventListener("click", function() {
-			                // Obtenemos el valor de idTurno del botón
-			                var idTurno = this.getAttribute("idTurno");
-			
-			                // Asignamos el valor al campo oculto
-			                document.getElementById('idTurnoHidden').value = idTurno;
-			            });
-			        }
-			    });
-			</script>
-            <!--VENTANA MODAL "RESERVAR TURNO" -->
-            <div class="modal fade" id="registrarTurno" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	           	<div class="modal-dialog">
-	               	<div class="modal-content">
-	                   	<div class="modal-header">
-	                       	<h1 class="modal-title fs-5" id="exampleModalLabel">Confirmar reserva de turno</h1>
-	                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	                    </div>
-	                    <form action="registroTurno" method="post">
-	        	           	<div class="modal-body">
-	                           	<input type="hidden" value="registroTurno" name="operacion">
-	                           	<c:if test="${not empty idPrescripcion}">
-							    	<input type="hidden" value="${idPrescripcion}" name="idPrescripcion">
-							    </c:if>
-							    <input type="hidden" name="idTurno" id="idTurno" value="${idTurno}">
-	                            <input type="hidden" name="turno" id="turno" value="${turno}">
-	                            <input type="hidden" name="idTurnoHidden" id="idTurnoHidden">
-	                            <input type="hidden" name="dniPaciente" id="dniPaciente" value="${paciente.dni}">
-	                            <div class="mb-3">
-								    <label class="fw-bold form-label col-6">Apellido y nombre paciente</label>
-								    <c:choose>
-								        <c:when test="${not empty paciente}">
-								            <c:out value="${paciente.apellido} ${paciente.nombre}"></c:out>
-								        </c:when>
-								        <c:when test="${not empty prescripcion}">
-								            <c:out value="${prescripcion.paciente.apellido} ${prescripcion.paciente.nombre}"></c:out>
-								        </c:when>
-								    </c:choose>
-								</div>
-								<div class="mb-3">
-								    <label class="fw-bold form-label col-6">DNI</label>
-								    <c:choose>
-								        <c:when test="${not empty paciente}">
-								            <c:out value="${paciente.dni}"></c:out>
-								        </c:when>
-								        <c:when test="${not empty prescripcion}">
-								            <c:out value="${prescripcion.paciente.dni}"></c:out>
-								        </c:when>
-								    </c:choose>
-								</div>
-								<div class="mb-3">
-								    <label class="fw-bold form-label col-6">Numero de afiliado</label>
-								    <c:choose>
-								        <c:when test="${not empty paciente}">
-								            <input type="hidden" value="${paciente.nro_afiliado}" name="nroAfiliado">
-								            <c:out value="${paciente.nro_afiliado}"></c:out>
-								        </c:when>
-								        <c:when test="${not empty prescripcion}">
-								            <input type="hidden" value="${prescripcion.paciente.nro_afiliado}" name="nroAfiliado">
-								            <c:out value="${prescripcion.paciente.nro_afiliado}"></c:out>
-								        </c:when>
-								    </c:choose>
-								</div>
-	                            <div class="mb-3">
-				    <label class="fw-bold form-label col-6">Fecha turno</label>
-				    <label class="form-label " id="fechaTurno">
-				        <c:choose>
-				            <c:when test="${not empty turno}">
-				                <c:out value="${turno.fecha_t}"></c:out>
-				            </c:when>
-				            <c:when test="${not empty requestScope.fechaTurno}">
-				                <c:out value="${requestScope.fechaTurno}"></c:out>
-				            </c:when>
-				        </c:choose>
-				    </label>
-				</div>
-				<div class="mb-3">
-				    <label class="fw-bold form-label col-6">Hora turno</label>
-				    <label class="form-label " id="horaTurno">
-				        <c:choose>
-				            <c:when test="${not empty turno}">
-				                <c:out value="${turno.hora_t}"></c:out>
-				            </c:when>
-				            <c:when test="${not empty requestScope.horaTurno}">
-				                <c:out value="${requestScope.horaTurno}"></c:out>
-				            </c:when>
-				        </c:choose>
-				    </label>
-				</div>
-	                            <div class="modal-footer">
-	                               	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-	                                <button type="submit" class="btn btn-primary">Guardar</button>
-	                            </div>
-	                        </div>
-	                  	</form>
-	                </div>
-	           </div>
-	       </div>
+            <!-- VENTANA MODAL "RESERVAR TURNO" -->
+			<div class="modal fade" id="registrarTurno" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			    <div class="modal-dialog">
+			        <div class="modal-content">
+			            <div class="modal-header">
+			                <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmar reserva de turno</h1>
+			                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			            </div>
+			            <form action="registroTurno" method="post">
+			                <div class="modal-body">
+			                    <input type="hidden" value="registroTurno" name="operacion">
+			                    <c:if test="${not empty idPrescripcion}">
+			                        <input type="hidden" value="${idPrescripcion}" name="idPrescripcion">
+			                    </c:if>
+			                    <input type="hidden" name="turno" id="turno" value="${turno}">
+			                    <c:if test="${not empty turno}">
+			                    	<input type="hidden" name="idTurno" id="idTurno" value="${turno.id_turno}">			                    
+			                    </c:if>
+			                    <input type="hidden" name="idTurno" id="idTurno">
+			                    <input type="hidden" name="dniPaciente" id="dniPaciente" value="${paciente.dni}">
+			                    <div class="mb-3">
+			                        <label class="fw-bold form-label col-6">Apellido y nombre paciente</label>
+			                        <c:choose>
+			                            <c:when test="${empty prescripcion}">
+			                                <c:out value="${paciente.apellido} ${paciente.nombre}"></c:out>
+			                            </c:when>
+			                            <c:when test="${not empty prescripcion}">
+			                                <c:out value="${prescripcion.paciente.apellido} ${prescripcion.paciente.nombre}"></c:out>
+			                            </c:when>
+			                        </c:choose>
+			                    </div>
+			                    <div class="mb-3">
+			                        <label class="fw-bold form-label col-6">DNI</label>
+			                        <c:choose>
+			                            <c:when test="${empty prescripcion}">
+			                                <c:out value="${paciente.dni}"></c:out>
+			                            </c:when>
+			                            <c:when test="${not empty prescripcion}">
+			                                <c:out value="${prescripcion.paciente.dni}"></c:out>
+			                            </c:when>
+			                        </c:choose>
+			                    </div>
+			                    <div class="mb-3">
+			                        <label class="fw-bold form-label col-6">Numero de afiliado</label>
+			                        <c:choose>
+			                            <c:when test="${empty prescripcion}">
+			                                <c:out value="${paciente.nro_afiliado}"></c:out>
+			                            </c:when>
+			                            <c:when test="${not empty prescripcion}">
+			                                <c:out value="${prescripcion.paciente.nro_afiliado}"></c:out>
+			                            </c:when>
+			                        </c:choose>
+			                    </div>
+			                    <div class="mb-3">
+			                        <label class="fw-bold form-label col-6">Profesional</label>
+			                        <c:choose>
+			                            <c:when test="${empty prescripcion}">
+			                                <c:out value="${turno.horario.profesional.apellido} ${turno.horario.profesional.nombre}"></c:out>
+			                            </c:when>
+			                            <c:when test="${not empty prescripcion}">
+			                                <label id="profesional"></label>
+			                            </c:when>
+			                        </c:choose>
+			                    </div>
+			                    <div class="mb-3">
+			                        <label class="fw-bold form-label col-6">Practica</label>
+			                        <c:choose>
+			                            <c:when test="${empty prescripcion}">
+			                                <c:out value="${turno.horario.practica.descripcion}"></c:out>
+			                            </c:when>
+			                            <c:when test="${not empty prescripcion}">
+			                                 <c:out value="${prescripcion.practica.descripcion}"></c:out>
+			                            </c:when>
+			                        </c:choose>
+			                    </div>
+			                    <div class="mb-3">
+			                        <label class="fw-bold form-label col-6">Fecha Turno</label>
+			                        <c:choose>
+			                            <c:when test="${empty prescripcion}">
+			                                <c:out value="${turno.fecha_t}"></c:out>
+			                            </c:when>
+			                            <c:when test="${not empty prescripcion}">
+			                                <label id="fechaTurno"></label>
+			                            </c:when>
+			                        </c:choose>
+			                    </div>
+			                    <div class="mb-3">
+			                        <label class="fw-bold form-label col-6">Hora Turno</label>
+			                        <c:choose>
+			                            <c:when test="${empty prescripcion}">
+			                                <c:out value="${turno.hora_t}"></c:out>
+			                            </c:when>
+			                            <c:when test="${not empty prescripcion}">
+			                                <label id="horaTurno"></label>
+			                            </c:when>
+			                        </c:choose>
+			                    </div>
+			                    <div class="modal-footer">
+			                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+			                        <button type="submit" class="btn btn-primary">Guardar</button>
+			                    </div>
+			                </div>
+			            </form>
+			        </div>
+			    </div>
+			</div>
 	      <c:if test="${paciente != null}">
 		  	<!-- Incluir script para mostrar el modal automáticamente -->
 		    <script>new bootstrap.Modal(document.getElementById('registrarTurno')).show();</script>
 		  </c:if>
-		  <script>
-			  document.addEventListener("DOMContentLoaded", function() {
-				    // Manejar el botón de reservar turno cuando no hay prescripción
-				    var botonBuscarPaciente = document.getElementById("botonBuscarPaciente-${tur.id_turno}");
-				    
-				    if (botonBuscarPaciente !== null) {
-				        botonBuscarPaciente.addEventListener("click", function() {
-				            var idTurno = this.getAttribute("idTurno");
-				            var idPrescripcion = this.getAttribute("idPrescripcion");
-				            var fechaTurno = this.getAttribute("fecha_t");
-				            var horaTurno = this.getAttribute("hora_t");
-				            
-				            // Aquí puedes realizar acciones adicionales si es necesario
-				            console.log("Botón Buscar Paciente clickeado. ID de turno:", idTurno, "ID de prescripción:", idPrescripcion, "Fecha de turno:", fechaTurno, "Hora de turno:", horaTurno);
-				        });
-				    }
-	
-				    // Manejar el botón de reservar turno cuando hay prescripción
-				    var botonRegistrarTurno = document.getElementById("botonRegistrarTurno-${tur.id_turno}");
-				    
-				    if (botonRegistrarTurno !== null) {
-				        botonRegistrarTurno.addEventListener("click", function() {
-				            var idTurno = this.getAttribute("idTurno");
-				            var idPrescripcion = this.getAttribute("idPrescripcion");
-				            var fechaTurno = this.getAttribute("fecha_t");
-				            var horaTurno = this.getAttribute("hora_t");
-				            
-				            // Aquí puedes realizar acciones adicionales si es necesario
-				            console.log("Botón Registrar Turno clickeado. ID de turno:", idTurno, "ID de prescripción:", idPrescripcion, "Fecha de turno:", fechaTurno, "Hora de turno:", horaTurno);
-				        });
-				    }
-				});
-			</script>
           <!--MENSAJE DE OPERACION -->
           <c:if test="${mensaje !=null }">
           	<div class="modal fade" id="mensajeOK" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -308,24 +264,20 @@
             </div>
                 <script>new bootstrap.Modal(document.getElementById('mensajeOK')).show();</script>
           </c:if>
-          <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-		  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
-<!--             <script src="js/funciones_abm.js"></script> -->
-          <script>
-	         document.addEventListener("DOMContentLoaded", function() 
-        		{
-			         var practicaSeleccionada = "${prescripcion}";
-			         var selectElement = document.querySelector("select[name='practicas']");
-			         if (practicaSeleccionada) 
-			         {
-			            selectElement.disabled = true;
-			         } 
-			         else 
-			         {
-			          	selectElement.disabled = false;
-			          }
-	            });
-			</script>
     	</div>
+    	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+		<script>
+		  document.addEventListener("DOMContentLoaded", function() 
+					{
+				         var practicaSeleccionada = "${prescripcion}";
+				         var selectElement = document.querySelector("select[name='practicas']");
+				         if (practicaSeleccionada) {
+				        	 selectElement.disabled = true;} 
+				         else {
+				          	selectElement.disabled = false;}
+				    });
+		</script>
+		<script src="js/funciones_abm.js"></script>
     </body>
 </html>

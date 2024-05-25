@@ -58,7 +58,7 @@
 									    </tbody>
 									</table>
                                     <div class="row justify-content-end">
-										<button id="btnAltaMontos" type="button" class="btn btn-success col-2 m-1" data-bs-toggle="modal" data-bs-target="#altaMonto" data-bs-whatever="@mdo" data-practica="<%= request.getParameter("idPractica") %>">Agregar Monto</button>
+										<a id="btnAltaMontos" href="#" class="btn btn-success col-2 m-1" data-bs-toggle="modal" data-bs-target="#altaMonto" data-bs-whatever="@mdo" data-practica="<%= request.getParameter("idPractica") %>">Agregar Monto</a>
     									<a href="practicas" class="btn btn-primary col-2 m-1">Volver</a>
                                     </div>
                                 </div>

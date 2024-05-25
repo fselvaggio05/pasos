@@ -639,7 +639,7 @@ public class TurnoRepository {
 				respUpdate = stmt.executeUpdate();
 	
 				if (respUpdate == 1) {
-					respuestaOperacion = "OK";
+					respuestaOperacion = "Turno Registrado exitosamente.";
 				} else {
 					respuestaOperacion = null;
 				}
@@ -743,4 +743,3 @@ public class TurnoRepository {
 			return respuestaOperacion;
 		}
 } 
-

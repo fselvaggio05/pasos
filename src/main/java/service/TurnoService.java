@@ -233,4 +233,9 @@ public class TurnoService {
 	public List<Turno> buscarTurnosAsignadosProfesional(Integer matricula) {
 		return turRep.buscarTurnosAsignadosProfesional(matricula);
 	}
+	
+	public String registroTurnoPrescripcion(Integer id_turno, Paciente pac, Integer idPresc) 
+	{
+		return turRep.registroTurnoConPrescripcion(pac, id_turno, idPresc);
+	}
 }
