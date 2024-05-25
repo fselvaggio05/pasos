@@ -7,11 +7,13 @@ import entity.Practica;
 import entity.Prescripcion;
 import entity.Profesional;
 import entity.Turno;
+import entity.Usuario;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import service.HorarioService;
 import service.PacienteService;
 import service.PracticaService;
@@ -29,6 +31,7 @@ private static final long serialVersionUID = 1L;
 	private PrescripcionService prescServ;
 	private List<Practica> practicas;
 	
+	
 
 	public TurnoServlet() {
 		this.horServ = new HorarioService();
@@ -39,6 +42,30 @@ private static final long serialVersionUID = 1L;
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		HttpSession session = request.getSession(); 
+		Usuario us = (Usuario) session.getAttribute("usuario");
+		
+		practicas = prServ.getAllActivas();
+		request.setAttribute("practicas", practicas); 		
+ 		
+ 		if(us.getTipo_usuario()==3)
+		{
+ 			Paciente pac = pacServ.buscarPaciente(us.getDni());
+			session.setAttribute("paciente", pac);
+			List<Prescripcion> prescripciones = prescServ.buscarTodasLasPrescripciones(pac);
+			request.setAttribute("prescripciones", prescripciones);
+		}
+ 		
+ 		else
+ 		{
+ 			if(request.getAttribute("prescripciones")==null) {
+            List<Prescripcion> prescripciones = prescServ.getAll();
+            request.setAttribute("prescripciones", prescripciones);
+ 			}
+ 		}
+ 		  
+		
 				
 		if(request.getParameter("idPrescripcion")!=null) //Me fijo si viene de la ventana de Prescripcion
 		{	

@@ -70,17 +70,15 @@
 
 
 								<div class="col-3">
-									<input type="number" class="form-control" name="dniPaciente"
-										id="filtro-1"> <select class="form-select mb-2"
-										name="profesional" id="filtro-2">
+									<input type="number" class="form-control" name="dniPaciente" id="filtro-1"> 
+									<select class="form-select mb-2" name="profesional" id="filtro-2">
 										<c:forEach var="prof" items="${profesionales}">
 											<option value="<c:out value="${prof.matricula}"></c:out>">
 												<c:out value="${prof.apellido} , ${prof.nombre}"></c:out>
 											</option>
 										</c:forEach>
-									</select> <input type="date" class="form-control" name="fecha"
-										id="filtro-3">
-
+									</select> 
+									<input type="date" class="form-control" name="fecha" id="filtro-3">
 								</div>
 
 								<div class="col-2">
