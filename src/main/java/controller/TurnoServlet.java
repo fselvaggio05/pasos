@@ -52,7 +52,7 @@ private static final long serialVersionUID = 1L;
  		if(us.getTipo_usuario()==3)
 		{
  			Paciente pac = pacServ.buscarPaciente(us.getDni());
-			session.setAttribute("paciente", pac);
+			session.setAttribute("pac", pac);
 			List<Prescripcion> prescripciones = prescServ.buscarTodasLasPrescripciones(pac);
 			request.setAttribute("prescripciones", prescripciones);
 		}
