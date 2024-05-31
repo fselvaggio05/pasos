@@ -121,9 +121,9 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
 				            while (i < pres.size()) {
 				                Prescripcion prescripcion = pres.get(i);
 				                //validar si solo mostramos el nombre de la obra social o el id y el nombre de la obra social o solo el id
-				                documento.add(new Paragraph("Obra Social: " + prescripcion.getObraSocial().getId_obra_social()+ prescripcion.getObraSocial().getNombre_os()));
+				                documento.add(new Paragraph("Obra Social: " + prescripcion.getPaciente().getObra_social().getId_obra_social() + prescripcion.getPaciente().getObra_social().getNombre_os()));
 				                documento.add(new Paragraph("Paciente: " + prescripcion.getPaciente().getNro_afiliado()));
-				                documento.add(new Paragraph("Practica: " + prescripcion.getCod_practica()));
+				                documento.add(new Paragraph("Practica: " + prescripcion.getPractica().getDescripcion()));
 				                documento.add(new Paragraph("Fecha: " + prescripcion.getFecha_prescripcion()));
 				                documento.add(new Paragraph("Cantidad de Sesiones: " + prescripcion.getCant_sesiones()));
 				                documento.add(new Paragraph("\n"));
