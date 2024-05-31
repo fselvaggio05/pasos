@@ -70,4 +70,12 @@ public class PrescripcionService {
 	public Prescripcion getPrescripcion(Integer idPrescripcion) {
 		return prescRep.getPrescripcion(idPrescripcion);
 	}
+	
+	public List<Prescripcion> buscarPrescripcionesAmbulatorias(LocalDate fecha_desde, LocalDate fecha_hasta) {
+		return prescRep.buscarPrescripcionesAmbulatorias(fecha_desde,fecha_hasta);
+		
+	}
+
+
+	
 }
