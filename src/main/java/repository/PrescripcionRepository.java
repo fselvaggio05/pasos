@@ -516,4 +516,62 @@ public class PrescripcionRepository {
 		}
 		return respuestaOperacion;
 	}
+
+	public List<Prescripcion> buscarPrescripcionesAmbulatorias(LocalDate fecha_desde, LocalDate fecha_hasta) {
+		//busca la lista de prescripciones ambulatorias que están finalizadas y pendientes de cobrar
+		
+List<Prescripcion> presc =  null;
+		
+		try
+		{
+			
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from prescripcion pr inner join paciente pc on pc.nro_afiliado=pr.nro_afiliado inner join obra_social os on os.id_obra_social=pc.id_obra_social   where pr.fecha_prescripcion>=? and pr.fecha_prescripcion<=? and pr.estado=0 order by os.id_obra_social, pr.cod_practica ASC");
+			
+			stmt.setDate(1, Date.valueOf(fecha_desde));
+			stmt.setDate(2, Date.valueOf(fecha_hasta));
+			rs = stmt.executeQuery();
+			
+			while(rs!=null && rs.next())
+			{
+				Prescripcion pres = new Prescripcion();
+				ObraSocial os = new ObraSocial();
+				Paciente pc = new Paciente();
+				Practica pr = new Practica();
+				
+				pres.setId_prescripcion(rs.getInt("id_prescripcion"));
+				pres.setCant_sesiones(rs.getInt("cant_sesiones"));
+				pr.setId_practica(rs.getInt("cod_practica"));
+				pres.setFecha_alta_prescripcion(rs.getDate("fecha_alta_presc").toLocalDate());
+				pres.setFecha_prescripcion(rs.getDate("fecha_prescripcion").toLocalDate());
+				pres.setSesiones_asistidas(rs.getInt("sesiones_asistidas"));
+				
+				pc.setNro_afiliado(rs.getString("nro_afiliado"));
+				pc.setNro_afiliado(rs.getString("nro_afiliado"));
+				
+				os.setId_obra_social(rs.getInt("id_obra_social"));
+				
+				pc.setObra_social(os);
+			    pres.setPractica(pr);;
+				pres.setPaciente(pc);
+				
+			}
+			
+		}
+		
+		catch (SQLException e)
+		{
+			respuestaOperacion = e.toString();
+		}
+		
+		
+		finally {
+			FactoryConnection.cerrarConexion(rs, stmt);
+		}
+		
+		return presc;	
+		
+		
+		
+		
+	}
 }
