@@ -69,82 +69,7 @@
 
                 <div class="container">
                 
-                    <table class="tableBORRAR">
-                        <thead>
-                            <tr>
-                                <th scope="col"></th>
-                                <th scope="col">Paciente</th>
-                                <th scope="col">Practica</th>
-                                <th scope="col">???</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>1</td>
-                                <td>Magnetoterapia</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>1</td>
-                                <td>Ondas Rusas</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>85</td>
-                                <td>Ondas Rusas</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>54</td>
-                                <td>Ondas Rusas</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">4</th>
-                                <td>54</td>
-                                <td>Ondas Rusas</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">5</th>
-                                <td>21</td>
-                                <td>Ondas Rusas</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">6</th>
-                                <td>74</td>
-                                <td>Ondas Rusas</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">6</th>
-                                <td>74</td>
-                                <td>Ondas Rusas</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">6</th>
-                                <td>74</td>
-                                <td>Ondas Rusas</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">6</th>
-                                <td>74</td>
-                                <td>Ondas Rusas</td>
-                                <td>-</td>
-                            </tr>
-
-
-                        </tbody>
-                    </table>
-
-
+                   
 <table class="table table-striped my-2" id="tablaPrescripciones">
 						<thead>
 							<tr>
@@ -166,11 +91,11 @@
 
 									<tr>
 										<td><c:out
-												value="${pre.getObra_social().getNombre()}"></c:out>
+												value="${pre.getPaciente().getObra_social().getNombre()}"></c:out>
 										</td>
 
 										<td><c:out
-												value="${pre.getCodPractica()}"></c:out>
+												value="${pre.getPractica().getCodPractica()}"></c:out>
 										</td>
 
 										<td><c:out value="${pre.getFecha_prescripcion()}"></c:out>
@@ -186,7 +111,7 @@
 
 										<td><a href="#" class="btn btn-success btn-sm"
 											nomObra_Social="${pre.getObra_social().getNombre()}"
-                                            codPractica="${pre.getCodPractica()}"
+                                            codPractica="${pre.getPractica().getCodPractica()}"
 											paciente="${pre.getPaciente().getApellido()} , ${pre.getPaciente().getNombre()}"
 											sesiones="${pre.getCant_Sesiones()}"
 											data-bs-toggle="modal" data-bs-target="#excluir">Excluir</a>
