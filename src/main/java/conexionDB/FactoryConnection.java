@@ -30,7 +30,7 @@ public class FactoryConnection {
 
         catch (ClassNotFoundException e)
         {
-            e.printStackTrace();;
+            e.printStackTrace();
         }
     }
 

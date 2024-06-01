@@ -233,4 +233,15 @@ public class TurnoService {
 	public List<Turno> buscarTurnosAsignadosProfesional(Integer matricula) {
 		return turRep.buscarTurnosAsignadosProfesional(matricula);
 	}
+
+	public List<Turno> buscarTurnosAsistidosAmbulatorios(LocalDate fechaDesde, LocalDate fechaHasta) {
+		
+		// TODO Auto-generated method stub
+		return turRep.buscarTurnosAsistidosAmbulatorios(fechaDesde,fechaHasta);
+	}
+
+	public List<Turno> buscarTurnosPendientesCobro(LocalDate fechaDesde, LocalDate fechaHasta) {
+		
+		return turRep.buscarTurnosPendientesCobro(fechaDesde,fechaHasta);
+	}
 }
