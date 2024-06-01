@@ -612,3 +612,17 @@ function verificarSeleccion()
 		}
 		return false;
 }
+
+
+
+//Listado prescripciones ambulatorias
+
+const listadoAmbulatorias = document.getElementById('listado');
+if (listado) {
+    listado.addEventListener('show.bs.modal', event => {
+        const a = event.relatedTarget;
+        const fecha_desde = a.getAttribute('fecha_desde');
+        const fecha_hasta = a.getAttribute('fecha_hasta');;
+          
+    });
+}

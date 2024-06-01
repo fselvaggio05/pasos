@@ -86,8 +86,8 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
 			{
 				respuestaOperacion="No existen prescripciones ambulatorias pendientes de cobro para el período ingresado";
 			}												
-			sesion.setAttribute("prescripcion", pres);	
-			
+			request.setAttribute("prescripcion", pres);	
+			this.doGet(request, response);
 			
 			
 			
