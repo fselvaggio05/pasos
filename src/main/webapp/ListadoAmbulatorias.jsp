@@ -126,12 +126,7 @@
 
 
 
-										<td><a href="#" class="btn btn-success btn-sm"
-											nomObra_Social="${pre.getPaciente().getObra_social().getNombre_os()}"
-											codPractica="${pre.getPractica().getDescripcion()}"
-											paciente="${pre.getPaciente().getApellido()} , ${pre.getPaciente().getNombre()}"
-											sesiones="${pre.getCant_sesiones()}" data-bs-toggle="modal"
-											data-bs-target="#excluir">Excluir</a></td>
+										
 									</tr>
 								</c:forEach>
 							</c:if>
