@@ -70,8 +70,10 @@
 
 					<c:if test="${not empty prescripcion }">
 						<form action="listadoambulatorias" method="post">
+					
 							<input type="hidden" name="operacion" value="exportar">
-							<input type="hidden" name="prescripcion" value="<%=request.getAttribute("prescripcion")%>">
+							<input type="hidden" name="prescripcion" value="<%=request.getAttribute("prescripcion")%>">	
+										   
 						    <button type="submit" class="btn btn-success">Exportar</button>
 						</form>
 					</c:if> 

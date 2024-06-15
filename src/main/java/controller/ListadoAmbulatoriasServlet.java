@@ -105,14 +105,15 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
 		{
 			
 			
-			
+			//permite exportar la lista de prescripciones ambulatorias pendientes, en un documento formato pdf
 			            Document documento = new Document();
 			      
 			            try {
-							PdfWriter.getInstance(documento, new FileOutputStream("prescripciones_medicas_ambulatorias.pdf"));
-							documento.open();
+			            	PdfWriter.getInstance(documento, new FileOutputStream("C:\\Users\\Pich\\Documents\\prescripciones_medicas.pdf"));
+			                documento.open();
 				            LocalDate fecha_desde = LocalDate.parse(request.getParameter("fecha_desde"));
 							LocalDate fecha_hasta = LocalDate.parse(request.getParameter("fecha_hasta"));
+							pres = prescServ.buscarPrescripcionesAmbulatorias(fecha_desde, fecha_hasta);
 				            documento.add(new Paragraph("Prescripciones Médicas para el período: " + fecha_desde + " - " + fecha_hasta));
 				            documento.add(new Paragraph("\n"));
 				         
@@ -121,8 +122,8 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
 				            while (i < pres.size()) {
 				                Prescripcion prescripcion = pres.get(i);
 				                //validar si solo mostramos el nombre de la obra social o el id y el nombre de la obra social o solo el id
-				                documento.add(new Paragraph("Obra Social: " + prescripcion.getPaciente().getObra_social().getId_obra_social() + prescripcion.getPaciente().getObra_social().getNombre_os()));
-				                documento.add(new Paragraph("Paciente: " + prescripcion.getPaciente().getNro_afiliado()));
+				                documento.add(new Paragraph("Obra Social: " + prescripcion.getPaciente().getObra_social().getId_obra_social() + " - " + prescripcion.getPaciente().getObra_social().getNombre_os()));
+				                documento.add(new Paragraph("Paciente: " + prescripcion.getPaciente().getNro_afiliado() + " " + prescripcion.getPaciente().getApellido() + ", " + prescripcion.getPaciente().getNombre()));
 				                documento.add(new Paragraph("Practica: " + prescripcion.getPractica().getDescripcion()));
 				                documento.add(new Paragraph("Fecha: " + prescripcion.getFecha_prescripcion()));
 				                documento.add(new Paragraph("Cantidad de Sesiones: " + prescripcion.getCant_sesiones()));
@@ -130,6 +131,8 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
 				                i++;       
 				                                    }
 				                documento.close(); 
+				                
+				               
 							
 				                this.doGet(request, response);
 				                

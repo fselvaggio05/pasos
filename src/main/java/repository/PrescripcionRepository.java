@@ -541,6 +541,7 @@ List<Prescripcion> presc =  new ArrayList<>();
 				pres.setId_prescripcion(rs.getInt("pr.id_prescripcion"));
 				pres.setCant_sesiones(rs.getInt("pr.cant_sesiones"));
 				pr.setId_practica(rs.getInt("pr.cod_practica"));
+				pr.setDescripcion(rs.getString("pr.descripcion"));
 				pres.setFecha_alta_prescripcion(rs.getDate("pr.fecha_alta_presc").toLocalDate());
 				pres.setFecha_prescripcion(rs.getDate("pr.fecha_prescripcion").toLocalDate());
 				pres.setSesiones_asistidas(rs.getInt("pr.sesiones_asistidas"));
