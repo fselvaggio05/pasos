@@ -76,35 +76,23 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
 		
 		
 		case "listado": 
-		{
-			
+		{   //permite listar las prescripciones ambulatorias pendientes 
 			LocalDate fecha_desde = LocalDate.parse(request.getParameter("fecha_desde"));
 			LocalDate fecha_hasta = LocalDate.parse(request.getParameter("fecha_hasta"));
 			 pres = prescServ.buscarPrescripcionesAmbulatorias(fecha_desde, fecha_hasta);
-			
 			if(pres.size()==0)
 			{
 				respuestaOperacion="No existen prescripciones ambulatorias pendientes de cobro para el período ingresado";
 			}												
 			request.setAttribute("prescripcion", pres);	
+			request.setAttribute("fecha_desde", fecha_desde);
+			request.setAttribute("fecha_hasta", fecha_hasta);
 			this.doGet(request, response);
-			
-			
-			
 			break;
-			
-			
-			
-			
-			
-			
-			
 		}
 
 		case "exportar": 
 		{
-			
-			
 			//permite exportar la lista de prescripciones ambulatorias pendientes, en un documento formato pdf
 			            Document documento = new Document();
 			      
@@ -132,7 +120,7 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
 				                                    }
 				                documento.close(); 
 				                
-				               
+				               //Queda pendiente cambiar el estado de la prescipcion a Facturada / exportada
 							
 				                this.doGet(request, response);
 				                

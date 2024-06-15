@@ -53,7 +53,7 @@
 								<input type="date" name="fecha_desde" class="form-control col-2 ml-4">
 							</div>
 
-							<div class="col-3">
+							<div class="col-2">
 								<label for="">Fecha hasta:</label> <label class="form-label"
 									id="fecha_hasta"></label>
 							</div>
@@ -62,7 +62,7 @@
 								<input type="date" name="fecha_hasta" class="form-control col-2">
 							</div>
 
-							<div class="col-3">
+							<div class="col-2">
 								<button type="submit" class="btn btn-success">Buscar</button>
 							</div>
 						</div>
@@ -70,11 +70,13 @@
 
 					<c:if test="${not empty prescripcion }">
 						<form action="listadoambulatorias" method="post">
-					
 							<input type="hidden" name="operacion" value="exportar">
-							<input type="hidden" name="prescripcion" value="<%=request.getAttribute("prescripcion")%>">	
-										   
+							<input type="hidden" name="fecha_desde" value="<%=request.getAttribute("fecha_desde")%>">
+							<input type="hidden" name="fecha_hasta" value="<%=request.getAttribute("fecha_hasta")%>">
+							<input type="hidden" name="prescripcion" value="<%=request.getAttribute("prescripcion")%>">
+							<div class="col-1">
 						    <button type="submit" class="btn btn-success">Exportar</button>
+						    </div>
 						</form>
 					</c:if> 
 
@@ -112,7 +114,7 @@
 												value="${pre.getPaciente().getObra_social().getNombre_os()}"></c:out>
 										</td>
 
-										<td><c:out value="${pre.getPractica().getId_practica()}"></c:out>
+										<td><c:out value="${pre.getPractica().getDescripcion()}"></c:out>
 										</td>
 
 										<td><c:out value="${pre.getFecha_prescripcion()}"></c:out>
@@ -126,7 +128,7 @@
 
 										<td><a href="#" class="btn btn-success btn-sm"
 											nomObra_Social="${pre.getPaciente().getObra_social().getNombre_os()}"
-											codPractica="${pre.getPractica().getId_practica()}"
+											codPractica="${pre.getPractica().getDescripcion()}"
 											paciente="${pre.getPaciente().getApellido()} , ${pre.getPaciente().getNombre()}"
 											sesiones="${pre.getCant_sesiones()}" data-bs-toggle="modal"
 											data-bs-target="#excluir">Excluir</a></td>

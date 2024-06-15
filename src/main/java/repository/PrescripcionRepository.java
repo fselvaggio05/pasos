@@ -525,7 +525,7 @@ List<Prescripcion> presc =  new ArrayList<>();
 		try
 		{
 			
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from prescripcion pr inner join paciente pc on pc.nro_afiliado=pr.nro_afiliado inner join usuario us on us.dni = pc.dni inner join obra_social os on os.id_obra_social=pc.id_obra_social   where pr.fecha_prescripcion>=? and pr.fecha_prescripcion<=? and pr.estado=0 order by os.id_obra_social, pr.cod_practica ASC");
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from prescripcion pr inner join paciente pc on pc.nro_afiliado=pr.nro_afiliado inner join usuario us on us.dni = pc.dni inner join obra_social os on os.id_obra_social=pc.id_obra_social  inner join practica pra on pra.id_practica=pr.cod_practica where pr.fecha_prescripcion>=? and pr.fecha_prescripcion<=? and pr.estado=0 order by os.id_obra_social, pr.cod_practica ASC");
 			
 			stmt.setDate(1, Date.valueOf(fecha_desde));
 			stmt.setDate(2, Date.valueOf(fecha_hasta));
@@ -540,8 +540,8 @@ List<Prescripcion> presc =  new ArrayList<>();
 				
 				pres.setId_prescripcion(rs.getInt("pr.id_prescripcion"));
 				pres.setCant_sesiones(rs.getInt("pr.cant_sesiones"));
-				pr.setId_practica(rs.getInt("pr.cod_practica"));
-				pr.setDescripcion(rs.getString("pr.descripcion"));
+				pr.setId_practica(rs.getInt("pra.id_practica"));
+				pr.setDescripcion(rs.getString("pra.descripcion"));
 				pres.setFecha_alta_prescripcion(rs.getDate("pr.fecha_alta_presc").toLocalDate());
 				pres.setFecha_prescripcion(rs.getDate("pr.fecha_prescripcion").toLocalDate());
 				pres.setSesiones_asistidas(rs.getInt("pr.sesiones_asistidas"));
