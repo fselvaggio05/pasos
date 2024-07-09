@@ -244,4 +244,35 @@ public class TurnoService {
 		
 		return turRep.buscarTurnosPendientesCobro(fechaDesde,fechaHasta);
 	}
+
+	public List<Turno> obtenerTurnos(String[] seleccionados) {
+		
+		List<Turno> turnosFacturados = new ArrayList<Turno>();
+		
+		Integer idTurno = null;
+
+		for (int i = 0; i < seleccionados.length; i++) {
+			
+			idTurno = Integer.parseInt(seleccionados[i]);
+			Turno t = new Turno();
+			t.setId_turno(idTurno);
+			turnosFacturados.add(t);
+		}
+		
+		return turnosFacturados;		
+		
+	}
+	
+
+	public String registrarPagoTurnos(List<Turno> turnosFacturados) {
+		
+		String mensaje = null;
+		
+		for (Turno t : turnosFacturados)
+		{
+			turRep.registrarPagoTurno(t);
+		}
+		
+		return mensaje;
+	}
 }

@@ -648,7 +648,7 @@ public List<Turno> buscarTurnosPendientesCobro(LocalDate fechaDesde, LocalDate f
 	
 	try
 	{
-		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from turno t inner join horario h on t.idhorario=h.idhorario inner join practica pr on h.id_practica=pr.id_practica inner join profesional prof on h.matricula=prof.matricula inner join usuario usProf on usProf.dni=prof.dni inner join usuario usPac on t.dni=usPac.dni inner join paciente pac on usPac.dni=pac.dni inner join obra_social obSoc on obSoc.id_obra_social = pac.id_obra_social where t.fecha_turno>=? and t.fecha_turno<=? and t.estado_t='Asistido' order by t.fecha_turno");
+		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from turno t inner join horario h on t.idhorario=h.idhorario inner join practica pr on h.id_practica=pr.id_practica inner join profesional prof on h.matricula=prof.matricula inner join usuario usProf on usProf.dni=prof.dni inner join usuario usPac on t.dni=usPac.dni inner join paciente pac on usPac.dni=pac.dni inner join obra_social obSoc on obSoc.id_obra_social = pac.id_obra_social where t.fecha_turno>=? and t.fecha_turno<=? and t.estado_t='Facturado' and id_prescripcion is not null order by t.fecha_turno");
 		
 		stmt.setDate(1, Date.valueOf(fechaDesde));
 		stmt.setDate(2, Date.valueOf(fechaHasta));
@@ -674,7 +674,6 @@ public List<Turno> buscarTurnosPendientesCobro(LocalDate fechaDesde, LocalDate f
 			pac.setObra_social(obSoc);
 			
 			Horario hor = new Horario();
-			hor.setId_horario(rs.getInt("idhorario"));
 			hor.setId_horario(rs.getInt("idhorario"));
 			hor.setPractica(pract);
 			hor.setProfesional(prof);			
@@ -703,6 +702,33 @@ public List<Turno> buscarTurnosPendientesCobro(LocalDate fechaDesde, LocalDate f
 	return turnosPendientesACobrar;
 	
 	
+}
+
+public String registrarPagoTurno(Turno t) {
+	
+	String respuestaOperacion = null;
+	
+	try {
+		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update turno set estado_t='Abonado' where idturno=?");
+		stmt.setInt(1, t.getId_turno());
+		Integer resultadoUpdate = stmt.executeUpdate();
+
+		if (resultadoUpdate == 1) {
+			respuestaOperacion = "OK";
+		} else {
+			respuestaOperacion = null;
+		}
+		
+		
+	} catch (SQLException e) {
+		
+		respuestaOperacion = e.toString();
+		
+	} finally {
+		FactoryConnection.cerrarConexion(rs, stmt);
+	}
+	
+	return respuestaOperacion;	
 }
 
 

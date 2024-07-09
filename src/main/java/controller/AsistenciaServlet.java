@@ -53,8 +53,7 @@ public class AsistenciaServlet extends HttpServlet {
 		String operacion = request.getParameter("operacion");
 		String respuestaOperacion = null;
 		String mensaje = null;
-		HttpSession session = request.getSession();
-		
+		HttpSession session = request.getSession();	
 		
 
 		switch (operacion) {

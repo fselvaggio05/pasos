@@ -50,15 +50,39 @@ public class RegistroPagosServlet extends HttpServlet {
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		LocalDate fechaDesde = LocalDate.parse(request.getParameter("fechaDesde"));
-		LocalDate fechaHasta = LocalDate.parse(request.getParameter("fechaHasta"));
 		
-		List<Turno> turnos = turServ.buscarTurnosPendientesCobro(fechaDesde,fechaHasta);
+		String mensaje = null;
+		String operacion = request.getParameter("operacion");		
 		
-		request.setAttribute("turnosPorCobrar", turnos);
+		List<Turno> turnosFacturados = new ArrayList<Turno> ();
 		
-		this.doGet(request, response);
+		switch(operacion)
+		{
+		
+			case "buscarTurnosFacturados":
+				
+			{
+				LocalDate fechaDesde = LocalDate.parse(request.getParameter("fechaDesde"));
+				LocalDate fechaHasta = LocalDate.parse(request.getParameter("fechaHasta"));
+				turnosFacturados = turServ.buscarTurnosPendientesCobro(fechaDesde,fechaHasta);				
+				request.setAttribute("turnosPorCobrar", turnosFacturados);				
+				break;
+			}
+			
+			
+			case "registrarPago":
+				
+			{
+				String[] seleccionados = request.getParameterValues("seleccionados");
+				turnosFacturados = turServ.obtenerTurnos(seleccionados);			
+				mensaje = turServ.registrarPagoTurnos(turnosFacturados);
+				break;
+			}
+		
+		}
+		
+		this.doGet(request, response);	
+		
 
 }
 }

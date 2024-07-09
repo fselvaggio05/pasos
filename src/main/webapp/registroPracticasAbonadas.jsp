@@ -1,3 +1,7 @@
+<%@ page import="java.util.List"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,7 +39,8 @@
                           Periodo facturado
                         </div>
                         
-                        <form action="registroPagos" method="post">		                      
+                        <form action="registroPagos" method="post">	
+                         <input type="hidden" name="operacion" value="buscarTurnosFacturados">	                      
 		                      <div class="row">		                      
 			                       <div class="col-2">
 			                            <label for="">Fecha desde:</label>
@@ -73,6 +78,7 @@
                    	<table class="table table-striped my-2">
                               <thead>
                                   <tr>
+                                  	  <th scope="col">  </th>
                                   	  <th scope="col">Profesional</th>
                                       <th scope="col">Obra social</th>
                                       <th scope="col">Practica</th>
@@ -83,21 +89,17 @@
                               </thead>
                               
                               <tbody>
+                              
+                              	<form action="registroPagos" method="post">
+                              	 <input type="hidden" name="operacion" value="registrarPago">
                                   <c:forEach var="tur" items="${turnosPorCobrar}">
                                       <tr>
-                                      	  <td><input class="form-check-input" type="checkbox"></td>
-                                     	  <td><c:out value="${tur.getProfesional().getApellido()}"/></td>
-                                          <td><c:out value="${tur.getPaciente().getObraSocial().getNombre_os()}"/></td>
-                                          <td><c:out value="${tur.getPractica().getDescripcion()}"/></td>
+		                               	  <td><input class="form-check-input" type="checkbox" name="seleccionados" value="${tur.getId_turno()}"></td>
+                                     	  <td><c:out value="${tur.getHorario().getProfesional().getApellido()}"></c:out></td>
+                                          <td><c:out value="${tur.getPaciente().getObra_social().getNombre_os()}"></c:out></td>
+                                          <td><c:out value="${tur.getHorario().getPractica().getDescripcion()}"></c:out></td>
                                           <td><c:out value=""/></td>
-                                          <td><c:out value="${tur.getPaciente().getApellido()}, ${turnos.getPaciente().getNombre()}"/></td>
-                                         
-                                          
-                                          <td>                                          
-<%-- 											<a href='#' data-bs-toggle='modal' data-bs-target='#actualizarObraSocial' idObraSocial="${unaObraSocial.id_obra_social}" nomObraSocial="${unaObraSocial.nombre}"> --%>
-<!-- 												<i class="bi bi-pencil-fill"></i> -->
-<!-- 											</a> -->
-                                          </td>
+                                          <td><c:out value="${tur.getPaciente().getApellido()}, ${tur.getPaciente().getNombre()}"></c:out></td>
                                       </tr>
                                   </c:forEach>
                               </tbody>
@@ -108,7 +110,7 @@
                         <div class="row justify-content-end">
             
                             <div class="col-3">
-                                <button type="button" class="btn btn-success">Registrar pago</button>
+                                <button type="submit" class="btn btn-success">Registrar pago</button>
             
                                 <!-- agregar el resumen de las practicas a abonar -->
                                 
@@ -116,11 +118,9 @@
                             <div class="col-2">
                                 <button type="button" class="btn btn-success">Cancelar</button>
                             </div>
-                            
                         </div>
-            
-            
                     </div>
+                   </form>
             
             
                   </div>           
