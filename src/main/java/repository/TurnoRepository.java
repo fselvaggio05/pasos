@@ -466,26 +466,27 @@ public class TurnoRepository {
 		
 		//Recuperar Prescripcion por Turno
 		//es correcto que el metodo este aca o puede ir en prescripcion? por ppio de responsabilidad
-		public void buscarPrescripcion(Turno tur) {
-
-			try {
+		public Prescripcion buscarPrescripcion(Turno tur) {
+			Prescripcion presc = null;
+			try {				
 				stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
-						"select * from turno t inner join prescripcion pr on pr.id_ambulatoria=t.id_prescripcion where idTurno=?");
+						"select * from turno t inner join prescripcion pr on pr.id_prescripcion=t.id_prescripcion where idTurno=?");
 				stmt.setInt(1, tur.getId_turno());
 				rs = stmt.executeQuery();
 
 				if (rs != null && rs.next()) {
-					Prescripcion presc = new Prescripcion();
+					presc = new Prescripcion();
 					presc.setId_prescripcion(rs.getInt("id_ambulatoria"));
 					presc.setCant_sesiones(rs.getInt("cant_sesiones"));
 					presc.setSesiones_asistidas(rs.getInt("sesiones_asistidas"));
-					tur.setPrescripcion(presc);
+					tur.setPrescripcion(presc);					
 				}
 			} catch (SQLException e) {
 				respuestaOperacion = e.toString();
 			} finally {
 				FactoryConnection.cerrarConexion(rs, stmt);
 			}
+			return presc;
 		}
 		
 		//Turnos por Día
@@ -623,7 +624,174 @@ public class TurnoRepository {
 				FactoryConnection.cerrarConexion(rs, stmt);
 			}
 			return turnosPendientesACobrar;
-		} 
+		}
+		
+		//Turnos de Una Prescripcion
+		public List<Turno> getTurnosPrescripcion(Integer idPrescripcion) {
+			List<Turno> turnosPrescripcion = new ArrayList<Turno>();
+			
+			try {
+				stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+						"select * from turno t inner join horario h on h.idHorario=t.idHorario inner join practica pr on pr.id_practica=h.id_practica inner join profesional prof on h.matricula=prof.matricula inner join usuario u on prof.dni=u.dni inner join usuario u1 on u1.dni = t.dni inner join paciente pac on pac.dni = u1.dni inner join obra_social os on os.id_obra_social = pac.id_obra_social inner join consultorio c on c.id_consultorio=t.id_consultorio inner join equipo eq on eq.id_equipo=pr.id_equipo where t.id_prescripcion = ? order by t.fecha_turno, hora_turno");
+				stmt.setInt(1, idPrescripcion);
+				rs = stmt.executeQuery();
+	
+				while (rs != null && rs.next()) {
+					Turno unTurno = new Turno();
+					Horario unHorario = new Horario();
+					Practica unaPractica = new Practica();
+					Equipo unEquipo = new Equipo();
+					Profesional unProfesional = new Profesional();
+					Consultorio unConsultorio = new Consultorio();
+					Paciente unPaciente = new Paciente();
+					
+					unTurno.setId_turno(rs.getInt("t.idturno"));
+					unTurno.setFecha_generacion(rs.getDate("t.fecha_generacion").toLocalDate());
+					unTurno.setFecha_t(rs.getDate("fecha_turno").toLocalDate());
+					unTurno.setHora_t(rs.getTime("t.hora_turno").toLocalTime());
+					unTurno.setHora_hasta_t(rs.getTime("t.hora_hasta").toLocalTime());
+					unTurno.setEstado_t(rs.getString("t.estado_t"));
+					//Armamos el Horario para el Turno
+					unHorario.setId_horario(rs.getInt("idHorario"));
+					unHorario.setFecha_alta(rs.getDate("h.fecha_alta").toLocalDate());
+					if(rs.getDate("h.fecha_baja")==null) 
+					{
+						unHorario.setFecha_baja(null);
+					}
+					else 
+					{
+						unHorario.setFecha_baja(rs.getDate("h.fecha_baja").toLocalDate());
+					}
+					unHorario.setHora_desde(rs.getTime("h.hora_desde").toLocalTime());
+					unHorario.setHora_hasta(rs.getTime("h.hora_hasta").toLocalTime());
+					unHorario.setDia_semana(rs.getString("h.dia_semana"));
+					
+					//Armo la Practica para el Horario
+					unaPractica.setId_practica(rs.getInt("id_practica"));
+					if(rs.getInt("pr.tipo_practica")==1) {
+						unaPractica.setTipo_practica(Enumeradores.TipoPractica.AMBULATORIA);
+					}
+					else {
+						unaPractica.setTipo_practica(Enumeradores.TipoPractica.DISCAPACIDAD);
+					}
+					unaPractica.setDescripcion(rs.getString("pr.descripcion"));
+					unaPractica.setEstado(rs.getBoolean("pr.estado"));
+					unaPractica.setDuracion(rs.getInt("pr.duracion"));
+					if(rs.getDate("pr.fecha_baja")==null) 
+					{
+						unaPractica.setFecha_baja(null);
+					}
+					else 
+					{
+						unaPractica.setFecha_baja(rs.getDate("pr.fecha_baja").toLocalDate());
+					}
+					
+					//Armo el Equipo para la Practica
+					unEquipo.setId_equipo(rs.getInt("eq.id_equipo"));
+					unEquipo.setTipo_equipo(rs.getString("eq.tipo_equipo"));
+					unEquipo.setDescripcion(rs.getString("eq.descripcion"));
+					unEquipo.setEstado(rs.getBoolean("eq.estado"));
+					if(rs.getDate("eq.fecha_baja")==null) 
+					{
+						unEquipo.setFecha_baja(null);
+					}
+					else 
+					{
+						unEquipo.setFecha_baja(rs.getDate("eq.fecha_baja").toLocalDate());
+					}
+					//Asigno el Equipo a la Practica
+					unaPractica.setEquipo(unEquipo);
+					//Asigno Practica a Horario
+					unHorario.setPractica(unaPractica);
+					
+					//Armo el Profesional para el Horario
+					unProfesional.setDni(rs.getInt("u.dni"));
+					unProfesional.setMatricula(rs.getInt("prof.matricula"));
+					unProfesional.setApellido(rs.getString("u.apellido"));
+					unProfesional.setNombre(rs.getString("u.nombre"));
+					unProfesional.setTelefono(rs.getString("u.telefono"));
+					unProfesional.setFecha_nacimiento(rs.getDate("u.fecha_nacimiento").toLocalDate());
+					unProfesional.setGenero(rs.getString("u.genero"));
+					unProfesional.setEmail(rs.getString("u.email"));
+					unProfesional.setClave(rs.getString("u.clave"));
+					unProfesional.setTipo_usuario(rs.getInt("u.tipo_usuario"));
+					//Asigno el Profesional al Horario
+					unHorario.setProfesional(unProfesional);
+					unTurno.setHorario(unHorario);
+					
+					//Armo el Paciente para el Turno
+					unPaciente.setDni(rs.getInt("u1.dni"));
+					unPaciente.setApellido(rs.getString("u1.apellido"));
+					unPaciente.setNombre(rs.getString("u1.nombre"));
+					unPaciente.setTelefono(rs.getString("u1.telefono"));
+					unPaciente.setFecha_nacimiento(rs.getDate("u1.fecha_nacimiento").toLocalDate());
+					unPaciente.setGenero(rs.getString("u1.genero"));
+					unPaciente.setEmail(rs.getString("u1.email"));
+					unPaciente.setClave(rs.getString("u1.clave"));
+					unPaciente.setTipo_usuario(rs.getInt("u1.tipo_usuario"));
+					//Asigno el Paciente al turno
+					unTurno.setPaciente(unPaciente);
+					
+					// si el turno tiene una prescripcion asociada, traigo el id
+					if (rs.getInt("id_prescripcion") != 0) {
+						Prescripcion unaPrescripcion = new Prescripcion();
+						unaPrescripcion.setId_prescripcion(rs.getInt("id_prescripcion")); 
+						unTurno.setPrescripcion(unaPrescripcion);
+					} else {
+						unTurno.setPrescripcion(null);
+					}
+					
+					//Armo el Consultorio para el Turno
+					unConsultorio.setId_consultorio(rs.getInt("c.id_consultorio"));
+					unConsultorio.setDescripcion(rs.getString("c.descripcion"));
+					unConsultorio.setEstado(rs.getBoolean("c.estado"));
+					if(rs.getDate("c.fecha_baja")==null) 
+					{
+						unConsultorio.setFecha_baja(null);
+					}
+					else 
+					{
+						unConsultorio.setFecha_baja(rs.getDate("c.fecha_baja").toLocalDate());
+					}
+					//Asigno el Consultorio al Turno
+					unTurno.setConsultorio(unConsultorio);
+					//Agrego el Turno a la Lista.
+					turnosPrescripcion.add(unTurno);
+				}
+			} catch (SQLException e) {
+				respuestaOperacion = e.toString();
+			} finally {
+				FactoryConnection.cerrarConexion(rs, stmt);
+			}
+			return turnosPrescripcion;
+		}
+		
+		//Antes de confirmar el turno con Prescripción me fijo si no ya no reservó la totalidad de los turnos de la prescripción
+		public boolean validarPrescripcionAgotada(Integer idPresc) {
+			Boolean respuesta = true;
+			
+			try {
+				stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select presc.cant_sesiones, count(*) from prescripcion presc inner join turno tur on presc.id_prescripcion = tur.id_prescripcion where tur.id_prescripcion=? group by presc.cant_sesiones");
+				stmt.setInt(1, idPresc);
+				rs = stmt.executeQuery();
+	
+				if (rs != null && rs.next()) {
+					Integer cant_sesiones = rs.getInt("cant_sesiones");
+					Integer turnos_reservados = rs.getInt("count(*)");
+					if(turnos_reservados<cant_sesiones) {
+						respuesta=true;
+						}
+					else {
+						respuesta = false;
+					}
+					} 
+				} catch (SQLException e) {
+				respuestaOperacion = e.toString();
+			} finally {
+				FactoryConnection.cerrarConexion(rs, stmt);
+			}
+			return respuesta;
+		}
 
 	//Update
 		//Turno con Prescripcion

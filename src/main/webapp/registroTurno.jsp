@@ -125,13 +125,13 @@
 													<td><c:out value="${prescripcion.practica.descripcion}" /></td>
 													<td><c:out value="${prescripcion.cant_sesiones}" /></td>
 													<td><c:out value="${prescripcion.cant_sesiones - prescripcion.sesiones_asistidas}" /></td>
-													<td><c:out value="${prescripcion.fecha_baja_prescipcion}" /></td>
+													<td><c:out value="${prescripcion.fecha_baja_prescripcion}" /></td>
 													<td>
 														<div class="d-flex justify-content-center gap-4">
 															<a href="consultaTurnos?idPrescripcion=${prescripcion.id_prescripcion}"> 
 																<i class="bi bi-calendar-check m-1"></i>
 															</a>
-															<c:if test="${empty prescripcion.fecha_baja_prescipcion}">
+															<c:if test="${empty prescripcion.fecha_baja_prescripcion}">
 																<%-- Agregué este if para solo ver las opciones de registrar turno y anular si la prescripcion --%>
 																	<a href="registroTurno?idPrescripcion=${prescripcion.id_prescripcion}">
 																		<i class="bi bi-calendar-plus-fill m-1"></i>

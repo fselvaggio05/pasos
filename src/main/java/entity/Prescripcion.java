@@ -15,14 +15,14 @@ public class Prescripcion {
 	private Integer sesiones_asistidas;
 	private LocalDate fecha_alta_prescripcion;
 	private Boolean estado;
-	private LocalDate fecha_baja_prescipcion;
+	private LocalDate fecha_baja_prescripcion;
 		
-	public LocalDate getFecha_baja_prescipcion() {
-		return fecha_baja_prescipcion;
+	public LocalDate getFecha_baja_prescripcion() {
+		return fecha_baja_prescripcion;
 	}
 
-	public void setFecha_baja_prescipcion(LocalDate fecha_baja_prescipcion) {
-		this.fecha_baja_prescipcion = fecha_baja_prescipcion;
+	public void setFecha_baja_prescripcion(LocalDate fecha_baja_prescripcion) {
+		this.fecha_baja_prescripcion = fecha_baja_prescripcion;
 	}
 
 	public Prescripcion() {		

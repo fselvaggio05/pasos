@@ -238,4 +238,12 @@ public class TurnoService {
 	{
 		return turRep.registroTurnoConPrescripcion(pac, id_turno, idPresc);
 	}
+
+	public List<Turno> getTurnosPrescripcion(Integer idPrescripcion) {
+		return turRep.getTurnosPrescripcion(idPrescripcion);
+	}
+
+	public boolean validarPrescripcionAgotada(Integer idPresc) {
+		return turRep.validarPrescripcionAgotada(idPresc);
+	}
 }

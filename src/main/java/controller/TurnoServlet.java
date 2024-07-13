@@ -211,8 +211,15 @@ private static final long serialVersionUID = 1L;
 			{
 				Integer idPresc = Integer.parseInt(idPrescripcion);
 				Prescripcion prescripcion = prescServ.getPrescripcion(idPresc);
-				respuestaOperacion = turServ.registroTurnoPrescripcion(id_turno, prescripcion.getPaciente(), idPresc);
-				request.setAttribute("mensaje", respuestaOperacion);
+				if(turServ.validarPrescripcionAgotada(idPresc)) {
+					respuestaOperacion = turServ.registroTurnoPrescripcion(id_turno, prescripcion.getPaciente(), idPresc);
+					request.setAttribute("mensaje", respuestaOperacion);
+				}
+				else {
+					mensaje ="Ya reservó la totalidad de los turnos.";
+					request.setAttribute("mensaje", mensaje);
+				}
+				
 			}
 			else 
 			{

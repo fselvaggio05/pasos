@@ -38,14 +38,20 @@ public class ConsultaServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		Usuario usLog = (Usuario)session.getAttribute("usuario");
 		List<Turno> turnosPaciente = new ArrayList<Turno>();
+		List<Turno> turnosPrescripcion = new ArrayList<Turno>();
 		
+		if(request.getParameter("idPrescripcion")!=null) {
+			Integer idPrescripcion = Integer.parseInt(request.getParameter("idPrescripcion"));
+			turnosPrescripcion = turServ.getTurnosPrescripcion(idPrescripcion);
+			request.setAttribute("turnos", turnosPrescripcion);
+		}
 		if(usLog.getTipo_usuario()==3) {
 			turnosPaciente = turServ.buscarTurnosAsignadosPaciente(usLog.getDni());
-		}		
+		}
 		
 		List<Profesional> profesionales = profServ.getAll();
-		session.setAttribute("turnosPaciente", turnosPaciente);
-		session.setAttribute("profesionales", profesionales);
+		request.setAttribute("turnosPaciente", turnosPaciente);
+		request.setAttribute("profesionales", profesionales);
 		request.getRequestDispatcher("consultaTurnos.jsp").forward(request, response);		
 	}	
 		

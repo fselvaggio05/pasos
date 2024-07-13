@@ -18,14 +18,16 @@
 					</div>
 					<div class="col-9">
 						<div class="container ">
-							<h5 class="small fst-italic text-right mt-3">Bienvenido <c:out value="${usuario.apellido},${usuario.nombre}"></c:out></h5>
+							<h5 class="small fst-italic text-right mt-3">Bienvenido <c:out value="${usuario.apellido}, ${usuario.nombre}"></c:out></h5>
 							<h4 class="text-center my-4 mb-5 text-decoration-underline fw-bold ">Turnos	registrados</h4>
 							<div class="container mb-5">
 								<form action="consultaTurnos" method="post">
 									<input type="hidden" value="filtroTurno" name="opcion">
 									<div class="row">
 									    <div class="col-3">
-									        <select class="form-select" id="filtro" name="filtro">
+									        <%-- Define una variable para determinar si el select debe estar deshabilitado --%>
+											<c:set var="disableSelect" value="${not empty param.idPrescripcion}" />
+									        <select class="form-select" id="filtro" name="filtro" <c:if test="${disableSelect}">disabled</c:if>>
 									            <option value="-1" selected>Buscar turnos por...</option>
 									            <c:if test="${rol=='1'}">
 									                <option value="1">DNI Paciente</option>
@@ -36,6 +38,9 @@
 									            <c:if test="${rol=='1' or rol=='2'}">
 									                <option value="3">Fecha</option>
 									            </c:if>
+									            <c:if test="${not empty param.idPrescripcion}">
+											        <option value="4" selected>Prescripción</option>
+											    </c:if>
 									        </select>
 									    </div>
 									    <div class="col-3">
@@ -63,6 +68,7 @@
 										<th scope="col">Turno asignado</th>
 										<th scope="col">Paciente</th>
 										<th scope="col">Consultorio</th>
+										<th scope="col">Estado</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -108,9 +114,14 @@
 												<c:out value="${tur.getConsultorio().getId_consultorio()}"></c:out>
 											</td>
 											<td>
-												<a href="#" class="btn btn-success btn-sm" idTurno="${tur.getId_turno()}" profesional="${tur.getHorario().getProfesional().getApellido()},${tur.getHorario().getProfesional().getNombre()}" descPractica="${tur.getHorario().getPractica().getDescripcion()}" datosTurno="${tur.getFecha_t()} ${tur.getHora_t()}" data-bs-toggle="modal" data-bs-target="#cancelaTurno">Cancelar</a>
-												<!--REEMPLAZAR ESTE BOTON POR ICONO -->
+												<c:out value="${tur.estado_t}"></c:out>
 											</td>
+											<c:if test="${tur.estado_t == 'Asignado'}">
+												<td>
+													<a href="#" class="btn btn-danger btn-sm" idTurno="${tur.getId_turno()}" profesional="${tur.getHorario().getProfesional().getApellido()},${tur.getHorario().getProfesional().getNombre()}" descPractica="${tur.getHorario().getPractica().getDescripcion()}" datosTurno="${tur.getFecha_t()} ${tur.getHora_t()}" data-bs-toggle="modal" data-bs-target="#cancelaTurno">Cancelar</a>
+													<!--REEMPLAZAR ESTE BOTON POR ICONO -->
+												</td>
+											</c:if>
 										</tr>
 									</c:forEach>
 								</c:if>
