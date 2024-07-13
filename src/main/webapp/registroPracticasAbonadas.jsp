@@ -95,7 +95,7 @@
                                   <c:forEach var="tur" items="${turnosPorCobrar}">
                                       <tr>
 		                               	  <td><input class="form-check-input" type="checkbox" name="seleccionados" value="${tur.getId_turno()}"></td>
-                                     	  <td><c:out value="${tur.getHorario().getProfesional().getApellido()}"></c:out></td>
+                                     	  <td><c:out value="${tur.getHorario().getProfesional().getApellido()}, ${tur.getHorario().getProfesional().getNombre()}"></c:out></td>
                                           <td><c:out value="${tur.getPaciente().getObra_social().getNombre_os()}"></c:out></td>
                                           <td><c:out value="${tur.getHorario().getPractica().getDescripcion()}"></c:out></td>
                                           <td><c:out value=""/></td>
