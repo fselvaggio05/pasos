@@ -152,4 +152,38 @@ public class ProfesionalRepository {
         }
         return profesionales;
 	}
-}
+
+
+public Profesional getProfesional(int matricula) {
+	Profesional pr = new Profesional();
+    try {
+        stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT * FROM profesional p INNER JOIN usuario u ON p.dni = u.dni WHERE p.matricula = ?");
+        stmt.setInt(1,matricula);
+        rs = stmt.executeQuery();
+
+        while (rs != null && rs.next()) {
+            
+            pr.setDni(rs.getInt("dni"));
+            pr.setApellido(rs.getString("apellido"));
+            pr.setNombre(rs.getString("nombre"));
+            pr.setFecha_nacimiento(rs.getObject("fecha_nacimiento", LocalDate.class));
+            pr.setGenero(rs.getString("genero"));
+            pr.setTelefono(rs.getString("telefono"));
+            pr.setEmail(rs.getString("email"));
+            pr.setMatricula(rs.getInt("matricula"));
+           
+        }
+    } catch (SQLException e) {
+        throw new RuntimeException("Error al ejecutar la consulta SQL", e);
+    } finally {
+        try {
+            if (rs != null) rs.close();
+            if (stmt != null) stmt.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        FactoryConnection.getInstancia().releaseConn();
+    }
+    return pr;
+}}
+

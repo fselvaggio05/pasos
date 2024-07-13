@@ -55,6 +55,7 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
 	private TurnoService turServ;
 	private PacienteService pacServ;
 	private PrescripcionService prescServ;
+	private ProfesionalService profServ;
 	
 	
 
@@ -63,12 +64,15 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
 		this.turServ = new TurnoService();
 		this.pacServ = new PacienteService();
 		this.prescServ = new PrescripcionService();
+		this.profServ = new ProfesionalService();
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		
-		request.getRequestDispatcher("ListadoAmbulatorias.jsp").forward(request, response);		
+			
+		List<Profesional> profesionales = profServ.getAll(); 
+		request.setAttribute("profesionales", profesionales);
+		request.getRequestDispatcher("ListadoAmbulatorias.jsp").forward(request, response);	
 
 	}
 
@@ -80,36 +84,57 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
 		Paciente pac = null;
 		HttpSession sesion = request.getSession(); 	
 		List<Prescripcion> pres = null ;
+		List<Turno> tur = null;
+		
 
 		switch (operacion) {
 		
 		
 		case "listado": 
 		{   //permite listar las prescripciones ambulatorias pendientes 
+			 
+			
+			Integer matricula = Integer.parseInt(request.getParameter("profesional"));
+			Profesional profesional = profServ.getProfesional(matricula);
 			LocalDate fecha_desde = LocalDate.parse(request.getParameter("fecha_desde"));
 			LocalDate fecha_hasta = LocalDate.parse(request.getParameter("fecha_hasta"));
-			 pres = prescServ.buscarPrescripcionesAmbulatorias(fecha_desde, fecha_hasta);
-			if(pres.size()==0)
+			 tur= turServ.buscarTurnosAsistidosAmbulatorios(fecha_desde, fecha_hasta, profesional.getMatricula());
+			 
+			if(tur.size()==0)
 			{
-				respuestaOperacion="No existen prescripciones ambulatorias pendientes de cobro para el período ingresado";
+				respuestaOperacion="No existen turnos ambulatorios pendientes de cobro para el período ingresado";
+				
 			}												
-			request.setAttribute("prescripcion", pres);	
+			request.setAttribute("turnos", tur);
+			request.setAttribute("profesionalSeleccionado",profesional.getMatricula());
 			request.setAttribute("fecha_desde", fecha_desde);
 			request.setAttribute("fecha_hasta", fecha_hasta);
+			request.setAttribute("mensaje", respuestaOperacion);
 			this.doGet(request, response);
 			break;
 		}
 
 		case "exportar": 
-		{
+		{   
+			LocalDate fecha_desde = LocalDate.parse(request.getParameter("fecha_desde"));
+			LocalDate fecha_hasta = LocalDate.parse(request.getParameter("fecha_hasta"));
+			Integer matricula = Integer.parseInt(request.getParameter("profesional"));
+			Profesional profesional = profServ.getProfesional(matricula);
+			request.setAttribute("fecha_desde", fecha_desde);
+			request.setAttribute("fecha_hasta", fecha_hasta);
+			request.setAttribute("turnos", tur);
+			request.setAttribute("profesionalSeleccionado",profesional.getMatricula());
+			//turServ.facturacionTurnos(tur);
 			//permite exportar la lista de prescripciones ambulatorias pendientes, en un documento formato pdf
 			Document documento = new Document();
 
 	        try {
-	            PdfWriter.getInstance(documento, new FileOutputStream("C:\\Users\\Pich\\Documents\\prescripciones_medicas.pdf"));
+	        	PdfWriter.getInstance(documento, new FileOutputStream("C:\\Users\\Pich\\Documents\\Prescripciones medicas - " + profesional.getApellido()+ ", " + profesional.getNombre() + " - Periodo " + fecha_desde + " - " + fecha_hasta + ".pdf"));
+	        	//PdfWriter.getInstance(documento, new FileOutputStream("C:\\Users\\Pich\\Documents\\prescripciones_medicas.pdf"));
 	            documento.open();
 
 	            // Agrega imagen en el encabezado
+	            //Queda pendiente generar el archivo incluyendo el nombre del profesional
 	            Image imagenClinica = Image.getInstance("C:\\Users\\Pich\\Documents\\pasosClinica.png"); // Ruta a la imagen
 	            imagenClinica.scaleToFit(100, 100); // Ajustar tamaño de la imagen
 	            imagenClinica.setAlignment(Element.ALIGN_CENTER); // Centrar la imagen
@@ -121,7 +146,7 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
 	            Paragraph datosClinica2 = new Paragraph("Remito de Prestaciones Fisio - Kinésicas", FontFactory.getFont(FontFactory.HELVETICA, 12));
 	            datosClinica2.setAlignment(Element.ALIGN_CENTER);
 	            //Queda pendiente agregar un combo, que permita elegir un profesional, y para ese profesional (o todos) buscar sus prescripciones pendientes
-	            Paragraph datosClinica3 = new Paragraph("Profesional: " + "Matrícula: ", FontFactory.getFont(FontFactory.HELVETICA, 12));
+	            Paragraph datosClinica3 = new Paragraph("Profesional: " + profesional.getApellido() + ", " + profesional.getNombre() + " - Matrícula: " + profesional.getMatricula(), FontFactory.getFont(FontFactory.HELVETICA, 12));
 	            datosClinica3.setAlignment(Element.ALIGN_CENTER); // Centrar los datos de la clínica
 	            documento.add(datosClinica);
 	            documento.add(datosClinica2);
@@ -129,23 +154,22 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
 
 	            documento.add(new Paragraph("\n")); // Espacio después del encabezado
 
-	            LocalDate fecha_desde = LocalDate.parse(request.getParameter("fecha_desde"));
-	            LocalDate fecha_hasta = LocalDate.parse(request.getParameter("fecha_hasta"));
-	            List<Prescripcion> presc = prescServ.buscarPrescripcionesAmbulatorias(fecha_desde, fecha_hasta);
-
-	            // Ordenar la lista de prescripciones
-	            Collections.sort(presc, new Comparator<Prescripcion>() {
+	           
+	            tur= turServ.buscarTurnosAsistidosAmbulatorios(fecha_desde, fecha_hasta, profesional.getMatricula());
+                
+	            // Ordenar la lista de turnos
+	            Collections.sort(tur, new Comparator<Turno>() {
 	                @Override
-	                public int compare(Prescripcion p1, Prescripcion p2) {
-	                    int cmp = p1.getPaciente().getObra_social().getNombre_os().compareTo(p2.getPaciente().getObra_social().getNombre_os());
+	                public int compare(Turno t1, Turno t2) {
+	                    int cmp = t1.getPaciente().getObra_social().getNombre_os().compareTo(t2.getPaciente().getObra_social().getNombre_os());
 	                    if (cmp == 0) {
-	                        cmp = p1.getPractica().getDescripcion().compareTo(p2.getPractica().getDescripcion());
+	                        cmp = t1.getHorario().getPractica().getDescripcion().compareTo(t2.getHorario().getPractica().getDescripcion());
 	                        if (cmp == 0) {
-	                            cmp = p1.getPaciente().getApellido().compareTo(p2.getPaciente().getApellido());
+	                            cmp = t1.getPaciente().getApellido().compareTo(t2.getPaciente().getApellido());
 	                            if (cmp == 0) {
-	                                cmp = p1.getPaciente().getNombre().compareTo(p2.getPaciente().getNombre());
+	                                cmp = t1.getPaciente().getNombre().compareTo(t2.getPaciente().getNombre());
 	                                if (cmp == 0) {
-	                                    cmp = p1.getFecha_prescripcion().compareTo(p2.getFecha_prescripcion());
+	                                    cmp = t1.getFecha_t().compareTo(t2.getFecha_t());
 	                                }
 	                            }
 	                        }
@@ -183,7 +207,7 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
 	            cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
 	            table.addCell(cell);
 	            
-	            cell = new PdfPCell(new Phrase("Cantidad de Sesiones"));
+	            cell = new PdfPCell(new Phrase("Sesiones asistidas"));
 	            cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
 	            table.addCell(cell);
 
@@ -192,13 +216,13 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
 	            String practicaActual = "";
 	            String pacienteActual = "";
 
-	            for (int i = 0; i < presc.size(); i++) {
-	                Prescripcion prescripcion = presc.get(i);
-	                String obraSocial = prescripcion.getPaciente().getObra_social().getNombre_os();
-	                String practica = prescripcion.getPractica().getDescripcion();
-	                String paciente = prescripcion.getPaciente().getApellido() + ", " + prescripcion.getPaciente().getNombre();
-	                String fecha = prescripcion.getFecha_prescripcion().toString();
-	                String cantidadSesiones = String.valueOf(prescripcion.getCant_sesiones());
+	            for (int i = 0; i < tur.size(); i++) {
+	                Turno t = tur.get(i);
+	                String obraSocial = t.getPaciente().getObra_social().getNombre_os();
+	                String practica = t.getHorario().getPractica().getDescripcion();
+	                String paciente = t.getPaciente().getApellido() + ", " + t.getPaciente().getNombre();
+	                String fecha = t.getFecha_t().toString();
+	               String cantidadSesiones = String.valueOf(t.getPrescripcion().getSesiones_asistidas());
 
 	                // Agrupación por obra social
 	                if (!obraSocial.equals(obraSocialActual)) {
@@ -207,7 +231,7 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
 	                    pacienteActual = ""; // Reiniciar paciente cuando cambia la obra social
 
 	                    PdfPCell obraSocialCell = new PdfPCell(new Phrase(obraSocial));
-	                    obraSocialCell.setRowspan(getRowSpanForObraSocial(presc, i, obraSocial));
+	                    obraSocialCell.setRowspan(getRowSpanForObraSocial(tur, i, obraSocial));
 	                    table.addCell(obraSocialCell);
 	                }
 
@@ -217,7 +241,7 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
 	                    pacienteActual = ""; // Reiniciar paciente cuando cambia la práctica
 
 	                    PdfPCell practicaCell = new PdfPCell(new Phrase(practica));
-	                    practicaCell.setRowspan(getRowSpanForPractica(presc, i, obraSocial, practica));
+	                    practicaCell.setRowspan(getRowSpanForPractica(tur, i, obraSocial, practica));
 	                    table.addCell(practicaCell);
 	                }
 
@@ -226,7 +250,7 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
 	                    pacienteActual = paciente;
 
 	                    PdfPCell pacienteCell = new PdfPCell(new Phrase(paciente));
-	                    pacienteCell.setRowspan(getRowSpanForPaciente(presc, i, obraSocial, practica, paciente));
+	                    pacienteCell.setRowspan(getRowSpanForPaciente(tur, i, obraSocial, practica, paciente));
 	                    table.addCell(pacienteCell);
 	                }
 
@@ -240,7 +264,12 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
 
 	            documento.close();
 
-				               //Queda pendiente cambiar el estado de la prescipcion a Facturada / exportada
+	            
+					respuestaOperacion="Documento exportado exitosamente";
+					request.setAttribute("mensaje", respuestaOperacion);
+				
+	            
+				               //Queda pendiente cambiar el estado del turno a Facturado / exportado
 							
 				                this.doGet(request, response);
 				                
@@ -262,10 +291,10 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
 	
 
 // Método para obtener el rowspan para obra social
-    private static int getRowSpanForObraSocial(List<Prescripcion> pres, int index, String obraSocial) {
+    private static int getRowSpanForObraSocial(List<Turno> tur, int index, String obraSocial) {
         int count = 0;
-        for (int i = index; i < pres.size(); i++) {
-            if (pres.get(i).getPaciente().getObra_social().getNombre_os().equals(obraSocial)) {
+        for (int i = index; i < tur.size(); i++) {
+            if (tur.get(i).getPaciente().getObra_social().getNombre_os().equals(obraSocial)) {
                 count++;
             } else {
                 break;
@@ -275,11 +304,11 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
     }
 
     // Método para obtener el rowspan para práctica
-    private static int getRowSpanForPractica(List<Prescripcion> pres, int index, String obraSocial, String practica) {
+    private static int getRowSpanForPractica(List<Turno> tur, int index, String obraSocial, String practica) {
         int count = 0;
-        for (int i = index; i < pres.size(); i++) {
-            if (pres.get(i).getPaciente().getObra_social().getNombre_os().equals(obraSocial) &&
-                pres.get(i).getPractica().getDescripcion().equals(practica)) {
+        for (int i = index; i < tur.size(); i++) {
+            if (tur.get(i).getPaciente().getObra_social().getNombre_os().equals(obraSocial) &&
+                tur.get(i).getHorario().getPractica().getDescripcion().equals(practica)) {
                 count++;
             } else {
                 break;
@@ -289,12 +318,12 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
     }
 
     // Método para obtener el rowspan para paciente
-    private static int getRowSpanForPaciente(List<Prescripcion> pres, int index, String obraSocial, String practica, String paciente) {
+    private static int getRowSpanForPaciente(List<Turno> tur, int index, String obraSocial, String practica, String paciente) {
         int count = 0;
-        for (int i = index; i < pres.size(); i++) {
-            if (pres.get(i).getPaciente().getObra_social().getNombre_os().equals(obraSocial) &&
-                pres.get(i).getPractica().getDescripcion().equals(practica) &&
-                (pres.get(i).getPaciente().getApellido() + ", " + pres.get(i).getPaciente().getNombre()).equals(paciente)) {
+        for (int i = index; i < tur.size(); i++) {
+            if (tur.get(i).getPaciente().getObra_social().getNombre_os().equals(obraSocial) &&
+                tur.get(i).getHorario().getPractica().getDescripcion().equals(practica) &&
+                (tur.get(i).getPaciente().getApellido() + ", " + tur.get(i).getPaciente().getNombre()).equals(paciente)) {
                 count++;
             } else {
                 break;
