@@ -74,12 +74,23 @@ public class ConsultaServlet extends HttpServlet {
 					{
 						Integer dni = Integer.parseInt(request.getParameter("dniPaciente"));
 						Paciente pac = pacServ.buscarPaciente(dni);
-						List<Turno> turnos = turServ.buscarTurnosAsignadosPaciente(pac.getDni());
-						
-						if(turnos.size()==0) {
-							respuestaOperacion="Sin turnos";
+						if(pac!=null) 
+						{
+							List<Turno> turnos = turServ.buscarTurnosAsignadosPaciente(pac.getDni());
+							if(turnos.size()==0) 
+							{
+								respuestaOperacion="Sin turnos";
+							}
+							else 
+							{
+								request.setAttribute("turnos", turnos);								
+							}
 						}
-						session.setAttribute("turnos", turnos);						
+						else 
+						{
+							respuestaOperacion="Paciente nulo";
+						}
+						
 						break;
 					}
 					
@@ -135,7 +146,10 @@ public class ConsultaServlet extends HttpServlet {
 			break;
 		case "Fallo cancelacion":
 			mensaje = "Los turnos pueden cancelarse hasta con un dia de anticipacion.";
-			break;			
+			break;
+		case "Paciente nulo":
+			mensaje="No existe Paciente.";
+			break;
 		case "":
 			break;
 		}		
