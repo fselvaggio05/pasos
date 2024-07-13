@@ -58,4 +58,8 @@ public class ProfesionalService {
 		// TODO Auto-generated method stub
 		return this.profRep.getAllPorDNI(dniBuscado);
 	}
+
+	public Profesional getProfesional(Integer matricula) {
+		return this.profRep.getProfesional(matricula);
+	}
 }

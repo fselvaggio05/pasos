@@ -17,6 +17,9 @@ import service.PacienteService;
 import service.PracticaService;
 import service.PrescripcionService;
 
+
+
+
 @WebServlet("/prescripcion")
 public class PrescripcionServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;

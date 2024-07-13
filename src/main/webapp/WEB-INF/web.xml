@@ -79,6 +79,10 @@
     <url-pattern>/abmUsuarios.jsp</url-pattern>
     <url-pattern>/obrassociales</url-pattern>
     <url-pattern>/abmObraSocial.jsp</url-pattern>
+    
+    <url-pattern>/listadoambulatorias</url-pattern>
+    <url-pattern>/ListadoAmbulatorias.jsp</url-pattern>
+    
     <url-pattern></url-pattern>
   </filter-mapping>
   <servlet>
@@ -91,4 +95,12 @@
     <servlet-name>ConsultaServlet</servlet-name>
     <url-pattern>/consulta</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>ListadoAmbulatoriasServlet</servlet-name>
+    <servlet-class>controller.ListadoAmbulatoriasServlet</servlet-class>
+  </servlet>
+  
+  
+  
 </web-app>

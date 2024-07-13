@@ -14,6 +14,7 @@ import entity.Consultorio;
 import entity.Enumeradores;
 import entity.Equipo;
 import entity.Horario;
+import entity.ObraSocial;
 import entity.Paciente;
 import entity.Practica;
 import entity.Prescripcion;
@@ -819,6 +820,31 @@ public class TurnoRepository {
 			return respuestaOperacion;
 		}
 
+		//Asignar Prescripción al Turno
+        public String asignarPrescripcionATurno(Turno tur, Integer id_prescripcion) {
+
+            try {
+                stmt = FactoryConnection.getInstancia().getConn()
+                        .prepareStatement("update turno set id_prescripcion=? where idturno=?");
+                stmt.setInt(1, id_prescripcion);
+                stmt.setInt(2, tur.getId_turno());
+                Integer resultadoUpdate = stmt.executeUpdate();
+
+                if (resultadoUpdate == 1) {
+                    respuestaOperacion = "OK";
+                } else {
+                    respuestaOperacion = null;
+                }
+            } catch (SQLException e) {
+                respuestaOperacion = e.toString();
+            } finally {
+                FactoryConnection.cerrarConexion(rs, stmt);
+            }
+            return respuestaOperacion;
+        }
+		
+		
+		
 		//Turno Particular
 		public String registroTurnoSinPrescripcion(Paciente pac, Integer id_turno) {
 			Integer respUpdate = null;
@@ -865,49 +891,202 @@ public class TurnoRepository {
 			return respuestaOperacion;
 		}
 	
-		//Asignar Prescripción al Turno
-		public String asignarPrescripcionATurno(Turno tur, Integer id_prescripcion) {
+public List<Turno> buscarTurnosAsistidosAmbulatorios(LocalDate fecha_desde, LocalDate fecha_hasta, int matricula) {
+	//Busca de todos los turnos registrados, aquellos que fueron asistidos, de tipo Ambulatorio y están pendientes de cobrar para el rango de fechas ingresado
+List<Turno> turnosPendientesACobrar = new ArrayList<Turno>();
 	
-			try {
-				stmt = FactoryConnection.getInstancia().getConn()
-						.prepareStatement("update turno set id_prescripcion=? where idturno=?");
-				stmt.setInt(1, id_prescripcion);
-				stmt.setInt(2, tur.getId_turno());
-				Integer resultadoUpdate = stmt.executeUpdate();
+	try
+	{
+		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from turno t inner join usuario us on us.dni = t.dni inner join paciente pc on pc.dni=us.dni  inner join obra_social os on os.id_obra_social=pc.id_obra_social  inner join horario h on h.idhorario = t.idhorario  inner join practica pra on pra.id_practica=h.id_practica  inner join profesional prof on prof.matricula = h.matricula  inner join usuario uspro on uspro.dni =prof.dni inner join prescripcion pres on pres.id_prescripcion=t.id_prescripcion where t.fecha_turno between ? and ? and prof.matricula = ? and t.estado_t='Asistido' and t.id_prescripcion is not null order by t.fecha_turno");
+		stmt.setDate(1, Date.valueOf(fecha_desde));
+		stmt.setDate(2, Date.valueOf(fecha_hasta));
+		stmt.setInt(3, matricula);
+		rs = stmt.executeQuery();
+		
+		while(rs!=null && rs.next())
+		{
+			Turno tur = new Turno();
+			tur.setId_turno(rs.getInt("t.idturno"));
+			tur.setFecha_t(rs.getDate("t.fecha_turno").toLocalDate());
+			tur.setHora_t(rs.getTime("t.hora_turno").toLocalTime());
+			
+			Horario horario = new Horario();
+			horario.setId_horario(rs.getInt("h.idhorario"));
+			
+			Practica practica = new Practica();
+			practica.setId_practica(rs.getInt("pra.id_practica"));
+			practica.setDescripcion(rs.getString("pra.descripcion"));
+		
+			Paciente paciente = new Paciente();
+			paciente.setDni(rs.getInt("pc.dni"));
+			paciente.setApellido(rs.getString("us.apellido"));
+			paciente.setNombre(rs.getString("us.nombre"));
+			paciente.setNro_afiliado(rs.getString("pc.nro_afiliado"));
+			
+			ObraSocial obraSocial = new ObraSocial();
+			obraSocial.setId_obra_social(rs.getInt("os.id_obra_social"));
+			obraSocial.setNombre(rs.getString("os.nombre_os"));
 	
-				if (resultadoUpdate == 1) {
-					respuestaOperacion = "OK";
-				} else {
-					respuestaOperacion = null;
-				}
-			} catch (SQLException e) {
-				respuestaOperacion = e.toString();
-			} finally {
-				FactoryConnection.cerrarConexion(rs, stmt);
-			}
-			return respuestaOperacion;
+			Profesional profesional = new Profesional();
+			profesional.setMatricula(matricula);
+			profesional.setDni(rs.getInt("uspro.dni"));
+			profesional.setNombre(rs.getString("uspro.nombre"));
+			profesional.setApellido(rs.getString("uspro.apellido"));
+			
+			Prescripcion prescripcion = new Prescripcion();
+			prescripcion.setId_prescripcion(rs.getInt("pres.id_prescripcion"));
+			prescripcion.setSesiones_asistidas(rs.getInt("pres.sesiones_asistidas"));
+			prescripcion.setCant_sesiones(rs.getInt("pres.cant_sesiones"));
+			
+			tur.setPrescripcion(prescripcion);
+			horario.setPractica(practica);
+			paciente.setObra_social(obraSocial);
+			tur.setPaciente(paciente);
+			horario.setProfesional(profesional);
+			tur.setHorario(horario);
+			turnosPendientesACobrar.add(tur);
 		}
 		
-	//Delete
-		//Cancelar Turno
-		public String cancelaTurno(Integer idTurno) {
+	} catch (SQLException e) {
+		respuestaOperacion = e.toString();
+	} 
 	
-			try {
-				stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
-						"update turno set estado_t='Libre',dni=NULL,id_prescripcion=NULL where idturno=?");
-				stmt.setInt(1, idTurno);
-				Integer resultadoUpdate = stmt.executeUpdate();
+	finally
+	{
+		FactoryConnection.cerrarConexion(rs, stmt);
+	}
 	
-				if (resultadoUpdate == 1) {
-					respuestaOperacion = "OK";
-				} else {
-					respuestaOperacion = null;
-				}
-			} catch (SQLException e) {
-				respuestaOperacion = e.toString();
-			} finally {
-				FactoryConnection.cerrarConexion(rs, stmt);
-			}
-			return respuestaOperacion;
+	return turnosPendientesACobrar;
+}
+
+public String cancelaTurno(Integer idTurno) {
+
+    try {
+        stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+                "update turno set estado_t='Libre',dni=NULL,id_prescripcion=NULL where idturno=?");
+        stmt.setInt(1, idTurno);
+        Integer resultadoUpdate = stmt.executeUpdate();
+
+        if (resultadoUpdate == 1) {
+            respuestaOperacion = "OK";
+        } else {
+            respuestaOperacion = null;
+        }
+    } catch (SQLException e) {
+        respuestaOperacion = e.toString();
+    } finally {
+        FactoryConnection.cerrarConexion(rs, stmt);
+    }
+    return respuestaOperacion;
+}
+
+
+
+public String facturaTurno(Integer idTurno) {
+//Es por cada turno - queda pendiente agregar este método en uno nuevo para el conjunto de todos los turnos
+	try {
+		stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+				"update turno set estado_t='Facturado' where idturno=?");
+		stmt.setInt(1, idTurno);
+		Integer resultadoUpdate = stmt.executeUpdate();
+
+		if (resultadoUpdate == 1) {
+			respuestaOperacion = "OK";
+		} else {
+			respuestaOperacion = null;
 		}
-} 
+		
+
+		} catch (SQLException e) {
+		respuestaOperacion = e.toString();
+	} finally {
+		FactoryConnection.cerrarConexion(rs, stmt);
+	}
+	return respuestaOperacion;
+}
+		
+	//Metodo que recupera todos los datos requeridos para mostrar en los tuyrnos que aun se encuentran pendientes de registrar el pago
+public List<Turno> buscarTurnosPendientesCobro(LocalDate fechaDesde, LocalDate fechaHasta) {
+	
+	List<Turno> turnosPendientesACobrar = new ArrayList<Turno>();
+	
+	try
+	{
+		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from turno t inner join horario h on t.idhorario=h.idhorario inner join practica pr on h.id_practica=pr.id_practica inner join profesional prof on h.matricula=prof.matricula inner join usuario usProf on usProf.dni=prof.dni inner join usuario usPac on t.dni=usPac.dni inner join paciente pac on usPac.dni=pac.dni inner join obra_social obSoc on obSoc.id_obra_social = pac.id_obra_social where t.fecha_turno>=? and t.fecha_turno<=? and t.estado_t='Facturado' and id_prescripcion is not null order by t.fecha_turno");
+		
+		stmt.setDate(1, Date.valueOf(fechaDesde));
+		stmt.setDate(2, Date.valueOf(fechaHasta));
+		rs = stmt.executeQuery();
+		
+		while(rs!=null && rs.next())
+		{
+			Practica pract = new Practica();
+			pract.setId_practica(rs.getInt("id_practica"));
+			pract.setDescripcion(rs.getString("descripcion"));
+			
+			Profesional prof = new Profesional();
+			prof.setMatricula(rs.getInt("matricula"));
+			prof.setApellido(rs.getString("usProf.apellido"));
+			prof.setNombre(rs.getString("usProf.nombre"));
+			
+			ObraSocial obSoc = new ObraSocial();
+			obSoc.setNombre(rs.getString("nombre_os"));
+			
+			Paciente pac = new Paciente();
+			pac.setApellido(rs.getString("usPac.apellido"));
+			pac.setNombre(rs.getString("usPac.nombre"));
+			pac.setObra_social(obSoc);
+			
+			Horario hor = new Horario();
+			hor.setId_horario(rs.getInt("idhorario"));
+			hor.setPractica(pract);
+			hor.setProfesional(prof);			
+			
+			Turno tur = new Turno();
+			tur.setId_turno(rs.getInt("idturno"));
+			tur.setFecha_t(rs.getDate("fecha_turno").toLocalDate());
+			tur.setHorario(hor);
+			tur.setPaciente(pac);
+			
+			turnosPendientesACobrar.add(tur);
+		}
+		
+	}
+	
+	catch (SQLException e)
+	{
+		respuestaOperacion = e.toString();
+	}
+	
+	finally
+	{
+		FactoryConnection.cerrarConexion(rs, stmt);
+	}
+	
+	return turnosPendientesACobrar;
+	
+	
+}
+
+public String registrarPagoTurno(Turno t) {
+	
+	String respuestaOperacion = null;
+	
+	try {
+		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update turno set estado_t='Abonado' where idturno=?");
+		stmt.setInt(1, t.getId_turno());	
+	} catch (SQLException e) {
+		
+		respuestaOperacion = e.toString();
+		
+	} finally {
+		FactoryConnection.cerrarConexion(rs, stmt);
+	}
+	
+	return respuestaOperacion;	
+}
+
+
+
+}
+

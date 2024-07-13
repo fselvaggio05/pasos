@@ -233,10 +233,11 @@ public class TurnoService {
 	public List<Turno> buscarTurnosAsignadosProfesional(Integer matricula) {
 		return turRep.buscarTurnosAsignadosProfesional(matricula);
 	}
-	
-	public String registroTurnoPrescripcion(Integer id_turno, Paciente pac, Integer idPresc) 
-	{
-		return turRep.registroTurnoConPrescripcion(pac, id_turno, idPresc);
+
+	public List<Turno> buscarTurnosAsistidosAmbulatorios(LocalDate fechaDesde, LocalDate fechaHasta) {
+		
+		// TODO Auto-generated method stub
+		return turRep.buscarTurnosAsistidosAmbulatorios(fechaDesde,fechaHasta);
 	}
 
 	public List<Turno> getTurnosPrescripcion(Integer idPrescripcion) {
@@ -246,4 +247,66 @@ public class TurnoService {
 	public boolean validarPrescripcionAgotada(Integer idPresc) {
 		return turRep.validarPrescripcionAgotada(idPresc);
 	}
+	public List<Turno> buscarTurnosPendientesCobro(LocalDate fechaDesde, LocalDate fechaHasta) {
+		
+		return turRep.buscarTurnosPendientesCobro(fechaDesde,fechaHasta);
+	}
+
+	public List<Turno> obtenerTurnos(String[] seleccionados) {
+		
+		List<Turno> turnosFacturados = new ArrayList<Turno>();
+		
+		Integer idTurno = null;
+
+		for (int i = 0; i < seleccionados.length; i++) {
+			
+			idTurno = Integer.parseInt(seleccionados[i]);
+			Turno t = new Turno();
+			t.setId_turno(idTurno);
+			turnosFacturados.add(t);
+		}
+		
+		return turnosFacturados;		
+		
+	}
+	
+
+	public String registrarPagoTurnos(List<Turno> turnosFacturados) {
+		
+		String mensaje = null;
+		
+		for (Turno t : turnosFacturados)
+		{
+			turRep.registrarPagoTurno(t);
+		}
+		
+		return mensaje;
+	}
+	
+	public List<Turno> facturacionTurnos(List<Turno> turnos) {
+		//registra el estado del turno a Facturado y si por alguna razón no puedo cambiarle el estado, actualizo la lista y
+		//actualiza la lista de turnos
+		for (Turno t: turnos) {
+			String rta= turRep.facturaTurno(t.getId_turno());
+			if (!rta.equals("OK") ){
+				turnos.remove(t);
+			}
+		}
+		
+		return turnos ;
+		
+		
+		
+	}
+
+	public String registroTurnoPrescripcion(Integer id_turno, Paciente pac, Integer idPresc) 
+    {
+        return turRep.registroTurnoConPrescripcion(pac, id_turno, idPresc);
+    }
+
+	public List<Turno> buscarTurnosAsistidosAmbulatorios(LocalDate fecha_desde, LocalDate fecha_hasta, int matricula) {
+	
+		return turRep.buscarTurnosAsistidosAmbulatorios(fecha_desde, fecha_hasta, matricula);
+	
+}
 }
