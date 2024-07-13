@@ -554,9 +554,9 @@ public class PrescripcionRepository {
               presc.setSesiones_asistidas(rs.getInt("sesiones_asistidas"));
               presc.setFecha_alta_prescripcion(rs.getDate("presc.fecha_alta_presc").toLocalDate());
               if(rs.getDate("presc.fecha_baja_presc")==null) {
-                  presc.setFecha_baja_prescipcion(null);
+                  presc.setFecha_baja_prescripcion(null);
               } else {
-                  presc.setFecha_baja_prescipcion(rs.getDate("presc.fecha_baja_presc").toLocalDate());
+                  presc.setFecha_baja_prescripcion(rs.getDate("presc.fecha_baja_presc").toLocalDate());
               }
               presc.setEstado(rs.getBoolean("presc.estado"));
               prescripciones.add(presc);
