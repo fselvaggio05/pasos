@@ -789,12 +789,7 @@ List<Turno> turnosPendientesACobrar = new ArrayList<Turno>();
 	}
 	
 	return turnosPendientesACobrar;
-	
-
 }
-
-
-} 
 
 public String cancelaTurno(Integer idTurno) {
 

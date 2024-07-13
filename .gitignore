@@ -1,3 +1,4 @@
 /build/
 /target/
 src/main/java/conexionDB/FactoryConnection.java
+/src/main/java/conexionDB
