@@ -652,6 +652,31 @@ public class TurnoRepository {
 			return respuestaOperacion;
 		}
 
+		//Asignar Prescripción al Turno
+        public String asignarPrescripcionATurno(Turno tur, Integer id_prescripcion) {
+
+            try {
+                stmt = FactoryConnection.getInstancia().getConn()
+                        .prepareStatement("update turno set id_prescripcion=? where idturno=?");
+                stmt.setInt(1, id_prescripcion);
+                stmt.setInt(2, tur.getId_turno());
+                Integer resultadoUpdate = stmt.executeUpdate();
+
+                if (resultadoUpdate == 1) {
+                    respuestaOperacion = "OK";
+                } else {
+                    respuestaOperacion = null;
+                }
+            } catch (SQLException e) {
+                respuestaOperacion = e.toString();
+            } finally {
+                FactoryConnection.cerrarConexion(rs, stmt);
+            }
+            return respuestaOperacion;
+        }
+		
+		
+		
 		//Turno Particular
 		public String registroTurnoSinPrescripcion(Paciente pac, Integer id_turno) {
 			Integer respUpdate = null;
@@ -754,15 +779,9 @@ List<Turno> turnosPendientesACobrar = new ArrayList<Turno>();
 			turnosPendientesACobrar.add(tur);
 		}
 		
-	//Delete
-		//Cancelar Turno
-		public String cancelaTurno(Integer idTurno) {
-	
-			try {
-				stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
-						"update turno set estado_t='Libre',dni=NULL,id_prescripcion=NULL where idturno=?");
-				stmt.setInt(1, idTurno);
-				Integer resultadoUpdate = stmt.executeUpdate();
+	} catch (SQLException e) {
+		respuestaOperacion = e.toString();
+	} 
 	
 	finally
 	{
@@ -773,6 +792,27 @@ List<Turno> turnosPendientesACobrar = new ArrayList<Turno>();
 	
 
 } 
+
+public String cancelaTurno(Integer idTurno) {
+
+    try {
+        stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
+                "update turno set estado_t='Libre',dni=NULL,id_prescripcion=NULL where idturno=?");
+        stmt.setInt(1, idTurno);
+        Integer resultadoUpdate = stmt.executeUpdate();
+
+        if (resultadoUpdate == 1) {
+            respuestaOperacion = "OK";
+        } else {
+            respuestaOperacion = null;
+        }
+    } catch (SQLException e) {
+        respuestaOperacion = e.toString();
+    } finally {
+        FactoryConnection.cerrarConexion(rs, stmt);
+    }
+    return respuestaOperacion;
+}
 
 
 
