@@ -6,11 +6,13 @@ import java.util.List;
 import entity.Paciente;
 import entity.Practica;
 import entity.Prescripcion;
+import entity.Usuario;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import service.PacienteService;
 import service.PracticaService;
 import service.PrescripcionService;
@@ -36,7 +38,8 @@ public class PrescripcionServlet extends HttpServlet {
             List<Prescripcion> prescripciones = prescServ.getAll();
             request.setAttribute("prescripciones", prescripciones);
     	}
-        request.getRequestDispatcher("registroPrescripcion.jsp").forward(request, response);
+        request.getRequestDispatcher("registroPrescripcion.jsp").forward(request, response); 
+      
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

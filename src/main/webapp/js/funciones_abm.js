@@ -272,104 +272,203 @@ if (revivirHorario) {
     });
 }
 
-
-//Registro turno 
-
-const registrarTurno = document.getElementById('registrarTurno')
-
-if(registrarTurno)
-{
-
-        registrarTurno.addEventListener('show.bs.modal', event => {
-
-        
-        // Trae el link que levantó el modal
-        const a = event.relatedTarget
-        
-        // Trae los atributos del link con los valores que se le enviaron 
-        const idTurno = a.getAttribute('idTurno')
-        const fechaTurno = a.getAttribute('fecha_turno');
-        const horaTurno = a.getAttribute('hora_turno');
-        
-        console.log(idTurno)
-		console.log(fechaTurno)
-        
-        
-        // Traigo el formulario dentro del modal
-        const form = registrarTurno.querySelector('form');
-        
-        // Busco los campos en donde voy a mostrar los datos dentro del formulario
-        const inputHiddenIdTurno = form.querySelector('#idTurno');
-        const labelFechaTurno = form.querySelector('#fechaTurno');
-        const labelHoraTurno = form.querySelector('#horaTurno');    
-
-        // Asigno los valores capturados para mostrarlos
-        inputHiddenIdTurno.value = idTurno;
-        labelFechaTurno.innerHTML = fechaTurno;
-        labelHoraTurno.innerHTML = horaTurno;
-    });
+// Obra social
+	//Actualizar
+	const actualizarObraSocial = document.getElementById('actualizarObraSocial')
 	
-}
-
-// Montos Practica
-//Alta
-const altaMontoModal = document.getElementById('altaMonto');
-
-altaMontoModal.addEventListener('show.bs.modal', function (event) {
-	// Trae el link que levantó el modal
-    const boton = document.getElementById('btnAltaMontos');
-
-        
-    // Trae los atributos del link con los valores que se le enviaron 
-    const idPractica = boton.dataset.practica;
-        //const idPractica = event.relatedTarget.getAttribute('idPractica');
+	// verifica que exista el modal de, si existe ingresa al if
+	if (actualizarObraSocial) {
+		//agrega un evento onload al modal, cuando el modal se levante ejecuta la siguiente función
+	  actualizarObraSocial.addEventListener('show.bs.modal', event => {
+	    
+	    //trae el link que levanto el modal
+	    const a = event.relatedTarget
+	    
+	    //trae los atributos del link con los valores que se le enviaron 
+	    const idObraSocial = a.getAttribute('idObraSocial');
+	    //console.log(idPractica);    
+	    const nomObraSocial=a.getAttribute('nomObraSocial');
+	    
+		console.log(nomObraSocial);
+	        
+		//traigo los campos en donde voy a mostrar los datos 
+	    const inputIdObraSocial = actualizarObraSocial.querySelector('.modal-body #idObraSocial');   
+	    const inputNomObraSocial = actualizarObraSocial.querySelector('.modal-body #nomObraSocial');    
 	
-	console.log('Codigo practica:', idPractica);
-    const idPracticaInputReadOnly = document.getElementById('idPracticaAlta');
-    
-    // Establecer el valor de idPractica en los campos oculto y readonly del formulario
-    idPracticaInputReadOnly.value = idPractica;
-});
+		//asigno los valores capturados para mostrarlos
+	    inputIdObraSocial.value = idObraSocial;    
+	    inputNomObraSocial.value = nomObraSocial;    
+	  })
+	}
 
-//Actualizar
-const actualizarMontoPractica = document.getElementById('actualizarMonto')
+	//Eliminar
+	const eliminarObraSocial = document.getElementById('eliminarObraSocial');
+	// verifica que exista el modal, si existe ingresa al if
+	if (eliminarObraSocial) {
+		//agrega un evento onload al modal, cuando el modal se levante ejecuta la siguiente función
+	  eliminarObraSocial.addEventListener('show.bs.modal', event => {
+	    
+	    //trae el link que levanto el modal
+	    const a = event.relatedTarget
+	    
+	    //trae los atributos del link con los valores que se le enviaron 
+	    const idObraSocial = a.getAttribute('idObraSocial');    
+	    const nomObraSocial=a.getAttribute('nomObraSocial');
+	
+		console.log(nomObraSocial);
+	       
+		//traigo los campos en donde voy a mostrar los datos 
+	    const inputIdObraSocial = eliminarObraSocial.querySelector('.modal-body #idObraSocial');
+	    const inputNomObraSocial = eliminarObraSocial.querySelector('.modal-body #nomObraSocial');
+	    	        
+		//asigno los valores capturados para mostrarlos
+		inputIdObraSocial.value = idObraSocial;
+	    inputNomObraSocial.innerHTML = nomObraSocial;   
+	  })
+	}
 
-// verifica que exista el modal de, si existe ingresa al if
-if (actualizarMonto) {
-	//agrega un evento onload al modal, cuando el modal se levante ejecuta la siguiente función
-  actualizarMonto.addEventListener('show.bs.modal', event => {
+const revivirObraSocial = document.getElementById('revivirObraSocial')
+if(revivirObraSocial){
+	revivirObraSocial.addEventListener('show.bs.modal', event => {
     
     //trae el link que levanto el modal
     const a = event.relatedTarget
     
     //trae los atributos del link con los valores que se le enviaron 
-    const idPractica = a.getAttribute('idPractica');
-    console.log(idPractica);
-    const idMonto = a.getAttribute('id_monto');
-    console.log(idMonto);
-    const fechaDesde=a.getAttribute('fechaDesde');
-	console.log(fechaDesde);
-	const fechaHasta=a.getAttribute('fechaHasta');
-	console.log(fechaHasta);
-	const monto = a.getAttribute('monto');
-	console.log(monto);
-        
+    const idObraSocial = a.getAttribute('idObraSocial');    
+    const nomObraSocial=a.getAttribute('nomObraSocial');
+
+	console.log(nomObraSocial);
+       
 	//traigo los campos en donde voy a mostrar los datos 
-    const inputIdPractica = actualizarMonto.querySelector('.modal-body #idPractica');
-    const inputIdMonto = actualizarMonto.querySelector('.modal-body #idMonto');
-    const inputFechaDesde = actualizarMonto.querySelector('.modal-body #fechaDesde');
-    const inputFechaHasta = actualizarMonto.querySelector('.modal-body #fechaHasta');
-    const inputMonto = actualizarMonto.querySelector('.modal-body #monto');    
+    const inputIdObraSocial = revivirObraSocial.querySelector('.modal-body #idObraSocial');
+    const inputNomObraSocial = revivirObraSocial.querySelector('.modal-body #nomObraSocial');
     
+        
 	//asigno los valores capturados para mostrarlos
-    inputIdPractica.value = idPractica;
-    inputIdMonto.value = idMonto;    
-    inputFechaDesde.value = fechaDesde;
-    inputFechaHasta.value = fechaHasta;
-    inputMonto.value = monto;    
+	inputIdObraSocial.value = idObraSocial;
+    inputNomObraSocial.innerHTML = nomObraSocial;   
   })
 }
 
+//Turnos
+	//Registo con Prescripcion
+	const registrarTurno = document.getElementById('registrarTurno');	
+	if (registrarTurno) {
+	    registrarTurno.addEventListener('show.bs.modal', event => {
+	        const a = event.relatedTarget;
+	        const idTurnoBoton = a.getAttribute('idTurno');
+	        const fecha_tBoton = a.getAttribute('fecha_t');
+	        const hora_tBoton = a.getAttribute('hora_t');
+			const profesionalBoton = a.getAttribute('profesional');
+
+	        console.log(idTurnoBoton);
+	        console.log(fecha_tBoton);
+	        console.log(hora_tBoton);
+			console.log(profesionalBoton);
+
+	        const idTurnoHidden=registrarTurno.querySelector('.modal-body #idTurno');
+			const fechaTurno = registrarTurno.querySelector('.modal-body #fechaTurno');
+			const horaTurno = registrarTurno.querySelector('.modal-body #horaTurno');
+			const profesional = registrarTurno.querySelector('.modal-body #profesional');
+
+	        idTurnoHidden.value = idTurnoBoton;
+			fechaTurno.textContent =fecha_tBoton;
+			horaTurno.textContent = hora_tBoton;
+			profesional.textContent=profesionalBoton;
+	    });
+	}
+	
+	//Buscar Paciente sin prescripcion
+	document.addEventListener("DOMContentLoaded", function() {
+        // Función para asignar el valor de idTurno al campo oculto
+        function asignarIdTurno(idTurno) {
+            document.getElementById('idTurnoHidden').value = idTurno;
+        }
+
+        // Capturamos el botón que abre el modal de buscar paciente
+        var botonReservar = document.querySelector("[data-bs-target='#buscarPaciente']");
+        
+        // Comprobamos si el botón existe y le asignamos la función de clic directamente
+        if (botonReservar) {
+            botonReservar.onclick = function() {
+                asignarIdTurno(this.getAttribute("idTurno"));
+            };
+        }
+
+        // Capturamos el botón que abre el modal de registrar turno
+        var botonRegistrar = document.querySelector("[data-bs-target='#registrarTurno']");
+        
+        // Comprobamos si el botón existe y le asignamos la función de clic directamente
+        if (botonRegistrar) {
+            botonRegistrar.onclick = function() {
+                asignarIdTurno(this.getAttribute("idTurno"));
+            };
+        }
+    });
+
+// Montos Practica
+	//Alta
+	const altaMonto = document.getElementById('altaMonto')
+	
+	// verifica que exista el modal de, si existe ingresa al if
+	if (altaMonto) {
+		//agrega un evento onload al modal, cuando el modal se levante ejecuta la siguiente función
+	  altaMonto.addEventListener('show.bs.modal', event => {
+	    
+	    //trae el link que levanto el modal
+	    const a = event.relatedTarget
+	    
+	     // Trae los atributos del botón con los valores que se le enviaron 
+	    const idPractica = a.getAttribute('data-practica');
+	    console.log(idPractica);    
+	        
+		//traigo los campos en donde voy a mostrar los datos 
+	    const idPracticaAlta = altaMonto.querySelector('.modal-body #idPracticaAlta');
+	
+		//asigno los valores capturados para mostrarlos
+	    idPracticaAlta.value=idPractica;
+	  })
+	}
+	
+	//Actualizar
+	const actualizarMonto = document.getElementById('actualizarMonto');
+	// verifica que exista el modal, si existe ingresa al if
+	if (actualizarMonto) {
+		//agrega un evento onload al modal, cuando el modal se levante ejecuta la siguiente función
+	  actualizarMonto.addEventListener('show.bs.modal', event => {
+	    
+	    //trae el link que levanto el modal
+	    const a = event.relatedTarget
+	    
+	    //trae los atributos del link con los valores que se le enviaron 
+	    const idMontoBoton = a.getAttribute('id_monto');    
+	    const fechaDesdeBoton = a.getAttribute('fechaDesde');
+		const fechaHastaBoton = a.getAttribute('fechaHasta');
+		const montoBoton = a.getAttribute('monto');
+		const idPracticaBoton = a.getAttribute('idPractica');
+	
+		console.log(idMontoBoton);
+		console.log(fechaDesdeBoton);
+		console.log(fechaHastaBoton);
+		console.log(montoBoton);
+		console.log(idPracticaBoton);
+	       
+		//traigo los campos en donde voy a mostrar los datos 
+	    const inputIdMonto = actualizarMonto.querySelector('.modal-body #idMonto');
+	    const inputFechaDesde = actualizarMonto.querySelector('.modal-body #fechaDesde');
+		const inputFechaHasta = actualizarMonto.querySelector('.modal-body #fechaHasta');
+		const inputMonto = actualizarMonto.querySelector('.modal-body #monto');
+		const inputIdPractica = actualizarMonto.querySelector('.modal-body #idPractica');
+	    	        
+		//asigno los valores capturados para mostrarlos
+		inputIdMonto.value = idMontoBoton;
+		inputFechaDesde.value = fechaDesdeBoton;
+		inputFechaHasta.value = fechaHastaBoton;
+		inputMonto.value = montoBoton;
+		inputIdPractica.value = idPracticaBoton;
+	  })
+	}
 
 //Prescripcion
 	//Registro
@@ -424,6 +523,8 @@ if (actualizarMonto) {
 	    });
 	}
 
+
+				
 //Registro asistencia 
 const registroAsistencia = document.getElementById('registroAsistencia');
 
@@ -455,25 +556,27 @@ if(registroAsistencia)
 }
 
 //Filtro busqueda turnos 
-const filtroTurno = document.getElementById('filtro')
+const filtroTurno = document.getElementById('filtro');
 
+if (filtroTurno) {
     filtroTurno.addEventListener('change', () => {
-      ocultarCampos();        
-           
-      if (filtroTurno.value > -1) {
-        document.getElementById(`filtro-${filtroTurno.value}`).style.display = 'block';
-        document.getElementById(`btnBuscar`).style.display = 'block';        
-      }
-    });
-    
-    function ocultarCampos() {
-      document.getElementById('filtro-1').style.display = 'none';
-      document.getElementById('filtro-2').style.display = 'none';
-      document.getElementById('filtro-3').style.display = 'none';
-      document.getElementById('btnBuscar').style.display = 'none';
-    }
-    ocultarCampos();
+        ocultarCampos();
 
+        if (filtroTurno.value > -1) {
+            document.getElementById(`filtro-${filtroTurno.value}`).style.display = 'block';
+            document.getElementById('btnBuscar').style.display = 'block';        
+        }
+    });
+
+    function ocultarCampos() {
+        document.getElementById('filtro-1').style.display = 'none';
+        document.getElementById('filtro-2').style.display = 'none';
+        document.getElementById('filtro-3').style.display = 'none';
+        document.getElementById('btnBuscar').style.display = 'none';
+    }
+
+    ocultarCampos();
+}
 
 //Cancela turno
 const cancelaTurno = document.getElementById('cancelaTurno')
@@ -508,86 +611,6 @@ if(cancelaTurno)
         labelDatosTurno.innerHTML = datosTurno;
     });	
 }
-
-// Obra social
-const actualizarObraSocial = document.getElementById('actualizarObraSocial')
-
-// verifica que exista el modal de, si existe ingresa al if
-if (actualizarObraSocial) {
-	//agrega un evento onload al modal, cuando el modal se levante ejecuta la siguiente función
-  actualizarObraSocial.addEventListener('show.bs.modal', event => {
-    
-    //trae el link que levanto el modal
-    const a = event.relatedTarget
-    
-    //trae los atributos del link con los valores que se le enviaron 
-    const idObraSocial = a.getAttribute('idObraSocial');
-    //console.log(idPractica);    
-    const nomObraSocial=a.getAttribute('nomObraSocial');
-    
-	console.log(nomObraSocial);
-        
-	//traigo los campos en donde voy a mostrar los datos 
-    const inputIdObraSocial = actualizarObraSocial.querySelector('.modal-body #idObraSocial');   
-    const inputNomObraSocial = actualizarObraSocial.querySelector('.modal-body #nomObraSocial');    
-
-	//asigno los valores capturados para mostrarlos
-    inputIdObraSocial.value = idObraSocial;    
-    inputNomObraSocial.value = nomObraSocial;    
-  })
-}
-
-const eliminarObraSocial = document.getElementById('eliminarObraSocial');
-// verifica que exista el modal, si existe ingresa al if
-if (eliminarObraSocial) {
-	//agrega un evento onload al modal, cuando el modal se levante ejecuta la siguiente función
-  eliminarObraSocial.addEventListener('show.bs.modal', event => {
-    
-    //trae el link que levanto el modal
-    const a = event.relatedTarget
-    
-    //trae los atributos del link con los valores que se le enviaron 
-    const idObraSocial = a.getAttribute('idObraSocial');    
-    const nomObraSocial=a.getAttribute('nomObraSocial');
-
-	console.log(nomObraSocial);
-       
-	//traigo los campos en donde voy a mostrar los datos 
-    const inputIdObraSocial = eliminarObraSocial.querySelector('.modal-body #idObraSocial');
-    const inputNomObraSocial = eliminarObraSocial.querySelector('.modal-body #nomObraSocial');
-    
-        
-	//asigno los valores capturados para mostrarlos
-	inputIdObraSocial.value = idObraSocial;
-    inputNomObraSocial.innerHTML = nomObraSocial;   
-  })
-}
-
-const revivirObraSocial = document.getElementById('revivirObraSocial')
-if(revivirObraSocial){
-	revivirObraSocial.addEventListener('show.bs.modal', event => {
-    
-    //trae el link que levanto el modal
-    const a = event.relatedTarget
-    
-    //trae los atributos del link con los valores que se le enviaron 
-    const idObraSocial = a.getAttribute('idObraSocial');    
-    const nomObraSocial=a.getAttribute('nomObraSocial');
-
-	console.log(nomObraSocial);
-       
-	//traigo los campos en donde voy a mostrar los datos 
-    const inputIdObraSocial = revivirObraSocial.querySelector('.modal-body #idObraSocial');
-    const inputNomObraSocial = revivirObraSocial.querySelector('.modal-body #nomObraSocial');
-    
-        
-	//asigno los valores capturados para mostrarlos
-	inputIdObraSocial.value = idObraSocial;
-    inputNomObraSocial.innerHTML = nomObraSocial;   
-  })
-}
-
-
 
 // FUNCIONES SELECCION
 

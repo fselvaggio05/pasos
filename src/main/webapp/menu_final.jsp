@@ -99,9 +99,14 @@
                 </ul>
               </div>
             </li>
-          </c:if>
+          </c:if>            
+          
         </ul>
-
+		
+          <div class="border-top my-3">
+			<a href="index.jsp" class="btn btn-toggle align-items-center rounded collapsed text-decoration-underline">Cerrar sesion</a>
+		  </div>
+			
 
       </div>
      
