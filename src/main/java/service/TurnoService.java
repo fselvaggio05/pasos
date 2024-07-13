@@ -275,4 +275,31 @@ public class TurnoService {
 		
 		return mensaje;
 	}
+	
+	public List<Turno> facturacionTurnos(List<Turno> turnos) {
+		//registra el estado del turno a Facturado y si por alguna razón no puedo cambiarle el estado, actualizo la lista y
+		//actualiza la lista de turnos
+		for (Turno t: turnos) {
+			String rta= turRep.facturaTurno(t.getId_turno());
+			if (!rta.equals("OK") ){
+				turnos.remove(t);
+			}
+		}
+		
+		return turnos ;
+		
+		
+		
+	}
+
+	public String registroTurnoPrescripcion(Integer id_turno, Paciente pac, Integer idPresc) 
+    {
+        return turRep.registroTurnoConPrescripcion(pac, id_turno, idPresc);
+    }
+
+	public List<Turno> buscarTurnosAsistidosAmbulatorios(LocalDate fecha_desde, LocalDate fecha_hasta, int matricula) {
+	
+		return turRep.buscarTurnosAsistidosAmbulatorios(fecha_desde, fecha_hasta, matricula);
+	
+}
 }

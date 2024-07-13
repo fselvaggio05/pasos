@@ -52,7 +52,7 @@ private static final long serialVersionUID = 1L;
  		if(us.getTipo_usuario()==3)
 		{
  			Paciente pac = pacServ.buscarPaciente(us.getDni());
-			session.setAttribute("paciente", pac);
+			session.setAttribute("pac", pac);
 			List<Prescripcion> prescripciones = prescServ.buscarTodasLasPrescripciones(pac);
 			request.setAttribute("prescripciones", prescripciones);
 		}
@@ -123,7 +123,6 @@ private static final long serialVersionUID = 1L;
 		if(request.getParameter("idPrescripcion")!=null) 
 		{
 			idPrescripcion = request.getParameter("idPrescripcion");
-			request.setAttribute("idPrescripcion", idPrescripcion);
 		}
 		
 		switch (operacion) {		
@@ -206,37 +205,55 @@ private static final long serialVersionUID = 1L;
 		
 		case "registroTurno":
 		{
-			Integer dniPac = Integer.parseInt(request.getParameter("dniPaciente"));
 			Integer id_turno = Integer.parseInt(request.getParameter("idTurno"));
-			pac = pacServ.buscarPaciente(dniPac);
 			
-			if(pac!=null)
-			{				
-				respuestaOperacion = turServ.registroTurno(pac,id_turno);	
-				
-				if (respuestaOperacion == "OK") {
-					mensaje = "Turno registrado exitosamente.";
-					request.setAttribute("mensaje", mensaje);					
-				}
-			}
-			else {				
-					mensaje = "Debe seleccionar un paciente.";
-					request.setAttribute("mensaje", mensaje);					
-				}				
-			}			
-			request.setAttribute("profesionales",null);
-			request.setAttribute("turnos", null);
-			request.setAttribute("dniPacienteBuscado", null);
-			request.setAttribute("paciente", null);		
-			request.setAttribute("practicaSeleccionada", null);				
-			if(idPrescripcion!=null)
+			if(idPrescripcion!=null) 
 			{
-				response.sendRedirect(request.getContextPath() + "/registroTurno?idPrescripcion=" + idPrescripcion);
+				Integer idPresc = Integer.parseInt(idPrescripcion);
+				Prescripcion prescripcion = prescServ.getPrescripcion(idPresc);
+				respuestaOperacion = turServ.registroTurnoPrescripcion(id_turno, prescripcion.getPaciente(), idPresc);
+				request.setAttribute("mensaje", respuestaOperacion);
 			}
 			else 
 			{
-				this.doGet(request, response);	
-			}	
+				Integer dniPac = Integer.parseInt(request.getParameter("dniPaciente"));				
+				pac = pacServ.buscarPaciente(dniPac);
+				
+				if(pac!=null)
+				{				
+					respuestaOperacion = turServ.registroTurno(pac,id_turno);	
+									
+					if (respuestaOperacion == "OK") {
+						mensaje = "Turno registrado exitosamente.";
+						request.setAttribute("mensaje", mensaje);					
+					}
+				}
+				else {				
+						mensaje = "Debe seleccionar un paciente.";
+						request.setAttribute("mensaje", mensaje);					
+					}				
+				}			
+
+			}
+			if(request.getAttribute("mensaje")!=null) {
+				this.doGet(request, response);
+			}
+			else 
+			{
+				request.setAttribute("profesionales",null);
+				request.setAttribute("turnos", null);
+				request.setAttribute("dniPacienteBuscado", null);
+				request.setAttribute("paciente", null);		
+				request.setAttribute("practicaSeleccionada", null);				
+				if(idPrescripcion!=null)
+				{
+					response.sendRedirect(request.getContextPath() + "/registroTurno?idPrescripcion=" + idPrescripcion);
+				}
+				else 
+				{
+					this.doGet(request, response);	
+				}	
+			}
 			break;			
 		}
 	}	
