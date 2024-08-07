@@ -309,4 +309,10 @@ public class TurnoService {
 		return turRep.buscarTurnosAsistidosAmbulatorios(fecha_desde, fecha_hasta, matricula);
 	
 }
+
+	public List<Turno> buscarTurnosAsistidosDiscapacidad(LocalDate fecha_desde, LocalDate fecha_hasta,
+			Integer matricula) {
+		
+		return turRep.buscarTurnosAsistidosDiscapacidad(fecha_desde, fecha_hasta, matricula);
+	}
 }

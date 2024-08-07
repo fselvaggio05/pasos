@@ -14,6 +14,7 @@ import entity.Consultorio;
 import entity.Enumeradores;
 import entity.Equipo;
 import entity.Horario;
+import entity.MontosPractica;
 import entity.ObraSocial;
 import entity.Paciente;
 import entity.Practica;
@@ -1084,6 +1085,77 @@ public String registrarPagoTurno(Turno t) {
 	}
 	
 	return respuestaOperacion;	
+}
+
+public List<Turno> buscarTurnosAsistidosDiscapacidad(LocalDate fecha_desde, LocalDate fecha_hasta, Integer matricula) {
+	
+List<Turno> turnosDiscapacidadPendientesACobrar = new ArrayList<Turno>();
+	
+	try
+	{
+		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from turno t inner join horario h on t.idhorario=h.idhorario inner join practica pr on h.id_practica=pr.id_practica inner join profesional prof on h.matricula=prof.matricula inner join usuario usProf on usProf.dni=prof.dni inner join usuario usPac on t.dni=usPac.dni inner join paciente pac on usPac.dni=pac.dni inner join obra_social obSoc on obSoc.id_obra_social = pac.id_obra_social inner join monto_practica mo on mo.id_practica=pr.id_practica where t.fecha_turno>=? and t.fecha_turno<=? and t.estado_t='Asistido' and pr.tipo_practica = 2 and t.fecha_turno>=mo.fecha_desde and t.fecha_turno<=mo.fecha_hasta and t.id_prescripcion is not null order by t.fecha_turno");
+		
+		stmt.setDate(1, Date.valueOf(fecha_desde));
+		stmt.setDate(2, Date.valueOf(fecha_hasta));
+		rs = stmt.executeQuery();
+		
+		while(rs!=null && rs.next())
+		{
+			Practica pract = new Practica();
+			pract.setId_practica(rs.getInt("pr.id_practica"));
+			pract.setDescripcion(rs.getString("pr.descripcion"));
+			
+			MontosPractica montoPractica = new MontosPractica();
+			montoPractica.setId_monto(rs.getInt("mo.id_monto"));
+			montoPractica.setMonto(rs.getDouble("mo.monto"));
+			
+			List<MontosPractica> montosPractica = new ArrayList<MontosPractica>();
+			//MontosPracticaRepository montRep = new MontosPracticaRepository();
+			//montosPractica=montRep.getMontosPractica(pract);
+			montosPractica.add(montoPractica);
+		    pract.setMontos(montosPractica);
+			
+			Profesional prof = new Profesional();
+			prof.setMatricula(rs.getInt("matricula"));
+			prof.setApellido(rs.getString("usProf.apellido"));
+			prof.setNombre(rs.getString("usProf.nombre"));
+			
+			ObraSocial obSoc = new ObraSocial();
+			obSoc.setNombre(rs.getString("nombre_os"));
+			
+			Paciente pac = new Paciente();
+			pac.setApellido(rs.getString("usPac.apellido"));
+			pac.setNombre(rs.getString("usPac.nombre"));
+			pac.setObra_social(obSoc);
+			
+			Horario hor = new Horario();
+			hor.setId_horario(rs.getInt("idhorario"));
+			hor.setPractica(pract);
+			hor.setProfesional(prof);			
+			
+			Turno tur = new Turno();
+			tur.setId_turno(rs.getInt("idturno"));
+			tur.setFecha_t(rs.getDate("fecha_turno").toLocalDate());
+			tur.setHorario(hor);
+			tur.setPaciente(pac);
+			
+			turnosDiscapacidadPendientesACobrar.add(tur);
+		}
+		
+	}
+	
+	catch (SQLException e)
+	{
+		respuestaOperacion = e.toString();
+	}
+	
+	finally
+	{
+		FactoryConnection.cerrarConexion(rs, stmt);
+	}
+	
+	return turnosDiscapacidadPendientesACobrar;
+	
 }
 
 

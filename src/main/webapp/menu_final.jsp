@@ -67,7 +67,7 @@
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 
                   <li><a href="listadoambulatorias" class="link-dark rounded">Facturacion Ambulatoria</a></li>
-                  <li><a href="ListadoDiscapacidad.jsp" class="link-dark rounded">Facturacion Plan Discapacidad</a></li>
+                  <li><a href="listadodiscapacidad" class="link-dark rounded">Facturacion Plan Discapacidad</a></li>
 				  <li><a href="registroPagos" class="link-dark rounded">Registro practicas abonadas</a></li>
 				  
                 </ul>
