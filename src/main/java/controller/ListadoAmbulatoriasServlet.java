@@ -57,16 +57,53 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String operacion = request.getParameter("operacion");
-        String respuestaOperacion = null;
+    	String operacion = request.getParameter("operacion");
+        String respuestaOperacion = null;    
         List<Turno> tur = null;
 
         switch (operacion) {
             case "listado": {
-                Integer matricula = Integer.parseInt(request.getParameter("profesional"));
-                Profesional profesional = profServ.getProfesional(matricula);
-                LocalDate fecha_desde = LocalDate.parse(request.getParameter("fecha_desde"));
-                LocalDate fecha_hasta = LocalDate.parse(request.getParameter("fecha_hasta"));
+                // Validaciones
+                
+            	 Integer matricula = Integer.parseInt(request.getParameter("profesional"));
+                 Profesional profesional = profServ.getProfesional(matricula);
+                 LocalDate fecha_desde = LocalDate.parse(request.getParameter("fecha_desde"));
+                 LocalDate fecha_hasta = LocalDate.parse(request.getParameter("fecha_hasta"));
+                 
+                 request.setAttribute("fecha_desde", fecha_desde);
+                 request.setAttribute("fecha_hasta", fecha_hasta);
+                 request.setAttribute("turnos", tur);
+                 request.setAttribute("profesionalSeleccionado", profesional.getMatricula());
+            	
+            	
+                if (matricula == null || (matricula) == 1) {
+                    respuestaOperacion = "Seleccione un profesional";
+                    request.setAttribute("mensaje", respuestaOperacion);
+                    this.doGet(request, response);
+                    return;
+                }
+
+                if (fecha_desde == null ) {
+                    respuestaOperacion = "Ingrese fecha de inicio del período";
+                    request.setAttribute("mensaje", respuestaOperacion);
+                    this.doGet(request, response);
+                    return;
+                }
+
+                if (fecha_hasta == null) {
+                    respuestaOperacion = "Ingrese fecha final del período";
+                    request.setAttribute("mensaje", respuestaOperacion);
+                    this.doGet(request, response);
+                    return;
+                }
+
+                if (profesional == null) {
+                	respuestaOperacion = "Seleccione un profesional";
+                	request.setAttribute("mensaje", respuestaOperacion);
+                    this.doGet(request, response);
+                    return;
+                }
+                
                 tur = turServ.buscarTurnosAsistidosAmbulatorios(fecha_desde, fecha_hasta, profesional.getMatricula());
 
                 if (tur.isEmpty()) {
@@ -82,10 +119,48 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
             }
 
             case "exportar": {
-                LocalDate fecha_desde = LocalDate.parse(request.getParameter("fecha_desde"));
-                LocalDate fecha_hasta = LocalDate.parse(request.getParameter("fecha_hasta"));
-                Integer matricula = Integer.parseInt(request.getParameter("profesional"));
-                Profesional profesional = profServ.getProfesional(matricula);
+                // Validaciones
+            	 Integer matricula = Integer.parseInt(request.getParameter("profesional"));
+                 Profesional profesional = profServ.getProfesional(matricula);
+                 LocalDate fecha_desde = LocalDate.parse(request.getParameter("fecha_desde"));
+                 LocalDate fecha_hasta = LocalDate.parse(request.getParameter("fecha_hasta"));
+                 request.setAttribute("fecha_desde", fecha_desde);
+                 request.setAttribute("fecha_hasta", fecha_hasta);
+                 request.setAttribute("turnos", tur);
+                 request.setAttribute("profesionalSeleccionado", profesional.getMatricula());
+            	
+                if (matricula == null || (matricula) == 1) {
+                    respuestaOperacion = "Seleccione un profesional";
+                    request.setAttribute("mensaje", respuestaOperacion);
+                    this.doGet(request, response);
+                    return;
+                }
+
+//                if (fecha_desde == null ) {
+//                    respuestaOperacion = "Ingrese fecha de inicio del período";
+//                    request.setAttribute("mensaje", respuestaOperacion);
+//                    this.doGet(request, response);
+//                    return;
+//                }
+
+//                if (fecha_hasta == null) {
+//                    respuestaOperacion = "Ingrese fecha final del período";
+//                    request.setAttribute("mensaje", respuestaOperacion);
+//                    this.doGet(request, response);
+//                    return;
+//                }
+
+                if (profesional == null) {
+                	respuestaOperacion = "Seleccione un profesional";
+                	request.setAttribute("mensaje", respuestaOperacion);
+                    this.doGet(request, response);
+                    return;
+                }
+               
+                
+                
+                              
+                
                 request.setAttribute("fecha_desde", fecha_desde);
                 request.setAttribute("fecha_hasta", fecha_hasta);
                 request.setAttribute("turnos", tur);
