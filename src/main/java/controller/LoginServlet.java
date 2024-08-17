@@ -44,9 +44,8 @@ public class LoginServlet extends HttpServlet {
         	
         	if(us!=null)
         	{
-        		 HttpSession session = req.getSession(true);
-                 session.setAttribute("usuario", us);
-                 session.setAttribute("rol", us.getTipo_usuario());                 
+        		 req.setAttribute("usuario", us);
+                 req.setAttribute("rol", us.getTipo_usuario());                 
                  resp.sendRedirect(req.getContextPath() + "/menu_final.jsp");
         	}
 

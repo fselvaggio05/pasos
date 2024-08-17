@@ -102,7 +102,7 @@ public class ConsultaServlet extends HttpServlet {
 						if(turnos.size()==0){
 							respuestaOperacion="Sin turnos";
 						}												
-						session.setAttribute("turnos", turnos);
+						request.setAttribute("turnos", turnos);
 						break;
 					}
 					
@@ -114,7 +114,7 @@ public class ConsultaServlet extends HttpServlet {
 						if(turnos.size()==0){
 							respuestaOperacion="Sin turnos";
 						}												
-						session.setAttribute("turnos", turnos);	
+						request.setAttribute("turnos", turnos);	
 						break;						
 					}
 				}
@@ -128,7 +128,7 @@ public class ConsultaServlet extends HttpServlet {
 			
 				if (respuestaOperacion == "OK"){	
 					mensaje = "El turno ha sido cancelado.";
-					session.setAttribute("mensaje", mensaje);		
+					request.setAttribute("mensaje", mensaje);		
 				} else{
 					mensaje = "No se ha registrado la cancelacion del turno.";					
 				}
