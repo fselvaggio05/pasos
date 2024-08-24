@@ -15,7 +15,11 @@ import java.io.IOException;
 
 public class LoginServlet extends HttpServlet {
 
-    private UsuarioService usServ;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private UsuarioService usServ;
     
     public LoginServlet ()
     {
@@ -44,8 +48,9 @@ public class LoginServlet extends HttpServlet {
         	
         	if(us!=null)
         	{
-        		 req.setAttribute("usuario", us);
-                 req.setAttribute("rol", us.getTipo_usuario());                 
+        		 HttpSession session = req.getSession(true);
+                 session.setAttribute("usuario", us);
+                 session.setAttribute("rol", us.getTipo_usuario());                 
                  resp.sendRedirect(req.getContextPath() + "/menu_final.jsp");
         	}
 
