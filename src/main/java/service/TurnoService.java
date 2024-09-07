@@ -155,8 +155,8 @@ public class TurnoService {
 		}
 	}
 
-	public List<Turno> buscarTurnosDisponibles(Integer matricula) {
-		return turRep.buscarTurnosDisponibles(matricula);
+	public List<Turno> buscarTurnosDisponibles(Integer matricula, Integer practica) {
+		return turRep.buscarTurnosDisponibles(matricula,practica);
 	}
 
 	public String registroTurno(Paciente pac, Integer id_turno) {

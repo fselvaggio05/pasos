@@ -57,7 +57,8 @@ public class AsistenciaServlet extends HttpServlet {
 							case "regitrarAsistencia": 
 							{
 								Integer idTurno = Integer.parseInt(request.getParameter("idTurno"));
-								Paciente pac = (Paciente)request.getAttribute("paciente");
+								Integer dni = Integer.parseInt(request.getParameter("paciente"));
+								Paciente pac = pacServ.buscarPaciente(dni);
 								respuestaOperacion = turServ.registrarAsistencia(pac,idTurno);
 								if (respuestaOperacion == "OK") 
 								{
