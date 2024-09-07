@@ -1078,6 +1078,8 @@ public String registrarPagoTurno(Turno t) {
 	try {
 		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update turno set estado_t='Abonado' where idturno=?");
 		stmt.setInt(1, t.getId_turno());	
+		stmt.executeUpdate();
+		respuestaOperacion="OK";
 	} catch (SQLException e) {
 		
 		respuestaOperacion = e.toString();
