@@ -125,7 +125,7 @@ public class UsuarioServlet extends HttpServlet {
             case 1: {               
                     Usuario us;
 					try {
-						us = new Usuario(dni,apellido,nombre,email,fecha_nacimiento,telefono, contraseña, genero);
+						us = new Usuario(dni,apellido,nombre,email,fecha_nacimiento,telefono, contraseña, genero,1);
 						if(usServ.validarAdministrador(us)) 
 						{							
 							if("altaUsuario".equals(modal)) 
@@ -196,7 +196,7 @@ public class UsuarioServlet extends HttpServlet {
                     ObraSocial obraSocial = osServ.getObraSocial(id_obra_social);
                     String nroAfiliado = request.getParameter("nroAfiliado");
 					try {
-						Paciente pac = new Paciente(dni, apellido, nombre, email, fecha_nacimiento, telefono, contraseña, genero, obraSocial,nroAfiliado);
+						Paciente pac = new Paciente(dni, apellido, nombre, email, fecha_nacimiento, telefono, contraseña, genero, 3,obraSocial,nroAfiliado);
 						if(pacServ.validarPaciente(pac)) 
 						{
 							if("altaUsuario".equals(modal)) 

@@ -6,22 +6,16 @@ import java.time.LocalDate;
 public class Usuario {
     private Integer dni;
     private String apellido;
-
     private String nombre;
     private LocalDate fecha_nacimiento;
-
-
-//    TODO: Variable genero como ENUM
-    
+//    TODO: Variable genero como ENUM    
     private String genero;
-
     private String telefono;
-
     private String email;
     private String clave;
     private Integer tipo_usuario;
 
-    public Usuario(Integer dni, String apellido, String nombre, String email, LocalDate fecha_nac, String telefono, String clave, String genero) throws ParseException {
+    public Usuario(Integer dni, String apellido, String nombre, String email, LocalDate fecha_nac, String telefono, String clave, String genero,Integer tipo_usuario) throws ParseException {
         this.dni=dni;
         this.nombre = nombre;
         this.apellido=apellido;
@@ -30,6 +24,7 @@ public class Usuario {
         this.telefono=telefono;
         this.genero=genero;
         this.clave=clave;
+        this.tipo_usuario=tipo_usuario;
 
     }
 
