@@ -898,7 +898,7 @@ List<Turno> turnosPendientesACobrar = new ArrayList<Turno>();
 	
 	try
 	{
-		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from turno t inner join usuario us on us.dni = t.dni inner join paciente pc on pc.dni=us.dni  inner join obra_social os on os.id_obra_social=pc.id_obra_social  inner join horario h on h.idhorario = t.idhorario  inner join practica pra on pra.id_practica=h.id_practica  inner join profesional prof on prof.matricula = h.matricula  inner join usuario uspro on uspro.dni =prof.dni inner join prescripcion pres on pres.id_prescripcion=t.id_prescripcion where t.fecha_turno between ? and ? and prof.matricula = ? and t.estado_t='Asistido' and t.id_prescripcion is not null order by t.fecha_turno");
+		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from turno t inner join usuario us on us.dni = t.dni inner join paciente pc on pc.dni=us.dni  inner join obra_social os on os.id_obra_social=pc.id_obra_social  inner join horario h on h.idhorario = t.idhorario  inner join practica pra on pra.id_practica=h.id_practica  inner join profesional prof on prof.matricula = h.matricula  inner join usuario uspro on uspro.dni =prof.dni inner join prescripcion pres on pres.id_prescripcion=t.id_prescripcion where t.fecha_turno between ? and ? and prof.matricula = ? and t.estado_t='Asistido' and pra.tipo_practica = 1 and t.id_prescripcion is not null order by t.fecha_turno");
 		stmt.setDate(1, Date.valueOf(fecha_desde));
 		stmt.setDate(2, Date.valueOf(fecha_hasta));
 		stmt.setInt(3, matricula);

@@ -57,7 +57,13 @@
 									id="fecha_desde"></label>
 						</div>
 						<div class="col-3">
-							<input type="date" name="fecha_desde" class="form-control col-2 ml-4">
+						<c:if test="${empty fecha_desde}">
+								<input type="date" value="${fecha_desde}" name="fecha_desde" class="form-control col-2 ml-4" required>
+							</c:if>
+							<c:if test="${not empty fecha_desde}">
+								<input type="date" value="${fecha_desde}" name="fecha_desde" class="form-control col-2 ml-4" required>
+							</c:if>
+							
 						</div>
 
 						<div class="col-1">
@@ -66,13 +72,19 @@
 						</div>
 
 						<div class="col-3">
-							<input type="date" name="fecha_hasta" class="form-control col-2">
+							<c:if test="${empty fecha_hasta}">
+								<input type="date" value="${fecha_hasta}" name="fecha_hasta" class="form-control col-2 ml-4" required>
+							</c:if>
+							<c:if test="${not empty fecha_hasta}">
+								<input type="date" value="${fecha_hasta}" name="fecha_hasta" class="form-control col-2 ml-4" required>
+							</c:if>
+							
 						</div>
 
 						<div class="col-1">
 							<button type="submit" class="btn btn-success">Buscar</button>
 						</div>
-						
+				</form>		
 						<c:if test="${not empty turnos}">
 							<div class="col-2">
 								<form action="listadoambulatorias" method="post">
