@@ -280,4 +280,37 @@ public class UsuarioRepository {
 										
 
 									}
+
+								public String setearClaveGenerada(Usuario us) {
+									
+										String respuestaOperacion;
+										
+								        try
+								        {
+								        	stmt = FactoryConnection.getInstancia().getConn().prepareStatement("UPDATE usuario SET clave = ?, cambio_clave = 1 WHERE email = ?");
+								            stmt.setString(1, us.getClave());
+								            stmt.setString(2, us.getEmail());
+								            stmt.executeUpdate();
+								            
+								            respuestaOperacion = "OK";								            							        	
+								        }								
+								        catch (SQLException e) {
+								           respuestaOperacion= e.toString();
+								        }
+								
+								        finally {
+										            try {              
+											                if (rs != null) rs.close();
+											                if (stmt != null) stmt.close();
+											            } catch (Exception e) {
+											                e.printStackTrace();
+											            }																				
+										            FactoryConnection.getInstancia().releaseConn();
+								        		}
+								        
+								        return respuestaOperacion;
+									}
+									
+									
+								
 								}

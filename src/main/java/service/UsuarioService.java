@@ -1,7 +1,12 @@
 package service;
 
 import java.util.List;
+import java.util.Random;
+import java.util.Properties;
+
 import entity.Usuario;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 import repository.UsuarioRepository;
 
 public class UsuarioService {
@@ -49,7 +54,36 @@ public class UsuarioService {
 		// TODO Auto-generated method stub
 		return usRep.buscarDniUsuario(mail);
 	}
+	
+	public String generarClave()
+	{
+		String abc_minuscula="abcdefghijklmnopqrstuvwxyz";
+		String abc_mayuscula = abc_minuscula.toLowerCase();
+		String numeros="0123456789";
+		String simbolos = "/*-+!·$%&/()=";
+		
+		String cadena = abc_minuscula.concat(abc_mayuscula).concat(simbolos).concat(numeros);
+		
+		Random mRandom = new Random();
+		
+		String Resultado = "";
+		
+		for(int i = 0; i < 10 ; i++)
+		{
+			int posicion = mRandom.nextInt(cadena.length());
+			char caracter = cadena.charAt(posicion);
+			Resultado += caracter;
+			
+		}
+		
+		return Resultado;
+	}
 
+	public void setearClaveGenerada(Usuario us) {
+		
+		usRep.setearClaveGenerada(us);
+		
+	}
 
 
 }

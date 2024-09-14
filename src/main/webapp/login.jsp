@@ -28,18 +28,40 @@
             <h2 class="mb-5">INICIO DE SESION</h2>
             <input type="text" placeholder="Email">
             <input type="password" placeholder="Password">
-            <input type="button" value="Login">
+            <input type="button" value="Logins">
+             <a href='#' data-bs-toggle='modal'data-bs-target='#olvidoClave'></a>
+            
             
         </div>
-        <div class="register-show">
-            <h2>REGISTER</h2>
-            <input type="text" placeholder="Email">
-            <input type="password" placeholder="Password">
-            <input type="password" placeholder="Confirm Password">
-            <input type="button" value="Register">
-        </div>
+        
     </div>
 </div>
+
+
+		<div class="modal fade" id="olvidoClave" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Advertencia</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<form action="login" method="post">
+					    <div class="modal-body">
+					        <input type="hidden" value="revivir" name="operacion">
+					        <input type="hidden" id="idHorario" name="idHorario">
+					        <div class="mb-3">
+					            <label class="col-6">Ingrese su correo</label>
+					            <input type="text"  id="mailRecupera" name="mailRecupera">
+					            <div class="modal-footer">
+					                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+					                <button type="submit" class="btn btn-primary">Enviar</button>
+					            </div>
+					        </div>
+					    </div>
+					</form>
+				</div>
+			</div>
+		</div>
 
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
