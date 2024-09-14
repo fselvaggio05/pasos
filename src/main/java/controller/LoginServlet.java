@@ -23,7 +23,7 @@ import java.util.List;
 
 public class LoginServlet extends HttpServlet {
 
-    private UsuarioService usServ;
+    
     private EnvioMailService envMailServ;
     public ObraSocialService osServ = new ObraSocialService();
     private static final long serialVersionUID = 1L;
@@ -32,7 +32,6 @@ public class LoginServlet extends HttpServlet {
 
 	public LoginServlet ()
     {
-    	this.usServ = new UsuarioService();
     	this.envMailServ = new EnvioMailService();
     	this.pacServ = new PacienteService();
     }
@@ -52,6 +51,7 @@ public class LoginServlet extends HttpServlet {
         Usuario us = new Usuario();
         
     	String operacion;
+    	String respuesta=null;
     	
     	operacion = req.getParameter("operacion");
     	
@@ -130,58 +130,5 @@ public class LoginServlet extends HttpServlet {
     	
     	
     }
-    
-
-    
-  
-
-
-}
-
-					            if(dni==null)
-					            {
-					                req.setAttribute("error", "Mail no registrado");
-					                req.getRequestDispatcher("/index.jsp").forward(req,resp);
-					            }
-					            else
-					            {
-					            	us = usServ.buscarUsuario(dni,req.getParameter("pass"));	
-					            	if(us!=null)
-					            	{
-					            		 HttpSession session = req.getSession(true);
-					                     session.setAttribute("usuario", us);
-					                     session.setAttribute("rol", us.getTipo_usuario());                 
-					                     resp.sendRedirect(req.getContextPath() + "/menu_final.jsp");
-					                     break;
-					            	}
-					            }
-					    	}
-					    	case "registro":
-					    	{
-					    		Integer dni = Integer.parseInt(req.getParameter("dni"));
-					    		String apellido = req.getParameter("apellido");
-					    		String nombre = req.getParameter("nombre"); 
-					            String email = req.getParameter("email"); 
-					            LocalDate fecha_nacimiento = LocalDate.parse(req.getParameter("fechaNacimiento")); 
-					            String telefono = req.getParameter("telefono");
-					            String contraseña = req.getParameter("contraseña"); 
-					            String genero = req.getParameter("genero");
-					            Integer id_obra_social = Integer.parseInt(req.getParameter("id_obra_social"));
-			                    ObraSocialService osServ = new ObraSocialService();
-			                    ObraSocial obraSocial = osServ.getObraSocial(id_obra_social);
-			                    String nroAfiliado = req.getParameter("nroAfiliado");
-								Paciente unPaciente;
-								try {
-									unPaciente = new Paciente(dni, apellido, nombre, email, fecha_nacimiento, telefono, contraseña, genero, 3,obraSocial,nroAfiliado);
-									respuesta = this.pacServ.insertarPaciente(unPaciente);
-								} catch (ParseException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}	
-								req.setAttribute("mensaje", respuesta);
-								this.doGet(req, resp);
-								break;
-					    	}
-    					}
-    	    }
+					           
 }
