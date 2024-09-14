@@ -41,7 +41,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	String accion = req.getParameter("operacion");
-    	
+    	String respuesta=null;
     	switch(accion) 
     					{
 					    	case "login":
@@ -86,11 +86,13 @@ public class LoginServlet extends HttpServlet {
 								Paciente unPaciente;
 								try {
 									unPaciente = new Paciente(dni, apellido, nombre, email, fecha_nacimiento, telefono, contraseña, genero, 3,obraSocial,nroAfiliado);
-									this.pacServ.insertarPaciente(unPaciente);
+									respuesta = this.pacServ.insertarPaciente(unPaciente);
 								} catch (ParseException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}	
+								req.setAttribute("mensaje", respuesta);
+								this.doGet(req, resp);
 								break;
 					    	}
     					}
