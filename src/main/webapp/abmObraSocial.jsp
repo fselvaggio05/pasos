@@ -47,7 +47,7 @@
 		                                        <c:forEach var="unaObraSocial" items="${tablaActivas}">
 		                                            <tr>
 		                                                <td><c:out value="${unaObraSocial.id_obra_social}"/></td>
-		                                                <td><c:out value="${unaObraSocial.nombre}"/></td>
+		                                                <td><c:out value="${unaObraSocial.nombre_os}"/></td>
 		                                                
 		                                                <td>
 		                                                	<a href='#' data-bs-toggle='modal' data-bs-target='#eliminarObraSocial' idObraSocial="${unaObraSocial.id_obra_social}" nomObraSocial="${unaObraSocial.nombre}">
@@ -75,7 +75,7 @@
 		                                        <c:forEach var="unaObraSocial" items="${tablaInactivas}">
 		                                            <tr>
 		                                                <td><c:out value="${unaObraSocial.id_obra_social}"/></td>
-		                                                <td><c:out value="${unaObraSocial.nombre}"/></td>
+		                                                <td><c:out value="${unaObraSocial.nombre_os}"/></td>
 		                                                
 		                                                <td>
 		                                                	<a href='#' data-bs-toggle='modal'data-bs-target='#revivirObraSocial' idObraSocial="${unaObraSocial.id_obra_social}" nomObraSocial="${unaObraSocial.nombre}">
@@ -170,9 +170,9 @@
 							</div>
 							
 							<div class="mb-3">
-								<label class="col-6">Nombra Obra Social:</label>
+								<label class="col-6">Nombre Obra Social:</label>
                                 <input type="text" class="form-control col-6" id="nomObraSocial" name="nomObraSocial">
-                                <c:out value="${unaObraSocial.nombre}"></c:out>
+                                <c:out value="${unaObraSocial.nombre_os}"></c:out>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
