@@ -67,7 +67,7 @@
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 
                   <li><a href="listadoambulatorias" class="link-dark rounded">Facturacion Ambulatoria</a></li>
-                  <li><a href="ListadoDiscapacidad.jsp" class="link-dark rounded">Facturacion Plan Discapacidad</a></li>
+                  <li><a href="listadodiscapacidad" class="link-dark rounded">Facturacion Plan Discapacidad</a></li>
 				  <li><a href="registroPagos" class="link-dark rounded">Registro practicas abonadas</a></li>
 				  
                 </ul>
@@ -93,6 +93,7 @@
                   <li><a href="practicas" class="link-dark rounded">Gestión Practicas profesionales</a></li>
                   <li><a href="equipos" class="link-dark rounded">Gestión Equipos</a></li>
                   <li><a href="consultorios" class="link-dark rounded">Gestión Consultorios</a></li>
+                  <li><a href="obrassociales" class="link-dark rounded">Gestión Obras Sociales</a></li>
                   <li><a href="usuarios" class="link-dark rounded">Gestión Usuarios</a></li>
                   <li><a href="horarios" class="link-dark rounded">Gestión Horarios</a></li>
 
@@ -104,7 +105,7 @@
         </ul>
 		
           <div class="border-top my-3">
-			<a href="index.jsp" class="btn btn-toggle align-items-center rounded collapsed text-decoration-underline">Cerrar sesion</a>
+			<a href="login" class="btn btn-toggle align-items-center rounded collapsed text-decoration-underline">Cerrar sesion</a>
 		  </div>
 			
 

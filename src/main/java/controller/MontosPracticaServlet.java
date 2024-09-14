@@ -84,16 +84,16 @@ public class MontosPracticaServlet extends HttpServlet {
 		if ("OK".equals(respuestaOperacion))
 		{																										
 			mensaje = "Operacion realizada correctamente.";
-			session.setAttribute("mensaje", mensaje);
-			session.setAttribute("idPractica", idPractica);
+			request.setAttribute("mensaje", mensaje);
+			request.setAttribute("idPractica", idPractica);
 			response.sendRedirect(request.getContextPath() + "/MontosPractica?idPractica=" + idPractica);
 			//this.doGet(request, response);																										
 		}																									
 		else 
 		{																										
 			mensaje = respuestaOperacion;
-			session.setAttribute("mensaje", mensaje);
-			session.setAttribute("idPractica", idPractica);
+			request.setAttribute("mensaje", mensaje);
+			request.setAttribute("idPractica", idPractica);
 			response.sendRedirect(request.getContextPath() + "/MontosPractica?idPractica=" + idPractica);
 			//this.doGet(request, response);																									
 		}	

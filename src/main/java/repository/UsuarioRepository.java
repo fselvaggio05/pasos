@@ -90,7 +90,7 @@ public class UsuarioRepository {
 								    											String respuestaOperacion;
 																		        try
 																		        {
-																		            stmt = FactoryConnection.getInstancia().getConn().prepareStatement("INSERT INTO usuario (dni,apellido, nombre, telefono, clave, fecha_nacimiento, genero, email) VALUES (?,?,?,?,?,?,?,?)");
+																		            stmt = FactoryConnection.getInstancia().getConn().prepareStatement("INSERT INTO usuario (dni,apellido, nombre, telefono, clave, fecha_nacimiento, genero, email,tipo_usuario) VALUES (?,?,?,?,?,?,?,?,?)");
 																		            stmt.setInt(1,us.getDni());
 																		            stmt.setString(2, us.getApellido());
 																		            stmt.setString(3, us.getNombre());
@@ -99,6 +99,7 @@ public class UsuarioRepository {
 																		            stmt.setDate(6,java.sql.Date.valueOf(us.getFecha_nacimiento()));
 																		            stmt.setString(7, us.getGenero());
 																		            stmt.setString(8, us.getEmail());
+																		            stmt.setInt(9, us.getTipo_usuario());
 																		            stmt.executeUpdate();
 																		            respuestaOperacion = "OK";
 																		        }

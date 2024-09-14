@@ -12,7 +12,9 @@ public class FactoryConnection {
     private final String host="localhost";
     private final String port = "3306";
     private final String user ="root";
+
     private final String pass="flor123";
+
     private final String db = "pasos";
 
     private Connection conn;

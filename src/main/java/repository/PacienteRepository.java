@@ -29,7 +29,7 @@ public class PacienteRepository {
 	        stmt.setString(2,pac.getNro_afiliado());
 	        stmt.setInt(3,pac.getObra_social().getId_obra_social());
 	        stmt.execute();
-	        respuestaOperacion = "OK";
+	        respuestaOperacion = "Paciente registrado.";
 	    } 
 	    catch (SQLException e) {
 	        respuestaOperacion = e.toString();
