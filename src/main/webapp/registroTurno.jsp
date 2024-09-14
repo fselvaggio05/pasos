@@ -21,11 +21,11 @@
 								<h5 class="small fst-italic text-right mt-3">Bienvenido <c:out value="${usuario.getApellido()} ${usuario.getNombre() }"></c:out></h5>
 							</div>
 							<h4 class="text-center my-5 text-decoration-underline fw-bold ">Registro de turno</h4>
-							<div class="row justify-content-center mt-3" id="divToggle">
-								<div class="card text-center">
-									<div class="card-body">
-										<div class="row">
-											<c:if test="${rol==3}">
+							<c:if test="${rol==3}">
+								<div class="row justify-content-center mt-3" id="divToggle">
+									<div class="card text-center">
+										<div class="card-body">
+											<div class="row">											
 												<div class="col-4">
 													<label class="fs-6  fst-italic fw-bold mb-3">Registrar desde una prescripcion vigente?</label>
 												</div>
@@ -39,11 +39,11 @@
 														</label>
 													</div>
 												</div>
-											</c:if>
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
+							</c:if>
 							<div class="row justify-content-center mt-3"> <!--Este es el que meti -->
 								<div id="tablaActivos">
 									<div class="row">

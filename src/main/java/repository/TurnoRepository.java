@@ -191,14 +191,15 @@ public class TurnoRepository {
 		}
 
 		// Turnos Disponibles por Profesional
-		public List<Turno> buscarTurnosDisponibles(Integer matricula) {
+		public List<Turno> buscarTurnosDisponibles(Integer matricula, Integer practica) {
 			List<Turno> turnosDisponibles = new ArrayList<Turno>();
 	
 			try {
 				stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
-						"select * from turno t inner join horario h on h.idHorario=t.idHorario inner join practica pr on pr.id_practica=h.id_practica inner join profesional prof on h.matricula=prof.matricula inner join usuario u on prof.dni=u.dni inner join consultorio c on c.id_consultorio=t.id_consultorio inner join equipo eq on eq.id_equipo=pr.id_equipo where t.estado_t='Libre' and h.matricula=? and t.fecha_turno>? order by t.fecha_turno, hora_turno");
+						"select * from turno t inner join horario h on h.idHorario=t.idHorario inner join practica pr on pr.id_practica=h.id_practica inner join profesional prof on h.matricula=prof.matricula inner join usuario u on prof.dni=u.dni inner join consultorio c on c.id_consultorio=t.id_consultorio inner join equipo eq on eq.id_equipo=pr.id_equipo where t.estado_t='Libre' and h.matricula=? and t.fecha_turno>? and h.id_practica =? order by t.fecha_turno, hora_turno");
 				stmt.setInt(1, matricula);
 				stmt.setDate(2, Date.valueOf(LocalDate.now()));
+				stmt.setInt(3, practica);
 				rs = stmt.executeQuery();
 	
 				while (rs != null && rs.next()) {
@@ -322,8 +323,7 @@ public class TurnoRepository {
 			Turno unTurno = new Turno();
 
 			try {
-				stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
-						"select * from turno t inner join horario h on h.idHorario=t.idHorario inner join practica pr on pr.id_practica=h.id_practica inner join profesional prof on h.matricula=prof.matricula inner join usuario u on prof.dni=u.dni inner join consultorio c on c.id_consultorio=t.id_consultorio inner join equipo eq on eq.id_equipo=pr.id_equipo where idTurno=?");
+				stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from turno t inner join horario h on h.idHorario=t.idHorario inner join practica pr on pr.id_practica=h.id_practica inner join profesional prof on h.matricula=prof.matricula inner join usuario u on prof.dni=u.dni inner join consultorio c on c.id_consultorio=t.id_consultorio inner join equipo eq on eq.id_equipo=pr.id_equipo left join prescripcion presc on presc.id_prescripcion = t.id_prescripcion where idTurno=?");
 				stmt.setInt(1, idTurno);
 				rs = stmt.executeQuery();
 
@@ -412,8 +412,11 @@ public class TurnoRepository {
 					// si el turno tiene una prescripcion asociada, traigo el id
 					if (rs.getInt("id_prescripcion") != 0) {
 						Prescripcion unaPrescripcion = new Prescripcion();
-						unaPrescripcion.setId_prescripcion(rs.getInt("id_prescripcion")); // campo en tabla que refiere a prescripcion
-																				// id_prescripcion
+						unaPrescripcion.setId_prescripcion(rs.getInt("presc.id_prescripcion"));
+						unaPrescripcion.setFecha_prescripcion(rs.getDate("presc.fecha_prescripcion").toLocalDate());
+						unaPrescripcion.setPractica(unaPractica);
+						unaPrescripcion.setCant_sesiones(rs.getInt("presc.cant_sesiones"));
+						unaPrescripcion.setSesiones_asistidas(rs.getInt("presc.sesiones_asistidas"));
 						unTurno.setPrescripcion(unaPrescripcion);
 					} else {
 						unTurno.setPrescripcion(null);
@@ -1076,6 +1079,8 @@ public String registrarPagoTurno(Turno t) {
 	try {
 		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update turno set estado_t='Abonado' where idturno=?");
 		stmt.setInt(1, t.getId_turno());	
+		stmt.executeUpdate();
+		respuestaOperacion="OK";
 	} catch (SQLException e) {
 		
 		respuestaOperacion = e.toString();

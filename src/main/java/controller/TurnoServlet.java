@@ -52,7 +52,7 @@ private static final long serialVersionUID = 1L;
  		if(us.getTipo_usuario()==3)
 		{
  			Paciente pac = pacServ.buscarPaciente(us.getDni());
-			session.setAttribute("pac", pac);
+			request.setAttribute("pac", pac);
 			List<Prescripcion> prescripciones = prescServ.buscarTodasLasPrescripciones(pac);
 			request.setAttribute("prescripciones", prescripciones);
 		}
@@ -98,7 +98,7 @@ private static final long serialVersionUID = 1L;
 					request.setAttribute("turno", turno);
 					
 				}
-				List<Turno> turnos = turServ.buscarTurnosDisponibles(profesionalSeleccionado);
+				List<Turno> turnos = turServ.buscarTurnosDisponibles(profesionalSeleccionado,practicaSeleccionada);
 				request.setAttribute("turnos", turnos);
 			}
 			List<Profesional> profesionales = horServ.getProfesionales(practicaSeleccionada);
@@ -148,7 +148,7 @@ private static final long serialVersionUID = 1L;
 			Integer matricula = Integer.parseInt(request.getParameter("profesional"));
 			request.setAttribute("practicaSeleccionada", practicaSeleccionada);
 			request.setAttribute("profesionalSeleccionado", matricula); 			
-			List<Turno> turnosDisponibles = turServ.buscarTurnosDisponibles(matricula);
+			List<Turno> turnosDisponibles = turServ.buscarTurnosDisponibles(matricula,practicaSeleccionada);
 			request.setAttribute("turnos", turnosDisponibles);
 			if(turnosDisponibles!=null) 
 			{
