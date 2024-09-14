@@ -104,7 +104,7 @@
         </ul>
 		
           <div class="border-top my-3">
-			<a href="index.jsp" class="btn btn-toggle align-items-center rounded collapsed text-decoration-underline">Cerrar sesion</a>
+			<a href="login" class="btn btn-toggle align-items-center rounded collapsed text-decoration-underline">Cerrar sesion</a>
 		  </div>
 			
 
