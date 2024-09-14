@@ -20,7 +20,8 @@
             			<input type="text" placeholder="Email" name="mail">
             			<input type="password" placeholder="Password" name="pass">
             			<div class="text-right mt-2">
-                			<a href="olvideContraseña" class="text-primary">Olvidé contraseña</a> 
+            			    <a href='#' class="text-primary" data-bs-toggle='modal' data-bs-target='#olvidoClave'>Olvide mi contraseña</a>
+<!--                 			<a href="olvideContraseña" class="text-primary">Olvidé contraseña</a>  -->
                 			<span class="mx-2">|</span> 
                 			<a class="text-primary" data-bs-toggle="modal" data-bs-target="#registro" href='#'>Registrarse</a>                			
             			</div>						
@@ -29,6 +30,41 @@
         		</div>
         	</div>
 		</div>
+		
+		
+		<!-- 		VENTANA MODAL "OLVIDE MI CONTRASEÑA" -->
+		
+		<div class="modal fade" id="olvidoClave" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Recuperar contraseña</h1>
+	                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<form action="login" method="post">
+					    <div class="modal-body">
+					         <input type="hidden" value="recuperar" name="operacion">
+					   	       <div class="">
+					            
+					            <div class="">
+									<label class="col-6">Ingrese su correo electronico:</label>
+								</div>
+																
+								<div class="mt-4 mx-auto">
+					            	<input class="col-11" type="text"  name="mailRecupera">
+					            </div>
+					            
+					            <div class="modal-footer">
+					                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+					                <button type="submit" class="btn btn-primary">Enviar</button>
+					            </div>
+					        </div>
+					    </div>
+					</form>
+				</div>
+			</div>
+		</div>		
+		
 		<!-- 		VENTANA MODAL "AGREGAR USUARIO" -->
 		<div class="modal fade" id="registro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">

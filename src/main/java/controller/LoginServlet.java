@@ -94,6 +94,7 @@ public class LoginServlet extends HttpServlet {
     		us.setClave(usServ.generarClave());    		
     		usServ.setearClaveGenerada(us);
     		envMailServ.enviarEmail(us);
+    		break;
     	}
     	
     	
