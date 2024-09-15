@@ -96,7 +96,14 @@ public class LoginServlet extends HttpServlet {
                      {
                     	 resp.sendRedirect(req.getContextPath() + "/menu_final.jsp");
                      }
-            	}               
+            	}  
+            	
+            	else
+            	{
+            		respuesta="Contraseña incorrecta";
+        			req.setAttribute("mensaje", respuesta);
+        			this.doGet(req, resp);
+            	}
             }
             
             break;
