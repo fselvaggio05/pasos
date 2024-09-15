@@ -70,9 +70,8 @@ public class LoginServlet extends HttpServlet {
             {
             	respuesta="Usuario no registrado";
     			req.setAttribute("mensaje", respuesta);
-    			this.doGet(req, resp);
-//            	req.setAttribute("error", "Mail no registrado"); //MOSTRAR MENSAJE DE ERROR. FALLO INICIO DE SESION 
-//              req.getRequestDispatcher("/index.jsp").forward(req,resp);
+//    			this.doGet(req, resp);
+    			req.getRequestDispatcher("/index.jsp").forward(req,resp);
             }
             
             else
@@ -181,19 +180,6 @@ public class LoginServlet extends HttpServlet {
 					    	
    }
     	
-    	
-//    	reubicar codigo
-//	    	if (respuestaOperacion == "OK") 
-//	    	{
-//				mensaje = " ";
-//				req.setAttribute("mensaje", mensaje);
-//				this.doGet(req, resp);
-//			} 
-//	    	else {
-//				mensaje = respuestaOperacion;  //informar que correo no registrado
-//				req.setAttribute("mensaje", mensaje);
-//				this.doGet(req, resp);
-//			}
-    }
+  }
 }
 					           
