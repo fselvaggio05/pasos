@@ -85,5 +85,13 @@ public class UsuarioService {
 		
 	}
 
+	public void cambiarClave(Usuario us) {
+		
+		usRep.cambiarClave(us);
+		
+	}
+
+	
+
 
 }

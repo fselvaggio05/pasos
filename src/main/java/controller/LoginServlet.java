@@ -49,37 +49,53 @@ public class LoginServlet extends HttpServlet {
     
         UsuarioService usServ = new UsuarioService();
         Usuario us = new Usuario();
+        HttpSession session = req.getSession(true);
         
     	String operacion;
-    	String respuesta=null;
+    	String mensaje;
+    	String respuesta = null;
+    	String respuestaOperacion = null;
     	
     	operacion = req.getParameter("operacion");
     	
     	switch(operacion)
     	{
     	
-    	case "ingresar":
-    	{    		
-    		
+    	case "login":
+    	{    		    		
           
             Integer dni = usServ.buscarDniUsuario(req.getParameter("mail"));
 
             if(dni==null)
             {
-                req.setAttribute("error", "Mail no registrado");
-                req.getRequestDispatcher("/index.jsp").forward(req,resp);
+            	respuesta="Usuario no registrado";
+    			req.setAttribute("mensaje", respuesta);
+    			this.doGet(req, resp);
+//            	req.setAttribute("error", "Mail no registrado"); //MOSTRAR MENSAJE DE ERROR. FALLO INICIO DE SESION 
+//              req.getRequestDispatcher("/index.jsp").forward(req,resp);
             }
-
+            
             else
             {
             	us = usServ.buscarUsuario(dni,req.getParameter("pass"));
             	
             	if(us!=null)
             	{
-            		 HttpSession session = req.getSession(true);
+            		
                      session.setAttribute("usuario", us);
-                     session.setAttribute("rol", us.getTipo_usuario());                 
-                     resp.sendRedirect(req.getContextPath() + "/menu_final.jsp");
+                     session.setAttribute("rol", us.getTipo_usuario());  
+                     
+                     
+                     if(us.getCambio_clave() == true)
+                     {
+                    	 respuesta="Cambio";                    	
+                    	 req.setAttribute("mensaje", respuesta);
+                    	 this.doHead(req, resp);
+                     }
+                     else
+                     {
+                    	 resp.sendRedirect(req.getContextPath() + "/menu_final.jsp");
+                     }
             	}               
             }
             
@@ -94,6 +110,10 @@ public class LoginServlet extends HttpServlet {
     		us.setClave(usServ.generarClave());    		
     		usServ.setearClaveGenerada(us);
     		envMailServ.enviarEmail(us);
+    		respuestaOperacion="OK";
+    		mensaje="Se ha enviado una contraseña al correo ingresado.          Por favor, revise su bandeja de entrada y spam";
+    		req.setAttribute("mensaje", mensaje);
+    		this.doGet(req, resp);
     		break;
     	}
     	
@@ -124,12 +144,49 @@ public class LoginServlet extends HttpServlet {
 								this.doGet(req, resp);
 								break;
 					    	}
-    	
-    	
-    	
+					    	
+					    	
+    	case "clave":
+    	{
+    		String clave1 = req.getParameter("nueva_clave1");
+    		String clave2 = req.getParameter("nueva_clave2");
+    		
+    		Usuario usr = (Usuario)session.getAttribute("usuario");
+    		
+    		if(clave1.equals(clave2))
+    		{
+    			usr.setClave(clave1);
+    			usServ.cambiarClave(usr);    			
+    			respuesta="Contraseña generada exitosamente. Ingrese nuevamente";
+    			req.setAttribute("mensaje", respuesta);
+    			this.doGet(req, resp);
+    		}   
+    		
+    		else
+    		{
+    			respuesta="Las claves ingresadas no coinciden, por favor intente nuevamente";
+    			req.setAttribute("mensaje", respuesta);
+    			this.doGet(req, resp);
+    		}
+    		
+    		break;
     	}
+					    	
+   }
     	
     	
+//    	reubicar codigo
+//	    	if (respuestaOperacion == "OK") 
+//	    	{
+//				mensaje = " ";
+//				req.setAttribute("mensaje", mensaje);
+//				this.doGet(req, resp);
+//			} 
+//	    	else {
+//				mensaje = respuestaOperacion;  //informar que correo no registrado
+//				req.setAttribute("mensaje", mensaje);
+//				this.doGet(req, resp);
+//			}
     }
-					           
 }
+					           

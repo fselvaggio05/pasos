@@ -14,6 +14,7 @@ public class Usuario {
     private String email;
     private String clave;
     private Integer tipo_usuario;
+    private Boolean cambio_clave;
 
     public Usuario(Integer dni, String apellido, String nombre, String email, LocalDate fecha_nac, String telefono, String clave, String genero,Integer tipo_usuario) throws ParseException {
         this.dni=dni;
@@ -102,6 +103,16 @@ public class Usuario {
 
 	public void setTipo_usuario(Integer tipo_usuario) {
 		this.tipo_usuario = tipo_usuario;
+	}
+	
+
+	public Boolean getCambio_clave() {
+		return cambio_clave;
+	}
+
+
+	public void setCambio_clave(Boolean cambio_clave) {
+		this.cambio_clave = cambio_clave;
 	}
 
 
