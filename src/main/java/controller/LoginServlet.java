@@ -117,7 +117,7 @@ public class LoginServlet extends HttpServlet {
     		usServ.setearClaveGenerada(us);
     		envMailServ.enviarEmail(us);
     		respuestaOperacion="OK";
-    		mensaje="Se ha enviado una contraseña al correo ingresado.          Por favor, revise su bandeja de entrada y spam";
+    		mensaje="Se ha enviado una contraseña al correo ingresado.Revise su bandeja de entrada y spam";
     		req.setAttribute("mensaje", mensaje);
     		this.doGet(req, resp);
     		break;
