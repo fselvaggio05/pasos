@@ -60,7 +60,6 @@ public class ConsultaServlet extends HttpServlet {
 		Integer tipoFiltro=null;
 		String respuestaOperacion=null;
 		String mensaje=null;
-		HttpSession session = request.getSession();
 		
 		opcion = request.getParameter("opcion");
 		switch(opcion)
@@ -83,7 +82,9 @@ public class ConsultaServlet extends HttpServlet {
 							}
 							else 
 							{
-								request.setAttribute("turnos", turnos);								
+								request.setAttribute("turnos", turnos);
+								request.setAttribute("dni", dni);
+								respuestaOperacion = "";
 							}
 						}
 						else 
@@ -101,8 +102,12 @@ public class ConsultaServlet extends HttpServlet {
 						
 						if(turnos.size()==0){
 							respuestaOperacion="Sin turnos";
-						}												
-						request.setAttribute("turnos", turnos);
+						}
+						else {
+							request.setAttribute("turnos", turnos);
+							request.setAttribute("matricula", matricula);
+							respuestaOperacion="";
+						}
 						break;
 					}
 					
@@ -113,8 +118,12 @@ public class ConsultaServlet extends HttpServlet {
 						
 						if(turnos.size()==0){
 							respuestaOperacion="Sin turnos";
-						}												
-						request.setAttribute("turnos", turnos);	
+						}
+						else {
+							request.setAttribute("turnos", turnos);
+							request.setAttribute("fecha", fecha_turno);
+							respuestaOperacion="";
+						}
 						break;						
 					}
 				}

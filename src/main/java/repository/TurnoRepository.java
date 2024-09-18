@@ -109,41 +109,46 @@ public class TurnoRepository {
 			List<Turno> turnos = new ArrayList<Turno>();
 	
 			try {
-				stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
-						"select * from turno t inner join horario h on h.idHorario=t.idHorario inner join practica p on p.id_practica=h.id_practica inner join profesional pf on pf.matricula=h.matricula inner join usuario usPac on usPac.dni=t.dni inner join usuario u on u.dni=pf.dni where t.dni=? and fecha_turno >= ? and estado_t='Asignado'");
+				stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from turno t inner join horario h on h.idHorario=t.idHorario inner join practica p on p.id_practica=h.id_practica inner join profesional pf on pf.matricula=h.matricula inner join usuario usPac on usPac.dni=t.dni inner join usuario u on u.dni=pf.dni inner join consultorio c on t.id_consultorio = c.id_consultorio where t.dni=? and fecha_turno >= sysdate() and estado_t='Asignado'");
 				stmt.setInt(1, dni);
-				Date fechaHoy = Date.valueOf(LocalDate.now());
-				stmt.setDate(2, fechaHoy);
 				rs = stmt.executeQuery();
 	
 				while (rs != null && rs.next()) {
-					Turno tur = new Turno();
-					Practica pr = new Practica();
-					Profesional prof = new Profesional();
-					Horario hor = new Horario();
-					Paciente pac = new Paciente();
+					Turno unTurno = new Turno();
+					Practica unaPractica = new Practica();
+					Profesional unProfesional = new Profesional();
+					Horario unHorario = new Horario();
+					Paciente unPaciente = new Paciente();
+					Consultorio unConsultorio = new Consultorio();
 	
-					tur.setId_turno(rs.getInt("idturno"));
-					tur.setFecha_t(rs.getDate("fecha_turno").toLocalDate());
-					tur.setHora_t(rs.getTime("hora_turno").toLocalTime());
+					unTurno.setId_turno(rs.getInt("idturno"));
+					unTurno.setFecha_t(rs.getDate("fecha_turno").toLocalDate());
+					unTurno.setHora_t(rs.getTime("hora_turno").toLocalTime());
+					unTurno.setEstado_t(rs.getString("estado_t"));
+					
 	
-					prof.setNombre(rs.getString("u.nombre"));
-					prof.setApellido(rs.getString("u.apellido"));
+					unProfesional.setNombre(rs.getString("u.nombre"));
+					unProfesional.setApellido(rs.getString("u.apellido"));
 	
-					pr.setDescripcion(rs.getString("p.descripcion"));
-					pr.setId_practica(rs.getInt("p.id_practica"));
+					unaPractica.setDescripcion(rs.getString("p.descripcion"));
+					unaPractica.setId_practica(rs.getInt("p.id_practica"));
 	
-					hor.setId_horario(rs.getInt("h.idHorario"));
+					unHorario.setId_horario(rs.getInt("h.idHorario"));
 	
-					pac.setApellido(rs.getString("usPac.apellido"));
-					pac.setNombre(rs.getString("usPac.nombre"));
+					unPaciente.setApellido(rs.getString("usPac.apellido"));
+					unPaciente.setNombre(rs.getString("usPac.nombre"));
+					
+					unConsultorio.setId_consultorio(rs.getInt("c.id_consultorio"));
+					unConsultorio.setDescripcion(rs.getString("c.descripcion"));
+					unConsultorio.setEstado(rs.getBoolean("c.estado"));
 	
-					hor.setPractica(pr);
-					hor.setProfesional(prof);
-					tur.setHorario(hor);
-					tur.setPaciente(pac);
+					unHorario.setPractica(unaPractica);
+					unHorario.setProfesional(unProfesional);
+					unTurno.setHorario(unHorario);
+					unTurno.setPaciente(unPaciente);
+					unTurno.setConsultorio(unConsultorio);
 	
-					turnos.add(tur);
+					turnos.add(unTurno);
 					respuestaOperacion = "OK";
 				}
 			} catch (SQLException e) {
@@ -552,43 +557,44 @@ public class TurnoRepository {
 			List<Turno> turnos = new ArrayList<Turno>();
 
 			try {
-				stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
-						"select * from turno t inner join horario h on h.idhorario=t.idhorario inner join practica pract on pract.id_practica=h.id_practica inner join usuario usPac on usPac.dni=t.dni inner join profesional p on p.matricula=h.matricula inner join usuario us on us.dni=p.dni where p.matricula=? and estado_t='Asignado' and fecha_turno>=?"); // agregamos filtro por fecha tambien?
+				stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from turno t inner join horario h on h.idhorario=t.idhorario inner join practica pract on pract.id_practica=h.id_practica inner join usuario usPac on usPac.dni=t.dni inner join profesional p on p.matricula=h.matricula inner join usuario us on us.dni=p.dni inner join consultorio c on c.id_consultorio = t.id_consultorio where p.matricula=? and estado_t='Asignado' and fecha_turno>=sysdate()");
 				stmt.setInt(1, matricula);
-				stmt.setDate(2, Date.valueOf(LocalDate.now()));
 				rs = stmt.executeQuery();
 
 				while (rs.next() && rs != null) {
-					Turno tur = new Turno();
-					Practica pr = new Practica();
-					Profesional prof = new Profesional();
-					Horario hor = new Horario();
-					Paciente pac = new Paciente();
-					Consultorio cons = new Consultorio();
+					Turno unTurno = new Turno();
+					Practica unaPractica = new Practica();
+					Profesional unProfesional = new Profesional();
+					Horario unHorario = new Horario();
+					Paciente unPaciente = new Paciente();
+					Consultorio unConsultorio = new Consultorio();
 
-					tur.setId_turno(rs.getInt("idturno"));
-					tur.setFecha_t(rs.getDate("fecha_turno").toLocalDate());
-					tur.setHora_t(rs.getTime("hora_turno").toLocalTime());
+					unTurno.setId_turno(rs.getInt("idturno"));
+					unTurno.setFecha_t(rs.getDate("fecha_turno").toLocalDate());
+					unTurno.setHora_t(rs.getTime("hora_turno").toLocalTime());
+					unTurno.setEstado_t(rs.getString("t.estado_t"));
 
-					prof.setNombre(rs.getString("us.nombre"));
-					prof.setApellido(rs.getString("us.apellido"));
+					unProfesional.setNombre(rs.getString("us.nombre"));
+					unProfesional.setApellido(rs.getString("us.apellido"));
 
-					pr.setDescripcion(rs.getString("pract.descripcion"));
-					pr.setId_practica(rs.getInt("pract.id_practica"));
+					unaPractica.setDescripcion(rs.getString("pract.descripcion"));
+					unaPractica.setId_practica(rs.getInt("pract.id_practica"));
 
-					hor.setId_horario(rs.getInt("h.idHorario"));
+					unHorario.setId_horario(rs.getInt("h.idHorario"));
+					unHorario.setPractica(unaPractica);
+					unHorario.setProfesional(unProfesional);
+					
+					unPaciente.setApellido(rs.getString("usPac.apellido"));
+					unPaciente.setNombre(rs.getString("usPac.nombre"));
 
-					pac.setApellido(rs.getString("usPac.apellido"));
-					pac.setNombre(rs.getString("usPac.nombre"));
+					unConsultorio.setId_consultorio(rs.getInt("c.id_consultorio"));
+					unConsultorio.setDescripcion(rs.getString("c.descripcion"));
+					unConsultorio.setEstado(rs.getBoolean("c.estado"));
 
-					cons.setId_consultorio(rs.getInt("id_consultorio"));
-
-					tur.setHorario(hor);
-					tur.setPaciente(pac);
-					hor.setPractica(pr);
-					hor.setProfesional(prof);
-					tur.setConsultorio(cons);
-					turnos.add(tur);
+					unTurno.setPaciente(unPaciente);
+					unTurno.setHorario(unHorario);
+					unTurno.setConsultorio(unConsultorio);
+					turnos.add(unTurno);
 					respuestaOperacion = "OK";
 				}
 			} catch (SQLException e) {
