@@ -50,10 +50,10 @@
 		                                                <td><c:out value="${unaObraSocial.nombre_os}"/></td>
 		                                                
 		                                                <td>
-		                                                	<a href='#' data-bs-toggle='modal' data-bs-target='#eliminarObraSocial' idObraSocial="${unaObraSocial.id_obra_social}" nomObraSocial="${unaObraSocial.nombre}">
+		                                                	<a href='#' data-bs-toggle='modal' data-bs-target='#eliminarObraSocial' idObraSocial="${unaObraSocial.id_obra_social}" nomObraSocial="${unaObraSocial.nombre_os}">
     															<i class='bi bi-trash-fill m-1'></i>
 															</a> 
-															<a href='#' data-bs-toggle='modal' data-bs-target='#actualizarObraSocial' idObraSocial="${unaObraSocial.id_obra_social}" nomObraSocial="${unaObraSocial.nombre}">
+															<a href='#' data-bs-toggle='modal' data-bs-target='#actualizarObraSocial' idObraSocial="${unaObraSocial.id_obra_social}" nomObraSocial="${unaObraSocial.nombre_os}">
 																<i class="bi bi-pencil-fill"></i>
 															</a>
 		                                                </td>
@@ -78,7 +78,7 @@
 		                                                <td><c:out value="${unaObraSocial.nombre_os}"/></td>
 		                                                
 		                                                <td>
-		                                                	<a href='#' data-bs-toggle='modal'data-bs-target='#revivirObraSocial' idObraSocial="${unaObraSocial.id_obra_social}" nomObraSocial="${unaObraSocial.nombre}">
+		                                                	<a href='#' data-bs-toggle='modal'data-bs-target='#revivirObraSocial' idObraSocial="${unaObraSocial.id_obra_social}" nomObraSocial="${unaObraSocial.nombre_os}">
 		                                                		<i class='bi bi-heart-fill m-1'></i>
 		                                                	</a> 
 		                                                </td>
