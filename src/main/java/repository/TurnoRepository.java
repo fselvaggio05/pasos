@@ -1016,16 +1016,16 @@ public String facturaTurno(Integer idTurno) {
 }
 		
 	//Metodo que recupera todos los datos requeridos para mostrar en los tuyrnos que aun se encuentran pendientes de registrar el pago
-public List<Turno> buscarTurnosPendientesCobro(LocalDate fechaDesde, LocalDate fechaHasta) {
+public List<Turno> buscarTurnosPendientesCobro(Integer matricula,LocalDate fechaDesde, LocalDate fechaHasta) {
 	
 	List<Turno> turnosPendientesACobrar = new ArrayList<Turno>();
 	
 	try
 	{
-		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from turno t inner join horario h on t.idhorario=h.idhorario inner join practica pr on h.id_practica=pr.id_practica inner join profesional prof on h.matricula=prof.matricula inner join usuario usProf on usProf.dni=prof.dni inner join usuario usPac on t.dni=usPac.dni inner join paciente pac on usPac.dni=pac.dni inner join obra_social obSoc on obSoc.id_obra_social = pac.id_obra_social where t.fecha_turno>=? and t.fecha_turno<=? and t.estado_t='Facturado' and id_prescripcion is not null order by t.fecha_turno");
-		
+		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from turno t inner join horario h on t.idhorario=h.idhorario inner join practica pr on h.id_practica=pr.id_practica inner join profesional prof on h.matricula=prof.matricula inner join usuario usProf on usProf.dni=prof.dni inner join usuario usPac on t.dni=usPac.dni inner join paciente pac on usPac.dni=pac.dni inner join obra_social obSoc on obSoc.id_obra_social = pac.id_obra_social where t.fecha_turno between ? and ? and t.estado_t='Facturado' and h.matricula=? and id_prescripcion is not null order by t.fecha_turno");
 		stmt.setDate(1, Date.valueOf(fechaDesde));
 		stmt.setDate(2, Date.valueOf(fechaHasta));
+		stmt.setInt(3, matricula);
 		rs = stmt.executeQuery();
 		
 		while(rs!=null && rs.next())

@@ -247,9 +247,9 @@ public class TurnoService {
 	public boolean validarPrescripcionAgotada(Integer idPresc) {
 		return turRep.validarPrescripcionAgotada(idPresc);
 	}
-	public List<Turno> buscarTurnosPendientesCobro(LocalDate fechaDesde, LocalDate fechaHasta) {
+	public List<Turno> buscarTurnosPendientesCobro(Integer matricula,LocalDate fechaDesde, LocalDate fechaHasta) {
 		
-		return turRep.buscarTurnosPendientesCobro(fechaDesde,fechaHasta);
+		return turRep.buscarTurnosPendientesCobro(matricula,fechaDesde,fechaHasta);
 	}
 
 	public List<Turno> obtenerTurnos(String[] seleccionados) {
@@ -277,7 +277,7 @@ public class TurnoService {
 		
 		for (Turno t : turnosFacturados)
 		{
-			turRep.registrarPagoTurno(t);
+			mensaje = turRep.registrarPagoTurno(t);
 		}
 		
 		return mensaje;
@@ -293,10 +293,7 @@ public class TurnoService {
 			}
 		}
 		
-		return turnos ;
-		
-		
-		
+		return turnos ;		
 	}
 
 	public String registroTurnoPrescripcion(Integer id_turno, Paciente pac, Integer idPresc) 
