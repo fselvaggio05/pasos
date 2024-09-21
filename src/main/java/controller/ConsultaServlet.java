@@ -83,9 +83,10 @@ public class ConsultaServlet extends HttpServlet {
 							else 
 							{
 								request.setAttribute("turnos", turnos);
-								request.setAttribute("dni", dni);
 								respuestaOperacion = "";
 							}
+							request.setAttribute("filtroSeleccionado", tipoFiltro);
+							request.setAttribute("dniPaciente", dni);
 						}
 						else 
 						{
@@ -105,9 +106,10 @@ public class ConsultaServlet extends HttpServlet {
 						}
 						else {
 							request.setAttribute("turnos", turnos);
-							request.setAttribute("matricula", matricula);
 							respuestaOperacion="";
 						}
+						request.setAttribute("filtroSeleccionado", tipoFiltro);
+						request.setAttribute("matricula", matricula);
 						break;
 					}
 					
@@ -121,9 +123,10 @@ public class ConsultaServlet extends HttpServlet {
 						}
 						else {
 							request.setAttribute("turnos", turnos);
-							request.setAttribute("fecha", fecha_turno);
 							respuestaOperacion="";
 						}
+						request.setAttribute("filtroSeleccionado", tipoFiltro);
+						request.setAttribute("fecha", fecha_turno);
 						break;						
 					}
 				}

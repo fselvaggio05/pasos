@@ -28,29 +28,34 @@
 									        <%-- Define una variable para determinar si el select debe estar deshabilitado --%>
 											<c:set var="disableSelect" value="${not empty param.idPrescripcion}" />
 									        <select class="form-select" id="filtro" name="filtro" <c:if test="${disableSelect}">disabled</c:if>>
-									            <option value="-1" selected>Buscar turnos por...</option>
-									            <c:if test="${rol=='1'}">
-									                <option value="1">DNI Paciente</option>
-									            </c:if>
-									            <c:if test="${rol=='1' or rol=='2'}">
-									                <option value="2">Profesional</option>
-									            </c:if>
-									            <c:if test="${rol=='1' or rol=='2'}">
-									                <option value="3">Fecha</option>
-									            </c:if>
-									            <c:if test="${not empty param.idPrescripcion}">
+											    <option value="-1" <c:if test="${filtroSeleccionado == '-1'}">selected</c:if>>Buscar turnos por...</option>
+											    <c:if test="${rol=='1'}">
+											        <option value="1" <c:if test="${filtroSeleccionado == '1'}">selected</c:if>>DNI Paciente</option>
+											    </c:if>
+											    <c:if test="${rol=='1' or rol=='2'}">
+											        <option value="2" <c:if test="${filtroSeleccionado == '2'}">selected</c:if>>Profesional</option>
+											    </c:if>
+											    <c:if test="${rol=='1' or rol=='2'}">
+											        <option value="3" <c:if test="${filtroSeleccionado == '3'}">selected</c:if>>Fecha</option>
+											    </c:if>
+											    <c:if test="${not empty param.idPrescripcion}">
 											        <option value="4" selected>Prescripción</option>
 											    </c:if>
-									        </select>
+											</select>
 									    </div>
 									    <div class="col-3">
-									        <input type="number" class="form-control" name="dniPaciente" id="filtro-1" style="display: none;"> 
+									        <input type="number" class="form-control" name="dniPaciente" id="filtro-1" style="display: none;" value="${not empty param.dniPaciente ? param.dniPaciente : ''}"> 
 									        <select class="form-select mb-2" name="profesional" id="filtro-2" style="display: none;">
-									            <c:forEach var="prof" items="${profesionales}">
-									                <option value="<c:out value="${prof.matricula}"></c:out>"><c:out value="${prof.apellido} , ${prof.nombre}"></c:out></option>
-									            </c:forEach>
-									        </select> 
-									        <input type="date" class="form-control" name="fecha" id="filtro-3" style="display: none;">
+											    <c:forEach var="prof" items="${profesionales}">
+											        <option value="<c:out value='${prof.matricula}' />"
+											                <c:if test="${not empty param.profesional and param.profesional == prof.matricula}">
+											                    selected
+											                </c:if>>
+											            <c:out value="${prof.apellido}, ${prof.nombre}" />
+											        </option>
+											    </c:forEach>
+											</select> 
+									        <input type="date" class="form-control" name="fecha" id="filtro-3" style="display: none;" value="${not empty param.fecha ? param.fecha : ''}">
 									    </div>
 									    <div class="col-2">
 									        <button type="submit" class="btn btn-success" id="btnBuscar" style="display: none;">Buscar</button>
