@@ -16,11 +16,10 @@ public class UsuarioRepository {
 
 								    public Usuario buscarUsuario(Integer dni, String pass) 
 								    {
-								    	
-//								    	modificado el 5/3
+						
 								       
 								    	try {								
-									            stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT us.dni, nombre, apellido, tipo_usuario FROM pasos.usuario us left join paciente pac on pac.dni=us.dni left join profesional prof on prof.dni=us.dni where us.dni=? and us.clave=?");
+									            stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT us.dni, nombre, apellido, tipo_usuario, cambio_clave FROM pasos.usuario us left join paciente pac on pac.dni=us.dni left join profesional prof on prof.dni=us.dni where us.dni=? and us.clave=?");
 									            stmt.setInt(1, dni);
 									            stmt.setString(2, pass);
 									            rs = stmt.executeQuery();
@@ -29,7 +28,8 @@ public class UsuarioRepository {
 									            	us.setDni((rs.getInt("dni")));
 									            	us.setApellido(rs.getString("apellido"));
 									                us.setNombre(rs.getString("nombre"));
-									                us.setTipo_usuario(rs.getInt("tipo_usuario"));									                
+									                us.setTipo_usuario(rs.getInt("tipo_usuario"));
+									                us.setCambio_clave(rs.getBoolean("cambio_clave"));
 									                
 									            }
 									            
@@ -311,6 +311,38 @@ public class UsuarioRepository {
 								        
 								        return respuestaOperacion;
 									}
+
+								public String cambiarClave(Usuario us) {
+									
+									String respuestaOperacion;
+									
+							        try
+							        {
+							        	stmt = FactoryConnection.getInstancia().getConn().prepareStatement("UPDATE usuario SET clave = ?, cambio_clave = 0 WHERE dni = ?");
+							            stmt.setString(1, us.getClave());
+							            stmt.setInt(2, us.getDni());
+							            stmt.executeUpdate();
+							            
+							            respuestaOperacion = "OK";								            							        	
+							        }								
+							        catch (SQLException e) {
+							           respuestaOperacion= e.toString();
+							        }
+							
+							        finally {
+									            try {              
+										                if (rs != null) rs.close();
+										                if (stmt != null) stmt.close();
+										            } catch (Exception e) {
+										                e.printStackTrace();
+										            }																				
+									            FactoryConnection.getInstancia().releaseConn();
+							        		}
+							        
+							        return respuestaOperacion;
+								
+									
+								}
 									
 									
 								

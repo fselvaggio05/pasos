@@ -20,7 +20,8 @@
             			<input type="text" placeholder="Email" name="mail">
             			<input type="password" placeholder="Password" name="pass">
             			<div class="text-right mt-2">
-                			<a href="olvideContraseña" class="text-primary">Olvidé contraseña</a> 
+            			    <a href='#' class="text-primary" data-bs-toggle='modal' data-bs-target='#olvidoClave'>Olvide mi contraseña</a>
+<!--                 			<a href="olvideContraseña" class="text-primary">Olvidé contraseña</a>  -->
                 			<span class="mx-2">|</span> 
                 			<a class="text-primary" data-bs-toggle="modal" data-bs-target="#registro" href='#'>Registrarse</a>                			
             			</div>						
@@ -29,6 +30,41 @@
         		</div>
         	</div>
 		</div>
+		
+		
+		<!-- 		VENTANA MODAL "OLVIDE MI CONTRASEÑA" -->
+		
+		<div class="modal fade" id="olvidoClave" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Recuperar contraseña</h1>
+	                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<form action="login" method="post">
+					    <div class="modal-body">
+					         <input type="hidden" value="recuperar" name="operacion">
+					   	       <div class="">
+					            
+					            <div class="">
+									<label class="col-6">Ingrese su correo electronico:</label>
+								</div>
+																
+								<div class="mt-4 mx-auto">
+					            	<input class="col-11" type="text"  name="mailRecupera">
+					            </div>
+					            
+					            <div class="modal-footer">
+					                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+					                <button type="submit" class="btn btn-primary">Enviar</button>
+					            </div>
+					        </div>
+					    </div>
+					</form>
+				</div>
+			</div>
+		</div>		
+		
 		<!-- 		VENTANA MODAL "AGREGAR USUARIO" -->
 		<div class="modal fade" id="registro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
@@ -108,9 +144,72 @@
 				</div>
 			</div>
 		</div>
+		
+		
 		<!-- 			MENSAJE OPERACION 		 -->
-		<c:if test="${mensaje !=null }">
-		    <div class="modal fade" id="mensajeOK" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<%-- 		<c:if test="${mensaje !=null }"> --%>
+		
+<%-- 		</c:if> --%>
+		
+		
+<!-- 		MENSAJES DE OPERACION -->
+		<c:choose>
+			<c:when test="${mensaje eq 'Cambio'}">
+<%-- 			  <% String mailUsuario=(String)session.getAttribute("us.getEmail()"); %> --%>
+<!-- 			  ; pageContext.setAttribute( "rol" , rolUsuario); -->
+			
+				<div class="modal fade" id="clave" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h1 class="modal-title fs-5" id="exampleModalLabel">Cambio contraseña</h1>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<form action="login" method="post">
+								<div class="modal-body">
+<!-- 									<input type="hidden" id="tipoUsuarioHidden" name="tipoUsuario" value="3">  -->
+									<input type="hidden" value="clave" name="operacion">														
+									<div id="camposAlta">
+										<div id="camposAdministrador">
+										
+										<div class="fst-italic">
+											<label>La contraseña a generar debe contener un maximo de 15 caracteres (Mentira =P) </label>
+										</div>
+											
+											<div class="row mt-3">
+												<div class="col-8">
+													<label>Nueva clave:</label>
+													<input type="text" class="form-control" name="nueva_clave1">
+												</div>
+											</div>
+											<div class="row mt-3">
+												<div class="col-8">
+													<label>Reingrese clave:</label> 
+													<input type="text" class="form-control" name="nueva_clave2">
+												</div>												
+											</div>
+									 </div>
+									</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+									<button type="submit" class="btn btn-primary">Guardar</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>		
+				<script>
+				    document.addEventListener('DOMContentLoaded', function () {
+				        if (document.getElementById('clave')) {
+				            new bootstrap.Modal(document.getElementById('clave')).show();
+				        }
+				    });
+				</script>	
+			
+			</c:when>
+			
+			<c:when test="${mensaje !=null }">
+			  <div class="modal fade" id="mensajeOK" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		        <div class="modal-dialog">
 		            <div class="modal-content">
 		                <div class="modal-header">
@@ -128,14 +227,19 @@
 		            </div>
 		        </div>
 		    </div>
+		    
 			    <script>
 				    document.addEventListener('DOMContentLoaded', function () {
 				        if (document.getElementById('mensajeOK')) {
 				            new bootstrap.Modal(document.getElementById('mensajeOK')).show();
 				        }
 				    });
-				</script>
-		</c:if>
+				</script>			
+			</c:when>		
+		</c:choose>
+		
+		
+		  
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>		
 		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="js/login.js"></script>

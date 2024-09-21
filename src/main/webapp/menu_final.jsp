@@ -75,10 +75,6 @@
             </li>
           </c:if>
 
-
-
-
-
           <li class="border-top my-3"></li>
           
           <c:if test="${(rol=='1')}">
@@ -107,10 +103,10 @@
           <div class="border-top my-3">
 			<a href="login" class="btn btn-toggle align-items-center rounded collapsed text-decoration-underline">Cerrar sesion</a>
 		  </div>
-			
-
       </div>
-     
+      
+      
+
 
       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>
