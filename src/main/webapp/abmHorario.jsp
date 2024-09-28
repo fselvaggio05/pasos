@@ -21,10 +21,10 @@
     <!-- Estilos personalizados para el calendario -->
     <style>
         #calendario {
-            width: 80%;
-            max-width: 900px;
+            width: 100%;
+            max-width: 1100px;
             margin: 0 auto;
-            height: auto;
+            height: 100%;
             min-height: 400px;
         }
     </style>
@@ -37,7 +37,10 @@
             </div>
             <div class="col-9">
                 <div class="container">
-                    <!-- Calendario Mensual (Posicionado arriba del switch de horarios) -->
+               <h5 class="small fst-italic text-right mt-3">Bienvenido <c:out value="${usuario.getApellido()} ${usuario.getNombre() }"></c:out></h5>
+					
+							<h4 class="text-center my-5 text-decoration-underline fw-bold ">Gestion de horarios</h4>
+                    <!-- Calendario Semanal -->
                     <div id="calendario" class="mb-5"></div>
 
                     <div class="row justify-content-center mt-3">
@@ -58,7 +61,7 @@
                                         <tr>
                                             <th scope="col">Matricula</th>
                                             <th scope="col">Apellido</th>
-                                            <th scope="col">Práctica</th>
+                                            <th scope="col">Practica</th>
                                             <th scope="col">Dia de la Semana</th>
                                             <th scope="col">Hora Desde</th>
                                             <th scope="col">Hora Hasta</th>
@@ -91,7 +94,7 @@
                                             <th scope="col">Matricula</th>
                                             <th scope="col">Apellido</th>
                                             <th scope="col">Practica</th>
-                                            <th scope="col">Dia de la Semana</th>
+                                            <th scope="col">Daa de la Semana</th>
                                             <th scope="col">Hora Desde</th>
                                             <th scope="col">Hora Hasta</th>
                                             <th scope="col">Operaciones</th>
@@ -151,71 +154,152 @@
                             <div class="mb-3">
                                 <label class="col-6">Práctica</label>
                                 <select class="col-3 form-select" name="id_practica">
-                                    <option value="1">Seleccione una Practica</option>
+                                    <option value="1">Seleccione una Práctica</option>
                                     <c:forEach var="unaPractica" items="${practicas}">
                                         <option value="${unaPractica.id_practica}"><c:out value="${unaPractica.descripcion}"></c:out></option>
                                     </c:forEach>
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label class="col-6">Daa de la Semana</label>
+                                <label class="col-6">Día de la Semana</label>
                                 <select class="col-3 form-select" name="dia_semana">
                                     <option value="lunes">Lunes</option>
                                     <option value="martes">Martes</option>
                                     <option value="miércoles">Miércoles</option>
                                     <option value="jueves">Jueves</option>
                                     <option value="viernes">Viernes</option>
-                                    <option value="sábado">Sábado</option>
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label class="col-6">Hora Desde</label>
-                                <input type="time" class="form-control col-6" name="hora_desde">
+                                <label class="col-6">Desde</label>
+                                <input type="time" class="col-3 form-control" name="hora_desde">
                             </div>
                             <div class="mb-3">
-                                <label class="col-6">Hora Hasta</label>
-                                <input type="time" class="form-control col-6" name="hora_hasta">
+                                <label class="col-6">Hasta</label>
+                                <input type="time" class="col-3 form-control" name="hora_hasta">
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-success">Agregar Horario</button>
+                            <button type="submit" class="btn btn-primary">Agregar</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
 
-        <!-- Script de FullCalendar -->
-        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                var calendarEl = document.getElementById('calendario');
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                    initialView: 'dayGridMonth',
-                    locale: 'es', // Configuración del idioma a español
-                    headerToolbar: {
-                       
-                        
-                        
-                    },
-                    buttonText: {
-                        today: 'Hoy'  
-                    },
-                    events: [
-                        {
-                            title: 'Kasimatis - Magnetoterapia',
-                            start: '2024-09-23T08:00:00',
-                            end: '2024-09-23T10:00:00',
-                            backgroundColor: '#ff0000',
-                            textColor: 'white'
-                        },
-                    
-                    ]
-                });
-                calendar.render();
-            });
-        </script>
+        <!-- Modal "Eliminar Horario" -->
+        <div class="modal fade" id="eliminarHorario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar Horario</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="horarios" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" value="eliminar" name="operacion">
+                            <input type="hidden" id="id_horario" name="id_horario">
+                            ¿Está seguro de que desea eliminar este horario?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal "Revivir Horario" -->
+        <div class="modal fade" id="revivirHorario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Revivir Horario</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="horarios" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" value="revivir" name="operacion">
+                            <input type="hidden" id="id_horario" name="id_horario">
+                            ¿Está seguro de que desea revivir este horario?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Revivir</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- Bootstrap JS y Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"></script>
+
+    <!-- FullCalendar JS -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
+
+    <!-- Script para renderizar el calendario -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendario');
+            
+            // Función para asignar un color diferente a cada profesional
+            function getRandomColor() {
+                const letters = '0123456789ABCDEF';
+                let color = '#';
+                for (let i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+            }
+
+            // Obtenemos los horarios desde la lista tablaHorariosActivos
+            var horarios = [
+                <% for (Horario unHorario : (List<Horario>) request.getAttribute("tablaHorariosActivos")) { %>
+                    {
+                        title: '<%= unHorario.getProfesional().getApellido() %> - <%= unHorario.getPractica().getDescripcion() %>',
+                        daysOfWeek: [ // Convertir el día de la semana a número (0 es domingo, 1 es lunes, etc.)
+                            <% if (unHorario.getDia_semana().equalsIgnoreCase("lunes")) { %> 1 <% } %>
+                            <% if (unHorario.getDia_semana().equalsIgnoreCase("martes")) { %> 2 <% } %>
+                            <% if (unHorario.getDia_semana().equalsIgnoreCase("miércoles")) { %> 3 <% } %>
+                            <% if (unHorario.getDia_semana().equalsIgnoreCase("jueves")) { %> 4 <% } %>
+                            <% if (unHorario.getDia_semana().equalsIgnoreCase("viernes")) { %> 5 <% } %>
+                        ],
+                        startTime: '<%= unHorario.getHora_desde() %>',
+                        endTime: '<%= unHorario.getHora_hasta() %>',
+                        backgroundColor: getRandomColor(), // Color asignado aleatoriamente
+                        textColor: 'white'
+                    },
+                <% } %>
+            ];
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'timeGridWeek', // Cambiar a vista semanal
+                locale: 'es', // Idioma en español
+                headerToolbar: {
+                    left: '',
+                    center: '',
+                    right: '' // Quitar los botones de 'prev', 'next', y 'today'
+                },
+                buttonText: {
+                    today: ''
+                },
+                firstDay: 1, // Comenzar con lunes
+                hiddenDays: [0, 6], // Ocultar domingos (0) y sábados (6)
+                slotMinTime: '08:00:00', // Mostrar horarios desde las 8:00 AM
+                slotMaxTime: '20:00:00', // Mostrar horarios hasta las 8:00 PM
+                events: horarios, // Cargar los horarios dinámicamente desde la lista
+                allDaySlot: false, // Deshabilitar el slot de "todo el día"
+                slotDuration: '00:30:00', // Intervalos de media hora
+                dayHeaderFormat: { weekday: 'long' }, // Mostrar nombres completos de los días de la semana
+            });
+
+            calendar.render();
+        });
+    </script>
 </body>
 </html>

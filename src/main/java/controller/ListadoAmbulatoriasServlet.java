@@ -19,6 +19,7 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.codec.Base64.InputStream;
 
 import entity.Paciente;
 import entity.Profesional;
@@ -100,11 +101,15 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
                     documento.open();
 
                     // Agrega imagen en el encabezado
-                    Image imagenClinica = Image.getInstance("C:\\Users\\Pich\\Documents\\pasosClinica.png");
+                  
+                    String imagePath = "/kr2png12.png"; // Ruta relativa a webapp
+                    java.io.InputStream imageStream = getServletContext().getResourceAsStream(imagePath);
+                    Image imagenClinica = Image.getInstance(imageStream.readAllBytes());
                     imagenClinica.scaleToFit(100, 100);
                     imagenClinica.setAlignment(Element.ALIGN_CENTER);
                     documento.add(imagenClinica);
-
+                    
+                    
                     // Agrega datos de la clínica
                     Paragraph datosClinica = new Paragraph("Pasos - Kinesiología Integral - Email: contacto@clinicapasos.com", FontFactory.getFont(FontFactory.HELVETICA, 12));
                     datosClinica.setAlignment(Element.ALIGN_CENTER);
