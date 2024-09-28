@@ -58,7 +58,7 @@ public class LoginServlet extends HttpServlet {
     	switch(operacion)
     	{
     	
-    	case "ingresar":
+    	case "login":
     	{    		
     		
           
