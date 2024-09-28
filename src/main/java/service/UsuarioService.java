@@ -58,25 +58,25 @@ public class UsuarioService {
 	public String generarClave()
 	{
 		String abc_minuscula="abcdefghijklmnopqrstuvwxyz";
-		String abc_mayuscula = abc_minuscula.toLowerCase();
+		String abc_mayuscula = abc_minuscula.toUpperCase();
 		String numeros="0123456789";
-		String simbolos = "/*-+!·$%&/()=";
+		//String simbolos = "/*-+!·$%&/()=";
 		
-		String cadena = abc_minuscula.concat(abc_mayuscula).concat(simbolos).concat(numeros);
+		String cadena = abc_minuscula.concat(abc_mayuscula).concat(numeros);
 		
 		Random mRandom = new Random();
 		
-		String Resultado = "";
+		String resultado = "";
 		
 		for(int i = 0; i < 10 ; i++)
 		{
 			int posicion = mRandom.nextInt(cadena.length());
 			char caracter = cadena.charAt(posicion);
-			Resultado += caracter;
+			resultado += caracter;
 			
 		}
 		
-		return Resultado;
+		return resultado;
 	}
 
 	public void setearClaveGenerada(Usuario us) {
@@ -84,6 +84,14 @@ public class UsuarioService {
 		usRep.setearClaveGenerada(us);
 		
 	}
+
+	public void cambiarClave(Usuario us) {
+		
+		usRep.cambiarClave(us);
+		
+	}
+
+	
 
 
 }

@@ -190,14 +190,9 @@
 
 
 									<div class="mb-3">
-										<label class="fw-bold fs-5">Confirmar generacion agenda de los profesionales: ...</label>
-										
+										<label class="fw-bold fs-5">Confirmar generacion agenda de los profesionales: ...</label>										
 										<input type="text" name="seleccionados" id="seleccionados">
-										
-										
-										
 										<input type="hidden" id="idEnviado" name="idEnviado">
-
 									</div>
 
 
@@ -211,12 +206,6 @@
 						</div>
 					</div>
 				</div>
-
-
-
-
-
-
 			</div>            
             </div>
             

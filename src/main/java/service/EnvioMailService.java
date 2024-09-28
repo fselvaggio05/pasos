@@ -19,7 +19,6 @@ public class EnvioMailService {
 	private static final String mailFrom = "pasosclinica@gmail.com";
 	private static final String password = "omtb wekw bogr kyaq";
 
-	
 
 	private static Properties getGmailProperties() {
 		
