@@ -358,6 +358,7 @@ if(revivirObraSocial){
 	    registrarTurno.addEventListener('show.bs.modal', event => {
 	        const a = event.relatedTarget;
 	        const idTurnoBoton = a.getAttribute('idTurno');
+	        const practicaBoton = a.getAttribute('practica');
 	        const fecha_tBoton = a.getAttribute('fecha_t');
 	        const hora_tBoton = a.getAttribute('hora_t');
 			const profesionalBoton = a.getAttribute('profesional');
@@ -366,16 +367,20 @@ if(revivirObraSocial){
 	        console.log(fecha_tBoton);
 	        console.log(hora_tBoton);
 			console.log(profesionalBoton);
+			console.log(practicaBoton);
 
 	        const idTurnoHidden=registrarTurno.querySelector('.modal-body #idTurno');
 			const fechaTurno = registrarTurno.querySelector('.modal-body #fechaTurno');
 			const horaTurno = registrarTurno.querySelector('.modal-body #horaTurno');
 			const profesional = registrarTurno.querySelector('.modal-body #profesional');
+			const practica = registrarTurno.querySelector('.modal-body #practica');
+
 
 	        idTurnoHidden.value = idTurnoBoton;
 			fechaTurno.textContent =fecha_tBoton;
 			horaTurno.textContent = hora_tBoton;
 			profesional.textContent=profesionalBoton;
+			practica.textContent=practicaBoton;
 	    });
 	}
 	

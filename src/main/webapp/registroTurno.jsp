@@ -165,12 +165,12 @@
 															<td><c:out value="${tur.fecha_t}"></c:out></td>
 															<td><c:out value="${tur.hora_t}"></c:out></td>
 															<td>
-																<c:if test="${not empty idPrescripcion}">
-																	<a href='#' class="btn btn-success btn-sm btn-reservar" data-bs-toggle='modal' data-bs-target='#registrarTurno' idTurno="${tur.id_turno}" fecha_t="${tur.fecha_t}" hora_t="${tur.hora_t}" profesional="${tur.horario.profesional.apellido}, ${tur.horario.profesional.nombre}">Reservar</a>
-																</c:if>
-																<c:if test="${empty idPrescripcion}">
-																	<a href='#' class="btn btn-success btn-sm" data-bs-toggle='modal' data-bs-target='#buscarPaciente' id="botonBuscarPaciente-${tur.id_turno}" idTurno="${tur.id_turno}">Reservar</a>
-																</c:if>
+															    <c:if test="${not empty idPrescripcion or not empty paciente}">
+															        <a href='#' class="btn btn-success btn-sm btn-reservar" data-bs-toggle='modal' data-bs-target='#registrarTurno' idTurno="${tur.id_turno}" practica ="${tur.horario.practica.descripcion}" fecha_t="${tur.fecha_t}" hora_t="${tur.hora_t}" profesional="${tur.horario.profesional.apellido}, ${tur.horario.profesional.nombre}">Reservar</a>
+															    </c:if>
+															    <c:if test="${empty idPrescripcion and empty paciente}">
+															        <a href='#' class="btn btn-success btn-sm" data-bs-toggle='modal' data-bs-target='#buscarPaciente' id="botonBuscarPaciente-${tur.id_turno}" idTurno="${tur.id_turno}">Reservar</a>
+															    </c:if>
 															</td>
 														</tr>
 													</c:forEach>
@@ -266,10 +266,10 @@
 									<div class="mb-3">
 										<label class="fw-bold form-label col-6">Profesional</label>
 										<c:choose>
-											<c:when test="${empty prescripcion}">
+											<c:when test="${not empty turno}">
 												<c:out value="${turno.horario.profesional.apellido} ${turno.horario.profesional.nombre}"></c:out>
 											</c:when>
-											<c:when test="${not empty prescripcion}">
+											<c:when test="${not empty prescripcion or not empty paciente}">
 												<label id="profesional"></label>
 											</c:when>
 										</c:choose>
@@ -277,21 +277,24 @@
 									<div class="mb-3">
 										<label class="fw-bold form-label col-6">Practica</label>
 										<c:choose>
-											<c:when test="${empty prescripcion}">
-												<c:out value="${turno.horario.practica.descripcion}"></c:out>
-											</c:when>
-											<c:when test="${not empty prescripcion}">
-												 <c:out value="${prescripcion.practica.descripcion}"></c:out>
-											</c:when>
+										    <c:when test="${not empty turno}">
+										        <c:out value="${turno.horario.practica.descripcion}"></c:out>
+										    </c:when>
+										    <c:when test="${not empty prescripcion}">
+										        <c:out value="${prescripcion.practica.descripcion}"></c:out>
+										    </c:when>
+										    <c:otherwise>
+										        <label id="practica"></label>
+										    </c:otherwise>
 										</c:choose>
 									</div>
 									<div class="mb-3">
 										<label class="fw-bold form-label col-6">Fecha Turno</label>
 										<c:choose>
-											<c:when test="${empty prescripcion}">
+											<c:when test="${not empty turno}">
 												<c:out value="${turno.fecha_t}"></c:out>
 											</c:when>
-											<c:when test="${not empty prescripcion}">
+											<c:when test="${not empty prescripcion or not empty paciente}">
 												<label id="fechaTurno"></label>
 											</c:when>
 										</c:choose>
@@ -299,10 +302,10 @@
 									<div class="mb-3">
 										<label class="fw-bold form-label col-6">Hora Turno</label>
 										<c:choose>
-											<c:when test="${empty prescripcion}">
+											<c:when test="${not empty turno}">
 												<c:out value="${turno.hora_t}"></c:out>
 											</c:when>
-											<c:when test="${not empty prescripcion}">
+											<c:when test="${not empty prescripcion or not empty paciente}">
 												<label id="horaTurno"></label>
 											</c:when>
 										</c:choose>
@@ -316,9 +319,9 @@
 						</div>
 					</div>
 				</div>
-				<c:if test="${paciente != null}">
-					<!-- Incluir script para mostrar el modal automáticamente -->
-					<script>new bootstrap.Modal(document.getElementById('registrarTurno')).show();</script>
+				<c:if test="${not empty paciente and not empty turno}">
+				    <!-- Incluir script para mostrar el modal automáticamente -->
+				    <script>new bootstrap.Modal(document.getElementById('registrarTurno')).show();</script>
 				</c:if>
 				<!--MENSAJE DE OPERACION -->
 				<c:if test="${mensaje !=null }">
