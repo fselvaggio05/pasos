@@ -27,4 +27,31 @@ public class Enumeradores {
 	        throw new IllegalArgumentException("Cadena de TipoPractica no válida: " + str);
 	    }
 	}
+	
+	public enum TipoUsuario{
+		ADMINISTRADOR(1),
+		PROFESIONAL(2),
+		PACIENTE(3);
+		
+		private final int codigo;
+		
+		TipoUsuario(int codigo){
+			this.codigo=codigo;
+		}
+		
+		public int getCodigo() {
+			return codigo;
+		}
+		
+		// Método para obtener el TipoUsuario a partir de un código
+	    public static TipoUsuario fromCodigo(int codigo) {
+	        for (TipoUsuario tipo : TipoUsuario.values()) {
+	            if (tipo.getCodigo() == codigo) {
+	                return tipo;
+	            }
+	        }
+	        throw new IllegalArgumentException("Código de TipoUsuario no válido: " + codigo);
+	    }
+		
+	}
 }

@@ -49,7 +49,7 @@ private static final long serialVersionUID = 1L;
 		practicas = prServ.getAllActivas();
 		request.setAttribute("practicas", practicas); 		
  		
- 		if(us.getTipo_usuario()==3)
+ 		if(us.getTipo_usuario().getCodigo()==3)
 		{
  			Paciente pac = pacServ.buscarPaciente(us.getDni());
 			request.setAttribute("paciente", pac);

@@ -99,7 +99,7 @@ public class UsuarioRepository {
 																		            stmt.setDate(6,java.sql.Date.valueOf(us.getFecha_nacimiento()));
 																		            stmt.setString(7, us.getGenero());
 																		            stmt.setString(8, us.getEmail());
-																		            stmt.setInt(9, us.getTipo_usuario());
+																		            stmt.setInt(9, us.getTipo_usuario().getCodigo());
 																		            stmt.executeUpdate();
 																		            respuestaOperacion = "OK";
 																		        }

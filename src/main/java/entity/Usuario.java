@@ -2,6 +2,7 @@ package entity;
 
 import java.text.ParseException;
 import java.time.LocalDate;
+import entity.Enumeradores.TipoUsuario;
 
 public class Usuario {
     private Integer dni;
@@ -13,7 +14,8 @@ public class Usuario {
     private String telefono;
     private String email;
     private String clave;
-    private Integer tipo_usuario;
+    private TipoUsuario tipo_usuario;
+    //private Integer tipo_usuario;
     private Boolean cambio_clave;
 
     public Usuario(Integer dni, String apellido, String nombre, String email, LocalDate fecha_nac, String telefono, String clave, String genero,Integer tipo_usuario) throws ParseException {
@@ -25,8 +27,7 @@ public class Usuario {
         this.telefono=telefono;
         this.genero=genero;
         this.clave=clave;
-        this.tipo_usuario=tipo_usuario;
-
+        this.tipo_usuario = TipoUsuario.fromCodigo(tipo_usuario);
     }
 
 
@@ -96,13 +97,13 @@ public class Usuario {
     } 
     
 
-	public Integer getTipo_usuario() {
+	public TipoUsuario getTipo_usuario() {
 		return tipo_usuario;
 	}
 
 
 	public void setTipo_usuario(Integer tipo_usuario) {
-		this.tipo_usuario = tipo_usuario;
+		this.tipo_usuario = TipoUsuario.fromCodigo(tipo_usuario);
 	}
 	
 

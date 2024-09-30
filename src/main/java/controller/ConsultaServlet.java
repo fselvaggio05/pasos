@@ -45,7 +45,7 @@ public class ConsultaServlet extends HttpServlet {
 			turnosPrescripcion = turServ.getTurnosPrescripcion(idPrescripcion);
 			request.setAttribute("turnos", turnosPrescripcion);
 		}
-		if(usLog.getTipo_usuario()==3) {
+		if(usLog.getTipo_usuario().getCodigo()==3) {
 			turnosPaciente = turServ.buscarTurnosAsignadosPaciente(usLog.getDni());
 		}
 		

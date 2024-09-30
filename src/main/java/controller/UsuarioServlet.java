@@ -157,7 +157,7 @@ public class UsuarioServlet extends HttpServlet {
             case 2: { 
                     Integer matricula = Integer.parseInt(request.getParameter("matricula"));
 					try {
-						Profesional prof = new Profesional(dni, apellido, nombre, email,fecha_nacimiento,telefono,contraseña,genero, matricula);
+						Profesional prof = new Profesional(dni, apellido, nombre, email,fecha_nacimiento,telefono,contraseña,genero, matricula,opcUs);
 						if(profServ.validarProfesional(prof)) 
 						{
 							if("altaUsuario".equals(modal)) 

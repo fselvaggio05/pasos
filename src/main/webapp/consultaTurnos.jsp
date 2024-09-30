@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="entity.Enumeradores.TipoUsuario" %>
+
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ page session="true" %> 
 <!DOCTYPE html>
@@ -10,7 +12,10 @@
     		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 		</head>
 		<body>
-			<% Integer rolUsuario=(Integer)session.getAttribute("rol"); pageContext.setAttribute( "rol" , rolUsuario); %>
+			<% TipoUsuario rolUsuario = (TipoUsuario) session.getAttribute("rol"); 
+		    Integer codigoRolUsuario = rolUsuario != null ? rolUsuario.getCodigo() : null; 
+		    pageContext.setAttribute("rol", codigoRolUsuario); 
+			%>
 			<div class="container-fluid">
 				<div class="row mt-1">
 					<div class="col-3 ">
@@ -91,6 +96,12 @@
 												</td>
 												<td>
 													<c:out value="${tur.getPaciente().getApellido()} , ${tur.getPaciente().getNombre()}"></c:out>
+												</td>
+												<td>
+													<c:out value="${tur.getConsultorio().getDescripcion()}"></c:out>
+												</td>
+												<td>
+													<c:out value="${tur.getEstado_t()}"></c:out>
 												</td>
 												<td>
 													<a href="#" class="btn btn-success btn-sm" idTurno="${tur.getId_turno()}" profesional="${tur.getHorario().getProfesional().getApellido()},${tur.getHorario().getProfesional().getNombre()}" descPractica="${tur.getHorario().getPractica().getDescripcion()}" datosTurno="${tur.getFecha_t()} ${tur.getHora_t()}" data-bs-toggle="modal" data-bs-target="#cancelaTurno">Cancelar</a>

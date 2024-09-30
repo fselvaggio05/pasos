@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ page import="entity.Enumeradores.TipoUsuario" %>
+
     <!DOCTYPE html>
     <html lang="en">
 		<head>
@@ -11,7 +13,10 @@
 			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">			
 		</head>
 		<body>
-			<% Integer rolUsuario=(Integer)session.getAttribute("rol"); pageContext.setAttribute( "rol" , rolUsuario);%>
+			<% TipoUsuario rolUsuario = (TipoUsuario) session.getAttribute("rol"); 
+		    Integer codigoRolUsuario = rolUsuario != null ? rolUsuario.getCodigo() : null; 
+		    pageContext.setAttribute("rol", codigoRolUsuario); 
+			%>
 			<div class="container-fluid">
 				<div class="row mt-1">
 					<div class="col-3 "><jsp:include page="menu_final.jsp" /></div>
