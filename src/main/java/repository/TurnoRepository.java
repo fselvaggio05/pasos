@@ -1169,6 +1169,34 @@ List<Turno> turnosDiscapacidadPendientesACobrar = new ArrayList<Turno>();
 	
 }
 
+public int validarHorario(Integer idHorario) {
+	Integer turnosPendientes = 0;
+	String respuesta = null;
+	try 
+	{
+		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select count(*) from turno t where t.idhorario =? and t.estado_t='Asignado'");
+		stmt.setInt(1, idHorario);	
+		stmt.executeUpdate();
+		if (rs != null && rs.next()) {
+			turnosPendientes = Integer.parseInt(rs.getString(1));
+		} 
+	}		
+	catch (SQLException e) {	
+		respuesta = e.toString();
+	}					
+	finally {
+        try {
+            if (rs != null) rs.close();
+            if (stmt != null) stmt.close();
+        	} 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        FactoryConnection.getInstancia().releaseConn(); //es correcta esta forma de cerrar la conexion?
+    }
+	return turnosPendientes;
+}
+
 
 
 }

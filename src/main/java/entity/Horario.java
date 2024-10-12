@@ -79,9 +79,11 @@ public class Horario {
 	public void setFecha_alta(LocalDate fecha_alta) {
 		this.fecha_alta = fecha_alta;
 	}
-	public String getDia_semana() {
-		return dia_semana.name();
+	
+	public DiaSemana getDia_semana() {
+		return dia_semana;
 	}
+	
 	public void setDia_semana(int dia_semana) {
 		DiaSemana dia = DiaSemana.fromDia(dia_semana);
 		this.dia_semana = dia;

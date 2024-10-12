@@ -216,7 +216,7 @@ public class HorarioRepository {
 			//Eliminé la fecha de alta, en la base está como valor default current timestamp
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("insert into horario (matricula, dia_semana, hora_desde, hora_hasta,id_practica) values (?,?,?,?,?)");
 			stmt.setInt(1, hr.getProfesional().getMatricula());
-			stmt.setString(2, hr.getDia_semana());
+			stmt.setInt(2, hr.getDia_semana().getDia());
 			stmt.setTime(3, desde);
 			stmt.setTime(4, hasta);
 			stmt.setInt(5, hr.getPractica().getId_practica());
@@ -303,7 +303,7 @@ public class HorarioRepository {
 		try
 		{		
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select count(*) from horario where fecha_baja is null and dia_semana=? and ((hora_desde>? and hora_hasta<?) or (hora_desde>? and hora_desde<?) or (hora_hasta>? and hora_hasta<?))" );
-			stmt.setString(1, hr.getDia_semana());
+			stmt.setInt(1, hr.getDia_semana().getDia());
 			stmt.setTime(2, desde);
 			stmt.setTime(3, hasta);
 			stmt.setTime(4, desde);
@@ -381,7 +381,4 @@ public List<Profesional> getProfesionales(Integer id_practica) {
 		
 		return profesionales;
 	}
-	
-
-
 }

@@ -1,23 +1,25 @@
 package service;
 
 import java.time.Duration;
-import java.time.LocalTime;
 import java.util.List;
 import entity.Horario;
 import entity.Profesional;
 import repository.HorarioRepository;
+import repository.TurnoRepository;
 
 public class HorarioService {
 	
 	private HorarioRepository horRep;
 	private PracticaService prServ;
 	private ConsultorioService conServ;
+	private TurnoRepository turRep;
 	
 	public HorarioService() {
 
 		this.horRep = new HorarioRepository();
 		this.prServ = new PracticaService();
 		this.conServ = new ConsultorioService();
+		this.turRep = new TurnoRepository();
 	}
 
 	public List<Horario> getAllActivos() {
@@ -100,6 +102,16 @@ public class HorarioService {
 		return horRep.getProfesionales(id_practica);
 		
 		
+	}
+
+	public boolean validarHorario(Integer idHorario) {
+		Integer turnosPendientes = turRep.validarHorario(idHorario);
+		if(turnosPendientes>0) {
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 
 }
