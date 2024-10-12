@@ -15,6 +15,7 @@ public class Horario {
 	private String dia_semana; //TODO: crear enum para dias de la semana
 	private Practica practica;	
 	private Profesional profesional;
+	
 
 
 
@@ -98,9 +99,50 @@ public class Horario {
 		this.id_horario = id_horario;
 	}
 
+	public int diaSemanaAsNumber() {
+	    switch (this.dia_semana.toLowerCase()) {
+	        case "lunes": return 1;
+	        case "martes": return 2;
+	        case "miércoles": return 3;
+	        case "jueves": return 4;
+	        case "viernes": return 5;
+	        case "sábado": return 6;
+	        case "domingo": return 7;
+	        default: throw new IllegalArgumentException("Día de la semana inválido: " + this.dia_semana);
+	    }
+	}
 	
-	
-	
+	public int getDiaSemanaAsNumber() {
+        switch (dia_semana.toLowerCase()) {
+            case "lunes":
+                return 1;
+            case "martes":
+                return 2;
+            case "miércoles":
+            case "miercoles": // Para evitar problemas con acentos
+                return 3;
+            case "jueves":
+                return 4;
+            case "viernes":
+                return 5;
+            case "sábado":
+            case "sabado": // Para evitar problemas con acentos
+                return 6;
+            case "domingo":
+                return 7;
+            default:
+                throw new IllegalArgumentException("Día de la semana inválido: " + dia_semana);
+        }
+    }
+
+    // Método setter y getter para diaSemana
+    public String getDiaSemana() {
+        return dia_semana;
+    }
+
+    public void setDiaSemana(String diaSemana) {
+        this.dia_semana = diaSemana;
+    }
 	
 	
 	

@@ -1,7 +1,6 @@
 package controller;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -20,6 +19,7 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.codec.Base64.InputStream;
 
 import entity.Paciente;
 import entity.Profesional;
@@ -29,7 +29,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import service.PacienteService;
 import service.PrescripcionService;
 import service.ProfesionalService;
@@ -57,19 +56,15 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	String operacion = request.getParameter("operacion");
-        String respuestaOperacion = null;    
+        String operacion = request.getParameter("operacion");
+        String respuestaOperacion = null;
         List<Turno> tur = null;
 
         switch (operacion) {
             case "listado": {
-                // Validaciones
-                
-            	 Integer matricula = Integer.parseInt(request.getParameter("profesional"));
-                 
-                 LocalDate fecha_desde = LocalDate.parse(request.getParameter("fecha_desde"));
-                 LocalDate fecha_hasta = LocalDate.parse(request.getParameter("fecha_hasta"));           	
-            	
+                Integer matricula = Integer.parseInt(request.getParameter("profesional"));
+                LocalDate fecha_desde = LocalDate.parse(request.getParameter("fecha_desde"));
+                LocalDate fecha_hasta = LocalDate.parse(request.getParameter("fecha_hasta"));
 
                 Profesional profesional = profServ.getProfesional(matricula);
                 tur = turServ.buscarTurnosAsistidosAmbulatorios(fecha_desde, fecha_hasta, profesional.getMatricula());
@@ -87,27 +82,34 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
             }
 
             case "exportar": {
-               
-            	 Integer matricula = Integer.parseInt(request.getParameter("profesional"));
-                 Profesional profesional = profServ.getProfesional(matricula);
-                 LocalDate fecha_desde = LocalDate.parse(request.getParameter("fecha_desde"));
-                 LocalDate fecha_hasta = LocalDate.parse(request.getParameter("fecha_hasta"));
-                 request.setAttribute("fecha_desde", fecha_desde);
-                 request.setAttribute("fecha_hasta", fecha_hasta);
-                 request.setAttribute("turnos", tur);
-                 request.setAttribute("profesionalSeleccionado", profesional.getMatricula());
-                
+                Integer matricula = Integer.parseInt(request.getParameter("profesional"));
+                Profesional profesional = profServ.getProfesional(matricula);
+                LocalDate fecha_desde = LocalDate.parse(request.getParameter("fecha_desde"));
+                LocalDate fecha_hasta = LocalDate.parse(request.getParameter("fecha_hasta"));
+
+                request.setAttribute("fecha_desde", fecha_desde);
+                request.setAttribute("fecha_hasta", fecha_hasta);
+                request.setAttribute("turnos", tur);
+                request.setAttribute("profesionalSeleccionado", profesional.getMatricula());
+
+                // Generar el PDF en memoria
                 Document documento = new Document();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
                 try {
-                    PdfWriter.getInstance(documento, new FileOutputStream("C:\\Users\\Pich\\Documents\\Prescripciones medicas - " + profesional.getApellido() + ", " + profesional.getNombre() + " - Periodo " + fecha_desde + " - " + fecha_hasta + ".pdf"));
+                    PdfWriter.getInstance(documento, baos);
                     documento.open();
 
                     // Agrega imagen en el encabezado
-                    Image imagenClinica = Image.getInstance("C:\\Users\\Pich\\Documents\\pasosClinica.png");
+                  
+                    String imagePath = "/kr2png12.png"; // Ruta relativa a webapp
+                    java.io.InputStream imageStream = getServletContext().getResourceAsStream(imagePath);
+                    Image imagenClinica = Image.getInstance(imageStream.readAllBytes());
                     imagenClinica.scaleToFit(100, 100);
                     imagenClinica.setAlignment(Element.ALIGN_CENTER);
                     documento.add(imagenClinica);
-
+                    
+                    
                     // Agrega datos de la clínica
                     Paragraph datosClinica = new Paragraph("Pasos - Kinesiología Integral - Email: contacto@clinicapasos.com", FontFactory.getFont(FontFactory.HELVETICA, 12));
                     datosClinica.setAlignment(Element.ALIGN_CENTER);
@@ -175,22 +177,25 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
                     documento.add(table);
                     documento.close();
 
-                    respuestaOperacion = "Documento exportado exitosamente";
-                    request.setAttribute("mensaje", respuestaOperacion);
+                    // Configurar la respuesta HTTP para la descarga del PDF
+                    response.setContentType("application/pdf");
+                    response.setHeader("Content-Disposition", "attachment; filename=\"Prescripciones_medicas_" + profesional.getApellido() + "_" + profesional.getNombre() + "_Periodo_" + fecha_desde + "_" + fecha_hasta + ".pdf\"");
+                    response.setContentLength(baos.size());
 
-                    this.doGet(request, response);
+                    // Escribir el PDF al output stream del cliente
+                    response.getOutputStream().write(baos.toByteArray());
+                    response.getOutputStream().flush();
+                    response.getOutputStream().close();
 
-                } catch (FileNotFoundException | DocumentException e) {
+                } catch (DocumentException e) {
                     e.printStackTrace();
                 }
+
                 break;
             }
-
-            
         }
     }
 
-    // Clase auxiliar para agrupar
     private static class GroupingKey {
         private String obraSocial;
         private String practica;
