@@ -163,12 +163,10 @@
                             <div class="mb-3">
                                 <label class="col-6">Día de la Semana</label>
                                 <select class="col-3 form-select" name="dia_semana">
-                                    <option value="lunes">Lunes</option>
-                                    <option value="martes">Martes</option>
-                                    <option value="miércoles">Miércoles</option>
-                                    <option value="jueves">Jueves</option>
-                                    <option value="viernes">Viernes</option>
-                                </select>
+								    <c:forEach var="dia" items="${diasSemana}">
+								        <option value="${dia.name().toLowerCase()}">${dia.name().substring(0, 1).toUpperCase()}${dia.name().substring(1).toLowerCase()}</option>
+								    </c:forEach>
+								</select>
                             </div>
                             <div class="mb-3">
                                 <label class="col-6">Desde</label>

@@ -54,4 +54,32 @@ public class Enumeradores {
 	    }
 		
 	}
+	
+	public enum DiaSemana{
+		LUNES(1),
+		MARTES(2),
+		MIÉRCOLES(3),
+		JUEVES(4),
+		VIERNES(5);
+		
+		private final int dia;
+		
+		DiaSemana(int dia){
+			this.dia=dia;
+		}
+		
+		public int getDia() {
+			return dia;
+		}
+		
+		// Método para obtener el DiaSemana a partir de un código
+	    public static DiaSemana fromDia(int dia) {
+	        for (DiaSemana dias : DiaSemana.values()) {
+	            if (dias.getDia() == dia) {
+	                return dias;
+	            }
+	        }
+	        throw new IllegalArgumentException("Código de TipoUsuario no válido: " + dia);
+	    }
+	}
 }

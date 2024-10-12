@@ -4,7 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
-
 import java.util.ArrayList;
 import java.util.List;
 import conexionDB.FactoryConnection;
@@ -31,20 +30,15 @@ public class HorarioRepository {
 				Profesional prof = new Profesional();
 				hr.setId_horario(rs.getInt("idHorario"));
 				hr.setFecha_alta(rs.getDate("fecha_alta").toLocalDate());
-				hr.setDia_semana(rs.getString("dia_semana"));
-				
+				hr.setDia_semana(rs.getInt("dia_semana"));				
 				pr.setId_practica(rs.getInt("id_practica"));
 				pr.setDescripcion(rs.getString("descripcion"));
-				
 				hr.setPractica(pr);			
-				
 				hr.setHora_desde(rs.getTime("hora_desde").toLocalTime());
-				hr.setHora_hasta(rs.getTime("hora_hasta").toLocalTime());
-				
+				hr.setHora_hasta(rs.getTime("hora_hasta").toLocalTime());				
 				prof.setMatricula(rs.getInt("matricula"));
 				prof.setApellido(rs.getString("apellido"));
-				hr.setProfesional(prof);
-				
+				hr.setProfesional(prof);				
 				horarios.add(hr);
 			}			
 		}
@@ -78,7 +72,7 @@ public class HorarioRepository {
 				Profesional prof = new Profesional();
 				
 				hr.setId_horario(rs.getInt("idHorario"));
-				hr.setDia_semana(rs.getString("dia_semana"));
+				hr.setDia_semana(rs.getInt("dia_semana"));
 				
 				pr.setId_practica(rs.getInt("pr.id_practica"));
 				pr.setDescripcion(rs.getString("pr.descripcion"));
@@ -130,7 +124,7 @@ public class HorarioRepository {
 				hr.setId_horario(rs.getInt("idHorario"));
 				hr.setId_horario(rs.getInt("idHorario"));
 				hr.setFecha_alta(rs.getDate("fecha_alta").toLocalDate());
-				hr.setDia_semana(rs.getString("dia_semana"));
+				hr.setDia_semana(rs.getInt("dia_semana"));
 				
 				pr.setId_practica(rs.getInt("pr.id_practica"));
 				pr.setDescripcion(rs.getString("pr.descripcion"));
@@ -177,7 +171,7 @@ public class HorarioRepository {
 				Profesional prof = new Profesional();
 				
 				hr.setId_horario(rs.getInt("idHorario"));
-				hr.setDia_semana(rs.getString("dia_semana"));
+				hr.setDia_semana(rs.getInt("dia_semana"));
 				
 				pr.setId_practica(rs.getInt("pr.id_practica"));
 				pr.setDescripcion(rs.getString("pr.descripcion"));

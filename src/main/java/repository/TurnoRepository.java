@@ -234,7 +234,7 @@ public class TurnoRepository {
 					}
 					unHorario.setHora_desde(rs.getTime("h.hora_desde").toLocalTime());
 					unHorario.setHora_hasta(rs.getTime("h.hora_hasta").toLocalTime());
-					unHorario.setDia_semana(rs.getString("h.dia_semana"));
+					unHorario.setDia_semana(rs.getInt("h.dia_semana"));
 					
 					//Armo la Practica para el Horario
 					unaPractica.setId_practica(rs.getInt("id_practica"));
@@ -359,7 +359,7 @@ public class TurnoRepository {
 					}
 					unHorario.setHora_desde(rs.getTime("h.hora_desde").toLocalTime());
 					unHorario.setHora_hasta(rs.getTime("h.hora_hasta").toLocalTime());
-					unHorario.setDia_semana(rs.getString("h.dia_semana"));
+					unHorario.setDia_semana(rs.getInt("h.dia_semana"));
 					
 					//Armo la Practica para el Horario
 					unaPractica.setId_practica(rs.getInt("id_practica"));
@@ -675,7 +675,7 @@ public class TurnoRepository {
 					}
 					unHorario.setHora_desde(rs.getTime("h.hora_desde").toLocalTime());
 					unHorario.setHora_hasta(rs.getTime("h.hora_hasta").toLocalTime());
-					unHorario.setDia_semana(rs.getString("h.dia_semana"));
+					unHorario.setDia_semana(rs.getInt("h.dia_semana"));
 					
 					//Armo la Practica para el Horario
 					unaPractica.setId_practica(rs.getInt("id_practica"));

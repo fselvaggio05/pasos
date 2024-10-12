@@ -3,6 +3,8 @@ package controller;
 import java.io.IOException;
 import java.time.LocalTime;
 import java.util.List;
+
+import entity.Enumeradores.DiaSemana;
 import entity.Horario;
 import entity.Practica;
 import entity.Profesional;
@@ -34,6 +36,7 @@ public class HorarioServlet extends HttpServlet {
 													List<Horario> horariosActivos = horServ.getAllActivos();
 													List<Horario> horariosInactivos = horServ.getAllInactivos();
 													List<Profesional> profesionales = profServ.getAll();
+													DiaSemana[] diasSemana = DiaSemana.values();
 													
 													//TODO: TRAER EL CONTENIDO DE LA TABLA PRACTICAS-PROFESIONAL. ACA ESTOY TRAYENDO TODAS
 													List<Practica> practicas = prServ.getAllActivas();
@@ -41,6 +44,7 @@ public class HorarioServlet extends HttpServlet {
 													request.setAttribute("tablaHorariosInactivos", horariosInactivos);
 													request.setAttribute("profesionales", profesionales);
 													request.setAttribute("practicas", practicas);
+													request.setAttribute("diasSemana", diasSemana);
 													request.getRequestDispatcher("abmHorario.jsp").forward(request, response);
 												}
 
@@ -71,7 +75,7 @@ public class HorarioServlet extends HttpServlet {
 													hr.setPractica(pr);
 													hr.setHora_desde(LocalTime.parse(request.getParameter("hora_desde")));
 													hr.setHora_hasta(LocalTime.parse(request.getParameter("hora_hasta")));
-													hr.setDia_semana(request.getParameter("dia_semana"));
+													hr.setDia_semana(Integer.parseInt(request.getParameter("dia_semana")));
 													//TODO: ARREGLAR LOS DESPELOTES POR LOS CAMBIOS DE TIPO
 																									
 													if(horServ.calculaHorario(hr) && horServ.validaConsulorio(hr)) {
@@ -81,10 +85,7 @@ public class HorarioServlet extends HttpServlet {
 																				hr.setProfesional(prof);
 																																																		
 																				respuestaOperacion = horServ.insertarHorario(hr);													
-																				}
-													
-													
-													
+																				}													
 													else {respuestaOperacion = "No es posible agregar el horario ingresado";}
 													break;
 												}
