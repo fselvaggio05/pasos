@@ -265,7 +265,7 @@
                         daysOfWeek: [ // Convertir el día de la semana a número (0 es domingo, 1 es lunes, etc.)
                             <% if (unHorario.getDia_semana().equalsIgnoreCase("lunes")) { %> 1 <% } %>
                             <% if (unHorario.getDia_semana().equalsIgnoreCase("martes")) { %> 2 <% } %>
-                            <% if (unHorario.getDia_semana().equalsIgnoreCase("miércoles")) { %> 3 <% } %>
+                            <% if (unHorario.getDia_semana().equalsIgnoreCase("miercoles")) { %> 3 <% } %>
                             <% if (unHorario.getDia_semana().equalsIgnoreCase("jueves")) { %> 4 <% } %>
                             <% if (unHorario.getDia_semana().equalsIgnoreCase("viernes")) { %> 5 <% } %>
                         ],
