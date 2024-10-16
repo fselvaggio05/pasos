@@ -91,12 +91,12 @@ public class HorarioServlet extends HttpServlet {
 												}
 							case "eliminar": {
 												idHorario = Integer.parseInt(request.getParameter("idHorario"));
-												if(horServ.validarHorario(idHorario)) {
+												//if(horServ.validarHorario(idHorario)) {
 													respuestaOperacion = horServ.inactivarHorario(idHorario);
-												}
-												else {
-													respuestaOperacion="Horario tiene turnos pendientes.";
-												}
+												//}
+												//else {
+												//	respuestaOperacion="Horario tiene turnos pendientes.";
+												//}
 												break;
 											}
 							case "revivir": {

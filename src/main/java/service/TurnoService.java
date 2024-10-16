@@ -43,7 +43,7 @@ public class TurnoService {
 																							// formato completo fecha
 
 				for (Horario h : horarios) {
-					if (nombreDia.equals(h.getDia_semana())) {
+					if (nombreDia.equals(h.getDia_semana().name().toLowerCase())) {
 						duracionPractica = prServ.getDuracionPractica(h.getPractica());
 						hora_desde = h.getHora_desde();
 						while (hora_desde.compareTo(h.getHora_hasta()) < 0) {
