@@ -312,4 +312,8 @@ public class TurnoService {
 		
 		return turRep.buscarTurnosAsistidosDiscapacidad(fecha_desde, fecha_hasta, matricula);
 	}
+
+	public String cancelarTurnos(Integer idHorario) {
+		return this.turRep.cancelarTurnos(idHorario);
+	}
 }

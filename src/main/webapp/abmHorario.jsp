@@ -1,9 +1,11 @@
 <%@page import="entity.Horario"%>
 <%@ page import="java.util.List"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 	<head>
 	    <meta charset="UTF-8">
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,7 +40,7 @@
 				<div class="col-9">
 					<div class="container">
 						<h5 class="small fst-italic text-right mt-3">Bienvenido <c:out value="${usuario.getApellido()} ${usuario.getNombre() }"></c:out></h5>
-						<h4 class="text-center my-5 text-decoration-underline fw-bold ">Gestion de horarios</h4>
+						<h4 class="text-center my-5 text-decoration-underline fw-bold ">Gestión de horarios</h4>
 						<!-- Calendario Semanal -->
                     	<div id="calendario" class="mb-5"></div>
 						<div>
@@ -58,10 +60,10 @@
 		                                <table id="tablaActivos" class="table table-striped my-2">
 		                                    <thead>
 		                                        <tr>
-		                                            <th scope="col">Matricula</th>
+		                                            <th scope="col">Matrícula</th>
 		                                            <th scope="col">Apellido</th>
-		                                            <th scope="col">Practica</th>
-		                                            <th scope="col">Dia de la Semana</th>
+		                                            <th scope="col">Práctica</th>
+		                                            <th scope="col">Día de la Semana</th>
 		                                            <th scope="col">Hora Desde</th>
 		                                            <th scope="col">Hora Hasta</th>
 		                                            <th scope="col">Operaciones</th>
@@ -89,10 +91,10 @@
 		                                <table id="tablaInactivos" class="table table-striped my-2" style="display: none;">
 		                                    <thead>
 		                                        <tr>
-		                                            <th scope="col">Matricula</th>
+		                                            <th scope="col">Matrícula</th>
 		                                            <th scope="col">Apellido</th>
-		                                            <th scope="col">Practica</th>
-		                                            <th scope="col">Dia de la Semana</th>
+		                                            <th scope="col">Práctica</th>
+		                                            <th scope="col">Día de la Semana</th>
 		                                            <th scope="col">Hora Desde</th>
 		                                            <th scope="col">Hora Hasta</th>
 		                                            <th scope="col">Operaciones</th>
@@ -149,16 +151,16 @@
 								</select>
 							</div>
 							<div class="mb-3">
-								<label class="col-6">Practica</label>
+								<label class="col-6">Práctica</label>
 								<select class="col-3 form-select" name="id_practica" id="id_practica">
-									<option value="1">Seleccione una Practica</option>
+									<option value="1">Seleccione una Práctica</option>
 									<c:forEach var="unaPractica" items="${practicas}">
 										<option value="${unaPractica.id_practica}"><c:out value="${unaPractica.descripcion}"></c:out></option>
 									</c:forEach>
 								</select>
 							</div>
 							<div class="mb-3">
-								<label class="col-6">Dia de la Semana</label>
+								<label class="col-6">Día de la Semana</label>
 								<select class="col-3 form-select" name="dia_semana">
 								    <c:forEach var="dia" items="${diasSemana}">
 								        <option value="${dia.getDia()}">${dia.name().substring(0, 1).toUpperCase()}${dia.name().substring(1).toLowerCase()}</option>
@@ -195,7 +197,7 @@
 					        <input type="hidden" value="eliminar" name="operacion">
 					        <input type="hidden" id="idHorario" name="idHorario">
 					        <div class="mb-3">
-					            <label class="col-6">Desea anular el horario?</label>
+					            <label class="col-6">¿Desea anular el horario?</label>
 					            <input type="hidden"  id="idHorario" name="idHorario">
 					            <div class="modal-footer">
 					                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -220,7 +222,7 @@
 					        <input type="hidden" value="revivir" name="operacion">
 					        <input type="hidden" id="idHorario" name="idHorario">
 					        <div class="mb-3">
-					            <label class="col-6">Desea restablecer el horario?</label>
+					            <label class="col-6">¿Desea restablecer el horario?</label>
 					            <input type="hidden"  id="idHorario" name="idHorario">
 					            <div class="modal-footer">
 					                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -315,7 +317,39 @@
  			    <script> 
  			        new bootstrap.Modal(document.getElementById('mensajeOK')).show(); 
  			    </script> 
-			</c:if>  
+			</c:if>
+			<!-- CONFIRMACION ELIMINAR TURNOS DE HORARIO -->
+			<c:if test="${TurnosPendientes !=null }">
+			    <div class="modal fade" id="eliminarTurnos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			        <div class="modal-dialog">
+			            <div class="modal-content">
+			                <div class="modal-header">
+			                    <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
+			                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			                </div>
+			
+			                <div class="modal-body">
+			                    <p class="fs-5 fw-bold">
+			                        El horario tiene turnos pendientes asignados, ¿desea cancelarlos?
+			                        <i class="fa-solid fa-circle-info fa-2xl" style="color: #FFD43B;"></i>
+			                    </p>
+			                </div>			
+			                <div class="modal-footer">
+			                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+			                    <!-- Formulario para cancelar turnos -->
+			                    <form action="horarios" method="post">
+			                        <input type="hidden" name="operacion" value="cancelarTurnos">
+			                        <input type="hidden" name="idHorario" value="${TurnosPendientes}">
+			                        <button type="submit" class="btn btn-danger">Cancelar turnos</button>
+			                    </form>
+			                </div>
+			            </div>
+			        </div>
+			    </div>			
+			    <script> 
+			        new bootstrap.Modal(document.getElementById('eliminarTurnos')).show(); 
+			    </script> 
+			</c:if> 
 		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
 		<script src="js/funciones_abm.js"></script>  

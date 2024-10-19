@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import service.HorarioService;
 import service.PracticaService;
 import service.ProfesionalService;
+import service.TurnoService;
 
 @WebServlet("/horarios")
 
@@ -24,11 +25,14 @@ public class HorarioServlet extends HttpServlet {
 	protected HorarioService horServ;
 	protected ProfesionalService profServ;
 	protected PracticaService prServ; // vinculo con las practicas para cargarlas en el alta del horario
+	protected TurnoService turServ;
 
 	public HorarioServlet() {
 		this.horServ = new HorarioService();
 		this.profServ = new ProfesionalService();
 		this.prServ = new PracticaService();
+		this.turServ = new TurnoService();
+		
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) 
@@ -91,12 +95,13 @@ public class HorarioServlet extends HttpServlet {
 												}
 							case "eliminar": {
 												idHorario = Integer.parseInt(request.getParameter("idHorario"));
-												//if(horServ.validarHorario(idHorario)) {
+												if(horServ.validarHorario(idHorario)) {
 													respuestaOperacion = horServ.inactivarHorario(idHorario);
-												//}
-												//else {
-												//	respuestaOperacion="Horario tiene turnos pendientes.";
-												//}
+												}
+												else {
+													request.setAttribute("TurnosPendientes", idHorario);
+													mensaje = null;
+												}
 												break;
 											}
 							case "revivir": {
@@ -104,6 +109,17 @@ public class HorarioServlet extends HttpServlet {
 												respuestaOperacion = horServ.revivirHorario(idHorario);
 												break;
 											}
+							case "cancelarTurnos":{
+												idHorario = Integer.parseInt(request.getParameter("idHorario"));
+												if(turServ.cancelarTurnos(idHorario).equals("OK")) 
+													{
+														respuestaOperacion=horServ.inactivarHorario(idHorario);
+													}
+													else 
+													{
+														respuestaOperacion = "Algo falló, intente de nuevo.";
+													}
+												  }
 						   }
 
 
