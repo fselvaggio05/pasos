@@ -342,6 +342,11 @@
 			                        <input type="hidden" name="idHorario" value="${TurnosPendientes}">
 			                        <button type="submit" class="btn btn-danger">Cancelar turnos</button>
 			                    </form>
+			                    <form action="horarios" method="post">
+			                        <input type="hidden" name="operacion" value="conservarTurnos">
+			                        <input type="hidden" name="idHorario" value="${TurnosPendientes}">
+			                        <button type="submit" class="btn btn-warning">Conservar turnos</button>
+			                    </form>
 			                </div>
 			            </div>
 			        </div>

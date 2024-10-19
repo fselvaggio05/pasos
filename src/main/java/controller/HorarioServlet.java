@@ -120,6 +120,10 @@ public class HorarioServlet extends HttpServlet {
 														respuestaOperacion = "Algo falló, intente de nuevo.";
 													}
 												  }
+							case "conservarTurnos":{
+												idHorario = Integer.parseInt(request.getParameter("idHorario"));
+												respuestaOperacion = horServ.inactivarHorario(idHorario);
+							}
 						   }
 
 
