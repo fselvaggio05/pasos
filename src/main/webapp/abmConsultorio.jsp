@@ -36,8 +36,8 @@
 		                                <table id="tablaActivos" class="table table-striped my-2">
 		                                    <thead>
 		                                        <tr>
-		                                            <th scope="col">Codigo de Consultorio</th>
-		                                            <th scope="col">Descripcion</th>
+		                                            <th scope="col">Código de Consultorio</th>
+		                                            <th scope="col">Descripción</th>
 		                                            <th scope="col">Operaciones</th>
 		                                        </tr>
 		                                    </thead>
@@ -62,8 +62,8 @@
 		                                <table id="tablaInactivos" class="table table-striped my-2" style="display: none;">
 		                                    <thead>
 		                                        <tr>
-		                                            <th scope="col">Codigo de Consultorio</th>
-		                                            <th scope="col">Descripcion</th>
+		                                            <th scope="col">Código de Consultorio</th>
+		                                            <th scope="col">Descripción</th>
 		                                            <th scope="col">Operaciones</th>
 		                                        </tr>
 		                                    </thead>
@@ -106,7 +106,7 @@
 						<div class="modal-body">
 							<input type="hidden" value="alta" name="operacion">
 							<div class="mb-3">
-								<label class="col-6">Descripcion consultorio:</label>
+								<label class="col-6">Descripción consultorio:</label>
 	                            <input type="text" class="form-control col-6" name="descConsultorio">
 							</div>
 							<div class="modal-footer">
@@ -130,12 +130,12 @@
 						<div class="modal-body">
 							<input type="hidden" value="actualizar" name="operacion">
 							<div class="mb-3">
-								<label class="col-6">Codigo Consultorio:</label>
+								<label class="col-6">Código Consultorio:</label>
                                 <input type="text" class="form-control col-6" id="idConsultorio" name="idConsultorio" readOnly>
                                 <c:out value="${unConsultorio.id_consultorio}"></c:out>								
 							</div>
 							<div class="mb-3">
-								<label class="col-6">Descripcion Consultorio:</label>
+								<label class="col-6">Descripción Consultorio:</label>
                                 <input type="text" class="form-control col-6" id="descConsultorio" name="descConsultorio">
                                 <c:out value="${unConsultorio.descripcion}"></c:out>
 							</div>

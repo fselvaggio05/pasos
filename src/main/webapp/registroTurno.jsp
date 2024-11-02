@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ page import="entity.Enumeradores.TipoUsuario" %>
 
+
     <!DOCTYPE html>
     <html lang="en">
 		<head>
@@ -32,7 +33,7 @@
 										<div class="card-body">
 											<div class="row">											
 												<div class="col-4">
-													<label class="fs-6  fst-italic fw-bold mb-3">Registrar desde una prescripcion vigente?</label>
+													<label class="fs-6  fst-italic fw-bold mb-3">¿Registrar desde una prescripción vigente?</label>
 												</div>
 												<div class="col-4">
 													<div class="toggle-switch">
@@ -59,7 +60,7 @@
 													<input type="hidden" value="${idPrescripcion}" name="idPrescripcion">
 												</c:if>
 												<select class="form-select mb-2" name="practicas" onchange="document.getElementById('practica').submit()">
-													<option value="0">Seleccione una Practica</option>
+													<option value="0">Seleccione una Práctica</option>
 													<c:forEach var="pr" items="${practicas}">
 														<c:choose>
 															<c:when test="${pr.id_practica eq practicaSeleccionada}">
@@ -110,14 +111,14 @@
 									<table class="table table-striped my-2">
 										<thead>
 											<tr>
-												<th scope="col">Fecha Prescripcion</th>
+												<th scope="col">Fecha Prescripción</th>
 												<th scope="col">Paciente</th>
 												<th scope="col">Nro. Afiliado</th>
-												<th scope="col">Practica</th>
+												<th scope="col">Práctica</th>
 												<th scope="col">Total Sesiones</th>
 												<th scope="col">Sesiones Pendientes</th>
 												<th scope="col">Fecha Fin Prescripcion</th>
-												<th scope="col"> Operaciones</th>
+												<th scope="col">Operaciones</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -258,7 +259,7 @@
 										</c:choose>
 									</div>
 									<div class="mb-3">
-										<label class="fw-bold form-label col-6">Numero de afiliado</label>
+										<label class="fw-bold form-label col-6">Número de afiliado</label>
 										<c:choose>
 											<c:when test="${empty prescripcion}">
 												<c:out value="${paciente.nro_afiliado}"></c:out>
@@ -280,7 +281,7 @@
 										</c:choose>
 									</div>
 									<div class="mb-3">
-										<label class="fw-bold form-label col-6">Practica</label>
+										<label class="fw-bold form-label col-6">Práctica</label>
 										<c:choose>
 										    <c:when test="${not empty turno}">
 										        <c:out value="${turno.horario.practica.descripcion}"></c:out>

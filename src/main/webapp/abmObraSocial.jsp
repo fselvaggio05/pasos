@@ -37,18 +37,16 @@
 		                                <table id="tablaActivos" class="table table-striped my-2">
 		                                    <thead>
 		                                        <tr>
-		                                            <th scope="col">Código de Obra social</th>
+		                                            <th scope="col">Código de Obra Social</th>
 		                                            <th scope="col">Nombre</th>
-		                                            
-		                                            
+		                                            <th scope="col">Operaciones</th>
 		                                        </tr>
 		                                    </thead>
 		                                    <tbody>
 		                                        <c:forEach var="unaObraSocial" items="${tablaActivas}">
 		                                            <tr>
 		                                                <td><c:out value="${unaObraSocial.id_obra_social}"/></td>
-		                                                <td><c:out value="${unaObraSocial.nombre_os}"/></td>
-		                                                
+		                                                <td><c:out value="${unaObraSocial.nombre_os}"/></td>		                                                
 		                                                <td>
 		                                                	<a href='#' data-bs-toggle='modal' data-bs-target='#eliminarObraSocial' idObraSocial="${unaObraSocial.id_obra_social}" nomObraSocial="${unaObraSocial.nombre_os}">
     															<i class='bi bi-trash-fill m-1'></i>
@@ -65,8 +63,7 @@
 		                                <table id="tablaInactivos" class="table table-striped my-2" style="display: none;">
 		                                    <thead>
 		                                        <tr>
-		                                            <th scope="col">Código de Obra Social</th>
-		                      
+		                                            <th scope="col">Código de Obra Social</th>		                      
 		                                            <th scope="col">Nombre</th>
 		                                            <th scope="col">Operaciones</th>
 		                                        </tr>
@@ -76,7 +73,6 @@
 		                                            <tr>
 		                                                <td><c:out value="${unaObraSocial.id_obra_social}"/></td>
 		                                                <td><c:out value="${unaObraSocial.nombre_os}"/></td>
-		                                                
 		                                                <td>
 		                                                	<a href='#' data-bs-toggle='modal'data-bs-target='#revivirObraSocial' idObraSocial="${unaObraSocial.id_obra_social}" nomObraSocial="${unaObraSocial.nombre_os}">
 		                                                		<i class='bi bi-heart-fill m-1'></i>
@@ -98,49 +94,46 @@
 				</div>
 			</div>
 		</div>		
-<!-- 			MENSAJE OPERACION 		 -->
-			<c:if test="${mensaje !=null }">
-			    <div class="modal fade" id="mensajeOK" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			        <div class="modal-dialog">
-			            <div class="modal-content">
-			                <div class="modal-header">
-			                    <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
-			                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			                </div>
-			
-			                <div class="modal-body">
-			                    <p class="fs-5 fw-bold">${mensaje}<i class="fa-solid fa-circle-info fa-2xl" style="color: #FFD43B;"></i></p>
-			                </div>
-			                <div class="modal-footer">
-			                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-			                </div>
-			                <div></div>
-			            </div>
-			        </div>
-			    </div>
- 			    <script> 
- 			        new bootstrap.Modal(document.getElementById('mensajeOK')).show(); 
- 			    </script> 
-			</c:if>   
-<!-- 		VENTANA MODAL "AGREGAR OBRA SOCIAL" -->
+		<!--MENSAJE OPERACION 		 -->
+		<c:if test="${mensaje !=null }">
+		    <div class="modal fade" id="mensajeOK" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		        <div class="modal-dialog">
+		            <div class="modal-content">
+		                <div class="modal-header">
+		                    <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
+		                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		                </div>		
+		                <div class="modal-body">
+		                    <p class="fs-5 fw-bold">${mensaje}<i class="fa-solid fa-circle-info fa-2xl" style="color: #FFD43B;"></i></p>
+		                </div>
+		                <div class="modal-footer">
+		                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+		                </div>
+		                <div></div>
+		            </div>
+		        </div>
+		    </div>
+			    <script> 
+			        new bootstrap.Modal(document.getElementById('mensajeOK')).show(); 
+			    </script> 
+		</c:if>   
+		<!--VENTANA MODAL "AGREGAR OBRA SOCIAL" -->
 		<div class="modal fade" id="altaObraSocial" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="exampleModalLabel">
-							Nueva Obra Social
-						</h1>
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Nueva Obra Social</h1>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<form action="obrassociales" method="post">
 						<div class="modal-body">
 							<input type="hidden" value="alta" name="operacion">
 							<div class="mb-3">
-								<label class="col-6">Codigo obra social:</label>
+								<label class="col-6">Código Obra Social:</label>
 	                            <input type="text" class="form-control col-6" name="idObraSocial">
 							</div>
 							<div class="mb-3">
-								<label class="col-6">Nombre obra social:</label>
+								<label class="col-6">Nombre Obra Social:</label>
 	                            <input type="text" class="form-control col-6" name="nomObraSocial">
 							</div>
 							<div class="modal-footer">
@@ -152,7 +145,7 @@
 				</div>
 			</div>
 		</div>
-		<!--                     VENTANA MODAL "EDITAR OBRA SOCIAL" -->
+		<!--VENTANA MODAL "EDITAR OBRA SOCIAL" -->
 		<div class="modal fade" id="actualizarObraSocial" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -164,11 +157,10 @@
 						<div class="modal-body">
 							<input type="hidden" value="actualizar" name="operacion">
 							<div class="mb-3">
-								<label class="col-6">Codigo Obra Social:</label>
+								<label class="col-6">Código Obra Social:</label>
                                 <input type="text" class="form-control col-6" id="idObraSocial" name="idObraSocial" readOnly>
                                 <c:out value="${unaObraSocial.id_obra_social}"></c:out>								
-							</div>
-							
+							</div>							
 							<div class="mb-3">
 								<label class="col-6">Nombre Obra Social:</label>
                                 <input type="text" class="form-control col-6" id="nomObraSocial" name="nomObraSocial">
@@ -183,7 +175,7 @@
 				</div>
 			</div>
 		</div>
-		<!--                     VENTANA MODAL "ELIMINAR OBRA SOCIAL" -->
+		<!--VENTANA MODAL "ELIMINAR OBRA SOCIAL" -->
 		<div class="modal fade" id="eliminarObraSocial" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -209,7 +201,7 @@
 				</div>
 			</div>
 		</div>
-		<!--                     VENTANA MODAL "REVIVIR OBRA SOCIAL" -->
+		<!--VENTANA MODAL "REVIVIR OBRA SOCIAL" -->
 		<div class="modal fade" id="revivirObraSocial" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -222,7 +214,7 @@
 					        <input type="hidden" value="revivir" name="operacion">
 					        <input type="hidden" id="idObraSocial" name="idObraSocial">
 					        <div class="mb-3">
-					            <label class="col-6">¿Desea reactivar la obra social?</label>
+					            <label class="col-6">¿Desea reactivar la Obra Social?</label>
 					            <input type="hidden"  id="idObraSocial" name="idObraSocial">
 								<div  class="fs-4 text-danger" id="nomObraSocial" name="nomObraSocial"></div>
 					            <div class="modal-footer">
@@ -240,5 +232,4 @@
 		<script src="js/funciones_abm.js"></script>
 		<script src="js/toggle.js"></script>
 	</body>
-	
 </html>

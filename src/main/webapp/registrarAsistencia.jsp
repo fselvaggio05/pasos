@@ -24,7 +24,7 @@
                             		<label class="fs-6 fw-bold mb-3 " for="">DNI paciente</label>
                         		</div>
                         		<div class="col-6">
-                            		<input type="number" class="col-6 form-control" name="dniPaciente">
+                            		<input type="number" class="col-6 form-control" name="dniPaciente" required>
                         		</div>
                         		<div class="col-2 mb-4">
                             		<button type="submit" class="col-6  btn btn-success">Buscar</button>

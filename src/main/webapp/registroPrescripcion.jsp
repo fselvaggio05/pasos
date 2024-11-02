@@ -20,7 +20,7 @@
         <div class="col-9">
             <div class="container">
                 <h5 class="small fst-italic text-right mt-3">Bienvenido <c:out value="${usuario.getApellido()} ${usuario.getNombre()}"></c:out></h5>
-                <h4 class="text-center my-4 mb-5 text-decoration-underline fw-bold ">Registrar prescripcion</h4>
+                <h4 class="text-center my-4 mb-5 text-decoration-underline fw-bold ">Registrar prescripción</h4>
                 <!-- Formulario para buscar paciente -->
                 <form method="post" action="prescripcion" class="my-4">
 				    <div class="input-group">
@@ -35,13 +35,13 @@
                     <table class="table table-striped my-2">
                         <thead>
                             <tr>
-                                <th scope="col">Fecha Prescripcion</th>
+                                <th scope="col">Fecha Prescripción</th>
                                 <th scope="col">Paciente</th>
                                 <th scope="col">Nro. Afiliado</th>
-                                <th scope="col">Practica</th>
+                                <th scope="col">Práctica</th>
                                 <th scope="col">Total Sesiones</th>
                                 <th scope="col">Sesiones Pendientes</th>
-                                <th scope="col">Fecha Fin Prescripcion</th>
+                                <th scope="col">Fecha Fin Prescripción</th>
                                 <th scope="col"> Operaciones</th>
                             </tr>
                         </thead>

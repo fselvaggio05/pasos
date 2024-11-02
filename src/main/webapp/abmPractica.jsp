@@ -1,6 +1,7 @@
 <%@page import="entity.Practica"%>
 <%@ page import="java.util.List"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +21,7 @@
 				<div class="col-9">
 					<div class="container">
 						<div>
-							<h4 class="text-center my-5 text-decoration-underline fw-bold ">Listado	de Practicas Profesionales</h4>
+							<h4 class="text-center my-5 text-decoration-underline fw-bold ">Listado	de Prácticas Profesionales</h4>
 							<div class="row justify-content-center mt-3">
 								<div class="card text-center">
 									<div class="toggle-switch">
@@ -36,11 +37,11 @@
 		                                <table id="tablaActivos" class="table table-striped my-2">
 		                                    <thead>
 		                                        <tr>
-		                                            <th scope="col">Codigo de Practica</th>
-		                                            <th scope="col">Tipo de Practica</th>
-		                                            <th scope="col">Descripcion</th>
+		                                            <th scope="col">Código de Práctica</th>
+		                                            <th scope="col">Tipo de Práctica</th>
+		                                            <th scope="col">Descripción</th>
 		                                            <th scope="col">Equipo</th>
-		                                            <th scope="col">Duracion</th>
+		                                            <th scope="col">Duración</th>
 		                                            <th scope="col">Operaciones</th>
 		                                        </tr>
 		                                    </thead>
@@ -74,11 +75,11 @@
 		                                <table id="tablaInactivos" class="table table-striped my-2" style="display: none;">
 		                                    <thead>
 		                                        <tr>
-		                                            <th scope="col">Codigo de Practica</th>
-		                                            <th scope="col">Tipo de Practica</th>
-		                                            <th scope="col">Descripcion</th>
+		                                            <th scope="col">Código de Práctica</th>
+		                                            <th scope="col">Tipo de Práctica</th>
+		                                            <th scope="col">Descripción</th>
 		                                            <th scope="col">Equipo</th>
-		                                            <th scope="col">Duracion</th>
+		                                            <th scope="col">Duración</th>
 		                                            <th scope="col">Operaciones</th>
 		                                        </tr>
 		                                    </thead>
@@ -115,14 +116,14 @@
 		    <div class="modal-dialog">
 		        <div class="modal-content">
 		            <div class="modal-header">
-		                <h1 class="modal-title fs-5" id="exampleModalLabel">Nueva practica</h1>
+		                <h1 class="modal-title fs-5" id="exampleModalLabel">Nueva Práctica</h1>
 		                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		            </div>
 		            <form action="practicas" method="post" onsubmit="mensaje()">
 		                <div class="modal-body">
 		                    <input type="hidden" value="alta" name="operacion">
 		                    <div class="mb-3">
-		                        <label>Tipo de Practica:</label>
+		                        <label>Tipo de Práctica:</label>
 		                        <div class="form-check form-check-inline">
 		                            <input class="form-check-input" type="radio" name="tipoPractica" id="ambulatoria" value="Ambulatoria" checked>
 		                            <label class="form-check-label" for="ambulatoria">Ambulatoria</label>
@@ -133,21 +134,21 @@
 		                        </div>
 		                    </div>
 		                    <div class="mb-3">
-		                        <label>Codigo de Practica:</label>
+		                        <label>Código de Práctica:</label>
 		                        <input type="text" class="form-control" name="idPractica">
 		                    </div>
 		                    <div class="mb-3">
-		                        <label>Descripcion practica:</label>
+		                        <label>Descripción práctica:</label>
 		                        <input type="text" class="form-control" name="descPractica">
 		                    </div>
 		                    <div class="mb-3">
-		                        <label>Duracion:</label>
-		                        <input type="text" class="form-control" name="duracion">
+		                        <label>Duración:</label>
+		                        <input type="number" class="form-control" name="duracion">
 		                    </div>
 		                    <div class="mb-3" id="equipoField">
 		                        <label>Equipo:</label>
 		                        <select class="form-select" name="idEquipo"> 
-		                            <option value="1">Seleccione un equipo</option>
+		                            <option value="1">Seleccione un Equipo</option>
 		                            <c:forEach var="equip" items="${equipos}">
 		                                <option value="<c:out value="${equip.id_equipo}"></c:out>"><c:out value="${equip.descripcion}"></c:out></option>
 		                            </c:forEach>
@@ -163,7 +164,7 @@
 		                    </div>
 		                    <div class="mb-3" id="montoField" style="display: none;">
 		                        <label>Monto:</label>
-		                        <input type="text" class="form-control" name="monto">
+		                        <input type="number" class="form-control" name="monto">
 		                    </div>
 		                </div>
 		                <div class="modal-footer">
@@ -179,14 +180,14 @@
 		    <div class="modal-dialog">
 		        <div class="modal-content">
 		            <div class="modal-header">
-		                <h1 class="modal-title fs-5" id="exampleModalLabel">Editar practica</h1>
+		                <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Práctica</h1>
 		                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		            </div>
 		            <form action="practicas" method="post">
 		                <div class="modal-body">
 		                    <input type="hidden" value="actualizar" name="operacion">
 		                    <div class="mb-3">
-		                        <label>Tipo de Practica:</label>
+		                        <label>Tipo de Práctica:</label>
 		                        <div class="form-check form-check-inline">
 		                            <input class="form-check-input" type="radio" name="tipoPractica" id="ambulatoria" value="Ambulatoria">
 		                            <label class="form-check-label" for="ambulatoria">Ambulatoria</label>
@@ -197,21 +198,21 @@
 		                        </div>
 		                    </div>
 		                    <div class="mb-3">
-		                        <label>Codigo Practica:</label>
+		                        <label>Codigo Práctica:</label>
 		                        <input type="text" class="form-control" id="idPractica" name="idPractica" readOnly>
 		                    </div>
 		                    <div class="mb-3">
-		                        <label>Descripcion practica:</label>
+		                        <label>Descripción práctica:</label>
 		                        <input type="text" class="form-control" id="descPractica" name="descPractica">
 		                    </div>
 		                    <div class="mb-3">
-		                        <label>Duracion:</label>
-		                        <input type="text" class="form-control" id="duracion" name="duracion">
+		                        <label>Duración:</label>
+		                        <input type="number" class="form-control" id="duracion" name="duracion">
 		                    </div>
 		                    <div class="mb-3" id="equipoField" style="display: none;">
 		                        <label>Equipo:</label>
 		                        <select class="form-select" id="equipo" name="idEquipo">
-		                            <option value="">Seleccione un equipo</option>
+		                            <option value="">Seleccione un Equipo</option>
 		                            <c:forEach var="equip" items="${equipos}">
 		                                <option value="<c:out value="${equip.id_equipo}"></c:out>"><c:out value="${equip.descripcion}"></c:out></option>
 		                            </c:forEach>
@@ -238,7 +239,7 @@
 	                    <div class="modal-body">
 							<input type="hidden" value="eliminar" name="operacion">
 							<div class="mb-3">
-	                            <label class="col-6">Desea eliminar la practica?</label>
+	                            <label class="col-6">¿Desea eliminar la Práctica?</label>
 	                            <input type="hidden"  id="idPractica" name="idPractica">
 	                            <div  class="fs-4 text-danger" id="descPractica" name="descPractica" ></div>
 	                        	<div class="modal-footer">
@@ -264,7 +265,7 @@
 					        <input type="hidden" value="revivir" name="operacion">
 					        <input type="hidden" id="idPractica" name="idPractica">
 					        <div class="mb-3">
-					            <label class="col-6">Desea reactivar la practica?</label>
+					            <label class="col-6">¿Desea reactivar la Práctica?</label>
 					            <input type="hidden"  id="idPractica" name="idPractica">
 								<div  class="fs-4 text-danger" id="descPractica" name="descPractica"></div>
 					            <div class="modal-footer">
@@ -306,29 +307,28 @@
 		<script src="js/funciones_abm.js"></script>
 		<script src="js/toggle.js"></script>
 		<script>
-	    document.addEventListener('DOMContentLoaded', function () {
-	        var ambulatoriaRadio = document.getElementById('ambulatoria');
-	        var discapacidadRadio = document.getElementById('discapacidad');
-	        var equipoField = document.getElementById('equipoField');
-	        var fechaDesdeField = document.getElementById('fechaDesdeField');
-	        var fechaHastaField = document.getElementById('fechaHastaField');
-	        var montoField = document.getElementById('montoField');
-	
-	        ambulatoriaRadio.addEventListener('change', function () {
-	            equipoField.style.display = 'block';
-	            fechaDesdeField.style.display = 'none';
-	            fechaHastaField.style.display = 'none';
-	            montoField.style.display = 'none';
-	        });
-	
-	        discapacidadRadio.addEventListener('change', function () {
-	            equipoField.style.display = 'none';
-	            fechaDesdeField.style.display = 'block';
-	            fechaHastaField.style.display = 'block';
-	            montoField.style.display = 'block';
-	        });
-	    });
-	</script>
+		    document.addEventListener('DOMContentLoaded', function () {
+		        var ambulatoriaRadio = document.getElementById('ambulatoria');
+		        var discapacidadRadio = document.getElementById('discapacidad');
+		        var equipoField = document.getElementById('equipoField');
+		        var fechaDesdeField = document.getElementById('fechaDesdeField');
+		        var fechaHastaField = document.getElementById('fechaHastaField');
+		        var montoField = document.getElementById('montoField');
+		
+		        ambulatoriaRadio.addEventListener('change', function () {
+		            equipoField.style.display = 'block';
+		            fechaDesdeField.style.display = 'none';
+		            fechaHastaField.style.display = 'none';
+		            montoField.style.display = 'none';
+		        });
+		
+		        discapacidadRadio.addEventListener('change', function () {
+		            equipoField.style.display = 'none';
+		            fechaDesdeField.style.display = 'block';
+		            fechaHastaField.style.display = 'block';
+		            montoField.style.display = 'block';
+		        });
+		    });
+		</script>
 	</body>
-	
 </html>
