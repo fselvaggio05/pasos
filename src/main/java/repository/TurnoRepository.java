@@ -907,7 +907,7 @@ List<Turno> turnosPendientesACobrar = new ArrayList<Turno>();
 	
 	try
 	{
-		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT t.*, us.*, pc.*, os.*, h.*, pra.*, prof.*, uspro.*, pres.*, COUNT(t.idturno) AS sesiones_asistidas from turno t inner join usuario us on us.dni = t.dni inner join paciente pc on pc.dni=us.dni  inner join obra_social os on os.id_obra_social=pc.id_obra_social  inner join horario h on h.idhorario = t.idhorario  inner join practica pra on pra.id_practica=h.id_practica  inner join profesional prof on prof.matricula = h.matricula  inner join usuario uspro on uspro.dni =prof.dni inner join prescripcion pres on pres.id_prescripcion=t.id_prescripcion where t.fecha_turno between ? and ? and prof.matricula = ? and t.estado_t='Asistido' and pra.tipo_practica = 1 and t.id_prescripcion is not null GROUP BY t.id_prescripcion, t.idturno, us.dni, pc.dni, os.id_obra_social, h.idhorario, pra.id_practica, prof.matricula, uspro.dni, pres.id_prescripcion ORDER BY t.fecha_turno");
+		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT  t.idturno, t.fecha_turno, t.hora_turno, us.dni, pc.dni, os.id_obra_social, os.nombre_os, h.idhorario, pra.id_practica, pra.descripcion, pra.descripcion, prof.matricula, us.apellido,us.nombre, uspro.dni, uspro.nombre, uspro.apellido, pc.nro_afiliado, COUNT(t.idturno) AS turnos_asistidos from turno t inner join usuario us on us.dni = t.dni inner join paciente pc on pc.dni=us.dni  inner join obra_social os on os.id_obra_social=pc.id_obra_social  inner join horario h on h.idhorario = t.idhorario  inner join practica pra on pra.id_practica=h.id_practica  inner join profesional prof on prof.matricula = h.matricula  inner join usuario uspro on uspro.dni =prof.dni inner join prescripcion pres on pres.id_prescripcion=t.id_prescripcion where t.fecha_turno between ? and ? and prof.matricula = ? and t.estado_t='Asistido' and pra.tipo_practica = 1 and t.id_prescripcion is not null GROUP BY t.id_prescripcion, t.idturno, us.dni, pc.dni, os.id_obra_social, h.idhorario, pra.id_practica, prof.matricula, uspro.dni, pres.id_prescripcion ORDER BY t.fecha_turno");
 		stmt.setDate(1, Date.valueOf(fecha_desde));
 		stmt.setDate(2, Date.valueOf(fecha_hasta));
 		stmt.setInt(3, matricula);
@@ -944,9 +944,7 @@ List<Turno> turnosPendientesACobrar = new ArrayList<Turno>();
 			profesional.setApellido(rs.getString("uspro.apellido"));
 			
 			Prescripcion prescripcion = new Prescripcion();
-			prescripcion.setId_prescripcion(rs.getInt("pres.id_prescripcion"));
-			prescripcion.setSesiones_asistidas(rs.getInt("sesiones_asistidas"));
-			prescripcion.setCant_sesiones(rs.getInt("pres.cant_sesiones"));
+			prescripcion.setSesiones_asistidas(rs.getInt("turnos_asistidos"));
 			
 			tur.setPrescripcion(prescripcion);
 			horario.setPractica(practica);
