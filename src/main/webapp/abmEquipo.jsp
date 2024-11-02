@@ -37,9 +37,9 @@
 		                                <table id="tablaActivos" class="table table-striped my-2">
 		                                    <thead>
 		                                        <tr>
-		                                            <th scope="col">Codigo de Equipo</th>
+		                                            <th scope="col">Código de Equipo</th>
 		                                            <th scope="col">Tipo de Equipo</th>
-		                                            <th scope="col">Descripcion</th>
+		                                            <th scope="col">Descripción</th>
 		                                            <th scope="col">Operaciones</th>
 		                                        </tr>
 		                                    </thead>
@@ -65,9 +65,9 @@
 		                                <table id="tablaInactivos" class="table table-striped my-2" style="display: none;">
 		                                    <thead>
 		                                        <tr>
-		                                            <th scope="col">Codigo de Equipo</th>
+		                                            <th scope="col">Código de Equipo</th>
 		                                            <th scope="col">Tipo de Equipo</th>
-		                                            <th scope="col">Descripcion</th>
+		                                            <th scope="col">Descripción</th>
 		                                            <th scope="col">Operaciones</th>
 		                                        </tr>
 		                                    </thead>
@@ -140,7 +140,7 @@
 	                            <input type="text" class="form-control col-6" name="tipoEquipo">
 							</div>
 							<div class="mb-3">
-								<label class="col-6">Descripcion equipo:</label>
+								<label class="col-6">Descripción equipo:</label>
 	                            <input type="text" class="form-control col-6" name="descEquipo">
 							</div>
 							<div class="modal-footer">
@@ -164,7 +164,7 @@
 						<div class="modal-body">
 							<input type="hidden" value="actualizar" name="operacion">
 							<div class="mb-3">
-								<label class="col-6">Codigo Equipo:</label>
+								<label class="col-6">Código Equipo:</label>
                                 <input type="text" class="form-control col-6" id="idEquipo" name="idEquipo" readOnly>
                                 <c:out value="${unEquipo.id_equipo}"></c:out>								
 							</div>
@@ -174,7 +174,7 @@
                                 <c:out value="${unEquipo.tipo_equipo}"></c:out>
 							</div>
 							<div class="mb-3">
-								<label class="col-6">Descripcion Equipo:</label>
+								<label class="col-6">Descripción Equipo:</label>
                                 <input type="text" class="form-control col-6" id="descEquipo" name="descEquipo">
                                 <c:out value="${unEquipo.descripcion}"></c:out>
 							</div>

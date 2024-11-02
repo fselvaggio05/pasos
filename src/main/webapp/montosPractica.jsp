@@ -1,6 +1,7 @@
 <%@ page import="java.util.List"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +21,7 @@
             <div class="col-9">
                 <div class="container">
                     <div>
-                        <h4 class="text-center my-5 text-decoration-underline fw-bold ">Historico de Montos por Practica</h4>
+                        <h4 class="text-center my-5 text-decoration-underline fw-bold ">Historico de Montos por Práctica</h4>
                         <input type="hidden" value="<%= request.getParameter("idPractica") %>" id="idPractica" name="idPractica">
                         <div class="row justify-content-center mt-3">
                             <div class="card text-center">
@@ -81,7 +82,7 @@
 						<div class="modal-body">
 							<input type="hidden" value="alta" name="operacion">
 							<div class="mb-3">
-						        <label class="col-6">Codigo de Practica:</label>
+						        <label class="col-6">Código de Práctica:</label>
 						        <input type="text" class="form-control col-6" id="idPracticaAlta" name="idPracticaAlta" readonly>
 						    </div>							
 						    <div class="mb-3">

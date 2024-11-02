@@ -34,7 +34,7 @@
 	                  			<li><a href="registroAsistencia" class="link-dark rounded">Registrar asistencia</a></li>
 			                </c:if>
 			                <c:if test="${(rol=='1')}">
-	                  			<li><a href="prescripcion" class="link-dark rounded">Registrar prescripcion</a></li>
+	                  			<li><a href="prescripcion" class="link-dark rounded">Registrar prescripción</a></li>
 	                		</c:if>
 			                <c:if test="${(rol=='1')}">
 			                	<li><a href="generarAgendas" class="link-dark rounded">Generar agenda</a></li>
@@ -47,9 +47,9 @@
               			<button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#reportes-collapse" aria-expanded="false">Reportes</button>
               			<div class="collapse" id="reportes-collapse">
                 			<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  				<li><a href="listadoambulatorias" class="link-dark rounded">Facturacion Ambulatoria</a></li>
-				                <li><a href="listadodiscapacidad" class="link-dark rounded">Facturacion Plan Discapacidad</a></li>
-								<li><a href="registroPagos" class="link-dark rounded">Registro practicas abonadas</a></li>
+                  				<li><a href="listadoambulatorias" class="link-dark rounded">Facturación Ambulatoria</a></li>
+				                <li><a href="listadodiscapacidad" class="link-dark rounded">Facturación Plan Discapacidad</a></li>
+								<li><a href="registroPagos" class="link-dark rounded">Registro prácticas abonadas</a></li>
                 			</ul>
               			</div>
             		</li>
@@ -60,7 +60,7 @@
               				<button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#admin-collapse" aria-expanded="false">Administrar</button>
               				<div class="collapse" id="admin-collapse">
                 				<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  					<li><a href="practicas" class="link-dark rounded">Gestión Practicas profesionales</a></li>
+                  					<li><a href="practicas" class="link-dark rounded">Gestión Prácticas Profesionales</a></li>
                   					<li><a href="equipos" class="link-dark rounded">Gestión Equipos</a></li>
                   					<li><a href="consultorios" class="link-dark rounded">Gestión Consultorios</a></li>
                   					<li><a href="obrassociales" class="link-dark rounded">Gestión Obras Sociales</a></li>
@@ -72,7 +72,7 @@
           			</c:if>
        		</ul>		
           	<div class="border-top my-3">
-				<a href="login" class="btn btn-toggle align-items-center rounded collapsed text-decoration-underline">Cerrar sesion</a>
+				<a href="login" class="btn btn-toggle align-items-center rounded collapsed text-decoration-underline">Cerrar Sesión</a>
 		  	</div>
       	</div>
       	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
