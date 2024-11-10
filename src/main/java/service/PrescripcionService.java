@@ -39,20 +39,6 @@ public class PrescripcionService {
 		return prescRep.buscarPrescripcionActiva(pac,pr);
 	}
 
-
-	public void incrementarSesionesAsistidas(Prescripcion prescripcion) {
-		
-		prescRep.incrementarSesionesAsistidas(prescripcion);
-		
-	}
-
-
-	public void desactivarVigenciaPrescripcion(Prescripcion prescripcion) {
-		
-		prescRep.desactivarVigenciaPrescripcion(prescripcion);
-		
-	}
-
 	public List<Prescripcion> getAll() {
 		return prescRep.getAll();
 	}

@@ -182,26 +182,24 @@ public class TurnoService {
 	}
 
 	public String registrarAsistencia(Paciente pac, Integer idTurno) {
+		String respuesta=null;
 		Turno tur = this.buscarTurno(idTurno);
-		turRep.registrarAsistencia(pac, tur);
-
 		if (tur.getPrescripcion() != null) 
 		{
-			this.buscarPrescripcion(tur);
-			if (tur.getPrescripcion().getCant_sesiones() - 1 == tur.getPrescripcion().getSesiones_asistidas()) 
-			{
-				prescServ.desactivarVigenciaPrescripcion(tur.getPrescripcion());
-			}
+			if(tur.getPrescripcion().getCant_sesiones()==tur.getPrescripcion().getSesiones_asistidas()+1) 
+				{
+					respuesta=turRep.registrarAsistenciaYAnularPrescrescripcion(tur);
+				}
 			else 
-			{
-				prescServ.incrementarSesionesAsistidas(tur.getPrescripcion());
-			}
+				{
+					respuesta = turRep.registrarAsistenciaYAumentarSesionesAsistidas(tur);
+				}
 		}
-		return respuesta = "OK";
-	}
-
-	private void buscarPrescripcion(Turno tur) {
-		turRep.buscarPrescripcion(tur);
+		else 
+		{
+			respuesta=turRep.registrarAsistencia(pac, tur);
+		}
+		return respuesta;		
 	}
 
 	public Turno buscarTurno(Integer id_turno) {

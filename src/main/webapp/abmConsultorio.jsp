@@ -83,7 +83,6 @@
 		                                </table>
 		                                <div class="row justify-content-end">
 		                                	<button type="button" class="btn btn-success col-2 m-1" data-bs-toggle="modal" data-bs-target="#altaConsultorio" data-bs-whatever="@mdo">Agregar Consultorio</button>
-		                                	<button type="button" class="btn btn-success col-2 m-1">Cancelar</button>
 		                                </div>
                             		</div>
 								</div>
@@ -107,7 +106,7 @@
 							<input type="hidden" value="alta" name="operacion">
 							<div class="mb-3">
 								<label class="col-6">Descripción consultorio:</label>
-	                            <input type="text" class="form-control col-6" name="descConsultorio">
+	                            <input type="text" class="form-control col-6" name="descConsultorio" required>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -136,7 +135,7 @@
 							</div>
 							<div class="mb-3">
 								<label class="col-6">Descripción Consultorio:</label>
-                                <input type="text" class="form-control col-6" id="descConsultorio" name="descConsultorio">
+                                <input type="text" class="form-control col-6" id="descConsultorio" name="descConsultorio" required>
                                 <c:out value="${unConsultorio.descripcion}"></c:out>
 							</div>
 							<div class="modal-footer">

@@ -458,27 +458,6 @@ public class PrescripcionRepository {
 		return presc;	
 	}
 	
-	//Update
-	public void incrementarSesionesAsistidas(Prescripcion prescripcion) {		
-		Integer sesionesAsistidas = prescripcion.getSesiones_asistidas()+1;
-		
-		try
-		{
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update prescripcion set sesiones_asistidas=? where id_ambulatoria=?");
-			stmt.setInt(1, sesionesAsistidas);
-			stmt.setInt(2,prescripcion.getId_prescripcion());			
-			stmt.executeUpdate();	
-		}
-		catch(SQLException e)
-		{
-			respuestaOperacion = e.toString();
-		}
-		finally
-		{
-			FactoryConnection.cerrarConexion(rs, stmt);
-		}
-	}
-
 	public List<Prescripcion> buscarTodasLasPrescripciones(Paciente paciente) {
 
         List<Prescripcion> prescripciones = new ArrayList<>();
@@ -573,26 +552,6 @@ public class PrescripcionRepository {
 
   }
 	
-	
-	public void desactivarVigenciaPrescripcion(Prescripcion prescripcion) {	
-		Integer sesionesAsistidas = prescripcion.getSesiones_asistidas()+1;
-		try
-		{
-			stmt = FactoryConnection.getInstancia().getConn().prepareStatement("update prescripcion set sesiones_asistidas=?, estado=0 where id_ambulatoria=?");
-			stmt.setInt(1, sesionesAsistidas);
-			stmt.setInt(2,prescripcion.getId_prescripcion());			
-			stmt.executeUpdate();			
-		}		
-		catch(SQLException e)
-		{
-			respuestaOperacion = e.toString();
-		}		
-		finally
-		{
-			FactoryConnection.cerrarConexion(rs, stmt);
-		}
-	}
-
 	public String anularPrescripcion(Integer idPrescripcion) {
 		try
 		{

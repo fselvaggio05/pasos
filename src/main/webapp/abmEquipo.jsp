@@ -88,7 +88,6 @@
 		                                </table>
 		                                <div class="row justify-content-end">
 		                                	<button type="button" class="btn btn-success col-2 m-1" data-bs-toggle="modal" data-bs-target="#altaEquipo" data-bs-whatever="@mdo">Agregar Equipo</button>
-		                                	<button type="button" class="btn btn-success col-2 m-1">Cancelar</button>
 		                                </div>
                             		</div>
 								</div>
@@ -137,11 +136,11 @@
 							<input type="hidden" value="alta" name="operacion">
 							<div class="mb-3">
 								<label class="col-6">Tipo Equipo:</label>
-	                            <input type="text" class="form-control col-6" name="tipoEquipo">
+	                            <input type="text" class="form-control col-6" name="tipoEquipo" required>
 							</div>
 							<div class="mb-3">
 								<label class="col-6">Descripción equipo:</label>
-	                            <input type="text" class="form-control col-6" name="descEquipo">
+	                            <input type="text" class="form-control col-6" name="descEquipo" required>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -170,12 +169,12 @@
 							</div>
 							<div class="mb-3">
 								<label class="col-6">Tipo Equipo:</label>
-                                <input type="text" class="form-control col-6" id="tipoEquipo" name="tipoEquipo">
+                                <input type="text" class="form-control col-6" id="tipoEquipo" name="tipoEquipo" required>
                                 <c:out value="${unEquipo.tipo_equipo}"></c:out>
 							</div>
 							<div class="mb-3">
 								<label class="col-6">Descripción Equipo:</label>
-                                <input type="text" class="form-control col-6" id="descEquipo" name="descEquipo">
+                                <input type="text" class="form-control col-6" id="descEquipo" name="descEquipo" required>
                                 <c:out value="${unEquipo.descripcion}"></c:out>
 							</div>
 							<div class="modal-footer">

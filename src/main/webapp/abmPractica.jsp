@@ -101,7 +101,7 @@
 		                                    </tbody>
 		                                </table>
 		                                <div class="row justify-content-end">
-		                                	<button type="button" class="btn btn-success col-2 m-1" data-bs-toggle="modal" data-bs-target="#altaPractica" data-bs-whatever="@mdo">Agregar Practica</button>
+		                                	<button type="button" class="btn btn-success col-2 m-1" data-bs-toggle="modal" data-bs-target="#altaPractica" data-bs-whatever="@mdo">Agregar Práctica</button>
 		                                </div>
                             		</div>
 								</div>
@@ -135,15 +135,15 @@
 		                    </div>
 		                    <div class="mb-3">
 		                        <label>Código de Práctica:</label>
-		                        <input type="text" class="form-control" name="idPractica">
+		                        <input type="text" class="form-control" name="idPractica" required>
 		                    </div>
 		                    <div class="mb-3">
 		                        <label>Descripción práctica:</label>
-		                        <input type="text" class="form-control" name="descPractica">
+		                        <input type="text" class="form-control" name="descPractica" required>
 		                    </div>
 		                    <div class="mb-3">
 		                        <label>Duración:</label>
-		                        <input type="number" class="form-control" name="duracion">
+		                        <input type="number" class="form-control" name="duracion" required>
 		                    </div>
 		                    <div class="mb-3" id="equipoField">
 		                        <label>Equipo:</label>

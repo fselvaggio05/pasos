@@ -71,28 +71,35 @@ public class ConsultaServlet extends HttpServlet {
 				{
 					case 1:
 					{
-						Integer dni = Integer.parseInt(request.getParameter("dniPaciente"));
-						Paciente pac = pacServ.buscarPaciente(dni);
-						if(pac!=null) 
+						if(request.getParameter("dniPaciente").isEmpty()) 
 						{
-							List<Turno> turnos = turServ.buscarTurnosAsignadosPaciente(pac.getDni());
-							if(turnos.size()==0) 
-							{
-								respuestaOperacion="Sin turnos";
-							}
-							else 
-							{
-								request.setAttribute("turnos", turnos);
-								respuestaOperacion = "";
-							}
-							request.setAttribute("filtroSeleccionado", tipoFiltro);
-							request.setAttribute("dniPaciente", dni);
+							respuestaOperacion ="Sin DNI";
 						}
 						else 
 						{
-							respuestaOperacion="Paciente nulo";
-						}
-						
+							Integer dni = Integer.parseInt(request.getParameter("dniPaciente"));
+							Paciente pac = pacServ.buscarPaciente(dni);
+							if(pac!=null) 
+							{
+								List<Turno> turnos = turServ.buscarTurnosAsignadosPaciente(pac.getDni());
+								if(turnos.size()==0) 
+								{
+									respuestaOperacion="Sin turnos";
+								}
+								else 
+								{
+									request.setAttribute("turnos", turnos);
+									respuestaOperacion = "";
+								}
+								request.setAttribute("filtroSeleccionado", tipoFiltro);
+								request.setAttribute("dniPaciente", dni);
+
+							}						
+							else 
+							{
+								respuestaOperacion="Paciente nulo";
+							}
+						}						
 						break;
 					}
 					
@@ -115,19 +122,25 @@ public class ConsultaServlet extends HttpServlet {
 					
 					case 3:
 					{
-						LocalDate fecha_turno = LocalDate.parse(request.getParameter("fecha"));
-						List<Turno> turnos = turServ.buscarTurnosDelDia(fecha_turno);
-						
-						if(turnos.size()==0){
-							respuestaOperacion="Sin turnos";
+						if(request.getParameter("fecha").isBlank()) {
+							respuestaOperacion ="Sin fecha";
 						}
-						else {
-							request.setAttribute("turnos", turnos);
-							respuestaOperacion="";
+						else 
+						{
+							LocalDate fecha_turno = LocalDate.parse(request.getParameter("fecha"));
+							List<Turno> turnos = turServ.buscarTurnosDelDia(fecha_turno);
+							
+							if(turnos.size()==0){
+								respuestaOperacion="Sin turnos";
+							}
+							else {
+								request.setAttribute("turnos", turnos);
+								respuestaOperacion="";
+							}
+							request.setAttribute("filtroSeleccionado", tipoFiltro);
+							request.setAttribute("fecha", fecha_turno);
+							break;	
 						}
-						request.setAttribute("filtroSeleccionado", tipoFiltro);
-						request.setAttribute("fecha", fecha_turno);
-						break;						
 					}
 				}
 				break;	
@@ -161,6 +174,12 @@ public class ConsultaServlet extends HttpServlet {
 			break;
 		case "Paciente nulo":
 			mensaje="No existe Paciente.";
+			break;
+		case "Sin DNI":
+			mensaje = "Por favor, ingrese un DNI.";
+			break;
+		case "Sin fecha":
+			mensaje="Por favor, ingrese una fecha.";
 			break;
 		case "":
 			break;

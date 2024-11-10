@@ -1,5 +1,6 @@
 package repository;
 
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -1213,6 +1214,99 @@ public String cancelarTurnos(Integer idHorario) {
 	}
 	
 	return respuestaOperacion;	
+}
+
+public String registrarAsistenciaYAnularPrescrescripcion(Turno tur) {
+	String respuestaOperacion = null;
+    Connection conexion = null;
+    PreparedStatement stmt1 = null;
+    PreparedStatement stmt2 = null;
+    
+    try {
+    	conexion = FactoryConnection.getInstancia().getConn();
+        conexion.setAutoCommit(false);
+        
+        //Primer Update
+        stmt1 = conexion.prepareStatement("update turno set estado_t='Asistido' where idturno=?");
+		stmt1.setInt(1, tur.getId_turno());	
+		stmt1.executeUpdate();
+		
+		//Segundo Update
+		stmt2 = conexion.prepareStatement("update prescripcion set sesiones_asistidas=cant_sesiones, estado=0, fecha_baja_presc=current_timestamp() where id_prescripcion=?");
+		stmt2.setInt(1, tur.getPrescripcion().getId_prescripcion());
+		stmt2.executeUpdate();
+		
+		//Committeo los dos update
+		conexion.commit();
+        respuestaOperacion = "OK";
+
+	} 
+    catch (SQLException e) 
+					    	{		
+								if (conexion!= null) 
+								{
+						            try 
+						            {
+						                conexion.rollback();
+						            } 
+						            catch (SQLException rollbackEx) 
+						            {
+						                respuestaOperacion=e.toString();
+						            }
+								}
+					    	} 
+    finally 
+    {
+		FactoryConnection.cerrarConexion(rs, stmt);
+	}
+    return respuestaOperacion;
+}
+
+public String registrarAsistenciaYAumentarSesionesAsistidas(Turno tur) {
+	String respuestaOperacion = null;
+    Connection conexion = null;
+    PreparedStatement stmt1 = null;
+    PreparedStatement stmt2 = null;
+    
+    try {
+    	conexion = FactoryConnection.getInstancia().getConn();
+        conexion.setAutoCommit(false);
+        
+        //Primer Update
+        stmt1 = conexion.prepareStatement("update turno set estado_t='Asistido' where idturno=?");
+		stmt1.setInt(1, tur.getId_turno());	
+		stmt1.executeUpdate();
+		
+		//Segundo Update
+		stmt2 = conexion.prepareStatement("update prescripcion set sesiones_asistidas=? where id_prescripcion=?");
+		stmt2.setInt(1, tur.getPrescripcion().getSesiones_asistidas()+1);
+		stmt2.setInt(2, tur.getPrescripcion().getId_prescripcion());
+		stmt2.executeUpdate();
+		
+		//Committeo los dos update
+		conexion.commit();
+        respuestaOperacion = "OK";
+
+	} 
+    catch (SQLException e) 
+					    	{		
+								if (conexion!= null) 
+								{
+						            try 
+						            {
+						                conexion.rollback();
+						            } 
+						            catch (SQLException rollbackEx) 
+						            {
+						                respuestaOperacion=e.toString();
+						            }
+								}
+					    	} 
+    finally 
+    {
+		FactoryConnection.cerrarConexion(rs, stmt);
+	}
+    return respuestaOperacion;
 }
 
 
