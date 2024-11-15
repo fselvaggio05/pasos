@@ -1101,22 +1101,25 @@ List<Turno> turnosDiscapacidadPendientesACobrar = new ArrayList<Turno>();
 	
 	try
 	{
-		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT t.idturno, t.fecha_turno, t.hora_turno, usPac.dni, usPac.nombre, usPac.apellido, pac.dni, pac.nro_afiliado, obSoc.id_obra_social, obSoc.nombre_os, h.idhorario, pr.id_practica, pr.descripcion, prof.matricula, usProf.apellido, usProf.nombre, usProf.dni, mo.id_monto, mo.monto from turno t inner join horario h on t.idhorario=h.idhorario inner join practica pr on h.id_practica=pr.id_practica inner join profesional prof on h.matricula=prof.matricula inner join usuario usProf on usProf.dni=prof.dni inner join usuario usPac on t.dni=usPac.dni inner join paciente pac on usPac.dni=pac.dni inner join obra_social obSoc on obSoc.id_obra_social = pac.id_obra_social inner join monto_practica mo on mo.id_practica=pr.id_practica where t.fecha_turno between ? and ? and prof.matricula = ? and t.estado_t='Asistido' and pr.tipo_practica = 2 and t.fecha_turno>=mo.fecha_desde and t.fecha_turno<=mo.fecha_hasta and t.id_prescripcion is not null GROUP BY t.id_prescripcion, t.idturno, usPac.dni, pac.dni, obSoc.id_obra_social, h.idhorario, pr.id_practica, prof.matricula, usProf.dni order by t.fecha_turno");
+		stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT t.idturno, t.fecha_turno, t.hora_turno, usPac.dni, usPac.nombre, usPac.apellido, pac.dni, pac.nro_afiliado, obSoc.id_obra_social, obSoc.nombre_os, h.idhorario, pr.id_practica, pr.descripcion, prof.matricula, usProf.apellido, usProf.nombre, usProf.dni, mo.id_monto, mo.monto from turno t inner join horario h on t.idhorario=h.idhorario inner join practica pr on h.id_practica=pr.id_practica inner join profesional prof on h.matricula=prof.matricula inner join usuario usProf on usProf.dni=prof.dni inner join usuario usPac on t.dni=usPac.dni inner join paciente pac on usPac.dni=pac.dni inner join obra_social obSoc on obSoc.id_obra_social = pac.id_obra_social inner join monto_practica mo on mo.id_practica=pr.id_practica where t.fecha_turno between ? and ? and prof.matricula = ? and t.estado_t='Asistido' and pr.tipo_practica = 2 and t.fecha_turno>=mo.fecha_desde and t.fecha_turno<=mo.fecha_hasta and t.id_prescripcion is not null GROUP BY t.idturno, usPac.dni, pac.dni, obSoc.id_obra_social, h.idhorario, h.fecha_alta, h.fecha_baja, h.hora_desde, h.hora_hasta, h.dia_semana, mo.fecha_desde, mo.fecha_hasta, pr.id_practica, prof.matricula, usProf.dni, mo.id_monto, mo.monto ORDER BY t.fecha_turno");
 		
 		stmt.setDate(1, Date.valueOf(fecha_desde));
 		stmt.setDate(2, Date.valueOf(fecha_hasta));
 		stmt.setInt(3, matricula);
 		rs = stmt.executeQuery();
+		System.out.println(matricula);
 		
 		while(rs!=null && rs.next())
 		{
 			Practica pract = new Practica();
 			pract.setId_practica(rs.getInt("pr.id_practica"));
 			pract.setDescripcion(rs.getString("pr.descripcion"));
+			System.out.println(rs.getString("pr.descripcion"));
 			
 			MontosPractica montoPractica = new MontosPractica();
 			montoPractica.setId_monto(rs.getInt("mo.id_monto"));
 			montoPractica.setMonto(rs.getDouble("mo.monto"));
+			System.out.println(rs.getDouble("mo.monto"));
 			
 			List<MontosPractica> montosPractica = new ArrayList<MontosPractica>();
 			//MontosPracticaRepository montRep = new MontosPracticaRepository();
@@ -1125,16 +1128,25 @@ List<Turno> turnosDiscapacidadPendientesACobrar = new ArrayList<Turno>();
 		    pract.setMontos(montosPractica);
 			
 			Profesional prof = new Profesional();
-			prof.setMatricula(rs.getInt("usProf.matricula"));
+			prof.setMatricula(rs.getInt("prof.matricula"));
 			prof.setApellido(rs.getString("usProf.apellido"));
 			prof.setNombre(rs.getString("usProf.nombre"));
+			
+			System.out.println(rs.getInt("prof.matricula"));
+			System.out.println(rs.getString("usProf.apellido"));
+			
 			
 			ObraSocial obSoc = new ObraSocial();
 			obSoc.setNombre(rs.getString("obSoc.nombre_os"));
 			
+			System.out.println(rs.getString("obSoc.nombre_os"));
+			
 			Paciente pac = new Paciente();
 			pac.setApellido(rs.getString("usPac.apellido"));
 			pac.setNombre(rs.getString("usPac.nombre"));
+			
+			System.out.println(rs.getString("usPac.nombre"));
+			
 			pac.setObra_social(obSoc);
 			
 			Horario hor = new Horario();
