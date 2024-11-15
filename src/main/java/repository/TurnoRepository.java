@@ -1107,23 +1107,18 @@ List<Turno> turnosDiscapacidadPendientesACobrar = new ArrayList<Turno>();
 		stmt.setDate(2, Date.valueOf(fecha_hasta));
 		stmt.setInt(3, matricula);
 		rs = stmt.executeQuery();
-		System.out.println(matricula);
 		
 		while(rs!=null && rs.next())
 		{
 			Practica pract = new Practica();
 			pract.setId_practica(rs.getInt("pr.id_practica"));
 			pract.setDescripcion(rs.getString("pr.descripcion"));
-			System.out.println(rs.getString("pr.descripcion"));
 			
 			MontosPractica montoPractica = new MontosPractica();
 			montoPractica.setId_monto(rs.getInt("mo.id_monto"));
 			montoPractica.setMonto(rs.getDouble("mo.monto"));
-			System.out.println(rs.getDouble("mo.monto"));
 			
 			List<MontosPractica> montosPractica = new ArrayList<MontosPractica>();
-			//MontosPracticaRepository montRep = new MontosPracticaRepository();
-			//montosPractica=montRep.getMontosPractica(pract);
 			montosPractica.add(montoPractica);
 		    pract.setMontos(montosPractica);
 			
@@ -1131,21 +1126,13 @@ List<Turno> turnosDiscapacidadPendientesACobrar = new ArrayList<Turno>();
 			prof.setMatricula(rs.getInt("prof.matricula"));
 			prof.setApellido(rs.getString("usProf.apellido"));
 			prof.setNombre(rs.getString("usProf.nombre"));
-			
-			System.out.println(rs.getInt("prof.matricula"));
-			System.out.println(rs.getString("usProf.apellido"));
-			
-			
+
 			ObraSocial obSoc = new ObraSocial();
 			obSoc.setNombre(rs.getString("obSoc.nombre_os"));
-			
-			System.out.println(rs.getString("obSoc.nombre_os"));
 			
 			Paciente pac = new Paciente();
 			pac.setApellido(rs.getString("usPac.apellido"));
 			pac.setNombre(rs.getString("usPac.nombre"));
-			
-			System.out.println(rs.getString("usPac.nombre"));
 			
 			pac.setObra_social(obSoc);
 			
