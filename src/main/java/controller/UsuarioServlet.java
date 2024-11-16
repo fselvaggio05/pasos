@@ -155,39 +155,45 @@ public class UsuarioServlet extends HttpServlet {
             }
 
             case 2: { 
-                    Integer matricula = Integer.parseInt(request.getParameter("matricula"));
-					try {
-						Profesional prof = new Profesional(dni, apellido, nombre, email,fecha_nacimiento,telefono,contraseña,genero, matricula,opcUs);
-						if(profServ.validarProfesional(prof)) 
-						{
-							if("altaUsuario".equals(modal)) 
-							{
-								respuestaOperacion = "El Profesional ya existe.";
-							}
-							else 
-							{
-								if(request.getParameter("contraseña").isBlank()) 
-								{
-									respuestaOperacion = profServ.updateProfesionalSinContraseña(prof);
-								}
-								else 
-								{
-									respuestaOperacion = profServ.updateProfesionalConContraseña(prof);
-								}
-							}
-						}
-						else 
-						{
-							respuestaOperacion = profServ.insertarProfesional(prof);
-						}
-					} catch (NumberFormatException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					break;               
+                    if(request.getParameter("matricula").isBlank()) {
+                    	respuestaOperacion ="Debe ingresar la matrícula.";
+                    	break;
+                    }
+                    else {
+                    	Integer matricula = Integer.parseInt(request.getParameter("matricula"));
+    					try {
+    						Profesional prof = new Profesional(dni, apellido, nombre, email,fecha_nacimiento,telefono,contraseña,genero, matricula,opcUs);
+    						if(profServ.validarProfesional(prof)) 
+    						{
+    							if("altaUsuario".equals(modal)) 
+    							{
+    								respuestaOperacion = "El Profesional ya existe.";
+    							}
+    							else 
+    							{
+    								if(request.getParameter("contraseña").isBlank()) 
+    								{
+    									respuestaOperacion = profServ.updateProfesionalSinContraseña(prof);
+    								}
+    								else 
+    								{
+    									respuestaOperacion = profServ.updateProfesionalConContraseña(prof);
+    								}
+    							}
+    						}
+    						else 
+    						{
+    							respuestaOperacion = profServ.insertarProfesional(prof);
+    						}
+    					} catch (NumberFormatException e) {
+    						// TODO Auto-generated catch block
+    						e.printStackTrace();
+    					} catch (ParseException e) {
+    						// TODO Auto-generated catch block
+    						e.printStackTrace();
+    					}
+    					break; 
+                    }
             }
 
             case 3:{               

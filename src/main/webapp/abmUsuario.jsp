@@ -204,29 +204,29 @@
 									<div id="camposAdministrador" style="display: none;">
 										<div class="row mt-3">
 											<div class="col-6">
-												<label>Nombre</label> <input type="text" class="form-control" name="nombre">
+												<label>Nombre</label> <input type="text" class="form-control" name="nombre" required>
 											</div>
 											<div class="col-6">
-												<label>Apellido</label> <input type="text" class="form-control" name="apellido">
+												<label>Apellido</label> <input type="text" class="form-control" name="apellido" required>
 											</div>
 										</div>
 										<div class="row mt-3">
 											<div class="col-6">
 												<label>DNI</label> 
-												<input type="text" class="form-control" name="dni">
+												<input type="text" class="form-control" name="dni" required>
 											</div>
 											<div class="col-6">
 												<label>Fecha de Nacimiento</label> 
-												<input type="date" class="form-control" name="fechaNacimiento">
+												<input type="date" class="form-control" name="fechaNacimiento" required>
 											</div>
 										</div>
 										<div class="row mt-3">
 											<div class="col-6">
 												<label>Teléfono</label> 
-												<input type="number" class="form-control" name="telefono">
+												<input type="number" class="form-control" name="telefono" required>
 											</div>
 											<div class="col-6">
-												<label>Género</label> <select class="form-select" name="genero">
+												<label>Género</label> <select class="form-select" name="genero" required>
 													<option value="1">Femenino</option>
 													<option value="2">Masculino</option>
 													<option value="3">No binario</option>
@@ -236,11 +236,11 @@
 										<div class="row mt-3">
 											<div class="col-6">
 												<label>Email</label> 
-												<input type="text" class="form-control" name="email">
+												<input type="text" class="form-control" name="email" required>
 											</div>
 											<div class="col-6">
 												<label>Contraseña</label> 
-												<input type="password" class="form-control" name="contraseña">
+												<input type="password" class="form-control" name="contraseña" required>
 											</div>
 										</div>
 									</div>
@@ -257,7 +257,7 @@
 											<div class="col-12">
 												<label>Obra Social</label> 
 												<select class="form-select" name="id_obra_social">
-													<option value="1">Seleccione una Obra Social</option>
+													<option value="0">Seleccione una Obra Social</option>
 													<c:forEach var="unaOS" items="${obrasSociales}">
 														<option value="${unaOS.id_obra_social}">${unaOS.nombre_os}</option>
 													</c:forEach>
@@ -299,12 +299,12 @@
 									<div class="row mt-3">
 										<div class="col-6">
 											<label>Nombre</label> 
-											<input type="text" class="form-control" name="nombre">
+											<input type="text" class="form-control" name="nombre" required>
 											<c:out value="${unAdministrador.nombre}"></c:out>
 										</div>
 										<div class="col-6">
 											<label>Apellido</label> 
-											<input type="text" class="form-control" name="apellido">
+											<input type="text" class="form-control" name="apellido" required>
 											<c:out value="${unAdministrador.apellido}"></c:out>
 										</div>
 									</div>
@@ -316,19 +316,19 @@
 										</div>
 										<div class="col-6">
 											<label>Fecha de Nacimiento</label> 
-											<input type="date" class="form-control" name="fechaNacimiento">
+											<input type="date" class="form-control" name="fechaNacimiento" required>
 											<c:out value="${unAdministrador.fecha_nacimiento}"></c:out>
 										</div>
 									</div>
 									<div class="row mt-3">
 										<div class="col-6">
 											<label>Teléfono</label> 
-											<input type="number" class="form-control" name="telefono">
+											<input type="number" class="form-control" name="telefono" required>
 											<c:out value="${unAdministrador.telefono}"></c:out>
 										</div>
 										<div class="col-6">
 											<label>Género</label> 
-											<select class="form-select" name="genero">
+											<select class="form-select" name="genero" required>
 												<option value="1">Femenino</option>
 												<option value="2">Masculino</option>
 												<option value="3">No binario</option>
@@ -339,12 +339,12 @@
 									<div class="row mt-3">
 										<div class="col-6">
 											<label>Email</label> 
-											<input type="text" class="form-control" name="email">
+											<input type="text" class="form-control" name="email" required>
 											<c:out value="${unAdministrador.email}"></c:out>
 										</div>
 										<div class="col-6">
 											<label>Contraseña</label> 
-											<input type="password" class="form-control" name="contraseña">
+											<input type="password" class="form-control" name="contraseña" required>
 										</div>
 									</div>
 								</div>
@@ -362,7 +362,7 @@
 										<div class="col-12">
 											<label>Obra Social</label> 
 											<select class="form-select" name="id_obra_social">
-												<option value="1">Seleccione una Obra Social</option>
+												<option value="0">Seleccione una Obra Social</option>
 												<c:forEach var="unaOS" items="${obrasSociales}">
 													<option value="${unaOS.id_obra_social}">${unaOS.nombre_os}</option>
 												</c:forEach>
