@@ -70,7 +70,7 @@ public class ListadoDiscapacidadServlet extends HttpServlet {
                 LocalDate fecha_hasta = LocalDate.parse(request.getParameter("fecha_hasta"));
                 tur = turServ.buscarTurnosAsistidosDiscapacidad(fecha_desde, fecha_hasta, profesional.getMatricula());
 
-                if (tur.size() == 0) {
+                if (tur.isEmpty()) {
                     respuestaOperacion = "No existen turnos de discapacidad pendientes de cobro para el período ingresado";
                 }
                 request.setAttribute("turnos", tur);
@@ -99,14 +99,13 @@ public class ListadoDiscapacidadServlet extends HttpServlet {
                     PdfWriter.getInstance(documento, baos);
                     documento.open();
 
-                 // Agrega imagen en el encabezado
-                    
-                     String imagePath = "/kr2png12.png"; // Ruta relativa a webapp
-                     java.io.InputStream imageStream = getServletContext().getResourceAsStream(imagePath);
-                     Image imagenClinica = Image.getInstance(imageStream.readAllBytes());
-                     imagenClinica.scaleToFit(100, 100);
-                     imagenClinica.setAlignment(Element.ALIGN_CENTER);
-                     documento.add(imagenClinica);
+                    // Agrega imagen en el encabezado
+                    String imagePath = "/kr2png12.png"; // Ruta relativa a webapp
+                    java.io.InputStream imageStream = getServletContext().getResourceAsStream(imagePath);
+                    Image imagenClinica = Image.getInstance(imageStream.readAllBytes());
+                    imagenClinica.scaleToFit(100, 100);
+                    imagenClinica.setAlignment(Element.ALIGN_CENTER);
+                    documento.add(imagenClinica);
 
                     // Datos de la clínica
                     Paragraph datosClinica = new Paragraph("Pasos - Kinesiología Integral - Email: contacto@clinicapasos.com",
@@ -155,7 +154,7 @@ public class ListadoDiscapacidadServlet extends HttpServlet {
                     cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
                     table.addCell(cell);
 
-                    cell = new PdfPCell(new Phrase("Sesiones asistidas"));
+                    cell = new PdfPCell(new Phrase("Cantidad de Turnos"));
                     cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
                     table.addCell(cell);
 
@@ -181,10 +180,10 @@ public class ListadoDiscapacidadServlet extends HttpServlet {
 
                         table.addCell(keys[2]); // Paciente
                         table.addCell(keys[3]); // Fecha
-                        int sesionesAsistidas = entry.getValue();
-                        table.addCell(String.valueOf(sesionesAsistidas)); // Sesiones asistidas
+                        int cantidadTurnos = entry.getValue();
+                        table.addCell(String.valueOf(cantidadTurnos)); // Cantidad de Turnos
 
-                        double total = precioUnitario * sesionesAsistidas;
+                        double total = precioUnitario * cantidadTurnos;
                         table.addCell(String.valueOf(total)); // Total
                     }
 

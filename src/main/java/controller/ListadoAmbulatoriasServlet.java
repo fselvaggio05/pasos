@@ -19,7 +19,6 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.codec.Base64.InputStream;
 
 import entity.Paciente;
 import entity.Profesional;
@@ -101,15 +100,13 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
                     documento.open();
 
                     // Agrega imagen en el encabezado
-                  
                     String imagePath = "/kr2png12.png"; // Ruta relativa a webapp
                     java.io.InputStream imageStream = getServletContext().getResourceAsStream(imagePath);
                     Image imagenClinica = Image.getInstance(imageStream.readAllBytes());
                     imagenClinica.scaleToFit(100, 100);
                     imagenClinica.setAlignment(Element.ALIGN_CENTER);
                     documento.add(imagenClinica);
-                    
-                    
+
                     // Agrega datos de la clínica
                     Paragraph datosClinica = new Paragraph("Pasos - Kinesiología Integral - Email: contacto@clinicapasos.com", FontFactory.getFont(FontFactory.HELVETICA, 12));
                     datosClinica.setAlignment(Element.ALIGN_CENTER);
@@ -132,7 +129,8 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
                                 t.getHorario().getPractica().getDescripcion(),
                                 t.getPaciente().getApellido() + ", " + t.getPaciente().getNombre(),
                                 t.getFecha_t());
-                        agrupados.putIfAbsent(key, t.getPrescripcion().getSesiones_asistidas());
+                        
+                        agrupados.put(key, agrupados.getOrDefault(key, 0) + 1);
                     }
 
                     // Crear encabezado del reporte
@@ -159,7 +157,7 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
                     cell = new PdfPCell(new Phrase("Fecha"));
                     cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
                     table.addCell(cell);
-                    cell = new PdfPCell(new Phrase("Sesiones asistidas"));
+                    cell = new PdfPCell(new Phrase("Cantidad de Turnos"));
                     cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
                     table.addCell(cell);
 
