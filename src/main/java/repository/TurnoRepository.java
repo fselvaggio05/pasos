@@ -1128,6 +1128,7 @@ List<Turno> turnosDiscapacidadPendientesACobrar = new ArrayList<Turno>();
 			prof.setNombre(rs.getString("usProf.nombre"));
 
 			ObraSocial obSoc = new ObraSocial();
+			obSoc.setId_obra_social(rs.getInt("obSoc.id_obra_social"));
 			obSoc.setNombre(rs.getString("obSoc.nombre_os"));
 			
 			Paciente pac = new Paciente();
