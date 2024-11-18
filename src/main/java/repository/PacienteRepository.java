@@ -27,7 +27,7 @@ public class PacienteRepository {
 	        stmt = FactoryConnection.getInstancia().getConn().prepareStatement("insert into paciente (dni,nro_afiliado,id_obra_social) values (?,?,?)");
 	        stmt.setInt(1,pac.getDni());
 	        stmt.setString(2,pac.getNro_afiliado());
-	        stmt.setInt(3,pac.getObra_social().getId_obra_social());
+		    stmt.setInt(3,pac.getObra_social().getId_obra_social());
 	        stmt.execute();
 	        respuestaOperacion = "Paciente registrado.";
 	    } 

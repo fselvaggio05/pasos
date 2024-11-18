@@ -10,7 +10,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-		<link rel="stylesheet" href="css/styles.css">
+		<link rel="stylesheet" href="css/styles.css">		
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	</head>
 	<body>
 		<div class="container-fluid">
@@ -148,7 +149,7 @@
 		                    <div class="mb-3" id="equipoField">
 		                        <label>Equipo:</label>
 		                        <select class="form-select" name="idEquipo"> 
-		                            <option value="1">Seleccione un Equipo</option>
+		                            <option value="0">Seleccione un Equipo</option>
 		                            <c:forEach var="equip" items="${equipos}">
 		                                <option value="<c:out value="${equip.id_equipo}"></c:out>"><c:out value="${equip.descripcion}"></c:out></option>
 		                            </c:forEach>
@@ -203,16 +204,16 @@
 		                    </div>
 		                    <div class="mb-3">
 		                        <label>Descripción práctica:</label>
-		                        <input type="text" class="form-control" id="descPractica" name="descPractica">
+		                        <input type="text" class="form-control" id="descPractica" name="descPractica" required>
 		                    </div>
 		                    <div class="mb-3">
 		                        <label>Duración:</label>
-		                        <input type="number" class="form-control" id="duracion" name="duracion">
+		                        <input type="number" class="form-control" id="duracion" name="duracion" required>
 		                    </div>
 		                    <div class="mb-3" id="equipoField" style="display: none;">
 		                        <label>Equipo:</label>
 		                        <select class="form-select" id="equipo" name="idEquipo">
-		                            <option value="">Seleccione un Equipo</option>
+		                            <option value="0">Seleccione un Equipo</option>
 		                            <c:forEach var="equip" items="${equipos}">
 		                                <option value="<c:out value="${equip.id_equipo}"></c:out>"><c:out value="${equip.descripcion}"></c:out></option>
 		                            </c:forEach>

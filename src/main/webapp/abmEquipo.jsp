@@ -1,6 +1,7 @@
 <%@page import="entity.Equipo"%>
 <%@ page import="java.util.List"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -37,9 +38,9 @@
 		                                <table id="tablaActivos" class="table table-striped my-2">
 		                                    <thead>
 		                                        <tr>
-		                                            <th scope="col">C骴igo de Equipo</th>
+		                                            <th scope="col">C贸digo de Equipo</th>
 		                                            <th scope="col">Tipo de Equipo</th>
-		                                            <th scope="col">Descripci髇</th>
+		                                            <th scope="col">Descripci贸n</th>
 		                                            <th scope="col">Operaciones</th>
 		                                        </tr>
 		                                    </thead>
@@ -65,9 +66,9 @@
 		                                <table id="tablaInactivos" class="table table-striped my-2" style="display: none;">
 		                                    <thead>
 		                                        <tr>
-		                                            <th scope="col">C骴igo de Equipo</th>
+		                                            <th scope="col">C贸digo de Equipo</th>
 		                                            <th scope="col">Tipo de Equipo</th>
-		                                            <th scope="col">Descripci髇</th>
+		                                            <th scope="col">Descripci贸n</th>
 		                                            <th scope="col">Operaciones</th>
 		                                        </tr>
 		                                    </thead>
@@ -139,7 +140,7 @@
 	                            <input type="text" class="form-control col-6" name="tipoEquipo" required>
 							</div>
 							<div class="mb-3">
-								<label class="col-6">Descripci髇 equipo:</label>
+								<label class="col-6">Descripci贸n equipo:</label>
 	                            <input type="text" class="form-control col-6" name="descEquipo" required>
 							</div>
 							<div class="modal-footer">
@@ -163,7 +164,7 @@
 						<div class="modal-body">
 							<input type="hidden" value="actualizar" name="operacion">
 							<div class="mb-3">
-								<label class="col-6">C骴igo Equipo:</label>
+								<label class="col-6">C贸digo Equipo:</label>
                                 <input type="text" class="form-control col-6" id="idEquipo" name="idEquipo" readOnly>
                                 <c:out value="${unEquipo.id_equipo}"></c:out>								
 							</div>
@@ -173,7 +174,7 @@
                                 <c:out value="${unEquipo.tipo_equipo}"></c:out>
 							</div>
 							<div class="mb-3">
-								<label class="col-6">Descripci髇 Equipo:</label>
+								<label class="col-6">Descripci贸n Equipo:</label>
                                 <input type="text" class="form-control col-6" id="descEquipo" name="descEquipo" required>
                                 <c:out value="${unEquipo.descripcion}"></c:out>
 							</div>
@@ -199,7 +200,7 @@
 					        <input type="hidden" value="eliminar" name="operacion">
 					        <input type="hidden" id="idEquipo" name="idEquipo">
 					        <div class="mb-3">
-					            <label class="col-6">緿esea eliminar el equipo?</label>
+					            <label class="col-6">驴Desea eliminar el equipo?</label>
 					            <input type="hidden"  id="idEquipo" name="idEquipo">
 								<div  class="fs-4 text-danger" id="descEquipo" name="descEquipo"></div>
 					            <div class="modal-footer">
@@ -225,7 +226,7 @@
 					        <input type="hidden" value="revivir" name="operacion">
 					        <input type="hidden" id="idEquipo" name="idEquipo">
 					        <div class="mb-3">
-					            <label class="col-6">緿esea reactivar el equipo?</label>
+					            <label class="col-6">驴Desea reactivar el equipo?</label>
 					            <input type="hidden"  id="idEquipo" name="idEquipo">
 								<div  class="fs-4 text-danger" id="descEquipo" name="descEquipo"></div>
 					            <div class="modal-footer">

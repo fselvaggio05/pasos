@@ -58,22 +58,36 @@ public class PracticaServlet extends HttpServlet {
 															TipoPractica tipoPractica = TipoPractica.fromString(tipoPract);
 															descPractica = request.getParameter("descPractica");
 															duracion = Integer.parseInt(request.getParameter("duracion"));
-															if(tipoPractica.getCodigo()==1) 
+															if(tipoPractica.getCodigo()==1)
 															{
 																idEquipo = Integer.parseInt(request.getParameter("idEquipo"));
-																respuestaOperacion = practServ.insertarAmbulatoria(idPractica,tipoPractica,descPractica,duracion,idEquipo);
+																if(idEquipo!=0) 
+																{
+																	respuestaOperacion = practServ.insertarAmbulatoria(idPractica,tipoPractica,descPractica,duracion,idEquipo);
+																}
+																else 
+																{
+																	respuestaOperacion = "Por favor, seleccione un equipo.";
+																}
 															}
 															else 
 															{
-																respuestaOperacion = practServ.insertarDiscapacidad(idPractica,tipoPractica,descPractica,duracion);
-																if("OK".equals(respuestaOperacion)) 
-																{
-																	LocalDate fecha_desde = LocalDate.parse(request.getParameter("fechaDesde"));
-																	LocalDate fecha_hasta = LocalDate.parse(request.getParameter("fechaHasta"));
-																	Double monto = Double.parseDouble(request.getParameter("monto"));
-																	MontosPracticaService mps = new MontosPracticaService();
-																	respuestaOperacion = mps.insertarMontoPractica(idPractica,fecha_desde,fecha_hasta,monto);
-																}
+																if(request.getParameter("fechaDesde").isEmpty()||request.getParameter("fechaHasta").isEmpty()||request.getParameter("monto").isEmpty()) 
+																	{
+																		respuestaOperacion="Por favor, ingrese el monto.";
+																	}
+																	else 
+																	{
+																		respuestaOperacion = practServ.insertarDiscapacidad(idPractica,tipoPractica,descPractica,duracion);
+																		if("OK".equals(respuestaOperacion)) 
+																		{
+																			LocalDate fecha_desde = LocalDate.parse(request.getParameter("fechaDesde"));
+																			LocalDate fecha_hasta = LocalDate.parse(request.getParameter("fechaHasta"));
+																			Double monto = Double.parseDouble(request.getParameter("monto"));
+																			MontosPracticaService mps = new MontosPracticaService();
+																			respuestaOperacion = mps.insertarMontoPractica(idPractica,fecha_desde,fecha_hasta,monto);
+																		}
+																	}
 															}
 															break;
 														}
@@ -89,7 +103,14 @@ public class PracticaServlet extends HttpServlet {
 															if(tipoPractica.getCodigo()==1) 
 															{
 																idEquipo = Integer.parseInt(request.getParameter("idEquipo"));
-																respuestaOperacion = practServ.actualizarAmbulatoria(idPractica, descPractica, duracion, idEquipo);
+																if(idEquipo==0) 
+																{
+																	respuestaOperacion="Por favor, seleccione un Equipo.";
+																}
+																else 
+																{
+																	respuestaOperacion = practServ.actualizarAmbulatoria(idPractica, descPractica, duracion, idEquipo);
+																}
 															}
 															else 
 															{

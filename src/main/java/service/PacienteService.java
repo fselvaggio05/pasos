@@ -21,7 +21,10 @@ public class PacienteService {
     	String respuestaOperacion;
 
         respuestaOperacion = usRep.insertarUsuario(pac);
-        respuestaOperacion = pacRep.insertarPaciente(pac);
+        if(pac.getObra_social()!=null)
+        {
+            respuestaOperacion = pacRep.insertarPaciente(pac);
+        }
         
         return respuestaOperacion;
     }

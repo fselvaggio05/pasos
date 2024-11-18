@@ -188,6 +188,9 @@ public class ListadoAmbulatoriasServlet extends HttpServlet {
                 } catch (DocumentException e) {
                     e.printStackTrace();
                 }
+                finally {
+                	turServ.facturacionTurnos(tur);
+                }
 
                 break;
             }

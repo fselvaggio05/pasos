@@ -197,12 +197,40 @@ public class UsuarioServlet extends HttpServlet {
             }
 
             case 3:{               
-                    Integer id_obra_social = Integer.parseInt(request.getParameter("id_obra_social"));
-                    ObraSocialService osServ = new ObraSocialService();
-                    ObraSocial obraSocial = osServ.getObraSocial(id_obra_social);
-                    String nroAfiliado = request.getParameter("nroAfiliado");
+                    Paciente pac = new Paciente();
+            		Integer id_obra_social = Integer.parseInt(request.getParameter("id_obra_social"));
+                    if(id_obra_social==0) 
+                    {
+                    	pac.setDni(dni); 
+                    	pac.setApellido(apellido);
+                    	pac.setNombre(nombre);
+                    	pac.setEmail(email);
+                    	pac.setFecha_nacimiento(fecha_nacimiento);
+                    	pac.setTelefono(telefono);
+                    	pac.setClave(contraseña);
+                    	pac.setGenero(genero);
+                    	pac.setTipo_usuario(3);
+                    	pac.setObra_social(null);
+                    	pac.setNro_afiliado(null);
+                    }
+                    else 
+                    {
+                        ObraSocialService osServ = new ObraSocialService();
+                        ObraSocial obraSocial = osServ.getObraSocial(id_obra_social);
+                        String nroAfiliado = request.getParameter("nroAfiliado");
+                        pac.setDni(dni); 
+                    	pac.setApellido(apellido);
+                    	pac.setNombre(nombre);
+                    	pac.setEmail(email);
+                    	pac.setFecha_nacimiento(fecha_nacimiento);
+                    	pac.setTelefono(telefono);
+                    	pac.setClave(contraseña);
+                    	pac.setGenero(genero);
+                    	pac.setTipo_usuario(3);
+                    	pac.setObra_social(obraSocial);
+                    	pac.setNro_afiliado(nroAfiliado);
+                    }                    
 					try {
-						Paciente pac = new Paciente(dni, apellido, nombre, email, fecha_nacimiento, telefono, contraseña, genero, 3,obraSocial,nroAfiliado);
 						if(pacServ.validarPaciente(pac)) 
 						{
 							if("altaUsuario".equals(modal)) 
@@ -225,7 +253,7 @@ public class UsuarioServlet extends HttpServlet {
 						{
 							respuestaOperacion = pacServ.insertarPaciente(pac);
 						}
-					} catch (NumberFormatException | ParseException e) {
+					} catch (NumberFormatException	 e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}            

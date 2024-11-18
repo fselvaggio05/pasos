@@ -134,18 +134,40 @@ public class LoginServlet extends HttpServlet {
 					            String telefono = req.getParameter("telefono");
 					            String contraseña = req.getParameter("contraseña"); 
 					            String genero = req.getParameter("genero");
-					            Integer id_obra_social = Integer.parseInt(req.getParameter("id_obra_social"));
-			                    ObraSocialService osServ = new ObraSocialService();
-			                    ObraSocial obraSocial = osServ.getObraSocial(id_obra_social);
-			                    String nroAfiliado = req.getParameter("nroAfiliado");
-								Paciente unPaciente;
-								try {
-									unPaciente = new Paciente(dni, apellido, nombre, email, fecha_nacimiento, telefono, contraseña, genero, 3,obraSocial,nroAfiliado);
-									respuesta = this.pacServ.insertarPaciente(unPaciente);
-								} catch (ParseException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}	
+								Paciente unPaciente = new Paciente();
+								Integer id_obra_social = Integer.parseInt(req.getParameter("id_obra_social"));
+			                    if(id_obra_social!=0) 
+			                    {
+			                    	ObraSocialService osServ = new ObraSocialService();
+				                    ObraSocial obraSocial = osServ.getObraSocial(id_obra_social);
+				                    String nroAfiliado = req.getParameter("nroAfiliado");
+				                    unPaciente.setDni(dni); 
+				                    unPaciente.setApellido(apellido);
+				                    unPaciente.setNombre(nombre);
+				                    unPaciente.setEmail(email);
+				                    unPaciente.setFecha_nacimiento(fecha_nacimiento);
+				                    unPaciente.setTelefono(telefono);
+				                    unPaciente.setClave(contraseña);
+				                    unPaciente.setGenero(genero);
+				                    unPaciente.setTipo_usuario(3);
+				                    unPaciente.setObra_social(obraSocial);
+				                    unPaciente.setNro_afiliado(nroAfiliado);
+			                    }
+			                    else 
+			                    {
+			                    	unPaciente.setDni(dni); 
+				                    unPaciente.setApellido(apellido);
+				                    unPaciente.setNombre(nombre);
+				                    unPaciente.setEmail(email);
+				                    unPaciente.setFecha_nacimiento(fecha_nacimiento);
+				                    unPaciente.setTelefono(telefono);
+				                    unPaciente.setClave(contraseña);
+				                    unPaciente.setGenero(genero);
+				                    unPaciente.setTipo_usuario(3);
+				                    unPaciente.setObra_social(null);
+				                    unPaciente.setNro_afiliado(null);
+			                    }
+								respuesta = this.pacServ.insertarPaciente(unPaciente);	
 								req.setAttribute("mensaje", respuesta);
 								this.doGet(req, resp);
 								break;

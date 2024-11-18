@@ -135,7 +135,7 @@
 									<input type="hidden" value="alta" name="operacion">
 									<div class="mb-3">
 										<select class="form-select m-1" name="matriculaProf">
-											<option value="1">Seleccione un Profesional</option>
+											<option value="0">Seleccione un Profesional</option>
 											<c:forEach var="unProfesional" items="${profesionales}">
 												<option value="<c:out value="${unProfesional.matricula}"></c:out>"><c:out value="${unProfesional.apellido}, ${unProfesional.nombre}"></c:out></option>
 											</c:forEach>
@@ -160,11 +160,11 @@
 									</div>
 									<div class="mb-3">
 										<label class="col-6">Hora Desde</label>
-										<input type="time" class="form-control col-6" name="hora_desde" id="hora_desde">
+										<input type="time" class="form-control col-6" name="hora_desde" id="hora_desde" required>
 									</div>
 									<div class="mb-3">
 										<label class="col-6">Hora Hasta</label>
-										<input type="time" class="form-control col-6" name="hora_hasta" id="hora_hasta">
+										<input type="time" class="form-control col-6" name="hora_hasta" id="hora_hasta" required>
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

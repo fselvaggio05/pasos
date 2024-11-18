@@ -87,15 +87,15 @@
 						    </div>							
 						    <div class="mb-3">
 								<label class="col-6">Fecha Desde:</label>
-	                            <input type="date" class="form-control col-6" name="fechaDesde">
+	                            <input type="date" class="form-control col-6" name="fechaDesde" required>
 							</div>
 							<div class="mb-3">
 								<label class="col-6">Fecha Hasta:</label>
-	                            <input type="date" class="form-control col-6" name="fechaHasta">
+	                            <input type="date" class="form-control col-6" name="fechaHasta" required>
 							</div>
 							<div class="mb-3">
 								<label class="col-6">Monto:</label>
-	                            <input type="number" class="form-control col-6" name="monto">
+	                            <input type="number" class="form-control col-6" name="monto" required>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -121,15 +121,15 @@
 		                    <input type="hidden" id="idMonto" name="idMonto">
 		                    <div class="mb-3">
 		                        <label class="col-6">Fecha Desde:</label>
-		                        <input type="date" class="form-control col-6" id="fechaDesde" name="fechaDesde">
+		                        <input type="date" class="form-control col-6" id="fechaDesde" name="fechaDesde" required>
 		                    </div>
 		                    <div class="mb-3">
 		                        <label class="col-6">Fecha Hasta:</label>
-		                        <input type="date" class="form-control col-6" id="fechaHasta" name="fechaHasta">
+		                        <input type="date" class="form-control col-6" id="fechaHasta" name="fechaHasta" required>
 		                    </div>
 		                    <div class="mb-3">
 		                        <label class="col-6">Monto:</label>
-		                        <input type="number" class="form-control col-6" id="monto" name="monto">
+		                        <input type="number" class="form-control col-6" id="monto" name="monto" required>
 		                    </div>
 		                    <div class="modal-footer">
 		                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

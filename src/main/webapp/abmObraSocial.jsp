@@ -84,7 +84,6 @@
 		                                </table>
 		                                <div class="row justify-content-end">
 		                                	<button type="button" class="btn btn-success col-2 m-1" data-bs-toggle="modal" data-bs-target="#altaObraSocial" data-bs-whatever="@mdo">Agregar Obra Social</button>
-		                                	<button type="button" class="btn btn-success col-2 m-1">Cancelar</button>
 		                                </div>
                             		</div>
 								</div>
@@ -130,11 +129,11 @@
 							<input type="hidden" value="alta" name="operacion">
 							<div class="mb-3">
 								<label class="col-6">Código Obra Social:</label>
-	                            <input type="text" class="form-control col-6" name="idObraSocial">
+	                            <input type="text" class="form-control col-6" name="idObraSocial" required>
 							</div>
 							<div class="mb-3">
 								<label class="col-6">Nombre Obra Social:</label>
-	                            <input type="text" class="form-control col-6" name="nomObraSocial">
+	                            <input type="text" class="form-control col-6" name="nomObraSocial" required>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -163,7 +162,7 @@
 							</div>							
 							<div class="mb-3">
 								<label class="col-6">Nombre Obra Social:</label>
-                                <input type="text" class="form-control col-6" id="nomObraSocial" name="nomObraSocial">
+                                <input type="text" class="form-control col-6" id="nomObraSocial" name="nomObraSocial" required>
                                 <c:out value="${unaObraSocial.nombre_os}"></c:out>
 							</div>
 							<div class="modal-footer">

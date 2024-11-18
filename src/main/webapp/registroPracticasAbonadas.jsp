@@ -16,7 +16,7 @@
 					<jsp:include page="menu_final.jsp" />
             	</div>
             	<div class="col-9">
-                	<h4 class="text-center my-4 mb-5 text-decoration-underline fw-bold ">Registro de prá	cticas abonadas</h4>
+                	<h4 class="text-center my-4 mb-5 text-decoration-underline fw-bold ">Registro de prácticas abonadas</h4>
                 	<div class="container">
                     	<div class="row  justify-content-evenly">
                         	<form action="registroPagos" method="post">
@@ -39,7 +39,6 @@
 									</c:forEach>
 								</select>
 								<div class="row justify-content-evenly align-items-center">
-									<div class="mb-3 fw-bold">Período facturado</div>
 									<div class="col-1">
 										<label for="">Fecha desde:</label> <label class="form-label" id="fecha_desde"></label>
 									</div>

@@ -113,7 +113,7 @@
 									<div class="row mt-3">
 										<div class="col-12">
 											<label>Obra Social</label> <select class="form-select" name="id_obra_social">
-												<option value="1">Seleccione una Obra Social</option>
+												<option value="0">Seleccione una Obra Social</option>
 												<c:forEach var="unaOS" items="${obrasSociales}">
 													<option value="${unaOS.id_obra_social}">${unaOS.nombre_os}</option>
 												</c:forEach>
