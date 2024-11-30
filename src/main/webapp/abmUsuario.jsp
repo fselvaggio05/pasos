@@ -13,7 +13,7 @@
 	<body>
 		<div class="container-fluid">
 			<div class="row mt-1">
-				<div class="col-3">
+				<div class="col-2">
 					<jsp:include page="menu_final.jsp" />
 				</div>
 				<div class="col-9">
@@ -21,7 +21,7 @@
 						<div>
 							<h4 class="text-center my-5 text-decoration-underline fw-bold ">Listado de Usuarios</h4>
 							<div class="row justify-content-center mt-3">
-								<div class="card text-center">
+								<div class="card text-center border-0">
 									<div class="row mt-3">
 										<div class="col-3 mb-3">
 											<label class="col-form-label">Tipo de Usuario</label>
