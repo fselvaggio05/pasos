@@ -77,7 +77,7 @@ public class PracticaRepository {
 									{
 										List<Practica> practicas = new ArrayList<>();
 										try {
-												stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT * FROM practica pract INNER JOIN equipo eq ON pract.id_equipo = eq.id_equipo where pract.estado=1 and pract.tipo_practica=1");
+												stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT * FROM practica pract LEFT JOIN equipo eq ON pract.id_equipo = eq.id_equipo where pract.estado=1 and pract.tipo_practica=1");
 												rs = stmt.executeQuery();
 												while (rs!=null && rs.next())
 												{
@@ -169,7 +169,7 @@ public class PracticaRepository {
 									{
 										List<Practica> practicas = new ArrayList<>();
 										try {
-												stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT * FROM practica pract INNER JOIN equipo eq ON pract.id_equipo = eq.id_equipo where pract.estado=0 and pract.tipo_practica=1");
+												stmt = FactoryConnection.getInstancia().getConn().prepareStatement("SELECT * FROM practica pract LEFT JOIN equipo eq ON pract.id_equipo = eq.id_equipo where pract.estado=0 and pract.tipo_practica=1");
 												rs = stmt.executeQuery();
 												while (rs!=null && rs.next())
 												{
