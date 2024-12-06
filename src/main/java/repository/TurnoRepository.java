@@ -202,7 +202,7 @@ public class TurnoRepository {
 	
 			try {
 				stmt = FactoryConnection.getInstancia().getConn().prepareStatement(
-						"select * from turno t inner join horario h on h.idHorario=t.idHorario inner join practica pr on pr.id_practica=h.id_practica inner join profesional prof on h.matricula=prof.matricula inner join usuario u on prof.dni=u.dni inner join consultorio c on c.id_consultorio=t.id_consultorio inner join equipo eq on eq.id_equipo=pr.id_equipo where t.estado_t='Libre' and h.matricula=? and t.fecha_turno>? and h.id_practica =? order by t.fecha_turno, hora_turno");
+						"select * from turno t inner join horario h on h.idHorario=t.idHorario inner join practica pr on pr.id_practica=h.id_practica inner join profesional prof on h.matricula=prof.matricula inner join usuario u on prof.dni=u.dni inner join consultorio c on c.id_consultorio=t.id_consultorio left join equipo eq on eq.id_equipo=pr.id_equipo where t.estado_t='Libre' and h.matricula=? and t.fecha_turno>? and h.id_practica =? order by t.fecha_turno, hora_turno");
 				stmt.setInt(1, matricula);
 				stmt.setDate(2, Date.valueOf(LocalDate.now()));
 				stmt.setInt(3, practica);
@@ -329,7 +329,7 @@ public class TurnoRepository {
 			Turno unTurno = new Turno();
 
 			try {
-				stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from turno t inner join horario h on h.idHorario=t.idHorario inner join practica pr on pr.id_practica=h.id_practica inner join profesional prof on h.matricula=prof.matricula inner join usuario u on prof.dni=u.dni inner join consultorio c on c.id_consultorio=t.id_consultorio inner join equipo eq on eq.id_equipo=pr.id_equipo left join prescripcion presc on presc.id_prescripcion = t.id_prescripcion where idTurno=?");
+				stmt = FactoryConnection.getInstancia().getConn().prepareStatement("select * from turno t inner join horario h on h.idHorario=t.idHorario inner join practica pr on pr.id_practica=h.id_practica inner join profesional prof on h.matricula=prof.matricula inner join usuario u on prof.dni=u.dni inner join consultorio c on c.id_consultorio=t.id_consultorio left join equipo eq on eq.id_equipo=pr.id_equipo left join prescripcion presc on presc.id_prescripcion = t.id_prescripcion where idTurno=?");
 				stmt.setInt(1, idTurno);
 				rs = stmt.executeQuery();
 
