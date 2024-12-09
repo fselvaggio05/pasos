@@ -25,8 +25,11 @@ public class PracticaRepository {
 											stmt.setInt(2, tipoPractica.getCodigo());
 											stmt.setString(3, descPractica);
 											stmt.setInt(4, duracion);
-											stmt.setInt(5, idEquipo);
-											stmt.executeUpdate();
+											if (idEquipo != null) {
+									            stmt.setInt(5, idEquipo);
+									        } else {
+									            stmt.setNull(5, java.sql.Types.INTEGER);
+									        }stmt.executeUpdate();
 											respuestaOperacion = "OK";
 										}
 										catch (SQLException e) {														

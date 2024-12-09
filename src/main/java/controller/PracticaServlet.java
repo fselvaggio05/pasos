@@ -67,7 +67,7 @@ public class PracticaServlet extends HttpServlet {
 																}
 																else 
 																{
-																	respuestaOperacion = "Por favor, seleccione un equipo.";
+																	respuestaOperacion = practServ.insertarAmbulatoria(idPractica, tipoPractica, descPractica, duracion, null);
 																}
 															}
 															else 
