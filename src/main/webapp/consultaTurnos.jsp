@@ -34,7 +34,7 @@
 											<c:set var="disableSelect" value="${not empty param.idPrescripcion}" />
 									        <select class="form-select" id="filtro" name="filtro" <c:if test="${disableSelect}">disabled</c:if>>
 											    <option value="-1" <c:if test="${filtroSeleccionado == '-1'}">selected</c:if>>Buscar turnos por...</option>
-											    <c:if test="${rol=='1'}">
+											    <c:if test="${rol=='1' or rol=='3'}">
 											        <option value="1" <c:if test="${filtroSeleccionado == '1'}">selected</c:if>>DNI Paciente</option>
 											    </c:if>
 											    <c:if test="${rol=='1' or rol=='2'}">
@@ -49,8 +49,10 @@
 											</select>
 									    </div>
 									    <div class="col-3">
-									        <input type="number" class="form-control" name="dniPaciente" id="filtro-1" style="display: none;" value="${not empty param.dniPaciente ? param.dniPaciente : ''}"> 
-									        <select class="form-select mb-2" name="profesional" id="filtro-2" style="display: none;">
+									        <input type="number" class="form-control" name="dniPaciente" id="filtro-1" style="display: none;" 
+											    value="${rol == 3 ? dniPaciente : (not empty param.dniPaciente ? param.dniPaciente : '')}"
+											    <c:if test="${rol == 3}">readonly</c:if> >
+    										<select class="form-select mb-2" name="profesional" id="filtro-2" style="display: none;">
 											    <c:forEach var="prof" items="${profesionales}">
 											        <option value="<c:out value='${prof.matricula}' />"
 											                <c:if test="${not empty param.profesional and param.profesional == prof.matricula}">

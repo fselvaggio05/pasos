@@ -50,6 +50,9 @@ public class ConsultaServlet extends HttpServlet {
 		}
 		
 		List<Profesional> profesionales = profServ.getAll();
+		if(usLog.getTipo_usuario().getCodigo()==3) {
+			request.setAttribute("dniPaciente", usLog.getDni());
+		}
 		request.setAttribute("turnosPaciente", turnosPaciente);
 		request.setAttribute("profesionales", profesionales);
 		request.getRequestDispatcher("consultaTurnos.jsp").forward(request, response);		
