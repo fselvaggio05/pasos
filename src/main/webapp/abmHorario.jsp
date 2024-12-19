@@ -17,7 +17,7 @@
 		    <style>
 	        	#calendario {
 					            width: 100%;
-					            max-width: 1100px;
+					            max-width: 100%;
 					            margin: 0 auto;
 					            height: 100%;
 					            min-height: 400px;

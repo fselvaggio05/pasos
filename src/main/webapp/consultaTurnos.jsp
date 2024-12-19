@@ -31,22 +31,22 @@
 									<div class="row">
 									    <div class="col-3">
 									        <%-- Define una variable para determinar si el select debe estar deshabilitado --%>
-											<c:set var="disableSelect" value="${not empty param.idPrescripcion}" />
-									        <select class="form-select" id="filtro" name="filtro" <c:if test="${disableSelect}">disabled</c:if>>
-											    <option value="-1" <c:if test="${filtroSeleccionado == '-1'}">selected</c:if>>Buscar turnos por...</option>
-											    <c:if test="${rol=='1' or rol=='3'}">
-											        <option value="1" <c:if test="${filtroSeleccionado == '1'}">selected</c:if>>DNI Paciente</option>
-											    </c:if>
-											    <c:if test="${rol=='1' or rol=='2'}">
-											        <option value="2" <c:if test="${filtroSeleccionado == '2'}">selected</c:if>>Profesional</option>
-											    </c:if>
-											    <c:if test="${rol=='1' or rol=='2'}">
-											        <option value="3" <c:if test="${filtroSeleccionado == '3'}">selected</c:if>>Fecha</option>
-											    </c:if>
-											    <c:if test="${not empty param.idPrescripcion}">
-											        <option value="4" selected>Prescripción</option>
-											    </c:if>
-											</select>
+											<c:set var="disableSelect" value="${not empty param.idPrescripcion}" /> 
+												<select class="form-select" id="filtro" name="filtro"<c:if test="${disableSelect}">disabled</c:if>> 
+													<option value="-1" <c:if test="${filtroSeleccionado == '-1'}">selected</c:if>>Buscar turnos por...</option> 
+													<c:if test="${rol=='1' or rol=='3'}"> 
+														<option value="1" <c:if test="${filtroSeleccionado == '1' or rol=='3'}">selected</c:if>>DNI Paciente</option> 
+													</c:if> 
+													<c:if test="${rol=='1' or rol=='2'}"> 
+														<option value="2" <c:if test="${filtroSeleccionado == '2'}">selected</c:if>>Profesional</option> 
+													</c:if> 
+													<c:if test="${rol=='1' or rol=='2'}"> 
+														<option value="3" <c:if test="${filtroSeleccionado == '3'}">selected</c:if>>Fecha</option> 
+													</c:if> 
+													<c:if test="${not empty param.idPrescripcion}"> 
+														<option value="4" selected>Prescripción</option> 
+													</c:if> 
+												</select>
 									    </div>
 									    <div class="col-3">
 									        <input type="number" class="form-control" name="dniPaciente" id="filtro-1" style="display: none;" 
